@@ -2,5 +2,7 @@ ignoredBuiltDependencies:
   - unrs-resolver
 
 onlyBuiltDependencies:
+  - '@prisma/engines'
   - '@tailwindcss/oxide'
+  - prisma
   - sharp

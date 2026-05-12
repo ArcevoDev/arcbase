@@ -1,0 +1,237 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       String @id @default(cuid())
+  username String @unique
+  email    String @unique
+
+  passwordHash String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  resources        Resource[]
+  collections      Collection[]
+  comments         Comment[]
+  resourceUsage    ResourceUsage[]
+  savedResources   SavedResource[]
+  resourceVersions ResourceVersion[]
+}
+
+model Resource {
+  id   String @id @default(cuid())
+  slug String
+
+  title       String
+  description String?
+  content     String?
+
+  type      ResourceType
+  category  String?
+  thumbnail String?
+  fileUrl   String?
+
+  visibility Visibility @default(PUBLIC)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  parentId String?
+  parent   Resource?  @relation("Hierarchy", fields: [parentId], references: [id])
+  children Resource[] @relation("Hierarchy")
+
+  tags Tag[]
+
+  outgoingRelations Relation[] @relation("From")
+  incomingRelations Relation[] @relation("To")
+
+  collectionLinks CollectionResource[]
+
+  comments Comment[]
+
+  usage ResourceUsage[]
+
+  metrics ResourceMetrics?
+
+  versions ResourceVersion[]
+
+  savedBy SavedResource[]
+
+  @@unique([authorId, slug])
+  @@index([authorId])
+}
+
+model ResourceVersion {
+  id String @id @default(cuid())
+
+  resourceId String
+  authorId   String
+
+  content String
+
+  createdAt DateTime @default(now())
+
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  author   User     @relation(fields: [authorId], references: [id])
+}
+
+model Relation {
+  id String @id @default(cuid())
+
+  type RelationType
+
+  fromId String
+  toId   String
+
+  createdAt DateTime @default(now())
+
+  from Resource @relation("From", fields: [fromId], references: [id], onDelete: Cascade)
+  to   Resource @relation("To", fields: [toId], references: [id], onDelete: Cascade)
+
+  @@unique([fromId, toId, type])
+  @@index([fromId, type])
+  @@index([toId, type])
+}
+
+model Collection {
+  id          String  @id @default(cuid())
+  slug        String
+  title       String
+  description String?
+
+  visibility Visibility @default(PUBLIC)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  resources CollectionResource[]
+
+  @@unique([authorId, slug])
+}
+
+model CollectionResource {
+  id           String @id @default(cuid())
+  collectionId String
+  resourceId   String
+
+  order Int
+
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  resource   Resource   @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@unique([collectionId, resourceId])
+  @@unique([collectionId, order])
+}
+
+model Tag {
+  id   String @id @default(cuid())
+  name String @unique
+
+  resources Resource[]
+}
+
+model Comment {
+  id String @id @default(cuid())
+
+  content String
+
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  parentId String?
+  parent   Comment?  @relation("Thread", fields: [parentId], references: [id])
+  replies  Comment[] @relation("Thread")
+}
+
+model SavedResource {
+  id String @id @default(cuid())
+
+  userId     String
+  resourceId String
+
+  createdAt DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id])
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, resourceId])
+}
+
+model ResourceUsage {
+  id String @id @default(cuid())
+
+  resourceId String
+  userId     String?
+
+  event UsageEvent
+
+  createdAt DateTime @default(now())
+
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  user     User?    @relation(fields: [userId], references: [id])
+}
+
+model ResourceMetrics {
+  id String @id @default(cuid())
+
+  resourceId String @unique
+
+  views     Int @default(0)
+  downloads Int @default(0)
+  shares    Int @default(0)
+  likes     Int @default(0)
+
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+}
+
+enum ResourceType {
+  ARTICLE
+  BLOG
+  VIDEO
+  IMAGE
+  FILE
+  LINK
+  NOTE
+}
+
+enum RelationType {
+  RELATED
+  DEPENDS_ON
+  REFERENCES
+  EXTENDS
+  DUPLICATE
+}
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
+  UNLISTED
+}
+
+enum UsageEvent {
+  VIEW
+  OPEN
+  DOWNLOAD
+  SHARE
+  LIKE
+}
