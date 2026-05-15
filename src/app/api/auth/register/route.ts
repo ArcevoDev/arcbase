@@ -1,25 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
-import { UserService } from "@/services/user.service";
+import { AuthService } from "@/modules/auth/auth.service";
+import { handleApiRoute } from "@/lib/errors/handle-error";
+import { ApiError } from "@/lib/errors/api-error";
+import { registerSchema, toSafeUserDTO } from "@/modules/auth/auth.dto";
 
-export async function POST(req: NextRequest) {
+export const POST = handleApiRoute(async (req: NextRequest) => {
+  let rawBody;
   try {
-    const body = await req.json();
-    const { username, email, password } = body;
-
-    if (!username || !email || !password) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 },
-      );
-    }
-
-    const user = await UserService.register({ username, email, password });
-
-    // remove password hash before sending response
-    const { passwordHash, ...safeUser } = user;
-
-    return NextResponse.json(safeUser, { status: 201 });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 400 });
+    rawBody = await req.json();
+  } catch {
+    throw ApiError.badRequest("Malformed JSON payload configuration");
   }
-}
+
+  const result = registerSchema.safeParse(rawBody);
+  if (!result.success) {
+    return NextResponse.json(
+      {
+        error: "Validation failed",
+        details: result.error.flatten().fieldErrors,
+      },
+      { status: 400 },
+    );
+  }
+
+  // Pass the entire object (including confirmPassword) to satisfy the Zod input contract type
+  const user = await AuthService.register(result.data);
+  return NextResponse.json(toSafeUserDTO(user), { status: 201 });
+});

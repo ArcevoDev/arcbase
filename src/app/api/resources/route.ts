@@ -1,60 +1,45 @@
-import { prisma } from "@/lib/prisma/prisma"
-import { NextResponse } from "next/server"
-import { resourceWithRelations } from "@/lib/prisma/prisma-helpers"
+export const dynamic = "force-dynamic";
 
-// temporary auth
-async function getAuthenticatedUser() {
-  return { id: "dev-user-id", username: "dev" }
-}
+import { NextRequest, NextResponse } from "next/server";
+import { handleApiRoute } from "@/lib/errors/handle-error";
+import { ApiError } from "@/lib/errors/api-error";
+import { requireAuth } from "@/modules/auth/require-auth"; // Fixed broken utility path
+import { ResourceService } from "@/modules/resources/resource.service";
+import { ResourceRepo } from "@/modules/resources/resource.repository";
+import { createResourceSchema, toSafeResourceDTO } from "@/modules/resources/resource.dto";
 
-export async function GET() {
+// GET /api/resources -> View feed safely
+export const GET = handleApiRoute(async () => {
+  const resources = await ResourceRepo.findAll();
+  return NextResponse.json(resources.map(toSafeResourceDTO), { status: 200 });
+});
+
+// POST /api/resources -> Create resource safely
+export const POST = handleApiRoute(async (req: NextRequest) => {
+  const session = await requireAuth(req);
+
+  let rawBody;
   try {
-    const resources = await prisma.resource.findMany({
-      orderBy: { createdAt: "desc" },
-      include: resourceWithRelations,
-    })
-
-    return NextResponse.json(resources)
+    rawBody = await req.json();
   } catch {
-    return NextResponse.json(
-      { error: "Failed to fetch resources" },
-      { status: 500 }
-    )
+    throw ApiError.badRequest("Malformed JSON configuration payload");
   }
-}
 
-export async function POST(req: Request) {
-  try {
-    const user = await getAuthenticatedUser()
-
-    if (!user)
-      return NextResponse.json(
-        { error: "Authentication required" },
-        { status: 401 }
-      )
-
-    const data = await req.json()
-
-    const resource = await prisma.resource.create({
-      data: {
-        title: data.title,
-        description: data.description,
-        type: data.type,
-        content: data.content,
-        fileUrl: data.fileUrl,
-        thumbnail: data.thumbnail,
-        category: data.category,
-        tags: data.tags ?? [],
-        authorId: user.id,
+  const validationResult = createResourceSchema.safeParse(rawBody);
+  if (!validationResult.success) {
+    return NextResponse.json(
+      {
+        error: "Validation failed",
+        details: validationResult.error.flatten().fieldErrors,
       },
-      include: resourceWithRelations,
-    })
-
-    return NextResponse.json(resource)
-  } catch {
-    return NextResponse.json(
-      { error: "Failed to create resource" },
-      { status: 500 }
-    )
+      { status: 400 },
+    );
   }
-}
+
+  const newResource = await ResourceService.createResource(
+    session.userId,
+    validationResult.data,
+  );
+
+  return NextResponse.json(toSafeResourceDTO(newResource), { status: 201 });
+});
