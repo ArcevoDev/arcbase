@@ -10,5 +10,5 @@ export const siteMetadata: Metadata = {
   applicationName: "ArcBase",
   authors: [{ name: "ArcevoDev" }],
   creator: "ArcevoDev",
-  publisher: "Arcevo",
+  publisher: "ArcevoStack",
 };

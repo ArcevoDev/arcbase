@@ -12,7 +12,6 @@ interface RouteContext {
   params: Promise<{ collectionId: string }>;
 }
 
-// 1. GET /api/collections/[collectionId] -> View single collection details with linked resources (Public)
 export const GET = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
   const { collectionId } = await context.params;
 
@@ -21,7 +20,6 @@ export const GET = handleApiRoute(async (req: NextRequest, context: RouteContext
     include: collectionWithResources,
   });
 
-  // Block hidden or soft-deleted curation folders from public feeds
   if (!collection || collection.deletedAt) {
     throw ApiError.notFound("The requested collection could not be found or has been removed");
   }
@@ -29,7 +27,6 @@ export const GET = handleApiRoute(async (req: NextRequest, context: RouteContext
   return NextResponse.json(collection, { status: 200 });
 });
 
-// 2. PUT /api/collections/[collectionId] -> Modify metadata properties (Protected - Author Only)
 export const PUT = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
   const { collectionId } = await context.params;
   const session = await requireAuth(req);
@@ -60,9 +57,8 @@ export const PUT = handleApiRoute(async (req: NextRequest, context: RouteContext
   }
 
   const data = validationResult.data;
-
-  // Recalculate unique URL slug mapping metrics if title changes
   let slug = collection.slug;
+  
   if (data.title && data.title.trim() !== collection.title) {
     const baseSlug = data.title
       .trim()
@@ -89,7 +85,6 @@ export const PUT = handleApiRoute(async (req: NextRequest, context: RouteContext
   return NextResponse.json(updatedCollection, { status: 200 });
 });
 
-// 3. DELETE /api/collections/[collectionId] -> Safely soft delete collection folders (Protected - Author Only)
 export const DELETE = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
   const { collectionId } = await context.params;
   const session = await requireAuth(req);
@@ -101,7 +96,6 @@ export const DELETE = handleApiRoute(async (req: NextRequest, context: RouteCont
     throw ApiError.forbidden("You do not have administrative permission to delete this collection");
   }
 
-  // Soft delete flags row status metrics cleanly instead of discarding record lines from disk
   await prisma.collection.update({
     where: { id: collectionId },
     data: { deletedAt: new Date() },

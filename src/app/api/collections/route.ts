@@ -9,7 +9,6 @@ import { createCollectionSchema } from "@/modules/collections/collection.dto";
 import { prisma } from "@/lib/prisma/prisma";
 import { collectionWithResources } from "@/lib/prisma/prisma-helpers";
 
-// 1. GET /api/collections -> View all global public curation folders (Public)
 export const GET = handleApiRoute(async () => {
   const publicCollections = await prisma.collection.findMany({
     where: {
@@ -18,7 +17,7 @@ export const GET = handleApiRoute(async () => {
       archivedAt: null,
     },
     orderBy: {
-      createdAt: "desc", // Most recent collections bubble up to the top feed
+      createdAt: "desc",
     },
     include: collectionWithResources,
   });
@@ -26,7 +25,6 @@ export const GET = handleApiRoute(async () => {
   return NextResponse.json(publicCollections, { status: 200 });
 });
 
-// 2. POST /api/collections -> Initialize a brand new binder (Protected)
 export const POST = handleApiRoute(async (req: NextRequest) => {
   const session = await requireAuth(req);
 
@@ -37,7 +35,6 @@ export const POST = handleApiRoute(async (req: NextRequest) => {
     throw ApiError.badRequest("Malformed JSON collection payload configuration");
   }
 
-  // Validate properties structure through the strict Zod shape contract
   const validationResult = createCollectionSchema.safeParse(rawBody);
   if (!validationResult.success) {
     return NextResponse.json(
@@ -49,7 +46,6 @@ export const POST = handleApiRoute(async (req: NextRequest) => {
     );
   }
 
-  // Pass validated fields along to your domain service layer to auto-calculate unique slugs
   const newCollection = await CollectionService.createCollection(
     session.userId,
     validationResult.data

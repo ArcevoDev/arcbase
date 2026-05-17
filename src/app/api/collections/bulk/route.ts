@@ -9,15 +9,18 @@ import { z } from "zod";
 
 const bulkCollectionSchema = z.object({
   ids: z.array(z.string().uuid("Each identifier must be a valid time-sorted UUIDv7")),
-  action: z.enum(["DELETE"]) // Handles batch folder clear-outs
+  action: z.enum(["DELETE"])
 }).strict();
 
 export const POST = handleApiRoute(async (req: NextRequest) => {
   const session = await requireAuth(req);
 
-  let body = await req.json().catch(() => {
+  let body;
+  try {
+    body = await req.json();
+  } catch {
     throw ApiError.badRequest("Malformed JSON bulk collection payload");
-  });
+  }
 
   const validation = bulkCollectionSchema.safeParse(body);
   if (!validation.success) {
@@ -27,30 +30,32 @@ export const POST = handleApiRoute(async (req: NextRequest) => {
     );
   }
 
-  const { ids, action } = validation.data;
+  const { ids: rawIds, action } = validation.data;
+  
+  // Deduplicate incoming array to prevent exploit skews and connection timeouts
+  const uniqueIds = Array.from(new Set(rawIds));
 
-  // Security layer: Confirm that the user owns every single selected collection row
   const ownedCount = await prisma.collection.count({
     where: {
-      id: { in: ids },
+      id: { in: uniqueIds },
       authorId: session.userId,
       deletedAt: null
     }
   });
 
-  if (ownedCount !== ids.length) {
-    throw ApiError.forbidden("Access denied: You do not own all of the selected collections");
+  if (ownedCount !== uniqueIds.length) {
+    throw ApiError.forbidden("Access denied: You do not own all of the selected active collections");
   }
 
   if (action === "DELETE") {
     await prisma.collection.updateMany({
-      where: { id: { in: ids } },
+      where: { id: { in: uniqueIds } },
       data: { deletedAt: new Date() }
     });
   }
 
   return NextResponse.json(
-    { message: `Bulk folder operation '${action}' executed cleanly on ${ids.length} collections` },
+    { message: `Bulk folder operation '${action}' executed cleanly on ${uniqueIds.length} collections` },
     { status: 200 }
   );
 });

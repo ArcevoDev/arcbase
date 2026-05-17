@@ -1,12 +1,24 @@
-import "@/styles/globals.css";
-import { Inter } from "next/font/google";
-import { cn } from "@/lib/utils";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import { siteMetadata } from "@/lib/metadata";
-import AppLayout from "@/components/layout/AppLayout";
+import { AuthProvider } from "@/context/auth-context";
+import { cn } from "@/lib/utils";
+import "@/styles/globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+// Optimize and configure Google Font utilities with native CSS variable fallback structures
+const fontSans = Geist({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
-export const metadata = siteMetadata;
+const fontMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+export const metadata: Metadata = siteMetadata;
 
 export default function RootLayout({
   children,
@@ -14,14 +26,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          inter.className,
-        )}
-      >
-        <AppLayout>{children}</AppLayout>
+    <html 
+      lang="en" 
+      className={cn("h-full scroll-smooth", fontSans.variable, fontMono.variable)}
+      suppressHydrationWarning
+    >
+      <body className="min-h-full bg-gray-50 font-sans antialiased text-gray-900 selection:bg-indigo-500 selection:text-white">
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

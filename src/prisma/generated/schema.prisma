@@ -1,0 +1,331 @@
+// GENERATOR
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated"
+}
+
+// DATASOURCE
+datasource db {
+  provider = "postgresql"
+}
+
+// ENUMS
+enum Visibility {
+  PUBLIC
+  PRIVATE
+  UNLISTED
+}
+
+enum ResourceType {
+  ARTICLE
+  NOTE
+  MODULE
+  VIDEO
+  IMAGE
+  FILE
+  LINK
+  AI_OUTPUT
+}
+
+enum ResourceStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum RelationType {
+  RELATED
+  REFERENCES
+  DEPENDS_ON
+  PREREQUISITE
+  NEXT
+  PREVIOUS
+}
+
+enum CommentStatus {
+  ACTIVE
+  HIDDEN
+  DELETED
+}
+
+enum UsageEvent {
+  VIEW
+  OPEN
+  DOWNLOAD
+  SHARE
+  LIKE
+  BOOKMARK
+}
+
+// USER
+model User {
+  id         String  @id @default(uuid(7))
+  identityId String? @unique // Future ArcID bridge
+
+  username     String @unique
+  email        String @unique
+  passwordHash String
+
+  displayName String?
+  avatarUrl   String?
+  bio         String?
+
+  // SCALE ADDITIONS: Multi-step survey pipeline trackers
+  onboardingStep Int   @default(0) // e.g., 0 = registered, 1 = survey page 1, 4 = complete
+  onboardingJson Json? // Saves step-by-step survey data natively with internal version tracking
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  archivedAt DateTime?
+  deletedAt  DateTime?
+
+  // RELATIONS
+  resources        Resource[]
+  collections      Collection[]
+  comments         Comment[]
+  savedResources   SavedResource[]
+  usageEvents      ResourceUsage[]
+  resourceVersions ResourceVersion[]
+
+  @@index([identityId])
+  @@index([username])
+  @@index([email])
+  @@index([createdAt(sort: Desc)])
+  @@index([deletedAt])
+}
+
+// RESOURCE
+model Resource {
+  id    String  @id @default(uuid(7))
+  slug  String?
+  title String?
+
+  description String?
+  excerpt     String?
+  content     String?
+  contentJson Json?
+
+  type ResourceType
+
+  status     ResourceStatus @default(DRAFT)
+  visibility Visibility     @default(PUBLIC)
+
+  category String?
+  language String? @default("en")
+
+  thumbnailUrl  String?
+  coverImageUrl String?
+  fileUrl       String?
+  metadata      Json?
+
+  wordCount     Int?
+  estimatedTime Int?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime?
+  archivedAt  DateTime?
+  deletedAt   DateTime?
+
+  // AUTHOR
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  // HIERARCHY
+  parentId String?
+  parent   Resource?  @relation("Hierarchy", fields: [parentId], references: [id])
+  children Resource[] @relation("Hierarchy")
+
+  // RELATIONS
+  tags              Tag[]
+  outgoingRelations Relation[]           @relation("From")
+  incomingRelations Relation[]           @relation("To")
+  collections       CollectionResource[]
+  comments          Comment[]
+  metrics           ResourceMetrics?
+  versions          ResourceVersion[]
+  usageEvents       ResourceUsage[]
+  savedBy           SavedResource[]
+
+  @@unique([authorId, slug]) // Guarded via software layer during initial blank creation states
+  @@index([slug])
+  @@index([authorId])
+  @@index([parentId])
+  @@index([type, status])
+  @@index([visibility, status])
+  @@index([status, publishedAt(sort: Desc)])
+  @@index([category])
+  @@index([publishedAt])
+  @@index([createdAt(sort: Desc)])
+  @@index([deletedAt])
+}
+
+// RESOURCE VERSIONS
+model ResourceVersion {
+  id         String @id @default(uuid(7))
+  resourceId String
+  authorId   String
+
+  versionNumber Int
+  title         String
+
+  content     String?
+  contentJson Json?
+
+  changeSummary String?
+  createdAt     DateTime @default(now())
+
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  author   User     @relation(fields: [authorId], references: [id])
+
+  @@unique([resourceId, versionNumber])
+  @@index([resourceId, createdAt(sort: Desc)])
+}
+
+// RELATIONS GRAPH
+model Relation {
+  id     String       @id @default(uuid(7))
+  type   RelationType
+  fromId String
+  toId   String
+
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  from Resource @relation("From", fields: [fromId], references: [id], onDelete: Cascade)
+  to   Resource @relation("To", fields: [toId], references: [id], onDelete: Cascade)
+
+  @@unique([fromId, toId, type])
+  @@index([fromId, type])
+  @@index([toId, type])
+}
+
+// COLLECTIONS
+model Collection {
+  id    String @id @default(uuid(7))
+  slug  String
+  title String
+
+  description String?
+  visibility  Visibility @default(PUBLIC)
+  metadata    Json?
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  archivedAt DateTime?
+  deletedAt  DateTime?
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  resources CollectionResource[]
+
+  @@unique([authorId, slug])
+  @@index([slug])
+  @@index([authorId])
+  @@index([visibility])
+}
+
+// COLLECTION RESOURCE MAP
+model CollectionResource {
+  id           String @id @default(uuid(7))
+  collectionId String
+  resourceId   String
+  orderIndex   Int
+
+  addedAt DateTime @default(now())
+
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  resource   Resource   @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@unique([collectionId, resourceId])
+  @@index([collectionId, orderIndex])
+  @@index([resourceId])
+}
+
+// TAGS
+model Tag {
+  id        String   @id @default(uuid(7))
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+
+  resources Resource[]
+
+  @@index([slug])
+}
+
+// COMMENTS
+model Comment {
+  id        String        @id @default(uuid(7))
+  content   String
+  status    CommentStatus @default(ACTIVE)
+  metadata  Json?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  deletedAt DateTime?
+
+  authorId   String
+  resourceId String
+  parentId   String?
+
+  author   User     @relation(fields: [authorId], references: [id])
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  parent  Comment?  @relation("Thread", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies Comment[] @relation("Thread")
+
+  @@index([resourceId, createdAt])
+  @@index([parentId])
+}
+
+// SAVED RESOURCES
+model SavedResource {
+  id         String   @id @default(uuid(7))
+  userId     String
+  resourceId String
+  createdAt  DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id])
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, resourceId])
+  @@index([userId])
+}
+
+// EVENT STREAM
+model ResourceUsage {
+  id         String     @id @default(uuid(7))
+  resourceId String
+  userId     String?
+  event      UsageEvent
+  sessionId  String?
+  metadata   Json?
+  createdAt  DateTime   @default(now())
+
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  user     User?    @relation(fields: [userId], references: [id])
+
+  @@index([resourceId, event])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// AGGREGATED METRICS
+model ResourceMetrics {
+  id         String @id @default(uuid(7))
+  resourceId String @unique
+
+  views     Int @default(0)
+  opens     Int @default(0)
+  downloads Int @default(0)
+  shares    Int @default(0)
+  likes     Int @default(0)
+  bookmarks Int @default(0)
+
+  engagementScore Float @default(0)
+
+  updatedAt DateTime @updatedAt
+
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+}

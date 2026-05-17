@@ -1,0 +1,24340 @@
+
+/**
+ * Client
+**/
+
+import * as runtime from './runtime/client.js';
+import $Types = runtime.Types // general types
+import $Public = runtime.Types.Public
+import $Utils = runtime.Types.Utils
+import $Extensions = runtime.Types.Extensions
+import $Result = runtime.Types.Result
+
+export type PrismaPromise<T> = $Public.PrismaPromise<T>
+
+
+/**
+ * Model User
+ * 
+ */
+export type User = $Result.DefaultSelection<Prisma.$UserPayload>
+/**
+ * Model Resource
+ * 
+ */
+export type Resource = $Result.DefaultSelection<Prisma.$ResourcePayload>
+/**
+ * Model ResourceVersion
+ * 
+ */
+export type ResourceVersion = $Result.DefaultSelection<Prisma.$ResourceVersionPayload>
+/**
+ * Model Relation
+ * 
+ */
+export type Relation = $Result.DefaultSelection<Prisma.$RelationPayload>
+/**
+ * Model Collection
+ * 
+ */
+export type Collection = $Result.DefaultSelection<Prisma.$CollectionPayload>
+/**
+ * Model CollectionResource
+ * 
+ */
+export type CollectionResource = $Result.DefaultSelection<Prisma.$CollectionResourcePayload>
+/**
+ * Model Tag
+ * 
+ */
+export type Tag = $Result.DefaultSelection<Prisma.$TagPayload>
+/**
+ * Model Comment
+ * 
+ */
+export type Comment = $Result.DefaultSelection<Prisma.$CommentPayload>
+/**
+ * Model SavedResource
+ * 
+ */
+export type SavedResource = $Result.DefaultSelection<Prisma.$SavedResourcePayload>
+/**
+ * Model ResourceUsage
+ * 
+ */
+export type ResourceUsage = $Result.DefaultSelection<Prisma.$ResourceUsagePayload>
+/**
+ * Model ResourceMetrics
+ * 
+ */
+export type ResourceMetrics = $Result.DefaultSelection<Prisma.$ResourceMetricsPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const Visibility: {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE',
+  UNLISTED: 'UNLISTED'
+};
+
+export type Visibility = (typeof Visibility)[keyof typeof Visibility]
+
+
+export const ResourceType: {
+  ARTICLE: 'ARTICLE',
+  NOTE: 'NOTE',
+  MODULE: 'MODULE',
+  VIDEO: 'VIDEO',
+  IMAGE: 'IMAGE',
+  FILE: 'FILE',
+  LINK: 'LINK',
+  AI_OUTPUT: 'AI_OUTPUT'
+};
+
+export type ResourceType = (typeof ResourceType)[keyof typeof ResourceType]
+
+
+export const ResourceStatus: {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+};
+
+export type ResourceStatus = (typeof ResourceStatus)[keyof typeof ResourceStatus]
+
+
+export const RelationType: {
+  RELATED: 'RELATED',
+  REFERENCES: 'REFERENCES',
+  DEPENDS_ON: 'DEPENDS_ON',
+  PREREQUISITE: 'PREREQUISITE',
+  NEXT: 'NEXT',
+  PREVIOUS: 'PREVIOUS'
+};
+
+export type RelationType = (typeof RelationType)[keyof typeof RelationType]
+
+
+export const CommentStatus: {
+  ACTIVE: 'ACTIVE',
+  HIDDEN: 'HIDDEN',
+  DELETED: 'DELETED'
+};
+
+export type CommentStatus = (typeof CommentStatus)[keyof typeof CommentStatus]
+
+
+export const UsageEvent: {
+  VIEW: 'VIEW',
+  OPEN: 'OPEN',
+  DOWNLOAD: 'DOWNLOAD',
+  SHARE: 'SHARE',
+  LIKE: 'LIKE',
+  BOOKMARK: 'BOOKMARK'
+};
+
+export type UsageEvent = (typeof UsageEvent)[keyof typeof UsageEvent]
+
+}
+
+export type Visibility = $Enums.Visibility
+
+export const Visibility: typeof $Enums.Visibility
+
+export type ResourceType = $Enums.ResourceType
+
+export const ResourceType: typeof $Enums.ResourceType
+
+export type ResourceStatus = $Enums.ResourceStatus
+
+export const ResourceStatus: typeof $Enums.ResourceStatus
+
+export type RelationType = $Enums.RelationType
+
+export const RelationType: typeof $Enums.RelationType
+
+export type CommentStatus = $Enums.CommentStatus
+
+export const CommentStatus: typeof $Enums.CommentStatus
+
+export type UsageEvent = $Enums.UsageEvent
+
+export const UsageEvent: typeof $Enums.UsageEvent
+
+/**
+ * ##  Prisma Client ʲˢ
+ *
+ * Type-safe database client for TypeScript & Node.js
+ * @example
+ * ```
+ * const prisma = new PrismaClient({
+ *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ * })
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
+ * ```
+ *
+ *
+ * Read more in our [docs](https://pris.ly/d/client).
+ */
+export class PrismaClient<
+  ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
+  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+> {
+  [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
+
+    /**
+   * ##  Prisma Client ʲˢ
+   *
+   * Type-safe database client for TypeScript & Node.js
+   * @example
+   * ```
+   * const prisma = new PrismaClient({
+   *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+   * })
+   * // Fetch zero or more Users
+   * const users = await prisma.user.findMany()
+   * ```
+   *
+   *
+   * Read more in our [docs](https://pris.ly/d/client).
+   */
+
+  constructor(optionsArg ?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>);
+  $on<V extends U>(eventType: V, callback: (event: V extends 'query' ? Prisma.QueryEvent : Prisma.LogEvent) => void): PrismaClient;
+
+  /**
+   * Connect with the database
+   */
+  $connect(): $Utils.JsPromise<void>;
+
+  /**
+   * Disconnect from the database
+   */
+  $disconnect(): $Utils.JsPromise<void>;
+
+/**
+   * Executes a prepared raw query and returns the number of affected rows.
+   * @example
+   * ```
+   * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
+   * ```
+   *
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
+   */
+  $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
+
+  /**
+   * Executes a raw query and returns the number of affected rows.
+   * Susceptible to SQL injections, see documentation.
+   * @example
+   * ```
+   * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
+   * ```
+   *
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
+   */
+  $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
+
+  /**
+   * Performs a prepared raw query and returns the `SELECT` data.
+   * @example
+   * ```
+   * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
+   * ```
+   *
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
+   */
+  $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
+
+  /**
+   * Performs a raw query and returns the `SELECT` data.
+   * Susceptible to SQL injections, see documentation.
+   * @example
+   * ```
+   * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
+   * ```
+   *
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
+   */
+  $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
+
+
+  /**
+   * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
+   * @example
+   * ```
+   * const [george, bob, alice] = await prisma.$transaction([
+   *   prisma.user.create({ data: { name: 'George' } }),
+   *   prisma.user.create({ data: { name: 'Bob' } }),
+   *   prisma.user.create({ data: { name: 'Alice' } }),
+   * ])
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
+   */
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+
+  $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
+
+  $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb<ClientOptions>, ExtArgs, $Utils.Call<Prisma.TypeMapCb<ClientOptions>, {
+    extArgs: ExtArgs
+  }>>
+
+      /**
+   * `prisma.user`: Exposes CRUD operations for the **User** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
+    * ```
+    */
+  get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.resource`: Exposes CRUD operations for the **Resource** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Resources
+    * const resources = await prisma.resource.findMany()
+    * ```
+    */
+  get resource(): Prisma.ResourceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.resourceVersion`: Exposes CRUD operations for the **ResourceVersion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ResourceVersions
+    * const resourceVersions = await prisma.resourceVersion.findMany()
+    * ```
+    */
+  get resourceVersion(): Prisma.ResourceVersionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.relation`: Exposes CRUD operations for the **Relation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Relations
+    * const relations = await prisma.relation.findMany()
+    * ```
+    */
+  get relation(): Prisma.RelationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.collection`: Exposes CRUD operations for the **Collection** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Collections
+    * const collections = await prisma.collection.findMany()
+    * ```
+    */
+  get collection(): Prisma.CollectionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.collectionResource`: Exposes CRUD operations for the **CollectionResource** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CollectionResources
+    * const collectionResources = await prisma.collectionResource.findMany()
+    * ```
+    */
+  get collectionResource(): Prisma.CollectionResourceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tag`: Exposes CRUD operations for the **Tag** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tags
+    * const tags = await prisma.tag.findMany()
+    * ```
+    */
+  get tag(): Prisma.TagDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.comment`: Exposes CRUD operations for the **Comment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Comments
+    * const comments = await prisma.comment.findMany()
+    * ```
+    */
+  get comment(): Prisma.CommentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.savedResource`: Exposes CRUD operations for the **SavedResource** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SavedResources
+    * const savedResources = await prisma.savedResource.findMany()
+    * ```
+    */
+  get savedResource(): Prisma.SavedResourceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.resourceUsage`: Exposes CRUD operations for the **ResourceUsage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ResourceUsages
+    * const resourceUsages = await prisma.resourceUsage.findMany()
+    * ```
+    */
+  get resourceUsage(): Prisma.ResourceUsageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.resourceMetrics`: Exposes CRUD operations for the **ResourceMetrics** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ResourceMetrics
+    * const resourceMetrics = await prisma.resourceMetrics.findMany()
+    * ```
+    */
+  get resourceMetrics(): Prisma.ResourceMetricsDelegate<ExtArgs, ClientOptions>;
+}
+
+export namespace Prisma {
+  export import DMMF = runtime.DMMF
+
+  export type PrismaPromise<T> = $Public.PrismaPromise<T>
+
+  /**
+   * Validator
+   */
+  export import validator = runtime.Public.validator
+
+  /**
+   * Prisma Errors
+   */
+  export import PrismaClientKnownRequestError = runtime.PrismaClientKnownRequestError
+  export import PrismaClientUnknownRequestError = runtime.PrismaClientUnknownRequestError
+  export import PrismaClientRustPanicError = runtime.PrismaClientRustPanicError
+  export import PrismaClientInitializationError = runtime.PrismaClientInitializationError
+  export import PrismaClientValidationError = runtime.PrismaClientValidationError
+
+  /**
+   * Re-export of sql-template-tag
+   */
+  export import sql = runtime.sqltag
+  export import empty = runtime.empty
+  export import join = runtime.join
+  export import raw = runtime.raw
+  export import Sql = runtime.Sql
+
+
+
+  /**
+   * Decimal.js
+   */
+  export import Decimal = runtime.Decimal
+
+  export type DecimalJsLike = runtime.DecimalJsLike
+
+  /**
+  * Extensions
+  */
+  export import Extension = $Extensions.UserArgs
+  export import getExtensionContext = runtime.Extensions.getExtensionContext
+  export import Args = $Public.Args
+  export import Payload = $Public.Payload
+  export import Result = $Public.Result
+  export import Exact = $Public.Exact
+
+  /**
+   * Prisma Client JS version: 7.8.0
+   * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
+   */
+  export type PrismaVersion = {
+    client: string
+    engine: string
+  }
+
+  export const prismaVersion: PrismaVersion
+
+  /**
+   * Utility Types
+   */
+
+
+  export import Bytes = runtime.Bytes
+  export import JsonObject = runtime.JsonObject
+  export import JsonArray = runtime.JsonArray
+  export import JsonValue = runtime.JsonValue
+  export import InputJsonObject = runtime.InputJsonObject
+  export import InputJsonArray = runtime.InputJsonArray
+  export import InputJsonValue = runtime.InputJsonValue
+
+  /**
+   * Types of the values used to represent different kinds of `null` values when working with JSON fields.
+   *
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  namespace NullTypes {
+    /**
+    * Type of `Prisma.DbNull`.
+    *
+    * You cannot use other instances of this class. Please use the `Prisma.DbNull` value.
+    *
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class DbNull {
+      private DbNull: never
+      private constructor()
+    }
+
+    /**
+    * Type of `Prisma.JsonNull`.
+    *
+    * You cannot use other instances of this class. Please use the `Prisma.JsonNull` value.
+    *
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class JsonNull {
+      private JsonNull: never
+      private constructor()
+    }
+
+    /**
+    * Type of `Prisma.AnyNull`.
+    *
+    * You cannot use other instances of this class. Please use the `Prisma.AnyNull` value.
+    *
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class AnyNull {
+      private AnyNull: never
+      private constructor()
+    }
+  }
+
+  /**
+   * Helper for filtering JSON entries that have `null` on the database (empty on the db)
+   *
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  export const DbNull: NullTypes.DbNull
+
+  /**
+   * Helper for filtering JSON entries that have JSON `null` values (not empty on the db)
+   *
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  export const JsonNull: NullTypes.JsonNull
+
+  /**
+   * Helper for filtering JSON entries that are `Prisma.DbNull` or `Prisma.JsonNull`
+   *
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  export const AnyNull: NullTypes.AnyNull
+
+  type SelectAndInclude = {
+    select: any
+    include: any
+  }
+
+  type SelectAndOmit = {
+    select: any
+    omit: any
+  }
+
+  /**
+   * Get the type of the value, that the Promise holds.
+   */
+  export type PromiseType<T extends PromiseLike<any>> = T extends PromiseLike<infer U> ? U : T;
+
+  /**
+   * Get the return type of a function which returns a Promise.
+   */
+  export type PromiseReturnType<T extends (...args: any) => $Utils.JsPromise<any>> = PromiseType<ReturnType<T>>
+
+  /**
+   * From T, pick a set of properties whose keys are in the union K
+   */
+  type Prisma__Pick<T, K extends keyof T> = {
+      [P in K]: T[P];
+  };
+
+
+  export type Enumerable<T> = T | Array<T>;
+
+  export type RequiredKeys<T> = {
+    [K in keyof T]-?: {} extends Prisma__Pick<T, K> ? never : K
+  }[keyof T]
+
+  export type TruthyKeys<T> = keyof {
+    [K in keyof T as T[K] extends false | undefined | null ? never : K]: K
+  }
+
+  export type TrueKeys<T> = TruthyKeys<Prisma__Pick<T, RequiredKeys<T>>>
+
+  /**
+   * Subset
+   * @desc From `T` pick properties that exist in `U`. Simple version of Intersection
+   */
+  export type Subset<T, U> = {
+    [key in keyof T]: key extends keyof U ? T[key] : never;
+  };
+
+  /**
+   * SelectSubset
+   * @desc From `T` pick properties that exist in `U`. Simple version of Intersection.
+   * Additionally, it validates, if both select and include are present. If the case, it errors.
+   */
+  export type SelectSubset<T, U> = {
+    [key in keyof T]: key extends keyof U ? T[key] : never
+  } &
+    (T extends SelectAndInclude
+      ? 'Please either choose `select` or `include`.'
+      : T extends SelectAndOmit
+        ? 'Please either choose `select` or `omit`.'
+        : {})
+
+  /**
+   * Subset + Intersection
+   * @desc From `T` pick properties that exist in `U` and intersect `K`
+   */
+  export type SubsetIntersection<T, U, K> = {
+    [key in keyof T]: key extends keyof U ? T[key] : never
+  } &
+    K
+
+  type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
+
+  /**
+   * XOR is needed to have a real mutually exclusive union type
+   * https://stackoverflow.com/questions/42123407/does-typescript-support-mutually-exclusive-types
+   */
+  type XOR<T, U> =
+    T extends object ?
+    U extends object ?
+      (Without<T, U> & U) | (Without<U, T> & T)
+    : U : T
+
+
+  /**
+   * Is T a Record?
+   */
+  type IsObject<T extends any> = T extends Array<any>
+  ? False
+  : T extends Date
+  ? False
+  : T extends Uint8Array
+  ? False
+  : T extends BigInt
+  ? False
+  : T extends object
+  ? True
+  : False
+
+
+  /**
+   * If it's T[], return T
+   */
+  export type UnEnumerate<T extends unknown> = T extends Array<infer U> ? U : T
+
+  /**
+   * From ts-toolbelt
+   */
+
+  type __Either<O extends object, K extends Key> = Omit<O, K> &
+    {
+      // Merge all but K
+      [P in K]: Prisma__Pick<O, P & keyof O> // With K possibilities
+    }[K]
+
+  type EitherStrict<O extends object, K extends Key> = Strict<__Either<O, K>>
+
+  type EitherLoose<O extends object, K extends Key> = ComputeRaw<__Either<O, K>>
+
+  type _Either<
+    O extends object,
+    K extends Key,
+    strict extends Boolean
+  > = {
+    1: EitherStrict<O, K>
+    0: EitherLoose<O, K>
+  }[strict]
+
+  type Either<
+    O extends object,
+    K extends Key,
+    strict extends Boolean = 1
+  > = O extends unknown ? _Either<O, K, strict> : never
+
+  export type Union = any
+
+  type PatchUndefined<O extends object, O1 extends object> = {
+    [K in keyof O]: O[K] extends undefined ? At<O1, K> : O[K]
+  } & {}
+
+  /** Helper Types for "Merge" **/
+  export type IntersectOf<U extends Union> = (
+    U extends unknown ? (k: U) => void : never
+  ) extends (k: infer I) => void
+    ? I
+    : never
+
+  export type Overwrite<O extends object, O1 extends object> = {
+      [K in keyof O]: K extends keyof O1 ? O1[K] : O[K];
+  } & {};
+
+  type _Merge<U extends object> = IntersectOf<Overwrite<U, {
+      [K in keyof U]-?: At<U, K>;
+  }>>;
+
+  type Key = string | number | symbol;
+  type AtBasic<O extends object, K extends Key> = K extends keyof O ? O[K] : never;
+  type AtStrict<O extends object, K extends Key> = O[K & keyof O];
+  type AtLoose<O extends object, K extends Key> = O extends unknown ? AtStrict<O, K> : never;
+  export type At<O extends object, K extends Key, strict extends Boolean = 1> = {
+      1: AtStrict<O, K>;
+      0: AtLoose<O, K>;
+  }[strict];
+
+  export type ComputeRaw<A extends any> = A extends Function ? A : {
+    [K in keyof A]: A[K];
+  } & {};
+
+  export type OptionalFlat<O> = {
+    [K in keyof O]?: O[K];
+  } & {};
+
+  type _Record<K extends keyof any, T> = {
+    [P in K]: T;
+  };
+
+  // cause typescript not to expand types and preserve names
+  type NoExpand<T> = T extends unknown ? T : never;
+
+  // this type assumes the passed object is entirely optional
+  type AtLeast<O extends object, K extends string> = NoExpand<
+    O extends unknown
+    ? | (K extends keyof O ? { [P in K]: O[P] } & O : O)
+      | {[P in keyof O as P extends K ? P : never]-?: O[P]} & O
+    : never>;
+
+  type _Strict<U, _U = U> = U extends unknown ? U & OptionalFlat<_Record<Exclude<Keys<_U>, keyof U>, never>> : never;
+
+  export type Strict<U extends object> = ComputeRaw<_Strict<U>>;
+  /** End Helper Types for "Merge" **/
+
+  export type Merge<U extends object> = ComputeRaw<_Merge<Strict<U>>>;
+
+  /**
+  A [[Boolean]]
+  */
+  export type Boolean = True | False
+
+  // /**
+  // 1
+  // */
+  export type True = 1
+
+  /**
+  0
+  */
+  export type False = 0
+
+  export type Not<B extends Boolean> = {
+    0: 1
+    1: 0
+  }[B]
+
+  export type Extends<A1 extends any, A2 extends any> = [A1] extends [never]
+    ? 0 // anything `never` is false
+    : A1 extends A2
+    ? 1
+    : 0
+
+  export type Has<U extends Union, U1 extends Union> = Not<
+    Extends<Exclude<U1, U>, U1>
+  >
+
+  export type Or<B1 extends Boolean, B2 extends Boolean> = {
+    0: {
+      0: 0
+      1: 1
+    }
+    1: {
+      0: 1
+      1: 1
+    }
+  }[B1][B2]
+
+  export type Keys<U extends Union> = U extends unknown ? keyof U : never
+
+  type Cast<A, B> = A extends B ? A : B;
+
+  export const type: unique symbol;
+
+
+
+  /**
+   * Used by group by
+   */
+
+  export type GetScalarType<T, O> = O extends object ? {
+    [P in keyof T]: P extends keyof O
+      ? O[P]
+      : never
+  } : never
+
+  type FieldPaths<
+    T,
+    U = Omit<T, '_avg' | '_sum' | '_count' | '_min' | '_max'>
+  > = IsObject<T> extends True ? U : T
+
+  type GetHavingFields<T> = {
+    [K in keyof T]: Or<
+      Or<Extends<'OR', K>, Extends<'AND', K>>,
+      Extends<'NOT', K>
+    > extends True
+      ? // infer is only needed to not hit TS limit
+        // based on the brilliant idea of Pierre-Antoine Mills
+        // https://github.com/microsoft/TypeScript/issues/30188#issuecomment-478938437
+        T[K] extends infer TK
+        ? GetHavingFields<UnEnumerate<TK> extends object ? Merge<UnEnumerate<TK>> : never>
+        : never
+      : {} extends FieldPaths<T[K]>
+      ? never
+      : K
+  }[keyof T]
+
+  /**
+   * Convert tuple to union
+   */
+  type _TupleToUnion<T> = T extends (infer E)[] ? E : never
+  type TupleToUnion<K extends readonly any[]> = _TupleToUnion<K>
+  type MaybeTupleToUnion<T> = T extends any[] ? TupleToUnion<T> : T
+
+  /**
+   * Like `Pick`, but additionally can also accept an array of keys
+   */
+  type PickEnumerable<T, K extends Enumerable<keyof T> | keyof T> = Prisma__Pick<T, MaybeTupleToUnion<K>>
+
+  /**
+   * Exclude all keys with underscores
+   */
+  type ExcludeUnderscoreKeys<T extends string> = T extends `_${string}` ? never : T
+
+
+  export type FieldRef<Model, FieldType> = runtime.FieldRef<Model, FieldType>
+
+  type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRef<Model, FieldType>
+
+
+  export const ModelName: {
+    User: 'User',
+    Resource: 'Resource',
+    ResourceVersion: 'ResourceVersion',
+    Relation: 'Relation',
+    Collection: 'Collection',
+    CollectionResource: 'CollectionResource',
+    Tag: 'Tag',
+    Comment: 'Comment',
+    SavedResource: 'SavedResource',
+    ResourceUsage: 'ResourceUsage',
+    ResourceMetrics: 'ResourceMetrics'
+  };
+
+  export type ModelName = (typeof ModelName)[keyof typeof ModelName]
+
+
+
+  interface TypeMapCb<ClientOptions = {}> extends $Utils.Fn<{extArgs: $Extensions.InternalArgs }, $Utils.Record<string, any>> {
+    returns: Prisma.TypeMap<this['params']['extArgs'], ClientOptions extends { omit: infer OmitOptions } ? OmitOptions : {}>
+  }
+
+  export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> = {
+    globalOmitOptions: {
+      omit: GlobalOmitOptions
+    }
+    meta: {
+      modelProps: "user" | "resource" | "resourceVersion" | "relation" | "collection" | "collectionResource" | "tag" | "comment" | "savedResource" | "resourceUsage" | "resourceMetrics"
+      txIsolationLevel: Prisma.TransactionIsolationLevel
+    }
+    model: {
+      User: {
+        payload: Prisma.$UserPayload<ExtArgs>
+        fields: Prisma.UserFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          findFirst: {
+            args: Prisma.UserFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          findMany: {
+            args: Prisma.UserFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+          }
+          create: {
+            args: Prisma.UserCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          createMany: {
+            args: Prisma.UserCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+          }
+          delete: {
+            args: Prisma.UserDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          update: {
+            args: Prisma.UserUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          aggregate: {
+            args: Prisma.UserAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUser>
+          }
+          groupBy: {
+            args: Prisma.UserGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserCountArgs<ExtArgs>
+            result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      Resource: {
+        payload: Prisma.$ResourcePayload<ExtArgs>
+        fields: Prisma.ResourceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ResourceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourcePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ResourceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>
+          }
+          findFirst: {
+            args: Prisma.ResourceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourcePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ResourceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>
+          }
+          findMany: {
+            args: Prisma.ResourceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>[]
+          }
+          create: {
+            args: Prisma.ResourceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>
+          }
+          createMany: {
+            args: Prisma.ResourceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ResourceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>[]
+          }
+          delete: {
+            args: Prisma.ResourceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>
+          }
+          update: {
+            args: Prisma.ResourceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>
+          }
+          deleteMany: {
+            args: Prisma.ResourceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ResourceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ResourceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>[]
+          }
+          upsert: {
+            args: Prisma.ResourceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>
+          }
+          aggregate: {
+            args: Prisma.ResourceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateResource>
+          }
+          groupBy: {
+            args: Prisma.ResourceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ResourceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ResourceCountArgs<ExtArgs>
+            result: $Utils.Optional<ResourceCountAggregateOutputType> | number
+          }
+        }
+      }
+      ResourceVersion: {
+        payload: Prisma.$ResourceVersionPayload<ExtArgs>
+        fields: Prisma.ResourceVersionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ResourceVersionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ResourceVersionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
+          }
+          findFirst: {
+            args: Prisma.ResourceVersionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ResourceVersionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
+          }
+          findMany: {
+            args: Prisma.ResourceVersionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>[]
+          }
+          create: {
+            args: Prisma.ResourceVersionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
+          }
+          createMany: {
+            args: Prisma.ResourceVersionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ResourceVersionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>[]
+          }
+          delete: {
+            args: Prisma.ResourceVersionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
+          }
+          update: {
+            args: Prisma.ResourceVersionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
+          }
+          deleteMany: {
+            args: Prisma.ResourceVersionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ResourceVersionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ResourceVersionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>[]
+          }
+          upsert: {
+            args: Prisma.ResourceVersionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
+          }
+          aggregate: {
+            args: Prisma.ResourceVersionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateResourceVersion>
+          }
+          groupBy: {
+            args: Prisma.ResourceVersionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ResourceVersionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ResourceVersionCountArgs<ExtArgs>
+            result: $Utils.Optional<ResourceVersionCountAggregateOutputType> | number
+          }
+        }
+      }
+      Relation: {
+        payload: Prisma.$RelationPayload<ExtArgs>
+        fields: Prisma.RelationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RelationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RelationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationPayload>
+          }
+          findFirst: {
+            args: Prisma.RelationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RelationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationPayload>
+          }
+          findMany: {
+            args: Prisma.RelationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationPayload>[]
+          }
+          create: {
+            args: Prisma.RelationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationPayload>
+          }
+          createMany: {
+            args: Prisma.RelationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RelationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationPayload>[]
+          }
+          delete: {
+            args: Prisma.RelationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationPayload>
+          }
+          update: {
+            args: Prisma.RelationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationPayload>
+          }
+          deleteMany: {
+            args: Prisma.RelationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RelationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RelationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationPayload>[]
+          }
+          upsert: {
+            args: Prisma.RelationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RelationPayload>
+          }
+          aggregate: {
+            args: Prisma.RelationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRelation>
+          }
+          groupBy: {
+            args: Prisma.RelationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RelationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RelationCountArgs<ExtArgs>
+            result: $Utils.Optional<RelationCountAggregateOutputType> | number
+          }
+        }
+      }
+      Collection: {
+        payload: Prisma.$CollectionPayload<ExtArgs>
+        fields: Prisma.CollectionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CollectionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CollectionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionPayload>
+          }
+          findFirst: {
+            args: Prisma.CollectionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CollectionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionPayload>
+          }
+          findMany: {
+            args: Prisma.CollectionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionPayload>[]
+          }
+          create: {
+            args: Prisma.CollectionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionPayload>
+          }
+          createMany: {
+            args: Prisma.CollectionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CollectionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionPayload>[]
+          }
+          delete: {
+            args: Prisma.CollectionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionPayload>
+          }
+          update: {
+            args: Prisma.CollectionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionPayload>
+          }
+          deleteMany: {
+            args: Prisma.CollectionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CollectionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CollectionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionPayload>[]
+          }
+          upsert: {
+            args: Prisma.CollectionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionPayload>
+          }
+          aggregate: {
+            args: Prisma.CollectionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCollection>
+          }
+          groupBy: {
+            args: Prisma.CollectionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CollectionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CollectionCountArgs<ExtArgs>
+            result: $Utils.Optional<CollectionCountAggregateOutputType> | number
+          }
+        }
+      }
+      CollectionResource: {
+        payload: Prisma.$CollectionResourcePayload<ExtArgs>
+        fields: Prisma.CollectionResourceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CollectionResourceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionResourcePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CollectionResourceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionResourcePayload>
+          }
+          findFirst: {
+            args: Prisma.CollectionResourceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionResourcePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CollectionResourceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionResourcePayload>
+          }
+          findMany: {
+            args: Prisma.CollectionResourceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionResourcePayload>[]
+          }
+          create: {
+            args: Prisma.CollectionResourceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionResourcePayload>
+          }
+          createMany: {
+            args: Prisma.CollectionResourceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CollectionResourceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionResourcePayload>[]
+          }
+          delete: {
+            args: Prisma.CollectionResourceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionResourcePayload>
+          }
+          update: {
+            args: Prisma.CollectionResourceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionResourcePayload>
+          }
+          deleteMany: {
+            args: Prisma.CollectionResourceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CollectionResourceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CollectionResourceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionResourcePayload>[]
+          }
+          upsert: {
+            args: Prisma.CollectionResourceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CollectionResourcePayload>
+          }
+          aggregate: {
+            args: Prisma.CollectionResourceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCollectionResource>
+          }
+          groupBy: {
+            args: Prisma.CollectionResourceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CollectionResourceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CollectionResourceCountArgs<ExtArgs>
+            result: $Utils.Optional<CollectionResourceCountAggregateOutputType> | number
+          }
+        }
+      }
+      Tag: {
+        payload: Prisma.$TagPayload<ExtArgs>
+        fields: Prisma.TagFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TagFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TagFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          findFirst: {
+            args: Prisma.TagFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TagFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          findMany: {
+            args: Prisma.TagFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>[]
+          }
+          create: {
+            args: Prisma.TagCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          createMany: {
+            args: Prisma.TagCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TagCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>[]
+          }
+          delete: {
+            args: Prisma.TagDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          update: {
+            args: Prisma.TagUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          deleteMany: {
+            args: Prisma.TagDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TagUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TagUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>[]
+          }
+          upsert: {
+            args: Prisma.TagUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TagPayload>
+          }
+          aggregate: {
+            args: Prisma.TagAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTag>
+          }
+          groupBy: {
+            args: Prisma.TagGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TagGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TagCountArgs<ExtArgs>
+            result: $Utils.Optional<TagCountAggregateOutputType> | number
+          }
+        }
+      }
+      Comment: {
+        payload: Prisma.$CommentPayload<ExtArgs>
+        fields: Prisma.CommentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CommentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CommentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommentPayload>
+          }
+          findFirst: {
+            args: Prisma.CommentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CommentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommentPayload>
+          }
+          findMany: {
+            args: Prisma.CommentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommentPayload>[]
+          }
+          create: {
+            args: Prisma.CommentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommentPayload>
+          }
+          createMany: {
+            args: Prisma.CommentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CommentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommentPayload>[]
+          }
+          delete: {
+            args: Prisma.CommentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommentPayload>
+          }
+          update: {
+            args: Prisma.CommentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommentPayload>
+          }
+          deleteMany: {
+            args: Prisma.CommentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CommentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CommentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommentPayload>[]
+          }
+          upsert: {
+            args: Prisma.CommentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommentPayload>
+          }
+          aggregate: {
+            args: Prisma.CommentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateComment>
+          }
+          groupBy: {
+            args: Prisma.CommentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CommentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CommentCountArgs<ExtArgs>
+            result: $Utils.Optional<CommentCountAggregateOutputType> | number
+          }
+        }
+      }
+      SavedResource: {
+        payload: Prisma.$SavedResourcePayload<ExtArgs>
+        fields: Prisma.SavedResourceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SavedResourceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedResourcePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SavedResourceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedResourcePayload>
+          }
+          findFirst: {
+            args: Prisma.SavedResourceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedResourcePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SavedResourceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedResourcePayload>
+          }
+          findMany: {
+            args: Prisma.SavedResourceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedResourcePayload>[]
+          }
+          create: {
+            args: Prisma.SavedResourceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedResourcePayload>
+          }
+          createMany: {
+            args: Prisma.SavedResourceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SavedResourceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedResourcePayload>[]
+          }
+          delete: {
+            args: Prisma.SavedResourceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedResourcePayload>
+          }
+          update: {
+            args: Prisma.SavedResourceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedResourcePayload>
+          }
+          deleteMany: {
+            args: Prisma.SavedResourceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SavedResourceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SavedResourceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedResourcePayload>[]
+          }
+          upsert: {
+            args: Prisma.SavedResourceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedResourcePayload>
+          }
+          aggregate: {
+            args: Prisma.SavedResourceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSavedResource>
+          }
+          groupBy: {
+            args: Prisma.SavedResourceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SavedResourceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SavedResourceCountArgs<ExtArgs>
+            result: $Utils.Optional<SavedResourceCountAggregateOutputType> | number
+          }
+        }
+      }
+      ResourceUsage: {
+        payload: Prisma.$ResourceUsagePayload<ExtArgs>
+        fields: Prisma.ResourceUsageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ResourceUsageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceUsagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ResourceUsageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceUsagePayload>
+          }
+          findFirst: {
+            args: Prisma.ResourceUsageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceUsagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ResourceUsageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceUsagePayload>
+          }
+          findMany: {
+            args: Prisma.ResourceUsageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceUsagePayload>[]
+          }
+          create: {
+            args: Prisma.ResourceUsageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceUsagePayload>
+          }
+          createMany: {
+            args: Prisma.ResourceUsageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ResourceUsageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceUsagePayload>[]
+          }
+          delete: {
+            args: Prisma.ResourceUsageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceUsagePayload>
+          }
+          update: {
+            args: Prisma.ResourceUsageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceUsagePayload>
+          }
+          deleteMany: {
+            args: Prisma.ResourceUsageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ResourceUsageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ResourceUsageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceUsagePayload>[]
+          }
+          upsert: {
+            args: Prisma.ResourceUsageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceUsagePayload>
+          }
+          aggregate: {
+            args: Prisma.ResourceUsageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateResourceUsage>
+          }
+          groupBy: {
+            args: Prisma.ResourceUsageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ResourceUsageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ResourceUsageCountArgs<ExtArgs>
+            result: $Utils.Optional<ResourceUsageCountAggregateOutputType> | number
+          }
+        }
+      }
+      ResourceMetrics: {
+        payload: Prisma.$ResourceMetricsPayload<ExtArgs>
+        fields: Prisma.ResourceMetricsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ResourceMetricsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceMetricsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ResourceMetricsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceMetricsPayload>
+          }
+          findFirst: {
+            args: Prisma.ResourceMetricsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceMetricsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ResourceMetricsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceMetricsPayload>
+          }
+          findMany: {
+            args: Prisma.ResourceMetricsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceMetricsPayload>[]
+          }
+          create: {
+            args: Prisma.ResourceMetricsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceMetricsPayload>
+          }
+          createMany: {
+            args: Prisma.ResourceMetricsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ResourceMetricsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceMetricsPayload>[]
+          }
+          delete: {
+            args: Prisma.ResourceMetricsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceMetricsPayload>
+          }
+          update: {
+            args: Prisma.ResourceMetricsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceMetricsPayload>
+          }
+          deleteMany: {
+            args: Prisma.ResourceMetricsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ResourceMetricsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ResourceMetricsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceMetricsPayload>[]
+          }
+          upsert: {
+            args: Prisma.ResourceMetricsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceMetricsPayload>
+          }
+          aggregate: {
+            args: Prisma.ResourceMetricsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateResourceMetrics>
+          }
+          groupBy: {
+            args: Prisma.ResourceMetricsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ResourceMetricsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ResourceMetricsCountArgs<ExtArgs>
+            result: $Utils.Optional<ResourceMetricsCountAggregateOutputType> | number
+          }
+        }
+      }
+    }
+  } & {
+    other: {
+      payload: any
+      operations: {
+        $executeRaw: {
+          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]],
+          result: any
+        }
+        $executeRawUnsafe: {
+          args: [query: string, ...values: any[]],
+          result: any
+        }
+        $queryRaw: {
+          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]],
+          result: any
+        }
+        $queryRawUnsafe: {
+          args: [query: string, ...values: any[]],
+          result: any
+        }
+      }
+    }
+  }
+  export const defineExtension: $Extensions.ExtendsHook<"define", Prisma.TypeMapCb, $Extensions.DefaultArgs>
+  export type DefaultPrismaClient = PrismaClient
+  export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
+  export interface PrismaClientOptions {
+    /**
+     * @default "colorless"
+     */
+    errorFormat?: ErrorFormat
+    /**
+     * @example
+     * ```
+     * // Shorthand for `emit: 'stdout'`
+     * log: ['query', 'info', 'warn', 'error']
+     * 
+     * // Emit as events only
+     * log: [
+     *   { emit: 'event', level: 'query' },
+     *   { emit: 'event', level: 'info' },
+     *   { emit: 'event', level: 'warn' }
+     *   { emit: 'event', level: 'error' }
+     * ]
+     * 
+     * / Emit as events and log to stdout
+     * og: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * 
+     * ```
+     * Read more in our [docs](https://pris.ly/d/logging).
+     */
+    log?: (LogLevel | LogDefinition)[]
+    /**
+     * The default values for transactionOptions
+     * maxWait ?= 2000
+     * timeout ?= 5000
+     */
+    transactionOptions?: {
+      maxWait?: number
+      timeout?: number
+      isolationLevel?: Prisma.TransactionIsolationLevel
+    }
+    /**
+     * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
+     */
+    adapter?: runtime.SqlDriverAdapterFactory
+    /**
+     * Prisma Accelerate URL allowing the client to connect through Accelerate instead of a direct database.
+     */
+    accelerateUrl?: string
+    /**
+     * Global configuration for omitting model fields by default.
+     * 
+     * @example
+     * ```
+     * const prisma = new PrismaClient({
+     *   omit: {
+     *     user: {
+     *       password: true
+     *     }
+     *   }
+     * })
+     * ```
+     */
+    omit?: Prisma.GlobalOmitConfig
+    /**
+     * SQL commenter plugins that add metadata to SQL queries as comments.
+     * Comments follow the sqlcommenter format: https://google.github.io/sqlcommenter/
+     * 
+     * @example
+     * ```
+     * const prisma = new PrismaClient({
+     *   adapter,
+     *   comments: [
+     *     traceContext(),
+     *     queryInsights(),
+     *   ],
+     * })
+     * ```
+     */
+    comments?: runtime.SqlCommenterPlugin[]
+  }
+  export type GlobalOmitConfig = {
+    user?: UserOmit
+    resource?: ResourceOmit
+    resourceVersion?: ResourceVersionOmit
+    relation?: RelationOmit
+    collection?: CollectionOmit
+    collectionResource?: CollectionResourceOmit
+    tag?: TagOmit
+    comment?: CommentOmit
+    savedResource?: SavedResourceOmit
+    resourceUsage?: ResourceUsageOmit
+    resourceMetrics?: ResourceMetricsOmit
+  }
+
+  /* Types for Logging */
+  export type LogLevel = 'info' | 'query' | 'warn' | 'error'
+  export type LogDefinition = {
+    level: LogLevel
+    emit: 'stdout' | 'event'
+  }
+
+  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
+
+  export type GetLogType<T> = CheckIsLogLevel<
+    T extends LogDefinition ? T['level'] : T
+  >;
+
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[number]>
+    : never;
+
+  export type QueryEvent = {
+    timestamp: Date
+    query: string
+    params: string
+    duration: number
+    target: string
+  }
+
+  export type LogEvent = {
+    timestamp: Date
+    message: string
+    target: string
+  }
+  /* End Types for Logging */
+
+
+  export type PrismaAction =
+    | 'findUnique'
+    | 'findUniqueOrThrow'
+    | 'findMany'
+    | 'findFirst'
+    | 'findFirstOrThrow'
+    | 'create'
+    | 'createMany'
+    | 'createManyAndReturn'
+    | 'update'
+    | 'updateMany'
+    | 'updateManyAndReturn'
+    | 'upsert'
+    | 'delete'
+    | 'deleteMany'
+    | 'executeRaw'
+    | 'queryRaw'
+    | 'aggregate'
+    | 'count'
+    | 'runCommandRaw'
+    | 'findRaw'
+    | 'groupBy'
+
+  // tested in getLogLevel.test.ts
+  export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
+
+  /**
+   * `PrismaClient` proxy available in interactive transactions.
+   */
+  export type TransactionClient = Omit<Prisma.DefaultPrismaClient, runtime.ITXClientDenyList>
+
+  export type Datasource = {
+    url?: string
+  }
+
+  /**
+   * Count Types
+   */
+
+
+  /**
+   * Count Type UserCountOutputType
+   */
+
+  export type UserCountOutputType = {
+    resources: number
+    collections: number
+    comments: number
+    savedResources: number
+    usageEvents: number
+    resourceVersions: number
+  }
+
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resources?: boolean | UserCountOutputTypeCountResourcesArgs
+    collections?: boolean | UserCountOutputTypeCountCollectionsArgs
+    comments?: boolean | UserCountOutputTypeCountCommentsArgs
+    savedResources?: boolean | UserCountOutputTypeCountSavedResourcesArgs
+    usageEvents?: boolean | UserCountOutputTypeCountUsageEventsArgs
+    resourceVersions?: boolean | UserCountOutputTypeCountResourceVersionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountResourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCollectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSavedResourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SavedResourceWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUsageEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceUsageWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountResourceVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceVersionWhereInput
+  }
+
+
+  /**
+   * Count Type ResourceCountOutputType
+   */
+
+  export type ResourceCountOutputType = {
+    children: number
+    tags: number
+    outgoingRelations: number
+    incomingRelations: number
+    collections: number
+    comments: number
+    versions: number
+    usageEvents: number
+    savedBy: number
+  }
+
+  export type ResourceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    children?: boolean | ResourceCountOutputTypeCountChildrenArgs
+    tags?: boolean | ResourceCountOutputTypeCountTagsArgs
+    outgoingRelations?: boolean | ResourceCountOutputTypeCountOutgoingRelationsArgs
+    incomingRelations?: boolean | ResourceCountOutputTypeCountIncomingRelationsArgs
+    collections?: boolean | ResourceCountOutputTypeCountCollectionsArgs
+    comments?: boolean | ResourceCountOutputTypeCountCommentsArgs
+    versions?: boolean | ResourceCountOutputTypeCountVersionsArgs
+    usageEvents?: boolean | ResourceCountOutputTypeCountUsageEventsArgs
+    savedBy?: boolean | ResourceCountOutputTypeCountSavedByArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ResourceCountOutputType without action
+   */
+  export type ResourceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceCountOutputType
+     */
+    select?: ResourceCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ResourceCountOutputType without action
+   */
+  export type ResourceCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceWhereInput
+  }
+
+  /**
+   * ResourceCountOutputType without action
+   */
+  export type ResourceCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TagWhereInput
+  }
+
+  /**
+   * ResourceCountOutputType without action
+   */
+  export type ResourceCountOutputTypeCountOutgoingRelationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RelationWhereInput
+  }
+
+  /**
+   * ResourceCountOutputType without action
+   */
+  export type ResourceCountOutputTypeCountIncomingRelationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RelationWhereInput
+  }
+
+  /**
+   * ResourceCountOutputType without action
+   */
+  export type ResourceCountOutputTypeCountCollectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectionResourceWhereInput
+  }
+
+  /**
+   * ResourceCountOutputType without action
+   */
+  export type ResourceCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommentWhereInput
+  }
+
+  /**
+   * ResourceCountOutputType without action
+   */
+  export type ResourceCountOutputTypeCountVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceVersionWhereInput
+  }
+
+  /**
+   * ResourceCountOutputType without action
+   */
+  export type ResourceCountOutputTypeCountUsageEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceUsageWhereInput
+  }
+
+  /**
+   * ResourceCountOutputType without action
+   */
+  export type ResourceCountOutputTypeCountSavedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SavedResourceWhereInput
+  }
+
+
+  /**
+   * Count Type CollectionCountOutputType
+   */
+
+  export type CollectionCountOutputType = {
+    resources: number
+  }
+
+  export type CollectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resources?: boolean | CollectionCountOutputTypeCountResourcesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CollectionCountOutputType without action
+   */
+  export type CollectionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionCountOutputType
+     */
+    select?: CollectionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CollectionCountOutputType without action
+   */
+  export type CollectionCountOutputTypeCountResourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectionResourceWhereInput
+  }
+
+
+  /**
+   * Count Type TagCountOutputType
+   */
+
+  export type TagCountOutputType = {
+    resources: number
+  }
+
+  export type TagCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resources?: boolean | TagCountOutputTypeCountResourcesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TagCountOutputType without action
+   */
+  export type TagCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TagCountOutputType
+     */
+    select?: TagCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TagCountOutputType without action
+   */
+  export type TagCountOutputTypeCountResourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceWhereInput
+  }
+
+
+  /**
+   * Count Type CommentCountOutputType
+   */
+
+  export type CommentCountOutputType = {
+    replies: number
+  }
+
+  export type CommentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    replies?: boolean | CommentCountOutputTypeCountRepliesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CommentCountOutputType without action
+   */
+  export type CommentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommentCountOutputType
+     */
+    select?: CommentCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CommentCountOutputType without action
+   */
+  export type CommentCountOutputTypeCountRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommentWhereInput
+  }
+
+
+  /**
+   * Models
+   */
+
+  /**
+   * Model User
+   */
+
+  export type AggregateUser = {
+    _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
+    _min: UserMinAggregateOutputType | null
+    _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    onboardingStep: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    onboardingStep: number | null
+  }
+
+  export type UserMinAggregateOutputType = {
+    id: string | null
+    identityId: string | null
+    username: string | null
+    email: string | null
+    passwordHash: string | null
+    displayName: string | null
+    avatarUrl: string | null
+    bio: string | null
+    onboardingStep: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    archivedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type UserMaxAggregateOutputType = {
+    id: string | null
+    identityId: string | null
+    username: string | null
+    email: string | null
+    passwordHash: string | null
+    displayName: string | null
+    avatarUrl: string | null
+    bio: string | null
+    onboardingStep: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    archivedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type UserCountAggregateOutputType = {
+    id: number
+    identityId: number
+    username: number
+    email: number
+    passwordHash: number
+    displayName: number
+    avatarUrl: number
+    bio: number
+    onboardingStep: number
+    onboardingJson: number
+    createdAt: number
+    updatedAt: number
+    archivedAt: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type UserAvgAggregateInputType = {
+    onboardingStep?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    onboardingStep?: true
+  }
+
+  export type UserMinAggregateInputType = {
+    id?: true
+    identityId?: true
+    username?: true
+    email?: true
+    passwordHash?: true
+    displayName?: true
+    avatarUrl?: true
+    bio?: true
+    onboardingStep?: true
+    createdAt?: true
+    updatedAt?: true
+    archivedAt?: true
+    deletedAt?: true
+  }
+
+  export type UserMaxAggregateInputType = {
+    id?: true
+    identityId?: true
+    username?: true
+    email?: true
+    passwordHash?: true
+    displayName?: true
+    avatarUrl?: true
+    bio?: true
+    onboardingStep?: true
+    createdAt?: true
+    updatedAt?: true
+    archivedAt?: true
+    deletedAt?: true
+  }
+
+  export type UserCountAggregateInputType = {
+    id?: true
+    identityId?: true
+    username?: true
+    email?: true
+    passwordHash?: true
+    displayName?: true
+    avatarUrl?: true
+    bio?: true
+    onboardingStep?: true
+    onboardingJson?: true
+    createdAt?: true
+    updatedAt?: true
+    archivedAt?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type UserAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which User to aggregate.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Users
+    **/
+    _count?: true | UserCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserMaxAggregateInputType
+  }
+
+  export type GetUserAggregateType<T extends UserAggregateArgs> = {
+        [P in keyof T & keyof AggregateUser]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUser[P]>
+      : GetScalarType<T[P], AggregateUser[P]>
+  }
+
+
+
+
+  export type UserGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithAggregationInput | UserOrderByWithAggregationInput[]
+    by: UserScalarFieldEnum[] | UserScalarFieldEnum
+    having?: UserScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
+    _min?: UserMinAggregateInputType
+    _max?: UserMaxAggregateInputType
+  }
+
+  export type UserGroupByOutputType = {
+    id: string
+    identityId: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName: string | null
+    avatarUrl: string | null
+    bio: string | null
+    onboardingStep: number
+    onboardingJson: JsonValue | null
+    createdAt: Date
+    updatedAt: Date
+    archivedAt: Date | null
+    deletedAt: Date | null
+    _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
+    _min: UserMinAggregateOutputType | null
+    _max: UserMaxAggregateOutputType | null
+  }
+
+  type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserGroupByOutputType[P]>
+            : GetScalarType<T[P], UserGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    identityId?: boolean
+    username?: boolean
+    email?: boolean
+    passwordHash?: boolean
+    displayName?: boolean
+    avatarUrl?: boolean
+    bio?: boolean
+    onboardingStep?: boolean
+    onboardingJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    archivedAt?: boolean
+    deletedAt?: boolean
+    resources?: boolean | User$resourcesArgs<ExtArgs>
+    collections?: boolean | User$collectionsArgs<ExtArgs>
+    comments?: boolean | User$commentsArgs<ExtArgs>
+    savedResources?: boolean | User$savedResourcesArgs<ExtArgs>
+    usageEvents?: boolean | User$usageEventsArgs<ExtArgs>
+    resourceVersions?: boolean | User$resourceVersionsArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["user"]>
+
+  export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    identityId?: boolean
+    username?: boolean
+    email?: boolean
+    passwordHash?: boolean
+    displayName?: boolean
+    avatarUrl?: boolean
+    bio?: boolean
+    onboardingStep?: boolean
+    onboardingJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    archivedAt?: boolean
+    deletedAt?: boolean
+  }, ExtArgs["result"]["user"]>
+
+  export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    identityId?: boolean
+    username?: boolean
+    email?: boolean
+    passwordHash?: boolean
+    displayName?: boolean
+    avatarUrl?: boolean
+    bio?: boolean
+    onboardingStep?: boolean
+    onboardingJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    archivedAt?: boolean
+    deletedAt?: boolean
+  }, ExtArgs["result"]["user"]>
+
+  export type UserSelectScalar = {
+    id?: boolean
+    identityId?: boolean
+    username?: boolean
+    email?: boolean
+    passwordHash?: boolean
+    displayName?: boolean
+    avatarUrl?: boolean
+    bio?: boolean
+    onboardingStep?: boolean
+    onboardingJson?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    archivedAt?: boolean
+    deletedAt?: boolean
+  }
+
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "identityId" | "username" | "email" | "passwordHash" | "displayName" | "avatarUrl" | "bio" | "onboardingStep" | "onboardingJson" | "createdAt" | "updatedAt" | "archivedAt" | "deletedAt", ExtArgs["result"]["user"]>
+  export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resources?: boolean | User$resourcesArgs<ExtArgs>
+    collections?: boolean | User$collectionsArgs<ExtArgs>
+    comments?: boolean | User$commentsArgs<ExtArgs>
+    savedResources?: boolean | User$savedResourcesArgs<ExtArgs>
+    usageEvents?: boolean | User$usageEventsArgs<ExtArgs>
+    resourceVersions?: boolean | User$resourceVersionsArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "User"
+    objects: {
+      resources: Prisma.$ResourcePayload<ExtArgs>[]
+      collections: Prisma.$CollectionPayload<ExtArgs>[]
+      comments: Prisma.$CommentPayload<ExtArgs>[]
+      savedResources: Prisma.$SavedResourcePayload<ExtArgs>[]
+      usageEvents: Prisma.$ResourceUsagePayload<ExtArgs>[]
+      resourceVersions: Prisma.$ResourceVersionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      identityId: string | null
+      username: string
+      email: string
+      passwordHash: string
+      displayName: string | null
+      avatarUrl: string | null
+      bio: string | null
+      onboardingStep: number
+      onboardingJson: Prisma.JsonValue | null
+      createdAt: Date
+      updatedAt: Date
+      archivedAt: Date | null
+      deletedAt: Date | null
+    }, ExtArgs["result"]["user"]>
+    composites: {}
+  }
+
+  type UserGetPayload<S extends boolean | null | undefined | UserDefaultArgs> = $Result.GetResult<Prisma.$UserPayload, S>
+
+  type UserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserCountAggregateInputType | true
+    }
+
+  export interface UserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['User'], meta: { name: 'User' } }
+    /**
+     * Find zero or one User that matches the filter.
+     * @param {UserFindUniqueArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserFindUniqueArgs>(args: SelectSubset<T, UserFindUniqueArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one User that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(args: SelectSubset<T, UserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first User that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindFirstArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserFindFirstArgs>(args?: SelectSubset<T, UserFindFirstArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first User that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindFirstOrThrowArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(args?: SelectSubset<T, UserFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Users that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Users
+     * const users = await prisma.user.findMany()
+     * 
+     * // Get first 10 Users
+     * const users = await prisma.user.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserFindManyArgs>(args?: SelectSubset<T, UserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a User.
+     * @param {UserCreateArgs} args - Arguments to create a User.
+     * @example
+     * // Create one User
+     * const User = await prisma.user.create({
+     *   data: {
+     *     // ... data to create a User
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserCreateArgs>(args: SelectSubset<T, UserCreateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Users.
+     * @param {UserCreateManyArgs} args - Arguments to create many Users.
+     * @example
+     * // Create many Users
+     * const user = await prisma.user.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserCreateManyArgs>(args?: SelectSubset<T, UserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Users and returns the data saved in the database.
+     * @param {UserCreateManyAndReturnArgs} args - Arguments to create many Users.
+     * @example
+     * // Create many Users
+     * const user = await prisma.user.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Users and only return the `id`
+     * const userWithIdOnly = await prisma.user.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserCreateManyAndReturnArgs>(args?: SelectSubset<T, UserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a User.
+     * @param {UserDeleteArgs} args - Arguments to delete one User.
+     * @example
+     * // Delete one User
+     * const User = await prisma.user.delete({
+     *   where: {
+     *     // ... filter to delete one User
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserDeleteArgs>(args: SelectSubset<T, UserDeleteArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one User.
+     * @param {UserUpdateArgs} args - Arguments to update one User.
+     * @example
+     * // Update one User
+     * const user = await prisma.user.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserUpdateArgs>(args: SelectSubset<T, UserUpdateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Users.
+     * @param {UserDeleteManyArgs} args - Arguments to filter Users to delete.
+     * @example
+     * // Delete a few Users
+     * const { count } = await prisma.user.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserDeleteManyArgs>(args?: SelectSubset<T, UserDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Users.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Users
+     * const user = await prisma.user.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserUpdateManyArgs>(args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Users and returns the data updated in the database.
+     * @param {UserUpdateManyAndReturnArgs} args - Arguments to update many Users.
+     * @example
+     * // Update many Users
+     * const user = await prisma.user.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Users and only return the `id`
+     * const userWithIdOnly = await prisma.user.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserUpdateManyAndReturnArgs>(args: SelectSubset<T, UserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one User.
+     * @param {UserUpsertArgs} args - Arguments to update or create a User.
+     * @example
+     * // Update or create a User
+     * const user = await prisma.user.upsert({
+     *   create: {
+     *     // ... data to create a User
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the User we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserUpsertArgs>(args: SelectSubset<T, UserUpsertArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Users.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCountArgs} args - Arguments to filter Users to count.
+     * @example
+     * // Count the number of Users
+     * const count = await prisma.user.count({
+     *   where: {
+     *     // ... the filter for the Users we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserCountArgs>(
+      args?: Subset<T, UserCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a User.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserAggregateArgs>(args: Subset<T, UserAggregateArgs>): Prisma.PrismaPromise<GetUserAggregateType<T>>
+
+    /**
+     * Group by User.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserGroupByArgs['orderBy'] }
+        : { orderBy?: UserGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the User model
+   */
+  readonly fields: UserFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for User.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    resources<T extends User$resourcesArgs<ExtArgs> = {}>(args?: Subset<T, User$resourcesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    collections<T extends User$collectionsArgs<ExtArgs> = {}>(args?: Subset<T, User$collectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    comments<T extends User$commentsArgs<ExtArgs> = {}>(args?: Subset<T, User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    savedResources<T extends User$savedResourcesArgs<ExtArgs> = {}>(args?: Subset<T, User$savedResourcesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    usageEvents<T extends User$usageEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$usageEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    resourceVersions<T extends User$resourceVersionsArgs<ExtArgs> = {}>(args?: Subset<T, User$resourceVersionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the User model
+   */
+  interface UserFieldRefs {
+    readonly id: FieldRef<"User", 'String'>
+    readonly identityId: FieldRef<"User", 'String'>
+    readonly username: FieldRef<"User", 'String'>
+    readonly email: FieldRef<"User", 'String'>
+    readonly passwordHash: FieldRef<"User", 'String'>
+    readonly displayName: FieldRef<"User", 'String'>
+    readonly avatarUrl: FieldRef<"User", 'String'>
+    readonly bio: FieldRef<"User", 'String'>
+    readonly onboardingStep: FieldRef<"User", 'Int'>
+    readonly onboardingJson: FieldRef<"User", 'Json'>
+    readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly archivedAt: FieldRef<"User", 'DateTime'>
+    readonly deletedAt: FieldRef<"User", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * User findUnique
+   */
+  export type UserFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where: UserWhereUniqueInput
+  }
+
+  /**
+   * User findUniqueOrThrow
+   */
+  export type UserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where: UserWhereUniqueInput
+  }
+
+  /**
+   * User findFirst
+   */
+  export type UserFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Users.
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * User findFirstOrThrow
+   */
+  export type UserFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Users.
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * User findMany
+   */
+  export type UserFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * Filter, which Users to fetch.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Users.
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * User create
+   */
+  export type UserCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * The data needed to create a User.
+     */
+    data: XOR<UserCreateInput, UserUncheckedCreateInput>
+  }
+
+  /**
+   * User createMany
+   */
+  export type UserCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Users.
+     */
+    data: UserCreateManyInput | UserCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * User createManyAndReturn
+   */
+  export type UserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * The data used to create many Users.
+     */
+    data: UserCreateManyInput | UserCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * User update
+   */
+  export type UserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * The data needed to update a User.
+     */
+    data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+    /**
+     * Choose, which User to update.
+     */
+    where: UserWhereUniqueInput
+  }
+
+  /**
+   * User updateMany
+   */
+  export type UserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Users.
+     */
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
+    /**
+     * Filter which Users to update
+     */
+    where?: UserWhereInput
+    /**
+     * Limit how many Users to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * User updateManyAndReturn
+   */
+  export type UserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * The data used to update Users.
+     */
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
+    /**
+     * Filter which Users to update
+     */
+    where?: UserWhereInput
+    /**
+     * Limit how many Users to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * User upsert
+   */
+  export type UserUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * The filter to search for the User to update in case it exists.
+     */
+    where: UserWhereUniqueInput
+    /**
+     * In case the User found by the `where` argument doesn't exist, create a new User with this data.
+     */
+    create: XOR<UserCreateInput, UserUncheckedCreateInput>
+    /**
+     * In case the User was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+  }
+
+  /**
+   * User delete
+   */
+  export type UserDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * Filter which User to delete.
+     */
+    where: UserWhereUniqueInput
+  }
+
+  /**
+   * User deleteMany
+   */
+  export type UserDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Users to delete
+     */
+    where?: UserWhereInput
+    /**
+     * Limit how many Users to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * User.resources
+   */
+  export type User$resourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceInclude<ExtArgs> | null
+    where?: ResourceWhereInput
+    orderBy?: ResourceOrderByWithRelationInput | ResourceOrderByWithRelationInput[]
+    cursor?: ResourceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ResourceScalarFieldEnum | ResourceScalarFieldEnum[]
+  }
+
+  /**
+   * User.collections
+   */
+  export type User$collectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collection
+     */
+    select?: CollectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collection
+     */
+    omit?: CollectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionInclude<ExtArgs> | null
+    where?: CollectionWhereInput
+    orderBy?: CollectionOrderByWithRelationInput | CollectionOrderByWithRelationInput[]
+    cursor?: CollectionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CollectionScalarFieldEnum | CollectionScalarFieldEnum[]
+  }
+
+  /**
+   * User.comments
+   */
+  export type User$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    where?: CommentWhereInput
+    orderBy?: CommentOrderByWithRelationInput | CommentOrderByWithRelationInput[]
+    cursor?: CommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+  /**
+   * User.savedResources
+   */
+  export type User$savedResourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedResource
+     */
+    select?: SavedResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedResource
+     */
+    omit?: SavedResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedResourceInclude<ExtArgs> | null
+    where?: SavedResourceWhereInput
+    orderBy?: SavedResourceOrderByWithRelationInput | SavedResourceOrderByWithRelationInput[]
+    cursor?: SavedResourceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SavedResourceScalarFieldEnum | SavedResourceScalarFieldEnum[]
+  }
+
+  /**
+   * User.usageEvents
+   */
+  export type User$usageEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceUsage
+     */
+    select?: ResourceUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceUsage
+     */
+    omit?: ResourceUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceUsageInclude<ExtArgs> | null
+    where?: ResourceUsageWhereInput
+    orderBy?: ResourceUsageOrderByWithRelationInput | ResourceUsageOrderByWithRelationInput[]
+    cursor?: ResourceUsageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ResourceUsageScalarFieldEnum | ResourceUsageScalarFieldEnum[]
+  }
+
+  /**
+   * User.resourceVersions
+   */
+  export type User$resourceVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceVersion
+     */
+    select?: ResourceVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceVersion
+     */
+    omit?: ResourceVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceVersionInclude<ExtArgs> | null
+    where?: ResourceVersionWhereInput
+    orderBy?: ResourceVersionOrderByWithRelationInput | ResourceVersionOrderByWithRelationInput[]
+    cursor?: ResourceVersionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ResourceVersionScalarFieldEnum | ResourceVersionScalarFieldEnum[]
+  }
+
+  /**
+   * User without action
+   */
+  export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Resource
+   */
+
+  export type AggregateResource = {
+    _count: ResourceCountAggregateOutputType | null
+    _avg: ResourceAvgAggregateOutputType | null
+    _sum: ResourceSumAggregateOutputType | null
+    _min: ResourceMinAggregateOutputType | null
+    _max: ResourceMaxAggregateOutputType | null
+  }
+
+  export type ResourceAvgAggregateOutputType = {
+    wordCount: number | null
+    estimatedTime: number | null
+  }
+
+  export type ResourceSumAggregateOutputType = {
+    wordCount: number | null
+    estimatedTime: number | null
+  }
+
+  export type ResourceMinAggregateOutputType = {
+    id: string | null
+    slug: string | null
+    title: string | null
+    description: string | null
+    excerpt: string | null
+    content: string | null
+    type: $Enums.ResourceType | null
+    status: $Enums.ResourceStatus | null
+    visibility: $Enums.Visibility | null
+    category: string | null
+    language: string | null
+    thumbnailUrl: string | null
+    coverImageUrl: string | null
+    fileUrl: string | null
+    wordCount: number | null
+    estimatedTime: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    publishedAt: Date | null
+    archivedAt: Date | null
+    deletedAt: Date | null
+    authorId: string | null
+    parentId: string | null
+  }
+
+  export type ResourceMaxAggregateOutputType = {
+    id: string | null
+    slug: string | null
+    title: string | null
+    description: string | null
+    excerpt: string | null
+    content: string | null
+    type: $Enums.ResourceType | null
+    status: $Enums.ResourceStatus | null
+    visibility: $Enums.Visibility | null
+    category: string | null
+    language: string | null
+    thumbnailUrl: string | null
+    coverImageUrl: string | null
+    fileUrl: string | null
+    wordCount: number | null
+    estimatedTime: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    publishedAt: Date | null
+    archivedAt: Date | null
+    deletedAt: Date | null
+    authorId: string | null
+    parentId: string | null
+  }
+
+  export type ResourceCountAggregateOutputType = {
+    id: number
+    slug: number
+    title: number
+    description: number
+    excerpt: number
+    content: number
+    contentJson: number
+    type: number
+    status: number
+    visibility: number
+    category: number
+    language: number
+    thumbnailUrl: number
+    coverImageUrl: number
+    fileUrl: number
+    metadata: number
+    wordCount: number
+    estimatedTime: number
+    createdAt: number
+    updatedAt: number
+    publishedAt: number
+    archivedAt: number
+    deletedAt: number
+    authorId: number
+    parentId: number
+    _all: number
+  }
+
+
+  export type ResourceAvgAggregateInputType = {
+    wordCount?: true
+    estimatedTime?: true
+  }
+
+  export type ResourceSumAggregateInputType = {
+    wordCount?: true
+    estimatedTime?: true
+  }
+
+  export type ResourceMinAggregateInputType = {
+    id?: true
+    slug?: true
+    title?: true
+    description?: true
+    excerpt?: true
+    content?: true
+    type?: true
+    status?: true
+    visibility?: true
+    category?: true
+    language?: true
+    thumbnailUrl?: true
+    coverImageUrl?: true
+    fileUrl?: true
+    wordCount?: true
+    estimatedTime?: true
+    createdAt?: true
+    updatedAt?: true
+    publishedAt?: true
+    archivedAt?: true
+    deletedAt?: true
+    authorId?: true
+    parentId?: true
+  }
+
+  export type ResourceMaxAggregateInputType = {
+    id?: true
+    slug?: true
+    title?: true
+    description?: true
+    excerpt?: true
+    content?: true
+    type?: true
+    status?: true
+    visibility?: true
+    category?: true
+    language?: true
+    thumbnailUrl?: true
+    coverImageUrl?: true
+    fileUrl?: true
+    wordCount?: true
+    estimatedTime?: true
+    createdAt?: true
+    updatedAt?: true
+    publishedAt?: true
+    archivedAt?: true
+    deletedAt?: true
+    authorId?: true
+    parentId?: true
+  }
+
+  export type ResourceCountAggregateInputType = {
+    id?: true
+    slug?: true
+    title?: true
+    description?: true
+    excerpt?: true
+    content?: true
+    contentJson?: true
+    type?: true
+    status?: true
+    visibility?: true
+    category?: true
+    language?: true
+    thumbnailUrl?: true
+    coverImageUrl?: true
+    fileUrl?: true
+    metadata?: true
+    wordCount?: true
+    estimatedTime?: true
+    createdAt?: true
+    updatedAt?: true
+    publishedAt?: true
+    archivedAt?: true
+    deletedAt?: true
+    authorId?: true
+    parentId?: true
+    _all?: true
+  }
+
+  export type ResourceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Resource to aggregate.
+     */
+    where?: ResourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Resources to fetch.
+     */
+    orderBy?: ResourceOrderByWithRelationInput | ResourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ResourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Resources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Resources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Resources
+    **/
+    _count?: true | ResourceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ResourceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ResourceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ResourceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ResourceMaxAggregateInputType
+  }
+
+  export type GetResourceAggregateType<T extends ResourceAggregateArgs> = {
+        [P in keyof T & keyof AggregateResource]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateResource[P]>
+      : GetScalarType<T[P], AggregateResource[P]>
+  }
+
+
+
+
+  export type ResourceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceWhereInput
+    orderBy?: ResourceOrderByWithAggregationInput | ResourceOrderByWithAggregationInput[]
+    by: ResourceScalarFieldEnum[] | ResourceScalarFieldEnum
+    having?: ResourceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ResourceCountAggregateInputType | true
+    _avg?: ResourceAvgAggregateInputType
+    _sum?: ResourceSumAggregateInputType
+    _min?: ResourceMinAggregateInputType
+    _max?: ResourceMaxAggregateInputType
+  }
+
+  export type ResourceGroupByOutputType = {
+    id: string
+    slug: string | null
+    title: string | null
+    description: string | null
+    excerpt: string | null
+    content: string | null
+    contentJson: JsonValue | null
+    type: $Enums.ResourceType
+    status: $Enums.ResourceStatus
+    visibility: $Enums.Visibility
+    category: string | null
+    language: string | null
+    thumbnailUrl: string | null
+    coverImageUrl: string | null
+    fileUrl: string | null
+    metadata: JsonValue | null
+    wordCount: number | null
+    estimatedTime: number | null
+    createdAt: Date
+    updatedAt: Date
+    publishedAt: Date | null
+    archivedAt: Date | null
+    deletedAt: Date | null
+    authorId: string
+    parentId: string | null
+    _count: ResourceCountAggregateOutputType | null
+    _avg: ResourceAvgAggregateOutputType | null
+    _sum: ResourceSumAggregateOutputType | null
+    _min: ResourceMinAggregateOutputType | null
+    _max: ResourceMaxAggregateOutputType | null
+  }
+
+  type GetResourceGroupByPayload<T extends ResourceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ResourceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ResourceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ResourceGroupByOutputType[P]>
+            : GetScalarType<T[P], ResourceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ResourceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    title?: boolean
+    description?: boolean
+    excerpt?: boolean
+    content?: boolean
+    contentJson?: boolean
+    type?: boolean
+    status?: boolean
+    visibility?: boolean
+    category?: boolean
+    language?: boolean
+    thumbnailUrl?: boolean
+    coverImageUrl?: boolean
+    fileUrl?: boolean
+    metadata?: boolean
+    wordCount?: boolean
+    estimatedTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    publishedAt?: boolean
+    archivedAt?: boolean
+    deletedAt?: boolean
+    authorId?: boolean
+    parentId?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    parent?: boolean | Resource$parentArgs<ExtArgs>
+    children?: boolean | Resource$childrenArgs<ExtArgs>
+    tags?: boolean | Resource$tagsArgs<ExtArgs>
+    outgoingRelations?: boolean | Resource$outgoingRelationsArgs<ExtArgs>
+    incomingRelations?: boolean | Resource$incomingRelationsArgs<ExtArgs>
+    collections?: boolean | Resource$collectionsArgs<ExtArgs>
+    comments?: boolean | Resource$commentsArgs<ExtArgs>
+    metrics?: boolean | Resource$metricsArgs<ExtArgs>
+    versions?: boolean | Resource$versionsArgs<ExtArgs>
+    usageEvents?: boolean | Resource$usageEventsArgs<ExtArgs>
+    savedBy?: boolean | Resource$savedByArgs<ExtArgs>
+    _count?: boolean | ResourceCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["resource"]>
+
+  export type ResourceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    title?: boolean
+    description?: boolean
+    excerpt?: boolean
+    content?: boolean
+    contentJson?: boolean
+    type?: boolean
+    status?: boolean
+    visibility?: boolean
+    category?: boolean
+    language?: boolean
+    thumbnailUrl?: boolean
+    coverImageUrl?: boolean
+    fileUrl?: boolean
+    metadata?: boolean
+    wordCount?: boolean
+    estimatedTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    publishedAt?: boolean
+    archivedAt?: boolean
+    deletedAt?: boolean
+    authorId?: boolean
+    parentId?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    parent?: boolean | Resource$parentArgs<ExtArgs>
+  }, ExtArgs["result"]["resource"]>
+
+  export type ResourceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    title?: boolean
+    description?: boolean
+    excerpt?: boolean
+    content?: boolean
+    contentJson?: boolean
+    type?: boolean
+    status?: boolean
+    visibility?: boolean
+    category?: boolean
+    language?: boolean
+    thumbnailUrl?: boolean
+    coverImageUrl?: boolean
+    fileUrl?: boolean
+    metadata?: boolean
+    wordCount?: boolean
+    estimatedTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    publishedAt?: boolean
+    archivedAt?: boolean
+    deletedAt?: boolean
+    authorId?: boolean
+    parentId?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    parent?: boolean | Resource$parentArgs<ExtArgs>
+  }, ExtArgs["result"]["resource"]>
+
+  export type ResourceSelectScalar = {
+    id?: boolean
+    slug?: boolean
+    title?: boolean
+    description?: boolean
+    excerpt?: boolean
+    content?: boolean
+    contentJson?: boolean
+    type?: boolean
+    status?: boolean
+    visibility?: boolean
+    category?: boolean
+    language?: boolean
+    thumbnailUrl?: boolean
+    coverImageUrl?: boolean
+    fileUrl?: boolean
+    metadata?: boolean
+    wordCount?: boolean
+    estimatedTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    publishedAt?: boolean
+    archivedAt?: boolean
+    deletedAt?: boolean
+    authorId?: boolean
+    parentId?: boolean
+  }
+
+  export type ResourceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "excerpt" | "content" | "contentJson" | "type" | "status" | "visibility" | "category" | "language" | "thumbnailUrl" | "coverImageUrl" | "fileUrl" | "metadata" | "wordCount" | "estimatedTime" | "createdAt" | "updatedAt" | "publishedAt" | "archivedAt" | "deletedAt" | "authorId" | "parentId", ExtArgs["result"]["resource"]>
+  export type ResourceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    parent?: boolean | Resource$parentArgs<ExtArgs>
+    children?: boolean | Resource$childrenArgs<ExtArgs>
+    tags?: boolean | Resource$tagsArgs<ExtArgs>
+    outgoingRelations?: boolean | Resource$outgoingRelationsArgs<ExtArgs>
+    incomingRelations?: boolean | Resource$incomingRelationsArgs<ExtArgs>
+    collections?: boolean | Resource$collectionsArgs<ExtArgs>
+    comments?: boolean | Resource$commentsArgs<ExtArgs>
+    metrics?: boolean | Resource$metricsArgs<ExtArgs>
+    versions?: boolean | Resource$versionsArgs<ExtArgs>
+    usageEvents?: boolean | Resource$usageEventsArgs<ExtArgs>
+    savedBy?: boolean | Resource$savedByArgs<ExtArgs>
+    _count?: boolean | ResourceCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ResourceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    parent?: boolean | Resource$parentArgs<ExtArgs>
+  }
+  export type ResourceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    parent?: boolean | Resource$parentArgs<ExtArgs>
+  }
+
+  export type $ResourcePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Resource"
+    objects: {
+      author: Prisma.$UserPayload<ExtArgs>
+      parent: Prisma.$ResourcePayload<ExtArgs> | null
+      children: Prisma.$ResourcePayload<ExtArgs>[]
+      tags: Prisma.$TagPayload<ExtArgs>[]
+      outgoingRelations: Prisma.$RelationPayload<ExtArgs>[]
+      incomingRelations: Prisma.$RelationPayload<ExtArgs>[]
+      collections: Prisma.$CollectionResourcePayload<ExtArgs>[]
+      comments: Prisma.$CommentPayload<ExtArgs>[]
+      metrics: Prisma.$ResourceMetricsPayload<ExtArgs> | null
+      versions: Prisma.$ResourceVersionPayload<ExtArgs>[]
+      usageEvents: Prisma.$ResourceUsagePayload<ExtArgs>[]
+      savedBy: Prisma.$SavedResourcePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      slug: string | null
+      title: string | null
+      description: string | null
+      excerpt: string | null
+      content: string | null
+      contentJson: Prisma.JsonValue | null
+      type: $Enums.ResourceType
+      status: $Enums.ResourceStatus
+      visibility: $Enums.Visibility
+      category: string | null
+      language: string | null
+      thumbnailUrl: string | null
+      coverImageUrl: string | null
+      fileUrl: string | null
+      metadata: Prisma.JsonValue | null
+      wordCount: number | null
+      estimatedTime: number | null
+      createdAt: Date
+      updatedAt: Date
+      publishedAt: Date | null
+      archivedAt: Date | null
+      deletedAt: Date | null
+      authorId: string
+      parentId: string | null
+    }, ExtArgs["result"]["resource"]>
+    composites: {}
+  }
+
+  type ResourceGetPayload<S extends boolean | null | undefined | ResourceDefaultArgs> = $Result.GetResult<Prisma.$ResourcePayload, S>
+
+  type ResourceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ResourceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ResourceCountAggregateInputType | true
+    }
+
+  export interface ResourceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Resource'], meta: { name: 'Resource' } }
+    /**
+     * Find zero or one Resource that matches the filter.
+     * @param {ResourceFindUniqueArgs} args - Arguments to find a Resource
+     * @example
+     * // Get one Resource
+     * const resource = await prisma.resource.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ResourceFindUniqueArgs>(args: SelectSubset<T, ResourceFindUniqueArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Resource that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ResourceFindUniqueOrThrowArgs} args - Arguments to find a Resource
+     * @example
+     * // Get one Resource
+     * const resource = await prisma.resource.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ResourceFindUniqueOrThrowArgs>(args: SelectSubset<T, ResourceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Resource that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceFindFirstArgs} args - Arguments to find a Resource
+     * @example
+     * // Get one Resource
+     * const resource = await prisma.resource.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ResourceFindFirstArgs>(args?: SelectSubset<T, ResourceFindFirstArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Resource that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceFindFirstOrThrowArgs} args - Arguments to find a Resource
+     * @example
+     * // Get one Resource
+     * const resource = await prisma.resource.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ResourceFindFirstOrThrowArgs>(args?: SelectSubset<T, ResourceFindFirstOrThrowArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Resources that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Resources
+     * const resources = await prisma.resource.findMany()
+     * 
+     * // Get first 10 Resources
+     * const resources = await prisma.resource.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const resourceWithIdOnly = await prisma.resource.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ResourceFindManyArgs>(args?: SelectSubset<T, ResourceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Resource.
+     * @param {ResourceCreateArgs} args - Arguments to create a Resource.
+     * @example
+     * // Create one Resource
+     * const Resource = await prisma.resource.create({
+     *   data: {
+     *     // ... data to create a Resource
+     *   }
+     * })
+     * 
+     */
+    create<T extends ResourceCreateArgs>(args: SelectSubset<T, ResourceCreateArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Resources.
+     * @param {ResourceCreateManyArgs} args - Arguments to create many Resources.
+     * @example
+     * // Create many Resources
+     * const resource = await prisma.resource.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ResourceCreateManyArgs>(args?: SelectSubset<T, ResourceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Resources and returns the data saved in the database.
+     * @param {ResourceCreateManyAndReturnArgs} args - Arguments to create many Resources.
+     * @example
+     * // Create many Resources
+     * const resource = await prisma.resource.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Resources and only return the `id`
+     * const resourceWithIdOnly = await prisma.resource.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ResourceCreateManyAndReturnArgs>(args?: SelectSubset<T, ResourceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Resource.
+     * @param {ResourceDeleteArgs} args - Arguments to delete one Resource.
+     * @example
+     * // Delete one Resource
+     * const Resource = await prisma.resource.delete({
+     *   where: {
+     *     // ... filter to delete one Resource
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ResourceDeleteArgs>(args: SelectSubset<T, ResourceDeleteArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Resource.
+     * @param {ResourceUpdateArgs} args - Arguments to update one Resource.
+     * @example
+     * // Update one Resource
+     * const resource = await prisma.resource.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ResourceUpdateArgs>(args: SelectSubset<T, ResourceUpdateArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Resources.
+     * @param {ResourceDeleteManyArgs} args - Arguments to filter Resources to delete.
+     * @example
+     * // Delete a few Resources
+     * const { count } = await prisma.resource.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ResourceDeleteManyArgs>(args?: SelectSubset<T, ResourceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Resources.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Resources
+     * const resource = await prisma.resource.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ResourceUpdateManyArgs>(args: SelectSubset<T, ResourceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Resources and returns the data updated in the database.
+     * @param {ResourceUpdateManyAndReturnArgs} args - Arguments to update many Resources.
+     * @example
+     * // Update many Resources
+     * const resource = await prisma.resource.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Resources and only return the `id`
+     * const resourceWithIdOnly = await prisma.resource.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ResourceUpdateManyAndReturnArgs>(args: SelectSubset<T, ResourceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Resource.
+     * @param {ResourceUpsertArgs} args - Arguments to update or create a Resource.
+     * @example
+     * // Update or create a Resource
+     * const resource = await prisma.resource.upsert({
+     *   create: {
+     *     // ... data to create a Resource
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Resource we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ResourceUpsertArgs>(args: SelectSubset<T, ResourceUpsertArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Resources.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceCountArgs} args - Arguments to filter Resources to count.
+     * @example
+     * // Count the number of Resources
+     * const count = await prisma.resource.count({
+     *   where: {
+     *     // ... the filter for the Resources we want to count
+     *   }
+     * })
+    **/
+    count<T extends ResourceCountArgs>(
+      args?: Subset<T, ResourceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ResourceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Resource.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ResourceAggregateArgs>(args: Subset<T, ResourceAggregateArgs>): Prisma.PrismaPromise<GetResourceAggregateType<T>>
+
+    /**
+     * Group by Resource.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ResourceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ResourceGroupByArgs['orderBy'] }
+        : { orderBy?: ResourceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ResourceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetResourceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Resource model
+   */
+  readonly fields: ResourceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Resource.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ResourceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    parent<T extends Resource$parentArgs<ExtArgs> = {}>(args?: Subset<T, Resource$parentArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    children<T extends Resource$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Resource$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tags<T extends Resource$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    outgoingRelations<T extends Resource$outgoingRelationsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$outgoingRelationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    incomingRelations<T extends Resource$incomingRelationsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$incomingRelationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    collections<T extends Resource$collectionsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$collectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectionResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    comments<T extends Resource$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    metrics<T extends Resource$metricsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$metricsArgs<ExtArgs>>): Prisma__ResourceMetricsClient<$Result.GetResult<Prisma.$ResourceMetricsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    versions<T extends Resource$versionsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$versionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    usageEvents<T extends Resource$usageEventsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$usageEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    savedBy<T extends Resource$savedByArgs<ExtArgs> = {}>(args?: Subset<T, Resource$savedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Resource model
+   */
+  interface ResourceFieldRefs {
+    readonly id: FieldRef<"Resource", 'String'>
+    readonly slug: FieldRef<"Resource", 'String'>
+    readonly title: FieldRef<"Resource", 'String'>
+    readonly description: FieldRef<"Resource", 'String'>
+    readonly excerpt: FieldRef<"Resource", 'String'>
+    readonly content: FieldRef<"Resource", 'String'>
+    readonly contentJson: FieldRef<"Resource", 'Json'>
+    readonly type: FieldRef<"Resource", 'ResourceType'>
+    readonly status: FieldRef<"Resource", 'ResourceStatus'>
+    readonly visibility: FieldRef<"Resource", 'Visibility'>
+    readonly category: FieldRef<"Resource", 'String'>
+    readonly language: FieldRef<"Resource", 'String'>
+    readonly thumbnailUrl: FieldRef<"Resource", 'String'>
+    readonly coverImageUrl: FieldRef<"Resource", 'String'>
+    readonly fileUrl: FieldRef<"Resource", 'String'>
+    readonly metadata: FieldRef<"Resource", 'Json'>
+    readonly wordCount: FieldRef<"Resource", 'Int'>
+    readonly estimatedTime: FieldRef<"Resource", 'Int'>
+    readonly createdAt: FieldRef<"Resource", 'DateTime'>
+    readonly updatedAt: FieldRef<"Resource", 'DateTime'>
+    readonly publishedAt: FieldRef<"Resource", 'DateTime'>
+    readonly archivedAt: FieldRef<"Resource", 'DateTime'>
+    readonly deletedAt: FieldRef<"Resource", 'DateTime'>
+    readonly authorId: FieldRef<"Resource", 'String'>
+    readonly parentId: FieldRef<"Resource", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Resource findUnique
+   */
+  export type ResourceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which Resource to fetch.
+     */
+    where: ResourceWhereUniqueInput
+  }
+
+  /**
+   * Resource findUniqueOrThrow
+   */
+  export type ResourceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which Resource to fetch.
+     */
+    where: ResourceWhereUniqueInput
+  }
+
+  /**
+   * Resource findFirst
+   */
+  export type ResourceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which Resource to fetch.
+     */
+    where?: ResourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Resources to fetch.
+     */
+    orderBy?: ResourceOrderByWithRelationInput | ResourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Resources.
+     */
+    cursor?: ResourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Resources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Resources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Resources.
+     */
+    distinct?: ResourceScalarFieldEnum | ResourceScalarFieldEnum[]
+  }
+
+  /**
+   * Resource findFirstOrThrow
+   */
+  export type ResourceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which Resource to fetch.
+     */
+    where?: ResourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Resources to fetch.
+     */
+    orderBy?: ResourceOrderByWithRelationInput | ResourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Resources.
+     */
+    cursor?: ResourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Resources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Resources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Resources.
+     */
+    distinct?: ResourceScalarFieldEnum | ResourceScalarFieldEnum[]
+  }
+
+  /**
+   * Resource findMany
+   */
+  export type ResourceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which Resources to fetch.
+     */
+    where?: ResourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Resources to fetch.
+     */
+    orderBy?: ResourceOrderByWithRelationInput | ResourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Resources.
+     */
+    cursor?: ResourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Resources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Resources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Resources.
+     */
+    distinct?: ResourceScalarFieldEnum | ResourceScalarFieldEnum[]
+  }
+
+  /**
+   * Resource create
+   */
+  export type ResourceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Resource.
+     */
+    data: XOR<ResourceCreateInput, ResourceUncheckedCreateInput>
+  }
+
+  /**
+   * Resource createMany
+   */
+  export type ResourceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Resources.
+     */
+    data: ResourceCreateManyInput | ResourceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Resource createManyAndReturn
+   */
+  export type ResourceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * The data used to create many Resources.
+     */
+    data: ResourceCreateManyInput | ResourceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Resource update
+   */
+  export type ResourceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Resource.
+     */
+    data: XOR<ResourceUpdateInput, ResourceUncheckedUpdateInput>
+    /**
+     * Choose, which Resource to update.
+     */
+    where: ResourceWhereUniqueInput
+  }
+
+  /**
+   * Resource updateMany
+   */
+  export type ResourceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Resources.
+     */
+    data: XOR<ResourceUpdateManyMutationInput, ResourceUncheckedUpdateManyInput>
+    /**
+     * Filter which Resources to update
+     */
+    where?: ResourceWhereInput
+    /**
+     * Limit how many Resources to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Resource updateManyAndReturn
+   */
+  export type ResourceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * The data used to update Resources.
+     */
+    data: XOR<ResourceUpdateManyMutationInput, ResourceUncheckedUpdateManyInput>
+    /**
+     * Filter which Resources to update
+     */
+    where?: ResourceWhereInput
+    /**
+     * Limit how many Resources to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Resource upsert
+   */
+  export type ResourceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Resource to update in case it exists.
+     */
+    where: ResourceWhereUniqueInput
+    /**
+     * In case the Resource found by the `where` argument doesn't exist, create a new Resource with this data.
+     */
+    create: XOR<ResourceCreateInput, ResourceUncheckedCreateInput>
+    /**
+     * In case the Resource was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ResourceUpdateInput, ResourceUncheckedUpdateInput>
+  }
+
+  /**
+   * Resource delete
+   */
+  export type ResourceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceInclude<ExtArgs> | null
+    /**
+     * Filter which Resource to delete.
+     */
+    where: ResourceWhereUniqueInput
+  }
+
+  /**
+   * Resource deleteMany
+   */
+  export type ResourceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Resources to delete
+     */
+    where?: ResourceWhereInput
+    /**
+     * Limit how many Resources to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Resource.parent
+   */
+  export type Resource$parentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceInclude<ExtArgs> | null
+    where?: ResourceWhereInput
+  }
+
+  /**
+   * Resource.children
+   */
+  export type Resource$childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceInclude<ExtArgs> | null
+    where?: ResourceWhereInput
+    orderBy?: ResourceOrderByWithRelationInput | ResourceOrderByWithRelationInput[]
+    cursor?: ResourceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ResourceScalarFieldEnum | ResourceScalarFieldEnum[]
+  }
+
+  /**
+   * Resource.tags
+   */
+  export type Resource$tagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    where?: TagWhereInput
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    cursor?: TagWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
+  }
+
+  /**
+   * Resource.outgoingRelations
+   */
+  export type Resource$outgoingRelationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    where?: RelationWhereInput
+    orderBy?: RelationOrderByWithRelationInput | RelationOrderByWithRelationInput[]
+    cursor?: RelationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RelationScalarFieldEnum | RelationScalarFieldEnum[]
+  }
+
+  /**
+   * Resource.incomingRelations
+   */
+  export type Resource$incomingRelationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    where?: RelationWhereInput
+    orderBy?: RelationOrderByWithRelationInput | RelationOrderByWithRelationInput[]
+    cursor?: RelationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RelationScalarFieldEnum | RelationScalarFieldEnum[]
+  }
+
+  /**
+   * Resource.collections
+   */
+  export type Resource$collectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionResource
+     */
+    select?: CollectionResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionResource
+     */
+    omit?: CollectionResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionResourceInclude<ExtArgs> | null
+    where?: CollectionResourceWhereInput
+    orderBy?: CollectionResourceOrderByWithRelationInput | CollectionResourceOrderByWithRelationInput[]
+    cursor?: CollectionResourceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CollectionResourceScalarFieldEnum | CollectionResourceScalarFieldEnum[]
+  }
+
+  /**
+   * Resource.comments
+   */
+  export type Resource$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    where?: CommentWhereInput
+    orderBy?: CommentOrderByWithRelationInput | CommentOrderByWithRelationInput[]
+    cursor?: CommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+  /**
+   * Resource.metrics
+   */
+  export type Resource$metricsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceMetrics
+     */
+    select?: ResourceMetricsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceMetrics
+     */
+    omit?: ResourceMetricsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceMetricsInclude<ExtArgs> | null
+    where?: ResourceMetricsWhereInput
+  }
+
+  /**
+   * Resource.versions
+   */
+  export type Resource$versionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceVersion
+     */
+    select?: ResourceVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceVersion
+     */
+    omit?: ResourceVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceVersionInclude<ExtArgs> | null
+    where?: ResourceVersionWhereInput
+    orderBy?: ResourceVersionOrderByWithRelationInput | ResourceVersionOrderByWithRelationInput[]
+    cursor?: ResourceVersionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ResourceVersionScalarFieldEnum | ResourceVersionScalarFieldEnum[]
+  }
+
+  /**
+   * Resource.usageEvents
+   */
+  export type Resource$usageEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceUsage
+     */
+    select?: ResourceUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceUsage
+     */
+    omit?: ResourceUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceUsageInclude<ExtArgs> | null
+    where?: ResourceUsageWhereInput
+    orderBy?: ResourceUsageOrderByWithRelationInput | ResourceUsageOrderByWithRelationInput[]
+    cursor?: ResourceUsageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ResourceUsageScalarFieldEnum | ResourceUsageScalarFieldEnum[]
+  }
+
+  /**
+   * Resource.savedBy
+   */
+  export type Resource$savedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedResource
+     */
+    select?: SavedResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedResource
+     */
+    omit?: SavedResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedResourceInclude<ExtArgs> | null
+    where?: SavedResourceWhereInput
+    orderBy?: SavedResourceOrderByWithRelationInput | SavedResourceOrderByWithRelationInput[]
+    cursor?: SavedResourceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SavedResourceScalarFieldEnum | SavedResourceScalarFieldEnum[]
+  }
+
+  /**
+   * Resource without action
+   */
+  export type ResourceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ResourceVersion
+   */
+
+  export type AggregateResourceVersion = {
+    _count: ResourceVersionCountAggregateOutputType | null
+    _avg: ResourceVersionAvgAggregateOutputType | null
+    _sum: ResourceVersionSumAggregateOutputType | null
+    _min: ResourceVersionMinAggregateOutputType | null
+    _max: ResourceVersionMaxAggregateOutputType | null
+  }
+
+  export type ResourceVersionAvgAggregateOutputType = {
+    versionNumber: number | null
+  }
+
+  export type ResourceVersionSumAggregateOutputType = {
+    versionNumber: number | null
+  }
+
+  export type ResourceVersionMinAggregateOutputType = {
+    id: string | null
+    resourceId: string | null
+    authorId: string | null
+    versionNumber: number | null
+    title: string | null
+    content: string | null
+    changeSummary: string | null
+    createdAt: Date | null
+  }
+
+  export type ResourceVersionMaxAggregateOutputType = {
+    id: string | null
+    resourceId: string | null
+    authorId: string | null
+    versionNumber: number | null
+    title: string | null
+    content: string | null
+    changeSummary: string | null
+    createdAt: Date | null
+  }
+
+  export type ResourceVersionCountAggregateOutputType = {
+    id: number
+    resourceId: number
+    authorId: number
+    versionNumber: number
+    title: number
+    content: number
+    contentJson: number
+    changeSummary: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ResourceVersionAvgAggregateInputType = {
+    versionNumber?: true
+  }
+
+  export type ResourceVersionSumAggregateInputType = {
+    versionNumber?: true
+  }
+
+  export type ResourceVersionMinAggregateInputType = {
+    id?: true
+    resourceId?: true
+    authorId?: true
+    versionNumber?: true
+    title?: true
+    content?: true
+    changeSummary?: true
+    createdAt?: true
+  }
+
+  export type ResourceVersionMaxAggregateInputType = {
+    id?: true
+    resourceId?: true
+    authorId?: true
+    versionNumber?: true
+    title?: true
+    content?: true
+    changeSummary?: true
+    createdAt?: true
+  }
+
+  export type ResourceVersionCountAggregateInputType = {
+    id?: true
+    resourceId?: true
+    authorId?: true
+    versionNumber?: true
+    title?: true
+    content?: true
+    contentJson?: true
+    changeSummary?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ResourceVersionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ResourceVersion to aggregate.
+     */
+    where?: ResourceVersionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceVersions to fetch.
+     */
+    orderBy?: ResourceVersionOrderByWithRelationInput | ResourceVersionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ResourceVersionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceVersions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceVersions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ResourceVersions
+    **/
+    _count?: true | ResourceVersionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ResourceVersionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ResourceVersionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ResourceVersionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ResourceVersionMaxAggregateInputType
+  }
+
+  export type GetResourceVersionAggregateType<T extends ResourceVersionAggregateArgs> = {
+        [P in keyof T & keyof AggregateResourceVersion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateResourceVersion[P]>
+      : GetScalarType<T[P], AggregateResourceVersion[P]>
+  }
+
+
+
+
+  export type ResourceVersionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceVersionWhereInput
+    orderBy?: ResourceVersionOrderByWithAggregationInput | ResourceVersionOrderByWithAggregationInput[]
+    by: ResourceVersionScalarFieldEnum[] | ResourceVersionScalarFieldEnum
+    having?: ResourceVersionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ResourceVersionCountAggregateInputType | true
+    _avg?: ResourceVersionAvgAggregateInputType
+    _sum?: ResourceVersionSumAggregateInputType
+    _min?: ResourceVersionMinAggregateInputType
+    _max?: ResourceVersionMaxAggregateInputType
+  }
+
+  export type ResourceVersionGroupByOutputType = {
+    id: string
+    resourceId: string
+    authorId: string
+    versionNumber: number
+    title: string
+    content: string | null
+    contentJson: JsonValue | null
+    changeSummary: string | null
+    createdAt: Date
+    _count: ResourceVersionCountAggregateOutputType | null
+    _avg: ResourceVersionAvgAggregateOutputType | null
+    _sum: ResourceVersionSumAggregateOutputType | null
+    _min: ResourceVersionMinAggregateOutputType | null
+    _max: ResourceVersionMaxAggregateOutputType | null
+  }
+
+  type GetResourceVersionGroupByPayload<T extends ResourceVersionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ResourceVersionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ResourceVersionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ResourceVersionGroupByOutputType[P]>
+            : GetScalarType<T[P], ResourceVersionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ResourceVersionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    resourceId?: boolean
+    authorId?: boolean
+    versionNumber?: boolean
+    title?: boolean
+    content?: boolean
+    contentJson?: boolean
+    changeSummary?: boolean
+    createdAt?: boolean
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["resourceVersion"]>
+
+  export type ResourceVersionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    resourceId?: boolean
+    authorId?: boolean
+    versionNumber?: boolean
+    title?: boolean
+    content?: boolean
+    contentJson?: boolean
+    changeSummary?: boolean
+    createdAt?: boolean
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["resourceVersion"]>
+
+  export type ResourceVersionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    resourceId?: boolean
+    authorId?: boolean
+    versionNumber?: boolean
+    title?: boolean
+    content?: boolean
+    contentJson?: boolean
+    changeSummary?: boolean
+    createdAt?: boolean
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["resourceVersion"]>
+
+  export type ResourceVersionSelectScalar = {
+    id?: boolean
+    resourceId?: boolean
+    authorId?: boolean
+    versionNumber?: boolean
+    title?: boolean
+    content?: boolean
+    contentJson?: boolean
+    changeSummary?: boolean
+    createdAt?: boolean
+  }
+
+  export type ResourceVersionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "resourceId" | "authorId" | "versionNumber" | "title" | "content" | "contentJson" | "changeSummary" | "createdAt", ExtArgs["result"]["resourceVersion"]>
+  export type ResourceVersionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ResourceVersionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ResourceVersionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ResourceVersionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ResourceVersion"
+    objects: {
+      resource: Prisma.$ResourcePayload<ExtArgs>
+      author: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      resourceId: string
+      authorId: string
+      versionNumber: number
+      title: string
+      content: string | null
+      contentJson: Prisma.JsonValue | null
+      changeSummary: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["resourceVersion"]>
+    composites: {}
+  }
+
+  type ResourceVersionGetPayload<S extends boolean | null | undefined | ResourceVersionDefaultArgs> = $Result.GetResult<Prisma.$ResourceVersionPayload, S>
+
+  type ResourceVersionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ResourceVersionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ResourceVersionCountAggregateInputType | true
+    }
+
+  export interface ResourceVersionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ResourceVersion'], meta: { name: 'ResourceVersion' } }
+    /**
+     * Find zero or one ResourceVersion that matches the filter.
+     * @param {ResourceVersionFindUniqueArgs} args - Arguments to find a ResourceVersion
+     * @example
+     * // Get one ResourceVersion
+     * const resourceVersion = await prisma.resourceVersion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ResourceVersionFindUniqueArgs>(args: SelectSubset<T, ResourceVersionFindUniqueArgs<ExtArgs>>): Prisma__ResourceVersionClient<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ResourceVersion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ResourceVersionFindUniqueOrThrowArgs} args - Arguments to find a ResourceVersion
+     * @example
+     * // Get one ResourceVersion
+     * const resourceVersion = await prisma.resourceVersion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ResourceVersionFindUniqueOrThrowArgs>(args: SelectSubset<T, ResourceVersionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ResourceVersionClient<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ResourceVersion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceVersionFindFirstArgs} args - Arguments to find a ResourceVersion
+     * @example
+     * // Get one ResourceVersion
+     * const resourceVersion = await prisma.resourceVersion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ResourceVersionFindFirstArgs>(args?: SelectSubset<T, ResourceVersionFindFirstArgs<ExtArgs>>): Prisma__ResourceVersionClient<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ResourceVersion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceVersionFindFirstOrThrowArgs} args - Arguments to find a ResourceVersion
+     * @example
+     * // Get one ResourceVersion
+     * const resourceVersion = await prisma.resourceVersion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ResourceVersionFindFirstOrThrowArgs>(args?: SelectSubset<T, ResourceVersionFindFirstOrThrowArgs<ExtArgs>>): Prisma__ResourceVersionClient<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ResourceVersions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceVersionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ResourceVersions
+     * const resourceVersions = await prisma.resourceVersion.findMany()
+     * 
+     * // Get first 10 ResourceVersions
+     * const resourceVersions = await prisma.resourceVersion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const resourceVersionWithIdOnly = await prisma.resourceVersion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ResourceVersionFindManyArgs>(args?: SelectSubset<T, ResourceVersionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ResourceVersion.
+     * @param {ResourceVersionCreateArgs} args - Arguments to create a ResourceVersion.
+     * @example
+     * // Create one ResourceVersion
+     * const ResourceVersion = await prisma.resourceVersion.create({
+     *   data: {
+     *     // ... data to create a ResourceVersion
+     *   }
+     * })
+     * 
+     */
+    create<T extends ResourceVersionCreateArgs>(args: SelectSubset<T, ResourceVersionCreateArgs<ExtArgs>>): Prisma__ResourceVersionClient<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ResourceVersions.
+     * @param {ResourceVersionCreateManyArgs} args - Arguments to create many ResourceVersions.
+     * @example
+     * // Create many ResourceVersions
+     * const resourceVersion = await prisma.resourceVersion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ResourceVersionCreateManyArgs>(args?: SelectSubset<T, ResourceVersionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ResourceVersions and returns the data saved in the database.
+     * @param {ResourceVersionCreateManyAndReturnArgs} args - Arguments to create many ResourceVersions.
+     * @example
+     * // Create many ResourceVersions
+     * const resourceVersion = await prisma.resourceVersion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ResourceVersions and only return the `id`
+     * const resourceVersionWithIdOnly = await prisma.resourceVersion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ResourceVersionCreateManyAndReturnArgs>(args?: SelectSubset<T, ResourceVersionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ResourceVersion.
+     * @param {ResourceVersionDeleteArgs} args - Arguments to delete one ResourceVersion.
+     * @example
+     * // Delete one ResourceVersion
+     * const ResourceVersion = await prisma.resourceVersion.delete({
+     *   where: {
+     *     // ... filter to delete one ResourceVersion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ResourceVersionDeleteArgs>(args: SelectSubset<T, ResourceVersionDeleteArgs<ExtArgs>>): Prisma__ResourceVersionClient<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ResourceVersion.
+     * @param {ResourceVersionUpdateArgs} args - Arguments to update one ResourceVersion.
+     * @example
+     * // Update one ResourceVersion
+     * const resourceVersion = await prisma.resourceVersion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ResourceVersionUpdateArgs>(args: SelectSubset<T, ResourceVersionUpdateArgs<ExtArgs>>): Prisma__ResourceVersionClient<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ResourceVersions.
+     * @param {ResourceVersionDeleteManyArgs} args - Arguments to filter ResourceVersions to delete.
+     * @example
+     * // Delete a few ResourceVersions
+     * const { count } = await prisma.resourceVersion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ResourceVersionDeleteManyArgs>(args?: SelectSubset<T, ResourceVersionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ResourceVersions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceVersionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ResourceVersions
+     * const resourceVersion = await prisma.resourceVersion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ResourceVersionUpdateManyArgs>(args: SelectSubset<T, ResourceVersionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ResourceVersions and returns the data updated in the database.
+     * @param {ResourceVersionUpdateManyAndReturnArgs} args - Arguments to update many ResourceVersions.
+     * @example
+     * // Update many ResourceVersions
+     * const resourceVersion = await prisma.resourceVersion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ResourceVersions and only return the `id`
+     * const resourceVersionWithIdOnly = await prisma.resourceVersion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ResourceVersionUpdateManyAndReturnArgs>(args: SelectSubset<T, ResourceVersionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ResourceVersion.
+     * @param {ResourceVersionUpsertArgs} args - Arguments to update or create a ResourceVersion.
+     * @example
+     * // Update or create a ResourceVersion
+     * const resourceVersion = await prisma.resourceVersion.upsert({
+     *   create: {
+     *     // ... data to create a ResourceVersion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ResourceVersion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ResourceVersionUpsertArgs>(args: SelectSubset<T, ResourceVersionUpsertArgs<ExtArgs>>): Prisma__ResourceVersionClient<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ResourceVersions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceVersionCountArgs} args - Arguments to filter ResourceVersions to count.
+     * @example
+     * // Count the number of ResourceVersions
+     * const count = await prisma.resourceVersion.count({
+     *   where: {
+     *     // ... the filter for the ResourceVersions we want to count
+     *   }
+     * })
+    **/
+    count<T extends ResourceVersionCountArgs>(
+      args?: Subset<T, ResourceVersionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ResourceVersionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ResourceVersion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceVersionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ResourceVersionAggregateArgs>(args: Subset<T, ResourceVersionAggregateArgs>): Prisma.PrismaPromise<GetResourceVersionAggregateType<T>>
+
+    /**
+     * Group by ResourceVersion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceVersionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ResourceVersionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ResourceVersionGroupByArgs['orderBy'] }
+        : { orderBy?: ResourceVersionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ResourceVersionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetResourceVersionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ResourceVersion model
+   */
+  readonly fields: ResourceVersionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ResourceVersion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ResourceVersionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    resource<T extends ResourceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResourceDefaultArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ResourceVersion model
+   */
+  interface ResourceVersionFieldRefs {
+    readonly id: FieldRef<"ResourceVersion", 'String'>
+    readonly resourceId: FieldRef<"ResourceVersion", 'String'>
+    readonly authorId: FieldRef<"ResourceVersion", 'String'>
+    readonly versionNumber: FieldRef<"ResourceVersion", 'Int'>
+    readonly title: FieldRef<"ResourceVersion", 'String'>
+    readonly content: FieldRef<"ResourceVersion", 'String'>
+    readonly contentJson: FieldRef<"ResourceVersion", 'Json'>
+    readonly changeSummary: FieldRef<"ResourceVersion", 'String'>
+    readonly createdAt: FieldRef<"ResourceVersion", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ResourceVersion findUnique
+   */
+  export type ResourceVersionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceVersion
+     */
+    select?: ResourceVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceVersion
+     */
+    omit?: ResourceVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceVersion to fetch.
+     */
+    where: ResourceVersionWhereUniqueInput
+  }
+
+  /**
+   * ResourceVersion findUniqueOrThrow
+   */
+  export type ResourceVersionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceVersion
+     */
+    select?: ResourceVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceVersion
+     */
+    omit?: ResourceVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceVersion to fetch.
+     */
+    where: ResourceVersionWhereUniqueInput
+  }
+
+  /**
+   * ResourceVersion findFirst
+   */
+  export type ResourceVersionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceVersion
+     */
+    select?: ResourceVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceVersion
+     */
+    omit?: ResourceVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceVersion to fetch.
+     */
+    where?: ResourceVersionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceVersions to fetch.
+     */
+    orderBy?: ResourceVersionOrderByWithRelationInput | ResourceVersionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ResourceVersions.
+     */
+    cursor?: ResourceVersionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceVersions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceVersions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ResourceVersions.
+     */
+    distinct?: ResourceVersionScalarFieldEnum | ResourceVersionScalarFieldEnum[]
+  }
+
+  /**
+   * ResourceVersion findFirstOrThrow
+   */
+  export type ResourceVersionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceVersion
+     */
+    select?: ResourceVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceVersion
+     */
+    omit?: ResourceVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceVersion to fetch.
+     */
+    where?: ResourceVersionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceVersions to fetch.
+     */
+    orderBy?: ResourceVersionOrderByWithRelationInput | ResourceVersionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ResourceVersions.
+     */
+    cursor?: ResourceVersionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceVersions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceVersions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ResourceVersions.
+     */
+    distinct?: ResourceVersionScalarFieldEnum | ResourceVersionScalarFieldEnum[]
+  }
+
+  /**
+   * ResourceVersion findMany
+   */
+  export type ResourceVersionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceVersion
+     */
+    select?: ResourceVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceVersion
+     */
+    omit?: ResourceVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceVersions to fetch.
+     */
+    where?: ResourceVersionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceVersions to fetch.
+     */
+    orderBy?: ResourceVersionOrderByWithRelationInput | ResourceVersionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ResourceVersions.
+     */
+    cursor?: ResourceVersionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceVersions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceVersions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ResourceVersions.
+     */
+    distinct?: ResourceVersionScalarFieldEnum | ResourceVersionScalarFieldEnum[]
+  }
+
+  /**
+   * ResourceVersion create
+   */
+  export type ResourceVersionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceVersion
+     */
+    select?: ResourceVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceVersion
+     */
+    omit?: ResourceVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceVersionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ResourceVersion.
+     */
+    data: XOR<ResourceVersionCreateInput, ResourceVersionUncheckedCreateInput>
+  }
+
+  /**
+   * ResourceVersion createMany
+   */
+  export type ResourceVersionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ResourceVersions.
+     */
+    data: ResourceVersionCreateManyInput | ResourceVersionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ResourceVersion createManyAndReturn
+   */
+  export type ResourceVersionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceVersion
+     */
+    select?: ResourceVersionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceVersion
+     */
+    omit?: ResourceVersionOmit<ExtArgs> | null
+    /**
+     * The data used to create many ResourceVersions.
+     */
+    data: ResourceVersionCreateManyInput | ResourceVersionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceVersionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ResourceVersion update
+   */
+  export type ResourceVersionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceVersion
+     */
+    select?: ResourceVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceVersion
+     */
+    omit?: ResourceVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceVersionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ResourceVersion.
+     */
+    data: XOR<ResourceVersionUpdateInput, ResourceVersionUncheckedUpdateInput>
+    /**
+     * Choose, which ResourceVersion to update.
+     */
+    where: ResourceVersionWhereUniqueInput
+  }
+
+  /**
+   * ResourceVersion updateMany
+   */
+  export type ResourceVersionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ResourceVersions.
+     */
+    data: XOR<ResourceVersionUpdateManyMutationInput, ResourceVersionUncheckedUpdateManyInput>
+    /**
+     * Filter which ResourceVersions to update
+     */
+    where?: ResourceVersionWhereInput
+    /**
+     * Limit how many ResourceVersions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ResourceVersion updateManyAndReturn
+   */
+  export type ResourceVersionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceVersion
+     */
+    select?: ResourceVersionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceVersion
+     */
+    omit?: ResourceVersionOmit<ExtArgs> | null
+    /**
+     * The data used to update ResourceVersions.
+     */
+    data: XOR<ResourceVersionUpdateManyMutationInput, ResourceVersionUncheckedUpdateManyInput>
+    /**
+     * Filter which ResourceVersions to update
+     */
+    where?: ResourceVersionWhereInput
+    /**
+     * Limit how many ResourceVersions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceVersionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ResourceVersion upsert
+   */
+  export type ResourceVersionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceVersion
+     */
+    select?: ResourceVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceVersion
+     */
+    omit?: ResourceVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceVersionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ResourceVersion to update in case it exists.
+     */
+    where: ResourceVersionWhereUniqueInput
+    /**
+     * In case the ResourceVersion found by the `where` argument doesn't exist, create a new ResourceVersion with this data.
+     */
+    create: XOR<ResourceVersionCreateInput, ResourceVersionUncheckedCreateInput>
+    /**
+     * In case the ResourceVersion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ResourceVersionUpdateInput, ResourceVersionUncheckedUpdateInput>
+  }
+
+  /**
+   * ResourceVersion delete
+   */
+  export type ResourceVersionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceVersion
+     */
+    select?: ResourceVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceVersion
+     */
+    omit?: ResourceVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceVersionInclude<ExtArgs> | null
+    /**
+     * Filter which ResourceVersion to delete.
+     */
+    where: ResourceVersionWhereUniqueInput
+  }
+
+  /**
+   * ResourceVersion deleteMany
+   */
+  export type ResourceVersionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ResourceVersions to delete
+     */
+    where?: ResourceVersionWhereInput
+    /**
+     * Limit how many ResourceVersions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ResourceVersion without action
+   */
+  export type ResourceVersionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceVersion
+     */
+    select?: ResourceVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceVersion
+     */
+    omit?: ResourceVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceVersionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Relation
+   */
+
+  export type AggregateRelation = {
+    _count: RelationCountAggregateOutputType | null
+    _min: RelationMinAggregateOutputType | null
+    _max: RelationMaxAggregateOutputType | null
+  }
+
+  export type RelationMinAggregateOutputType = {
+    id: string | null
+    type: $Enums.RelationType | null
+    fromId: string | null
+    toId: string | null
+    createdAt: Date | null
+  }
+
+  export type RelationMaxAggregateOutputType = {
+    id: string | null
+    type: $Enums.RelationType | null
+    fromId: string | null
+    toId: string | null
+    createdAt: Date | null
+  }
+
+  export type RelationCountAggregateOutputType = {
+    id: number
+    type: number
+    fromId: number
+    toId: number
+    metadata: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RelationMinAggregateInputType = {
+    id?: true
+    type?: true
+    fromId?: true
+    toId?: true
+    createdAt?: true
+  }
+
+  export type RelationMaxAggregateInputType = {
+    id?: true
+    type?: true
+    fromId?: true
+    toId?: true
+    createdAt?: true
+  }
+
+  export type RelationCountAggregateInputType = {
+    id?: true
+    type?: true
+    fromId?: true
+    toId?: true
+    metadata?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RelationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Relation to aggregate.
+     */
+    where?: RelationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Relations to fetch.
+     */
+    orderBy?: RelationOrderByWithRelationInput | RelationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RelationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Relations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Relations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Relations
+    **/
+    _count?: true | RelationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RelationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RelationMaxAggregateInputType
+  }
+
+  export type GetRelationAggregateType<T extends RelationAggregateArgs> = {
+        [P in keyof T & keyof AggregateRelation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRelation[P]>
+      : GetScalarType<T[P], AggregateRelation[P]>
+  }
+
+
+
+
+  export type RelationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RelationWhereInput
+    orderBy?: RelationOrderByWithAggregationInput | RelationOrderByWithAggregationInput[]
+    by: RelationScalarFieldEnum[] | RelationScalarFieldEnum
+    having?: RelationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RelationCountAggregateInputType | true
+    _min?: RelationMinAggregateInputType
+    _max?: RelationMaxAggregateInputType
+  }
+
+  export type RelationGroupByOutputType = {
+    id: string
+    type: $Enums.RelationType
+    fromId: string
+    toId: string
+    metadata: JsonValue | null
+    createdAt: Date
+    _count: RelationCountAggregateOutputType | null
+    _min: RelationMinAggregateOutputType | null
+    _max: RelationMaxAggregateOutputType | null
+  }
+
+  type GetRelationGroupByPayload<T extends RelationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RelationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RelationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RelationGroupByOutputType[P]>
+            : GetScalarType<T[P], RelationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RelationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    fromId?: boolean
+    toId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    from?: boolean | ResourceDefaultArgs<ExtArgs>
+    to?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["relation"]>
+
+  export type RelationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    fromId?: boolean
+    toId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    from?: boolean | ResourceDefaultArgs<ExtArgs>
+    to?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["relation"]>
+
+  export type RelationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    fromId?: boolean
+    toId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    from?: boolean | ResourceDefaultArgs<ExtArgs>
+    to?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["relation"]>
+
+  export type RelationSelectScalar = {
+    id?: boolean
+    type?: boolean
+    fromId?: boolean
+    toId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+  }
+
+  export type RelationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "fromId" | "toId" | "metadata" | "createdAt", ExtArgs["result"]["relation"]>
+  export type RelationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    from?: boolean | ResourceDefaultArgs<ExtArgs>
+    to?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+  export type RelationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    from?: boolean | ResourceDefaultArgs<ExtArgs>
+    to?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+  export type RelationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    from?: boolean | ResourceDefaultArgs<ExtArgs>
+    to?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+
+  export type $RelationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Relation"
+    objects: {
+      from: Prisma.$ResourcePayload<ExtArgs>
+      to: Prisma.$ResourcePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      type: $Enums.RelationType
+      fromId: string
+      toId: string
+      metadata: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["relation"]>
+    composites: {}
+  }
+
+  type RelationGetPayload<S extends boolean | null | undefined | RelationDefaultArgs> = $Result.GetResult<Prisma.$RelationPayload, S>
+
+  type RelationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RelationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RelationCountAggregateInputType | true
+    }
+
+  export interface RelationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Relation'], meta: { name: 'Relation' } }
+    /**
+     * Find zero or one Relation that matches the filter.
+     * @param {RelationFindUniqueArgs} args - Arguments to find a Relation
+     * @example
+     * // Get one Relation
+     * const relation = await prisma.relation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RelationFindUniqueArgs>(args: SelectSubset<T, RelationFindUniqueArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Relation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RelationFindUniqueOrThrowArgs} args - Arguments to find a Relation
+     * @example
+     * // Get one Relation
+     * const relation = await prisma.relation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RelationFindUniqueOrThrowArgs>(args: SelectSubset<T, RelationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Relation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationFindFirstArgs} args - Arguments to find a Relation
+     * @example
+     * // Get one Relation
+     * const relation = await prisma.relation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RelationFindFirstArgs>(args?: SelectSubset<T, RelationFindFirstArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Relation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationFindFirstOrThrowArgs} args - Arguments to find a Relation
+     * @example
+     * // Get one Relation
+     * const relation = await prisma.relation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RelationFindFirstOrThrowArgs>(args?: SelectSubset<T, RelationFindFirstOrThrowArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Relations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Relations
+     * const relations = await prisma.relation.findMany()
+     * 
+     * // Get first 10 Relations
+     * const relations = await prisma.relation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const relationWithIdOnly = await prisma.relation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RelationFindManyArgs>(args?: SelectSubset<T, RelationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Relation.
+     * @param {RelationCreateArgs} args - Arguments to create a Relation.
+     * @example
+     * // Create one Relation
+     * const Relation = await prisma.relation.create({
+     *   data: {
+     *     // ... data to create a Relation
+     *   }
+     * })
+     * 
+     */
+    create<T extends RelationCreateArgs>(args: SelectSubset<T, RelationCreateArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Relations.
+     * @param {RelationCreateManyArgs} args - Arguments to create many Relations.
+     * @example
+     * // Create many Relations
+     * const relation = await prisma.relation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RelationCreateManyArgs>(args?: SelectSubset<T, RelationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Relations and returns the data saved in the database.
+     * @param {RelationCreateManyAndReturnArgs} args - Arguments to create many Relations.
+     * @example
+     * // Create many Relations
+     * const relation = await prisma.relation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Relations and only return the `id`
+     * const relationWithIdOnly = await prisma.relation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RelationCreateManyAndReturnArgs>(args?: SelectSubset<T, RelationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Relation.
+     * @param {RelationDeleteArgs} args - Arguments to delete one Relation.
+     * @example
+     * // Delete one Relation
+     * const Relation = await prisma.relation.delete({
+     *   where: {
+     *     // ... filter to delete one Relation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RelationDeleteArgs>(args: SelectSubset<T, RelationDeleteArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Relation.
+     * @param {RelationUpdateArgs} args - Arguments to update one Relation.
+     * @example
+     * // Update one Relation
+     * const relation = await prisma.relation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RelationUpdateArgs>(args: SelectSubset<T, RelationUpdateArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Relations.
+     * @param {RelationDeleteManyArgs} args - Arguments to filter Relations to delete.
+     * @example
+     * // Delete a few Relations
+     * const { count } = await prisma.relation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RelationDeleteManyArgs>(args?: SelectSubset<T, RelationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Relations
+     * const relation = await prisma.relation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RelationUpdateManyArgs>(args: SelectSubset<T, RelationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Relations and returns the data updated in the database.
+     * @param {RelationUpdateManyAndReturnArgs} args - Arguments to update many Relations.
+     * @example
+     * // Update many Relations
+     * const relation = await prisma.relation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Relations and only return the `id`
+     * const relationWithIdOnly = await prisma.relation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RelationUpdateManyAndReturnArgs>(args: SelectSubset<T, RelationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Relation.
+     * @param {RelationUpsertArgs} args - Arguments to update or create a Relation.
+     * @example
+     * // Update or create a Relation
+     * const relation = await prisma.relation.upsert({
+     *   create: {
+     *     // ... data to create a Relation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Relation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RelationUpsertArgs>(args: SelectSubset<T, RelationUpsertArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationCountArgs} args - Arguments to filter Relations to count.
+     * @example
+     * // Count the number of Relations
+     * const count = await prisma.relation.count({
+     *   where: {
+     *     // ... the filter for the Relations we want to count
+     *   }
+     * })
+    **/
+    count<T extends RelationCountArgs>(
+      args?: Subset<T, RelationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RelationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Relation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RelationAggregateArgs>(args: Subset<T, RelationAggregateArgs>): Prisma.PrismaPromise<GetRelationAggregateType<T>>
+
+    /**
+     * Group by Relation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RelationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RelationGroupByArgs['orderBy'] }
+        : { orderBy?: RelationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RelationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRelationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Relation model
+   */
+  readonly fields: RelationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Relation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RelationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    from<T extends ResourceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResourceDefaultArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    to<T extends ResourceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResourceDefaultArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Relation model
+   */
+  interface RelationFieldRefs {
+    readonly id: FieldRef<"Relation", 'String'>
+    readonly type: FieldRef<"Relation", 'RelationType'>
+    readonly fromId: FieldRef<"Relation", 'String'>
+    readonly toId: FieldRef<"Relation", 'String'>
+    readonly metadata: FieldRef<"Relation", 'Json'>
+    readonly createdAt: FieldRef<"Relation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Relation findUnique
+   */
+  export type RelationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * Filter, which Relation to fetch.
+     */
+    where: RelationWhereUniqueInput
+  }
+
+  /**
+   * Relation findUniqueOrThrow
+   */
+  export type RelationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * Filter, which Relation to fetch.
+     */
+    where: RelationWhereUniqueInput
+  }
+
+  /**
+   * Relation findFirst
+   */
+  export type RelationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * Filter, which Relation to fetch.
+     */
+    where?: RelationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Relations to fetch.
+     */
+    orderBy?: RelationOrderByWithRelationInput | RelationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Relations.
+     */
+    cursor?: RelationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Relations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Relations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Relations.
+     */
+    distinct?: RelationScalarFieldEnum | RelationScalarFieldEnum[]
+  }
+
+  /**
+   * Relation findFirstOrThrow
+   */
+  export type RelationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * Filter, which Relation to fetch.
+     */
+    where?: RelationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Relations to fetch.
+     */
+    orderBy?: RelationOrderByWithRelationInput | RelationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Relations.
+     */
+    cursor?: RelationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Relations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Relations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Relations.
+     */
+    distinct?: RelationScalarFieldEnum | RelationScalarFieldEnum[]
+  }
+
+  /**
+   * Relation findMany
+   */
+  export type RelationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * Filter, which Relations to fetch.
+     */
+    where?: RelationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Relations to fetch.
+     */
+    orderBy?: RelationOrderByWithRelationInput | RelationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Relations.
+     */
+    cursor?: RelationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Relations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Relations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Relations.
+     */
+    distinct?: RelationScalarFieldEnum | RelationScalarFieldEnum[]
+  }
+
+  /**
+   * Relation create
+   */
+  export type RelationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Relation.
+     */
+    data: XOR<RelationCreateInput, RelationUncheckedCreateInput>
+  }
+
+  /**
+   * Relation createMany
+   */
+  export type RelationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Relations.
+     */
+    data: RelationCreateManyInput | RelationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Relation createManyAndReturn
+   */
+  export type RelationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Relations.
+     */
+    data: RelationCreateManyInput | RelationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Relation update
+   */
+  export type RelationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Relation.
+     */
+    data: XOR<RelationUpdateInput, RelationUncheckedUpdateInput>
+    /**
+     * Choose, which Relation to update.
+     */
+    where: RelationWhereUniqueInput
+  }
+
+  /**
+   * Relation updateMany
+   */
+  export type RelationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Relations.
+     */
+    data: XOR<RelationUpdateManyMutationInput, RelationUncheckedUpdateManyInput>
+    /**
+     * Filter which Relations to update
+     */
+    where?: RelationWhereInput
+    /**
+     * Limit how many Relations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Relation updateManyAndReturn
+   */
+  export type RelationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * The data used to update Relations.
+     */
+    data: XOR<RelationUpdateManyMutationInput, RelationUncheckedUpdateManyInput>
+    /**
+     * Filter which Relations to update
+     */
+    where?: RelationWhereInput
+    /**
+     * Limit how many Relations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Relation upsert
+   */
+  export type RelationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Relation to update in case it exists.
+     */
+    where: RelationWhereUniqueInput
+    /**
+     * In case the Relation found by the `where` argument doesn't exist, create a new Relation with this data.
+     */
+    create: XOR<RelationCreateInput, RelationUncheckedCreateInput>
+    /**
+     * In case the Relation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RelationUpdateInput, RelationUncheckedUpdateInput>
+  }
+
+  /**
+   * Relation delete
+   */
+  export type RelationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * Filter which Relation to delete.
+     */
+    where: RelationWhereUniqueInput
+  }
+
+  /**
+   * Relation deleteMany
+   */
+  export type RelationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Relations to delete
+     */
+    where?: RelationWhereInput
+    /**
+     * Limit how many Relations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Relation without action
+   */
+  export type RelationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Collection
+   */
+
+  export type AggregateCollection = {
+    _count: CollectionCountAggregateOutputType | null
+    _min: CollectionMinAggregateOutputType | null
+    _max: CollectionMaxAggregateOutputType | null
+  }
+
+  export type CollectionMinAggregateOutputType = {
+    id: string | null
+    slug: string | null
+    title: string | null
+    description: string | null
+    visibility: $Enums.Visibility | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    archivedAt: Date | null
+    deletedAt: Date | null
+    authorId: string | null
+  }
+
+  export type CollectionMaxAggregateOutputType = {
+    id: string | null
+    slug: string | null
+    title: string | null
+    description: string | null
+    visibility: $Enums.Visibility | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    archivedAt: Date | null
+    deletedAt: Date | null
+    authorId: string | null
+  }
+
+  export type CollectionCountAggregateOutputType = {
+    id: number
+    slug: number
+    title: number
+    description: number
+    visibility: number
+    metadata: number
+    createdAt: number
+    updatedAt: number
+    archivedAt: number
+    deletedAt: number
+    authorId: number
+    _all: number
+  }
+
+
+  export type CollectionMinAggregateInputType = {
+    id?: true
+    slug?: true
+    title?: true
+    description?: true
+    visibility?: true
+    createdAt?: true
+    updatedAt?: true
+    archivedAt?: true
+    deletedAt?: true
+    authorId?: true
+  }
+
+  export type CollectionMaxAggregateInputType = {
+    id?: true
+    slug?: true
+    title?: true
+    description?: true
+    visibility?: true
+    createdAt?: true
+    updatedAt?: true
+    archivedAt?: true
+    deletedAt?: true
+    authorId?: true
+  }
+
+  export type CollectionCountAggregateInputType = {
+    id?: true
+    slug?: true
+    title?: true
+    description?: true
+    visibility?: true
+    metadata?: true
+    createdAt?: true
+    updatedAt?: true
+    archivedAt?: true
+    deletedAt?: true
+    authorId?: true
+    _all?: true
+  }
+
+  export type CollectionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Collection to aggregate.
+     */
+    where?: CollectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Collections to fetch.
+     */
+    orderBy?: CollectionOrderByWithRelationInput | CollectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CollectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Collections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Collections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Collections
+    **/
+    _count?: true | CollectionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CollectionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CollectionMaxAggregateInputType
+  }
+
+  export type GetCollectionAggregateType<T extends CollectionAggregateArgs> = {
+        [P in keyof T & keyof AggregateCollection]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCollection[P]>
+      : GetScalarType<T[P], AggregateCollection[P]>
+  }
+
+
+
+
+  export type CollectionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectionWhereInput
+    orderBy?: CollectionOrderByWithAggregationInput | CollectionOrderByWithAggregationInput[]
+    by: CollectionScalarFieldEnum[] | CollectionScalarFieldEnum
+    having?: CollectionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CollectionCountAggregateInputType | true
+    _min?: CollectionMinAggregateInputType
+    _max?: CollectionMaxAggregateInputType
+  }
+
+  export type CollectionGroupByOutputType = {
+    id: string
+    slug: string
+    title: string
+    description: string | null
+    visibility: $Enums.Visibility
+    metadata: JsonValue | null
+    createdAt: Date
+    updatedAt: Date
+    archivedAt: Date | null
+    deletedAt: Date | null
+    authorId: string
+    _count: CollectionCountAggregateOutputType | null
+    _min: CollectionMinAggregateOutputType | null
+    _max: CollectionMaxAggregateOutputType | null
+  }
+
+  type GetCollectionGroupByPayload<T extends CollectionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CollectionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CollectionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CollectionGroupByOutputType[P]>
+            : GetScalarType<T[P], CollectionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CollectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    title?: boolean
+    description?: boolean
+    visibility?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    archivedAt?: boolean
+    deletedAt?: boolean
+    authorId?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    resources?: boolean | Collection$resourcesArgs<ExtArgs>
+    _count?: boolean | CollectionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collection"]>
+
+  export type CollectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    title?: boolean
+    description?: boolean
+    visibility?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    archivedAt?: boolean
+    deletedAt?: boolean
+    authorId?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collection"]>
+
+  export type CollectionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    title?: boolean
+    description?: boolean
+    visibility?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    archivedAt?: boolean
+    deletedAt?: boolean
+    authorId?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collection"]>
+
+  export type CollectionSelectScalar = {
+    id?: boolean
+    slug?: boolean
+    title?: boolean
+    description?: boolean
+    visibility?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    archivedAt?: boolean
+    deletedAt?: boolean
+    authorId?: boolean
+  }
+
+  export type CollectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "visibility" | "metadata" | "createdAt" | "updatedAt" | "archivedAt" | "deletedAt" | "authorId", ExtArgs["result"]["collection"]>
+  export type CollectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    resources?: boolean | Collection$resourcesArgs<ExtArgs>
+    _count?: boolean | CollectionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CollectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type CollectionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $CollectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Collection"
+    objects: {
+      author: Prisma.$UserPayload<ExtArgs>
+      resources: Prisma.$CollectionResourcePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      slug: string
+      title: string
+      description: string | null
+      visibility: $Enums.Visibility
+      metadata: Prisma.JsonValue | null
+      createdAt: Date
+      updatedAt: Date
+      archivedAt: Date | null
+      deletedAt: Date | null
+      authorId: string
+    }, ExtArgs["result"]["collection"]>
+    composites: {}
+  }
+
+  type CollectionGetPayload<S extends boolean | null | undefined | CollectionDefaultArgs> = $Result.GetResult<Prisma.$CollectionPayload, S>
+
+  type CollectionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CollectionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CollectionCountAggregateInputType | true
+    }
+
+  export interface CollectionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Collection'], meta: { name: 'Collection' } }
+    /**
+     * Find zero or one Collection that matches the filter.
+     * @param {CollectionFindUniqueArgs} args - Arguments to find a Collection
+     * @example
+     * // Get one Collection
+     * const collection = await prisma.collection.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CollectionFindUniqueArgs>(args: SelectSubset<T, CollectionFindUniqueArgs<ExtArgs>>): Prisma__CollectionClient<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Collection that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CollectionFindUniqueOrThrowArgs} args - Arguments to find a Collection
+     * @example
+     * // Get one Collection
+     * const collection = await prisma.collection.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CollectionFindUniqueOrThrowArgs>(args: SelectSubset<T, CollectionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CollectionClient<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Collection that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectionFindFirstArgs} args - Arguments to find a Collection
+     * @example
+     * // Get one Collection
+     * const collection = await prisma.collection.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CollectionFindFirstArgs>(args?: SelectSubset<T, CollectionFindFirstArgs<ExtArgs>>): Prisma__CollectionClient<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Collection that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectionFindFirstOrThrowArgs} args - Arguments to find a Collection
+     * @example
+     * // Get one Collection
+     * const collection = await prisma.collection.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CollectionFindFirstOrThrowArgs>(args?: SelectSubset<T, CollectionFindFirstOrThrowArgs<ExtArgs>>): Prisma__CollectionClient<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Collections that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Collections
+     * const collections = await prisma.collection.findMany()
+     * 
+     * // Get first 10 Collections
+     * const collections = await prisma.collection.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const collectionWithIdOnly = await prisma.collection.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CollectionFindManyArgs>(args?: SelectSubset<T, CollectionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Collection.
+     * @param {CollectionCreateArgs} args - Arguments to create a Collection.
+     * @example
+     * // Create one Collection
+     * const Collection = await prisma.collection.create({
+     *   data: {
+     *     // ... data to create a Collection
+     *   }
+     * })
+     * 
+     */
+    create<T extends CollectionCreateArgs>(args: SelectSubset<T, CollectionCreateArgs<ExtArgs>>): Prisma__CollectionClient<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Collections.
+     * @param {CollectionCreateManyArgs} args - Arguments to create many Collections.
+     * @example
+     * // Create many Collections
+     * const collection = await prisma.collection.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CollectionCreateManyArgs>(args?: SelectSubset<T, CollectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Collections and returns the data saved in the database.
+     * @param {CollectionCreateManyAndReturnArgs} args - Arguments to create many Collections.
+     * @example
+     * // Create many Collections
+     * const collection = await prisma.collection.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Collections and only return the `id`
+     * const collectionWithIdOnly = await prisma.collection.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CollectionCreateManyAndReturnArgs>(args?: SelectSubset<T, CollectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Collection.
+     * @param {CollectionDeleteArgs} args - Arguments to delete one Collection.
+     * @example
+     * // Delete one Collection
+     * const Collection = await prisma.collection.delete({
+     *   where: {
+     *     // ... filter to delete one Collection
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CollectionDeleteArgs>(args: SelectSubset<T, CollectionDeleteArgs<ExtArgs>>): Prisma__CollectionClient<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Collection.
+     * @param {CollectionUpdateArgs} args - Arguments to update one Collection.
+     * @example
+     * // Update one Collection
+     * const collection = await prisma.collection.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CollectionUpdateArgs>(args: SelectSubset<T, CollectionUpdateArgs<ExtArgs>>): Prisma__CollectionClient<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Collections.
+     * @param {CollectionDeleteManyArgs} args - Arguments to filter Collections to delete.
+     * @example
+     * // Delete a few Collections
+     * const { count } = await prisma.collection.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CollectionDeleteManyArgs>(args?: SelectSubset<T, CollectionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Collections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Collections
+     * const collection = await prisma.collection.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CollectionUpdateManyArgs>(args: SelectSubset<T, CollectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Collections and returns the data updated in the database.
+     * @param {CollectionUpdateManyAndReturnArgs} args - Arguments to update many Collections.
+     * @example
+     * // Update many Collections
+     * const collection = await prisma.collection.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Collections and only return the `id`
+     * const collectionWithIdOnly = await prisma.collection.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CollectionUpdateManyAndReturnArgs>(args: SelectSubset<T, CollectionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Collection.
+     * @param {CollectionUpsertArgs} args - Arguments to update or create a Collection.
+     * @example
+     * // Update or create a Collection
+     * const collection = await prisma.collection.upsert({
+     *   create: {
+     *     // ... data to create a Collection
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Collection we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CollectionUpsertArgs>(args: SelectSubset<T, CollectionUpsertArgs<ExtArgs>>): Prisma__CollectionClient<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Collections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectionCountArgs} args - Arguments to filter Collections to count.
+     * @example
+     * // Count the number of Collections
+     * const count = await prisma.collection.count({
+     *   where: {
+     *     // ... the filter for the Collections we want to count
+     *   }
+     * })
+    **/
+    count<T extends CollectionCountArgs>(
+      args?: Subset<T, CollectionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CollectionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Collection.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CollectionAggregateArgs>(args: Subset<T, CollectionAggregateArgs>): Prisma.PrismaPromise<GetCollectionAggregateType<T>>
+
+    /**
+     * Group by Collection.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CollectionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CollectionGroupByArgs['orderBy'] }
+        : { orderBy?: CollectionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CollectionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCollectionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Collection model
+   */
+  readonly fields: CollectionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Collection.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CollectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    resources<T extends Collection$resourcesArgs<ExtArgs> = {}>(args?: Subset<T, Collection$resourcesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectionResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Collection model
+   */
+  interface CollectionFieldRefs {
+    readonly id: FieldRef<"Collection", 'String'>
+    readonly slug: FieldRef<"Collection", 'String'>
+    readonly title: FieldRef<"Collection", 'String'>
+    readonly description: FieldRef<"Collection", 'String'>
+    readonly visibility: FieldRef<"Collection", 'Visibility'>
+    readonly metadata: FieldRef<"Collection", 'Json'>
+    readonly createdAt: FieldRef<"Collection", 'DateTime'>
+    readonly updatedAt: FieldRef<"Collection", 'DateTime'>
+    readonly archivedAt: FieldRef<"Collection", 'DateTime'>
+    readonly deletedAt: FieldRef<"Collection", 'DateTime'>
+    readonly authorId: FieldRef<"Collection", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Collection findUnique
+   */
+  export type CollectionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collection
+     */
+    select?: CollectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collection
+     */
+    omit?: CollectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Collection to fetch.
+     */
+    where: CollectionWhereUniqueInput
+  }
+
+  /**
+   * Collection findUniqueOrThrow
+   */
+  export type CollectionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collection
+     */
+    select?: CollectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collection
+     */
+    omit?: CollectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Collection to fetch.
+     */
+    where: CollectionWhereUniqueInput
+  }
+
+  /**
+   * Collection findFirst
+   */
+  export type CollectionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collection
+     */
+    select?: CollectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collection
+     */
+    omit?: CollectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Collection to fetch.
+     */
+    where?: CollectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Collections to fetch.
+     */
+    orderBy?: CollectionOrderByWithRelationInput | CollectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Collections.
+     */
+    cursor?: CollectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Collections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Collections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Collections.
+     */
+    distinct?: CollectionScalarFieldEnum | CollectionScalarFieldEnum[]
+  }
+
+  /**
+   * Collection findFirstOrThrow
+   */
+  export type CollectionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collection
+     */
+    select?: CollectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collection
+     */
+    omit?: CollectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Collection to fetch.
+     */
+    where?: CollectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Collections to fetch.
+     */
+    orderBy?: CollectionOrderByWithRelationInput | CollectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Collections.
+     */
+    cursor?: CollectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Collections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Collections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Collections.
+     */
+    distinct?: CollectionScalarFieldEnum | CollectionScalarFieldEnum[]
+  }
+
+  /**
+   * Collection findMany
+   */
+  export type CollectionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collection
+     */
+    select?: CollectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collection
+     */
+    omit?: CollectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Collections to fetch.
+     */
+    where?: CollectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Collections to fetch.
+     */
+    orderBy?: CollectionOrderByWithRelationInput | CollectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Collections.
+     */
+    cursor?: CollectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Collections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Collections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Collections.
+     */
+    distinct?: CollectionScalarFieldEnum | CollectionScalarFieldEnum[]
+  }
+
+  /**
+   * Collection create
+   */
+  export type CollectionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collection
+     */
+    select?: CollectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collection
+     */
+    omit?: CollectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Collection.
+     */
+    data: XOR<CollectionCreateInput, CollectionUncheckedCreateInput>
+  }
+
+  /**
+   * Collection createMany
+   */
+  export type CollectionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Collections.
+     */
+    data: CollectionCreateManyInput | CollectionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Collection createManyAndReturn
+   */
+  export type CollectionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collection
+     */
+    select?: CollectionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collection
+     */
+    omit?: CollectionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Collections.
+     */
+    data: CollectionCreateManyInput | CollectionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Collection update
+   */
+  export type CollectionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collection
+     */
+    select?: CollectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collection
+     */
+    omit?: CollectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Collection.
+     */
+    data: XOR<CollectionUpdateInput, CollectionUncheckedUpdateInput>
+    /**
+     * Choose, which Collection to update.
+     */
+    where: CollectionWhereUniqueInput
+  }
+
+  /**
+   * Collection updateMany
+   */
+  export type CollectionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Collections.
+     */
+    data: XOR<CollectionUpdateManyMutationInput, CollectionUncheckedUpdateManyInput>
+    /**
+     * Filter which Collections to update
+     */
+    where?: CollectionWhereInput
+    /**
+     * Limit how many Collections to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Collection updateManyAndReturn
+   */
+  export type CollectionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collection
+     */
+    select?: CollectionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collection
+     */
+    omit?: CollectionOmit<ExtArgs> | null
+    /**
+     * The data used to update Collections.
+     */
+    data: XOR<CollectionUpdateManyMutationInput, CollectionUncheckedUpdateManyInput>
+    /**
+     * Filter which Collections to update
+     */
+    where?: CollectionWhereInput
+    /**
+     * Limit how many Collections to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Collection upsert
+   */
+  export type CollectionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collection
+     */
+    select?: CollectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collection
+     */
+    omit?: CollectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Collection to update in case it exists.
+     */
+    where: CollectionWhereUniqueInput
+    /**
+     * In case the Collection found by the `where` argument doesn't exist, create a new Collection with this data.
+     */
+    create: XOR<CollectionCreateInput, CollectionUncheckedCreateInput>
+    /**
+     * In case the Collection was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CollectionUpdateInput, CollectionUncheckedUpdateInput>
+  }
+
+  /**
+   * Collection delete
+   */
+  export type CollectionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collection
+     */
+    select?: CollectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collection
+     */
+    omit?: CollectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionInclude<ExtArgs> | null
+    /**
+     * Filter which Collection to delete.
+     */
+    where: CollectionWhereUniqueInput
+  }
+
+  /**
+   * Collection deleteMany
+   */
+  export type CollectionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Collections to delete
+     */
+    where?: CollectionWhereInput
+    /**
+     * Limit how many Collections to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Collection.resources
+   */
+  export type Collection$resourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionResource
+     */
+    select?: CollectionResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionResource
+     */
+    omit?: CollectionResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionResourceInclude<ExtArgs> | null
+    where?: CollectionResourceWhereInput
+    orderBy?: CollectionResourceOrderByWithRelationInput | CollectionResourceOrderByWithRelationInput[]
+    cursor?: CollectionResourceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CollectionResourceScalarFieldEnum | CollectionResourceScalarFieldEnum[]
+  }
+
+  /**
+   * Collection without action
+   */
+  export type CollectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collection
+     */
+    select?: CollectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collection
+     */
+    omit?: CollectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CollectionResource
+   */
+
+  export type AggregateCollectionResource = {
+    _count: CollectionResourceCountAggregateOutputType | null
+    _avg: CollectionResourceAvgAggregateOutputType | null
+    _sum: CollectionResourceSumAggregateOutputType | null
+    _min: CollectionResourceMinAggregateOutputType | null
+    _max: CollectionResourceMaxAggregateOutputType | null
+  }
+
+  export type CollectionResourceAvgAggregateOutputType = {
+    orderIndex: number | null
+  }
+
+  export type CollectionResourceSumAggregateOutputType = {
+    orderIndex: number | null
+  }
+
+  export type CollectionResourceMinAggregateOutputType = {
+    id: string | null
+    collectionId: string | null
+    resourceId: string | null
+    orderIndex: number | null
+    addedAt: Date | null
+  }
+
+  export type CollectionResourceMaxAggregateOutputType = {
+    id: string | null
+    collectionId: string | null
+    resourceId: string | null
+    orderIndex: number | null
+    addedAt: Date | null
+  }
+
+  export type CollectionResourceCountAggregateOutputType = {
+    id: number
+    collectionId: number
+    resourceId: number
+    orderIndex: number
+    addedAt: number
+    _all: number
+  }
+
+
+  export type CollectionResourceAvgAggregateInputType = {
+    orderIndex?: true
+  }
+
+  export type CollectionResourceSumAggregateInputType = {
+    orderIndex?: true
+  }
+
+  export type CollectionResourceMinAggregateInputType = {
+    id?: true
+    collectionId?: true
+    resourceId?: true
+    orderIndex?: true
+    addedAt?: true
+  }
+
+  export type CollectionResourceMaxAggregateInputType = {
+    id?: true
+    collectionId?: true
+    resourceId?: true
+    orderIndex?: true
+    addedAt?: true
+  }
+
+  export type CollectionResourceCountAggregateInputType = {
+    id?: true
+    collectionId?: true
+    resourceId?: true
+    orderIndex?: true
+    addedAt?: true
+    _all?: true
+  }
+
+  export type CollectionResourceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CollectionResource to aggregate.
+     */
+    where?: CollectionResourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectionResources to fetch.
+     */
+    orderBy?: CollectionResourceOrderByWithRelationInput | CollectionResourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CollectionResourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectionResources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectionResources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CollectionResources
+    **/
+    _count?: true | CollectionResourceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CollectionResourceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CollectionResourceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CollectionResourceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CollectionResourceMaxAggregateInputType
+  }
+
+  export type GetCollectionResourceAggregateType<T extends CollectionResourceAggregateArgs> = {
+        [P in keyof T & keyof AggregateCollectionResource]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCollectionResource[P]>
+      : GetScalarType<T[P], AggregateCollectionResource[P]>
+  }
+
+
+
+
+  export type CollectionResourceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectionResourceWhereInput
+    orderBy?: CollectionResourceOrderByWithAggregationInput | CollectionResourceOrderByWithAggregationInput[]
+    by: CollectionResourceScalarFieldEnum[] | CollectionResourceScalarFieldEnum
+    having?: CollectionResourceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CollectionResourceCountAggregateInputType | true
+    _avg?: CollectionResourceAvgAggregateInputType
+    _sum?: CollectionResourceSumAggregateInputType
+    _min?: CollectionResourceMinAggregateInputType
+    _max?: CollectionResourceMaxAggregateInputType
+  }
+
+  export type CollectionResourceGroupByOutputType = {
+    id: string
+    collectionId: string
+    resourceId: string
+    orderIndex: number
+    addedAt: Date
+    _count: CollectionResourceCountAggregateOutputType | null
+    _avg: CollectionResourceAvgAggregateOutputType | null
+    _sum: CollectionResourceSumAggregateOutputType | null
+    _min: CollectionResourceMinAggregateOutputType | null
+    _max: CollectionResourceMaxAggregateOutputType | null
+  }
+
+  type GetCollectionResourceGroupByPayload<T extends CollectionResourceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CollectionResourceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CollectionResourceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CollectionResourceGroupByOutputType[P]>
+            : GetScalarType<T[P], CollectionResourceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CollectionResourceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    collectionId?: boolean
+    resourceId?: boolean
+    orderIndex?: boolean
+    addedAt?: boolean
+    collection?: boolean | CollectionDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectionResource"]>
+
+  export type CollectionResourceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    collectionId?: boolean
+    resourceId?: boolean
+    orderIndex?: boolean
+    addedAt?: boolean
+    collection?: boolean | CollectionDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectionResource"]>
+
+  export type CollectionResourceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    collectionId?: boolean
+    resourceId?: boolean
+    orderIndex?: boolean
+    addedAt?: boolean
+    collection?: boolean | CollectionDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["collectionResource"]>
+
+  export type CollectionResourceSelectScalar = {
+    id?: boolean
+    collectionId?: boolean
+    resourceId?: boolean
+    orderIndex?: boolean
+    addedAt?: boolean
+  }
+
+  export type CollectionResourceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "collectionId" | "resourceId" | "orderIndex" | "addedAt", ExtArgs["result"]["collectionResource"]>
+  export type CollectionResourceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    collection?: boolean | CollectionDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+  export type CollectionResourceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    collection?: boolean | CollectionDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+  export type CollectionResourceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    collection?: boolean | CollectionDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+
+  export type $CollectionResourcePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CollectionResource"
+    objects: {
+      collection: Prisma.$CollectionPayload<ExtArgs>
+      resource: Prisma.$ResourcePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      collectionId: string
+      resourceId: string
+      orderIndex: number
+      addedAt: Date
+    }, ExtArgs["result"]["collectionResource"]>
+    composites: {}
+  }
+
+  type CollectionResourceGetPayload<S extends boolean | null | undefined | CollectionResourceDefaultArgs> = $Result.GetResult<Prisma.$CollectionResourcePayload, S>
+
+  type CollectionResourceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CollectionResourceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CollectionResourceCountAggregateInputType | true
+    }
+
+  export interface CollectionResourceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CollectionResource'], meta: { name: 'CollectionResource' } }
+    /**
+     * Find zero or one CollectionResource that matches the filter.
+     * @param {CollectionResourceFindUniqueArgs} args - Arguments to find a CollectionResource
+     * @example
+     * // Get one CollectionResource
+     * const collectionResource = await prisma.collectionResource.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CollectionResourceFindUniqueArgs>(args: SelectSubset<T, CollectionResourceFindUniqueArgs<ExtArgs>>): Prisma__CollectionResourceClient<$Result.GetResult<Prisma.$CollectionResourcePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CollectionResource that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CollectionResourceFindUniqueOrThrowArgs} args - Arguments to find a CollectionResource
+     * @example
+     * // Get one CollectionResource
+     * const collectionResource = await prisma.collectionResource.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CollectionResourceFindUniqueOrThrowArgs>(args: SelectSubset<T, CollectionResourceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CollectionResourceClient<$Result.GetResult<Prisma.$CollectionResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CollectionResource that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectionResourceFindFirstArgs} args - Arguments to find a CollectionResource
+     * @example
+     * // Get one CollectionResource
+     * const collectionResource = await prisma.collectionResource.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CollectionResourceFindFirstArgs>(args?: SelectSubset<T, CollectionResourceFindFirstArgs<ExtArgs>>): Prisma__CollectionResourceClient<$Result.GetResult<Prisma.$CollectionResourcePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CollectionResource that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectionResourceFindFirstOrThrowArgs} args - Arguments to find a CollectionResource
+     * @example
+     * // Get one CollectionResource
+     * const collectionResource = await prisma.collectionResource.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CollectionResourceFindFirstOrThrowArgs>(args?: SelectSubset<T, CollectionResourceFindFirstOrThrowArgs<ExtArgs>>): Prisma__CollectionResourceClient<$Result.GetResult<Prisma.$CollectionResourcePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CollectionResources that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectionResourceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CollectionResources
+     * const collectionResources = await prisma.collectionResource.findMany()
+     * 
+     * // Get first 10 CollectionResources
+     * const collectionResources = await prisma.collectionResource.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const collectionResourceWithIdOnly = await prisma.collectionResource.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CollectionResourceFindManyArgs>(args?: SelectSubset<T, CollectionResourceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectionResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CollectionResource.
+     * @param {CollectionResourceCreateArgs} args - Arguments to create a CollectionResource.
+     * @example
+     * // Create one CollectionResource
+     * const CollectionResource = await prisma.collectionResource.create({
+     *   data: {
+     *     // ... data to create a CollectionResource
+     *   }
+     * })
+     * 
+     */
+    create<T extends CollectionResourceCreateArgs>(args: SelectSubset<T, CollectionResourceCreateArgs<ExtArgs>>): Prisma__CollectionResourceClient<$Result.GetResult<Prisma.$CollectionResourcePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CollectionResources.
+     * @param {CollectionResourceCreateManyArgs} args - Arguments to create many CollectionResources.
+     * @example
+     * // Create many CollectionResources
+     * const collectionResource = await prisma.collectionResource.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CollectionResourceCreateManyArgs>(args?: SelectSubset<T, CollectionResourceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CollectionResources and returns the data saved in the database.
+     * @param {CollectionResourceCreateManyAndReturnArgs} args - Arguments to create many CollectionResources.
+     * @example
+     * // Create many CollectionResources
+     * const collectionResource = await prisma.collectionResource.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CollectionResources and only return the `id`
+     * const collectionResourceWithIdOnly = await prisma.collectionResource.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CollectionResourceCreateManyAndReturnArgs>(args?: SelectSubset<T, CollectionResourceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectionResourcePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CollectionResource.
+     * @param {CollectionResourceDeleteArgs} args - Arguments to delete one CollectionResource.
+     * @example
+     * // Delete one CollectionResource
+     * const CollectionResource = await prisma.collectionResource.delete({
+     *   where: {
+     *     // ... filter to delete one CollectionResource
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CollectionResourceDeleteArgs>(args: SelectSubset<T, CollectionResourceDeleteArgs<ExtArgs>>): Prisma__CollectionResourceClient<$Result.GetResult<Prisma.$CollectionResourcePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CollectionResource.
+     * @param {CollectionResourceUpdateArgs} args - Arguments to update one CollectionResource.
+     * @example
+     * // Update one CollectionResource
+     * const collectionResource = await prisma.collectionResource.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CollectionResourceUpdateArgs>(args: SelectSubset<T, CollectionResourceUpdateArgs<ExtArgs>>): Prisma__CollectionResourceClient<$Result.GetResult<Prisma.$CollectionResourcePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CollectionResources.
+     * @param {CollectionResourceDeleteManyArgs} args - Arguments to filter CollectionResources to delete.
+     * @example
+     * // Delete a few CollectionResources
+     * const { count } = await prisma.collectionResource.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CollectionResourceDeleteManyArgs>(args?: SelectSubset<T, CollectionResourceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CollectionResources.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectionResourceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CollectionResources
+     * const collectionResource = await prisma.collectionResource.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CollectionResourceUpdateManyArgs>(args: SelectSubset<T, CollectionResourceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CollectionResources and returns the data updated in the database.
+     * @param {CollectionResourceUpdateManyAndReturnArgs} args - Arguments to update many CollectionResources.
+     * @example
+     * // Update many CollectionResources
+     * const collectionResource = await prisma.collectionResource.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CollectionResources and only return the `id`
+     * const collectionResourceWithIdOnly = await prisma.collectionResource.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CollectionResourceUpdateManyAndReturnArgs>(args: SelectSubset<T, CollectionResourceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectionResourcePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CollectionResource.
+     * @param {CollectionResourceUpsertArgs} args - Arguments to update or create a CollectionResource.
+     * @example
+     * // Update or create a CollectionResource
+     * const collectionResource = await prisma.collectionResource.upsert({
+     *   create: {
+     *     // ... data to create a CollectionResource
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CollectionResource we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CollectionResourceUpsertArgs>(args: SelectSubset<T, CollectionResourceUpsertArgs<ExtArgs>>): Prisma__CollectionResourceClient<$Result.GetResult<Prisma.$CollectionResourcePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CollectionResources.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectionResourceCountArgs} args - Arguments to filter CollectionResources to count.
+     * @example
+     * // Count the number of CollectionResources
+     * const count = await prisma.collectionResource.count({
+     *   where: {
+     *     // ... the filter for the CollectionResources we want to count
+     *   }
+     * })
+    **/
+    count<T extends CollectionResourceCountArgs>(
+      args?: Subset<T, CollectionResourceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CollectionResourceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CollectionResource.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectionResourceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CollectionResourceAggregateArgs>(args: Subset<T, CollectionResourceAggregateArgs>): Prisma.PrismaPromise<GetCollectionResourceAggregateType<T>>
+
+    /**
+     * Group by CollectionResource.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CollectionResourceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CollectionResourceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CollectionResourceGroupByArgs['orderBy'] }
+        : { orderBy?: CollectionResourceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CollectionResourceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCollectionResourceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CollectionResource model
+   */
+  readonly fields: CollectionResourceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CollectionResource.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CollectionResourceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    collection<T extends CollectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CollectionDefaultArgs<ExtArgs>>): Prisma__CollectionClient<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    resource<T extends ResourceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResourceDefaultArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CollectionResource model
+   */
+  interface CollectionResourceFieldRefs {
+    readonly id: FieldRef<"CollectionResource", 'String'>
+    readonly collectionId: FieldRef<"CollectionResource", 'String'>
+    readonly resourceId: FieldRef<"CollectionResource", 'String'>
+    readonly orderIndex: FieldRef<"CollectionResource", 'Int'>
+    readonly addedAt: FieldRef<"CollectionResource", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CollectionResource findUnique
+   */
+  export type CollectionResourceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionResource
+     */
+    select?: CollectionResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionResource
+     */
+    omit?: CollectionResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectionResource to fetch.
+     */
+    where: CollectionResourceWhereUniqueInput
+  }
+
+  /**
+   * CollectionResource findUniqueOrThrow
+   */
+  export type CollectionResourceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionResource
+     */
+    select?: CollectionResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionResource
+     */
+    omit?: CollectionResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectionResource to fetch.
+     */
+    where: CollectionResourceWhereUniqueInput
+  }
+
+  /**
+   * CollectionResource findFirst
+   */
+  export type CollectionResourceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionResource
+     */
+    select?: CollectionResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionResource
+     */
+    omit?: CollectionResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectionResource to fetch.
+     */
+    where?: CollectionResourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectionResources to fetch.
+     */
+    orderBy?: CollectionResourceOrderByWithRelationInput | CollectionResourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CollectionResources.
+     */
+    cursor?: CollectionResourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectionResources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectionResources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CollectionResources.
+     */
+    distinct?: CollectionResourceScalarFieldEnum | CollectionResourceScalarFieldEnum[]
+  }
+
+  /**
+   * CollectionResource findFirstOrThrow
+   */
+  export type CollectionResourceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionResource
+     */
+    select?: CollectionResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionResource
+     */
+    omit?: CollectionResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectionResource to fetch.
+     */
+    where?: CollectionResourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectionResources to fetch.
+     */
+    orderBy?: CollectionResourceOrderByWithRelationInput | CollectionResourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CollectionResources.
+     */
+    cursor?: CollectionResourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectionResources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectionResources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CollectionResources.
+     */
+    distinct?: CollectionResourceScalarFieldEnum | CollectionResourceScalarFieldEnum[]
+  }
+
+  /**
+   * CollectionResource findMany
+   */
+  export type CollectionResourceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionResource
+     */
+    select?: CollectionResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionResource
+     */
+    omit?: CollectionResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which CollectionResources to fetch.
+     */
+    where?: CollectionResourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CollectionResources to fetch.
+     */
+    orderBy?: CollectionResourceOrderByWithRelationInput | CollectionResourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CollectionResources.
+     */
+    cursor?: CollectionResourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CollectionResources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CollectionResources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CollectionResources.
+     */
+    distinct?: CollectionResourceScalarFieldEnum | CollectionResourceScalarFieldEnum[]
+  }
+
+  /**
+   * CollectionResource create
+   */
+  export type CollectionResourceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionResource
+     */
+    select?: CollectionResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionResource
+     */
+    omit?: CollectionResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionResourceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CollectionResource.
+     */
+    data: XOR<CollectionResourceCreateInput, CollectionResourceUncheckedCreateInput>
+  }
+
+  /**
+   * CollectionResource createMany
+   */
+  export type CollectionResourceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CollectionResources.
+     */
+    data: CollectionResourceCreateManyInput | CollectionResourceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CollectionResource createManyAndReturn
+   */
+  export type CollectionResourceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionResource
+     */
+    select?: CollectionResourceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionResource
+     */
+    omit?: CollectionResourceOmit<ExtArgs> | null
+    /**
+     * The data used to create many CollectionResources.
+     */
+    data: CollectionResourceCreateManyInput | CollectionResourceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionResourceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CollectionResource update
+   */
+  export type CollectionResourceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionResource
+     */
+    select?: CollectionResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionResource
+     */
+    omit?: CollectionResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionResourceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CollectionResource.
+     */
+    data: XOR<CollectionResourceUpdateInput, CollectionResourceUncheckedUpdateInput>
+    /**
+     * Choose, which CollectionResource to update.
+     */
+    where: CollectionResourceWhereUniqueInput
+  }
+
+  /**
+   * CollectionResource updateMany
+   */
+  export type CollectionResourceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CollectionResources.
+     */
+    data: XOR<CollectionResourceUpdateManyMutationInput, CollectionResourceUncheckedUpdateManyInput>
+    /**
+     * Filter which CollectionResources to update
+     */
+    where?: CollectionResourceWhereInput
+    /**
+     * Limit how many CollectionResources to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CollectionResource updateManyAndReturn
+   */
+  export type CollectionResourceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionResource
+     */
+    select?: CollectionResourceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionResource
+     */
+    omit?: CollectionResourceOmit<ExtArgs> | null
+    /**
+     * The data used to update CollectionResources.
+     */
+    data: XOR<CollectionResourceUpdateManyMutationInput, CollectionResourceUncheckedUpdateManyInput>
+    /**
+     * Filter which CollectionResources to update
+     */
+    where?: CollectionResourceWhereInput
+    /**
+     * Limit how many CollectionResources to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionResourceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CollectionResource upsert
+   */
+  export type CollectionResourceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionResource
+     */
+    select?: CollectionResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionResource
+     */
+    omit?: CollectionResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionResourceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CollectionResource to update in case it exists.
+     */
+    where: CollectionResourceWhereUniqueInput
+    /**
+     * In case the CollectionResource found by the `where` argument doesn't exist, create a new CollectionResource with this data.
+     */
+    create: XOR<CollectionResourceCreateInput, CollectionResourceUncheckedCreateInput>
+    /**
+     * In case the CollectionResource was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CollectionResourceUpdateInput, CollectionResourceUncheckedUpdateInput>
+  }
+
+  /**
+   * CollectionResource delete
+   */
+  export type CollectionResourceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionResource
+     */
+    select?: CollectionResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionResource
+     */
+    omit?: CollectionResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionResourceInclude<ExtArgs> | null
+    /**
+     * Filter which CollectionResource to delete.
+     */
+    where: CollectionResourceWhereUniqueInput
+  }
+
+  /**
+   * CollectionResource deleteMany
+   */
+  export type CollectionResourceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CollectionResources to delete
+     */
+    where?: CollectionResourceWhereInput
+    /**
+     * Limit how many CollectionResources to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CollectionResource without action
+   */
+  export type CollectionResourceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionResource
+     */
+    select?: CollectionResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionResource
+     */
+    omit?: CollectionResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionResourceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Tag
+   */
+
+  export type AggregateTag = {
+    _count: TagCountAggregateOutputType | null
+    _min: TagMinAggregateOutputType | null
+    _max: TagMaxAggregateOutputType | null
+  }
+
+  export type TagMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    slug: string | null
+    createdAt: Date | null
+  }
+
+  export type TagMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    slug: string | null
+    createdAt: Date | null
+  }
+
+  export type TagCountAggregateOutputType = {
+    id: number
+    name: number
+    slug: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TagMinAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    createdAt?: true
+  }
+
+  export type TagMaxAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    createdAt?: true
+  }
+
+  export type TagCountAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TagAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Tag to aggregate.
+     */
+    where?: TagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tags to fetch.
+     */
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Tags
+    **/
+    _count?: true | TagCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TagMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TagMaxAggregateInputType
+  }
+
+  export type GetTagAggregateType<T extends TagAggregateArgs> = {
+        [P in keyof T & keyof AggregateTag]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTag[P]>
+      : GetScalarType<T[P], AggregateTag[P]>
+  }
+
+
+
+
+  export type TagGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TagWhereInput
+    orderBy?: TagOrderByWithAggregationInput | TagOrderByWithAggregationInput[]
+    by: TagScalarFieldEnum[] | TagScalarFieldEnum
+    having?: TagScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TagCountAggregateInputType | true
+    _min?: TagMinAggregateInputType
+    _max?: TagMaxAggregateInputType
+  }
+
+  export type TagGroupByOutputType = {
+    id: string
+    name: string
+    slug: string
+    createdAt: Date
+    _count: TagCountAggregateOutputType | null
+    _min: TagMinAggregateOutputType | null
+    _max: TagMaxAggregateOutputType | null
+  }
+
+  type GetTagGroupByPayload<T extends TagGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TagGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TagGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TagGroupByOutputType[P]>
+            : GetScalarType<T[P], TagGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TagSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    createdAt?: boolean
+    resources?: boolean | Tag$resourcesArgs<ExtArgs>
+    _count?: boolean | TagCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tag"]>
+
+  export type TagSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["tag"]>
+
+  export type TagSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["tag"]>
+
+  export type TagSelectScalar = {
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    createdAt?: boolean
+  }
+
+  export type TagOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "createdAt", ExtArgs["result"]["tag"]>
+  export type TagInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resources?: boolean | Tag$resourcesArgs<ExtArgs>
+    _count?: boolean | TagCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TagIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type TagIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $TagPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Tag"
+    objects: {
+      resources: Prisma.$ResourcePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      slug: string
+      createdAt: Date
+    }, ExtArgs["result"]["tag"]>
+    composites: {}
+  }
+
+  type TagGetPayload<S extends boolean | null | undefined | TagDefaultArgs> = $Result.GetResult<Prisma.$TagPayload, S>
+
+  type TagCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TagFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TagCountAggregateInputType | true
+    }
+
+  export interface TagDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Tag'], meta: { name: 'Tag' } }
+    /**
+     * Find zero or one Tag that matches the filter.
+     * @param {TagFindUniqueArgs} args - Arguments to find a Tag
+     * @example
+     * // Get one Tag
+     * const tag = await prisma.tag.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TagFindUniqueArgs>(args: SelectSubset<T, TagFindUniqueArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Tag that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TagFindUniqueOrThrowArgs} args - Arguments to find a Tag
+     * @example
+     * // Get one Tag
+     * const tag = await prisma.tag.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TagFindUniqueOrThrowArgs>(args: SelectSubset<T, TagFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Tag that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagFindFirstArgs} args - Arguments to find a Tag
+     * @example
+     * // Get one Tag
+     * const tag = await prisma.tag.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TagFindFirstArgs>(args?: SelectSubset<T, TagFindFirstArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Tag that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagFindFirstOrThrowArgs} args - Arguments to find a Tag
+     * @example
+     * // Get one Tag
+     * const tag = await prisma.tag.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TagFindFirstOrThrowArgs>(args?: SelectSubset<T, TagFindFirstOrThrowArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Tags that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Tags
+     * const tags = await prisma.tag.findMany()
+     * 
+     * // Get first 10 Tags
+     * const tags = await prisma.tag.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tagWithIdOnly = await prisma.tag.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TagFindManyArgs>(args?: SelectSubset<T, TagFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Tag.
+     * @param {TagCreateArgs} args - Arguments to create a Tag.
+     * @example
+     * // Create one Tag
+     * const Tag = await prisma.tag.create({
+     *   data: {
+     *     // ... data to create a Tag
+     *   }
+     * })
+     * 
+     */
+    create<T extends TagCreateArgs>(args: SelectSubset<T, TagCreateArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Tags.
+     * @param {TagCreateManyArgs} args - Arguments to create many Tags.
+     * @example
+     * // Create many Tags
+     * const tag = await prisma.tag.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TagCreateManyArgs>(args?: SelectSubset<T, TagCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Tags and returns the data saved in the database.
+     * @param {TagCreateManyAndReturnArgs} args - Arguments to create many Tags.
+     * @example
+     * // Create many Tags
+     * const tag = await prisma.tag.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Tags and only return the `id`
+     * const tagWithIdOnly = await prisma.tag.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TagCreateManyAndReturnArgs>(args?: SelectSubset<T, TagCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Tag.
+     * @param {TagDeleteArgs} args - Arguments to delete one Tag.
+     * @example
+     * // Delete one Tag
+     * const Tag = await prisma.tag.delete({
+     *   where: {
+     *     // ... filter to delete one Tag
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TagDeleteArgs>(args: SelectSubset<T, TagDeleteArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Tag.
+     * @param {TagUpdateArgs} args - Arguments to update one Tag.
+     * @example
+     * // Update one Tag
+     * const tag = await prisma.tag.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TagUpdateArgs>(args: SelectSubset<T, TagUpdateArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Tags.
+     * @param {TagDeleteManyArgs} args - Arguments to filter Tags to delete.
+     * @example
+     * // Delete a few Tags
+     * const { count } = await prisma.tag.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TagDeleteManyArgs>(args?: SelectSubset<T, TagDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Tags
+     * const tag = await prisma.tag.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TagUpdateManyArgs>(args: SelectSubset<T, TagUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tags and returns the data updated in the database.
+     * @param {TagUpdateManyAndReturnArgs} args - Arguments to update many Tags.
+     * @example
+     * // Update many Tags
+     * const tag = await prisma.tag.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Tags and only return the `id`
+     * const tagWithIdOnly = await prisma.tag.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TagUpdateManyAndReturnArgs>(args: SelectSubset<T, TagUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Tag.
+     * @param {TagUpsertArgs} args - Arguments to update or create a Tag.
+     * @example
+     * // Update or create a Tag
+     * const tag = await prisma.tag.upsert({
+     *   create: {
+     *     // ... data to create a Tag
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Tag we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TagUpsertArgs>(args: SelectSubset<T, TagUpsertArgs<ExtArgs>>): Prisma__TagClient<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Tags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagCountArgs} args - Arguments to filter Tags to count.
+     * @example
+     * // Count the number of Tags
+     * const count = await prisma.tag.count({
+     *   where: {
+     *     // ... the filter for the Tags we want to count
+     *   }
+     * })
+    **/
+    count<T extends TagCountArgs>(
+      args?: Subset<T, TagCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TagCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Tag.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TagAggregateArgs>(args: Subset<T, TagAggregateArgs>): Prisma.PrismaPromise<GetTagAggregateType<T>>
+
+    /**
+     * Group by Tag.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TagGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TagGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TagGroupByArgs['orderBy'] }
+        : { orderBy?: TagGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TagGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTagGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Tag model
+   */
+  readonly fields: TagFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Tag.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TagClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    resources<T extends Tag$resourcesArgs<ExtArgs> = {}>(args?: Subset<T, Tag$resourcesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Tag model
+   */
+  interface TagFieldRefs {
+    readonly id: FieldRef<"Tag", 'String'>
+    readonly name: FieldRef<"Tag", 'String'>
+    readonly slug: FieldRef<"Tag", 'String'>
+    readonly createdAt: FieldRef<"Tag", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Tag findUnique
+   */
+  export type TagFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tag to fetch.
+     */
+    where: TagWhereUniqueInput
+  }
+
+  /**
+   * Tag findUniqueOrThrow
+   */
+  export type TagFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tag to fetch.
+     */
+    where: TagWhereUniqueInput
+  }
+
+  /**
+   * Tag findFirst
+   */
+  export type TagFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tag to fetch.
+     */
+    where?: TagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tags to fetch.
+     */
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tags.
+     */
+    cursor?: TagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tags.
+     */
+    distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
+  }
+
+  /**
+   * Tag findFirstOrThrow
+   */
+  export type TagFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tag to fetch.
+     */
+    where?: TagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tags to fetch.
+     */
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tags.
+     */
+    cursor?: TagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tags.
+     */
+    distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
+  }
+
+  /**
+   * Tag findMany
+   */
+  export type TagFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter, which Tags to fetch.
+     */
+    where?: TagWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tags to fetch.
+     */
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Tags.
+     */
+    cursor?: TagWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tags.
+     */
+    distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
+  }
+
+  /**
+   * Tag create
+   */
+  export type TagCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Tag.
+     */
+    data: XOR<TagCreateInput, TagUncheckedCreateInput>
+  }
+
+  /**
+   * Tag createMany
+   */
+  export type TagCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Tags.
+     */
+    data: TagCreateManyInput | TagCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Tag createManyAndReturn
+   */
+  export type TagCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * The data used to create many Tags.
+     */
+    data: TagCreateManyInput | TagCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Tag update
+   */
+  export type TagUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Tag.
+     */
+    data: XOR<TagUpdateInput, TagUncheckedUpdateInput>
+    /**
+     * Choose, which Tag to update.
+     */
+    where: TagWhereUniqueInput
+  }
+
+  /**
+   * Tag updateMany
+   */
+  export type TagUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Tags.
+     */
+    data: XOR<TagUpdateManyMutationInput, TagUncheckedUpdateManyInput>
+    /**
+     * Filter which Tags to update
+     */
+    where?: TagWhereInput
+    /**
+     * Limit how many Tags to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Tag updateManyAndReturn
+   */
+  export type TagUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * The data used to update Tags.
+     */
+    data: XOR<TagUpdateManyMutationInput, TagUncheckedUpdateManyInput>
+    /**
+     * Filter which Tags to update
+     */
+    where?: TagWhereInput
+    /**
+     * Limit how many Tags to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Tag upsert
+   */
+  export type TagUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Tag to update in case it exists.
+     */
+    where: TagWhereUniqueInput
+    /**
+     * In case the Tag found by the `where` argument doesn't exist, create a new Tag with this data.
+     */
+    create: XOR<TagCreateInput, TagUncheckedCreateInput>
+    /**
+     * In case the Tag was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TagUpdateInput, TagUncheckedUpdateInput>
+  }
+
+  /**
+   * Tag delete
+   */
+  export type TagDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    /**
+     * Filter which Tag to delete.
+     */
+    where: TagWhereUniqueInput
+  }
+
+  /**
+   * Tag deleteMany
+   */
+  export type TagDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Tags to delete
+     */
+    where?: TagWhereInput
+    /**
+     * Limit how many Tags to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Tag.resources
+   */
+  export type Tag$resourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resource
+     */
+    select?: ResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resource
+     */
+    omit?: ResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceInclude<ExtArgs> | null
+    where?: ResourceWhereInput
+    orderBy?: ResourceOrderByWithRelationInput | ResourceOrderByWithRelationInput[]
+    cursor?: ResourceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ResourceScalarFieldEnum | ResourceScalarFieldEnum[]
+  }
+
+  /**
+   * Tag without action
+   */
+  export type TagDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Comment
+   */
+
+  export type AggregateComment = {
+    _count: CommentCountAggregateOutputType | null
+    _min: CommentMinAggregateOutputType | null
+    _max: CommentMaxAggregateOutputType | null
+  }
+
+  export type CommentMinAggregateOutputType = {
+    id: string | null
+    content: string | null
+    status: $Enums.CommentStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+    authorId: string | null
+    resourceId: string | null
+    parentId: string | null
+  }
+
+  export type CommentMaxAggregateOutputType = {
+    id: string | null
+    content: string | null
+    status: $Enums.CommentStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+    authorId: string | null
+    resourceId: string | null
+    parentId: string | null
+  }
+
+  export type CommentCountAggregateOutputType = {
+    id: number
+    content: number
+    status: number
+    metadata: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    authorId: number
+    resourceId: number
+    parentId: number
+    _all: number
+  }
+
+
+  export type CommentMinAggregateInputType = {
+    id?: true
+    content?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    authorId?: true
+    resourceId?: true
+    parentId?: true
+  }
+
+  export type CommentMaxAggregateInputType = {
+    id?: true
+    content?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    authorId?: true
+    resourceId?: true
+    parentId?: true
+  }
+
+  export type CommentCountAggregateInputType = {
+    id?: true
+    content?: true
+    status?: true
+    metadata?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    authorId?: true
+    resourceId?: true
+    parentId?: true
+    _all?: true
+  }
+
+  export type CommentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Comment to aggregate.
+     */
+    where?: CommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Comments to fetch.
+     */
+    orderBy?: CommentOrderByWithRelationInput | CommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Comments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Comments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Comments
+    **/
+    _count?: true | CommentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CommentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CommentMaxAggregateInputType
+  }
+
+  export type GetCommentAggregateType<T extends CommentAggregateArgs> = {
+        [P in keyof T & keyof AggregateComment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateComment[P]>
+      : GetScalarType<T[P], AggregateComment[P]>
+  }
+
+
+
+
+  export type CommentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommentWhereInput
+    orderBy?: CommentOrderByWithAggregationInput | CommentOrderByWithAggregationInput[]
+    by: CommentScalarFieldEnum[] | CommentScalarFieldEnum
+    having?: CommentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CommentCountAggregateInputType | true
+    _min?: CommentMinAggregateInputType
+    _max?: CommentMaxAggregateInputType
+  }
+
+  export type CommentGroupByOutputType = {
+    id: string
+    content: string
+    status: $Enums.CommentStatus
+    metadata: JsonValue | null
+    createdAt: Date
+    updatedAt: Date
+    deletedAt: Date | null
+    authorId: string
+    resourceId: string
+    parentId: string | null
+    _count: CommentCountAggregateOutputType | null
+    _min: CommentMinAggregateOutputType | null
+    _max: CommentMaxAggregateOutputType | null
+  }
+
+  type GetCommentGroupByPayload<T extends CommentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CommentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CommentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CommentGroupByOutputType[P]>
+            : GetScalarType<T[P], CommentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CommentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    status?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    authorId?: boolean
+    resourceId?: boolean
+    parentId?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    parent?: boolean | Comment$parentArgs<ExtArgs>
+    replies?: boolean | Comment$repliesArgs<ExtArgs>
+    _count?: boolean | CommentCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["comment"]>
+
+  export type CommentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    status?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    authorId?: boolean
+    resourceId?: boolean
+    parentId?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    parent?: boolean | Comment$parentArgs<ExtArgs>
+  }, ExtArgs["result"]["comment"]>
+
+  export type CommentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    status?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    authorId?: boolean
+    resourceId?: boolean
+    parentId?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    parent?: boolean | Comment$parentArgs<ExtArgs>
+  }, ExtArgs["result"]["comment"]>
+
+  export type CommentSelectScalar = {
+    id?: boolean
+    content?: boolean
+    status?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    authorId?: boolean
+    resourceId?: boolean
+    parentId?: boolean
+  }
+
+  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "status" | "metadata" | "createdAt" | "updatedAt" | "deletedAt" | "authorId" | "resourceId" | "parentId", ExtArgs["result"]["comment"]>
+  export type CommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    parent?: boolean | Comment$parentArgs<ExtArgs>
+    replies?: boolean | Comment$repliesArgs<ExtArgs>
+    _count?: boolean | CommentCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CommentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    parent?: boolean | Comment$parentArgs<ExtArgs>
+  }
+  export type CommentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    parent?: boolean | Comment$parentArgs<ExtArgs>
+  }
+
+  export type $CommentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Comment"
+    objects: {
+      author: Prisma.$UserPayload<ExtArgs>
+      resource: Prisma.$ResourcePayload<ExtArgs>
+      parent: Prisma.$CommentPayload<ExtArgs> | null
+      replies: Prisma.$CommentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      content: string
+      status: $Enums.CommentStatus
+      metadata: Prisma.JsonValue | null
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: Date | null
+      authorId: string
+      resourceId: string
+      parentId: string | null
+    }, ExtArgs["result"]["comment"]>
+    composites: {}
+  }
+
+  type CommentGetPayload<S extends boolean | null | undefined | CommentDefaultArgs> = $Result.GetResult<Prisma.$CommentPayload, S>
+
+  type CommentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CommentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CommentCountAggregateInputType | true
+    }
+
+  export interface CommentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Comment'], meta: { name: 'Comment' } }
+    /**
+     * Find zero or one Comment that matches the filter.
+     * @param {CommentFindUniqueArgs} args - Arguments to find a Comment
+     * @example
+     * // Get one Comment
+     * const comment = await prisma.comment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CommentFindUniqueArgs>(args: SelectSubset<T, CommentFindUniqueArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Comment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CommentFindUniqueOrThrowArgs} args - Arguments to find a Comment
+     * @example
+     * // Get one Comment
+     * const comment = await prisma.comment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CommentFindUniqueOrThrowArgs>(args: SelectSubset<T, CommentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Comment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommentFindFirstArgs} args - Arguments to find a Comment
+     * @example
+     * // Get one Comment
+     * const comment = await prisma.comment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CommentFindFirstArgs>(args?: SelectSubset<T, CommentFindFirstArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Comment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommentFindFirstOrThrowArgs} args - Arguments to find a Comment
+     * @example
+     * // Get one Comment
+     * const comment = await prisma.comment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CommentFindFirstOrThrowArgs>(args?: SelectSubset<T, CommentFindFirstOrThrowArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Comments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Comments
+     * const comments = await prisma.comment.findMany()
+     * 
+     * // Get first 10 Comments
+     * const comments = await prisma.comment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const commentWithIdOnly = await prisma.comment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CommentFindManyArgs>(args?: SelectSubset<T, CommentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Comment.
+     * @param {CommentCreateArgs} args - Arguments to create a Comment.
+     * @example
+     * // Create one Comment
+     * const Comment = await prisma.comment.create({
+     *   data: {
+     *     // ... data to create a Comment
+     *   }
+     * })
+     * 
+     */
+    create<T extends CommentCreateArgs>(args: SelectSubset<T, CommentCreateArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Comments.
+     * @param {CommentCreateManyArgs} args - Arguments to create many Comments.
+     * @example
+     * // Create many Comments
+     * const comment = await prisma.comment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CommentCreateManyArgs>(args?: SelectSubset<T, CommentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Comments and returns the data saved in the database.
+     * @param {CommentCreateManyAndReturnArgs} args - Arguments to create many Comments.
+     * @example
+     * // Create many Comments
+     * const comment = await prisma.comment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Comments and only return the `id`
+     * const commentWithIdOnly = await prisma.comment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CommentCreateManyAndReturnArgs>(args?: SelectSubset<T, CommentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Comment.
+     * @param {CommentDeleteArgs} args - Arguments to delete one Comment.
+     * @example
+     * // Delete one Comment
+     * const Comment = await prisma.comment.delete({
+     *   where: {
+     *     // ... filter to delete one Comment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CommentDeleteArgs>(args: SelectSubset<T, CommentDeleteArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Comment.
+     * @param {CommentUpdateArgs} args - Arguments to update one Comment.
+     * @example
+     * // Update one Comment
+     * const comment = await prisma.comment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CommentUpdateArgs>(args: SelectSubset<T, CommentUpdateArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Comments.
+     * @param {CommentDeleteManyArgs} args - Arguments to filter Comments to delete.
+     * @example
+     * // Delete a few Comments
+     * const { count } = await prisma.comment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CommentDeleteManyArgs>(args?: SelectSubset<T, CommentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Comments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Comments
+     * const comment = await prisma.comment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CommentUpdateManyArgs>(args: SelectSubset<T, CommentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Comments and returns the data updated in the database.
+     * @param {CommentUpdateManyAndReturnArgs} args - Arguments to update many Comments.
+     * @example
+     * // Update many Comments
+     * const comment = await prisma.comment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Comments and only return the `id`
+     * const commentWithIdOnly = await prisma.comment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CommentUpdateManyAndReturnArgs>(args: SelectSubset<T, CommentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Comment.
+     * @param {CommentUpsertArgs} args - Arguments to update or create a Comment.
+     * @example
+     * // Update or create a Comment
+     * const comment = await prisma.comment.upsert({
+     *   create: {
+     *     // ... data to create a Comment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Comment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CommentUpsertArgs>(args: SelectSubset<T, CommentUpsertArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Comments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommentCountArgs} args - Arguments to filter Comments to count.
+     * @example
+     * // Count the number of Comments
+     * const count = await prisma.comment.count({
+     *   where: {
+     *     // ... the filter for the Comments we want to count
+     *   }
+     * })
+    **/
+    count<T extends CommentCountArgs>(
+      args?: Subset<T, CommentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CommentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Comment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CommentAggregateArgs>(args: Subset<T, CommentAggregateArgs>): Prisma.PrismaPromise<GetCommentAggregateType<T>>
+
+    /**
+     * Group by Comment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CommentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CommentGroupByArgs['orderBy'] }
+        : { orderBy?: CommentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CommentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCommentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Comment model
+   */
+  readonly fields: CommentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Comment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CommentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    resource<T extends ResourceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResourceDefaultArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    parent<T extends Comment$parentArgs<ExtArgs> = {}>(args?: Subset<T, Comment$parentArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    replies<T extends Comment$repliesArgs<ExtArgs> = {}>(args?: Subset<T, Comment$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Comment model
+   */
+  interface CommentFieldRefs {
+    readonly id: FieldRef<"Comment", 'String'>
+    readonly content: FieldRef<"Comment", 'String'>
+    readonly status: FieldRef<"Comment", 'CommentStatus'>
+    readonly metadata: FieldRef<"Comment", 'Json'>
+    readonly createdAt: FieldRef<"Comment", 'DateTime'>
+    readonly updatedAt: FieldRef<"Comment", 'DateTime'>
+    readonly deletedAt: FieldRef<"Comment", 'DateTime'>
+    readonly authorId: FieldRef<"Comment", 'String'>
+    readonly resourceId: FieldRef<"Comment", 'String'>
+    readonly parentId: FieldRef<"Comment", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Comment findUnique
+   */
+  export type CommentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    /**
+     * Filter, which Comment to fetch.
+     */
+    where: CommentWhereUniqueInput
+  }
+
+  /**
+   * Comment findUniqueOrThrow
+   */
+  export type CommentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    /**
+     * Filter, which Comment to fetch.
+     */
+    where: CommentWhereUniqueInput
+  }
+
+  /**
+   * Comment findFirst
+   */
+  export type CommentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    /**
+     * Filter, which Comment to fetch.
+     */
+    where?: CommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Comments to fetch.
+     */
+    orderBy?: CommentOrderByWithRelationInput | CommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Comments.
+     */
+    cursor?: CommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Comments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Comments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Comments.
+     */
+    distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+  /**
+   * Comment findFirstOrThrow
+   */
+  export type CommentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    /**
+     * Filter, which Comment to fetch.
+     */
+    where?: CommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Comments to fetch.
+     */
+    orderBy?: CommentOrderByWithRelationInput | CommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Comments.
+     */
+    cursor?: CommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Comments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Comments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Comments.
+     */
+    distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+  /**
+   * Comment findMany
+   */
+  export type CommentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    /**
+     * Filter, which Comments to fetch.
+     */
+    where?: CommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Comments to fetch.
+     */
+    orderBy?: CommentOrderByWithRelationInput | CommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Comments.
+     */
+    cursor?: CommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Comments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Comments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Comments.
+     */
+    distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+  /**
+   * Comment create
+   */
+  export type CommentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Comment.
+     */
+    data: XOR<CommentCreateInput, CommentUncheckedCreateInput>
+  }
+
+  /**
+   * Comment createMany
+   */
+  export type CommentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Comments.
+     */
+    data: CommentCreateManyInput | CommentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Comment createManyAndReturn
+   */
+  export type CommentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Comments.
+     */
+    data: CommentCreateManyInput | CommentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Comment update
+   */
+  export type CommentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Comment.
+     */
+    data: XOR<CommentUpdateInput, CommentUncheckedUpdateInput>
+    /**
+     * Choose, which Comment to update.
+     */
+    where: CommentWhereUniqueInput
+  }
+
+  /**
+   * Comment updateMany
+   */
+  export type CommentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Comments.
+     */
+    data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyInput>
+    /**
+     * Filter which Comments to update
+     */
+    where?: CommentWhereInput
+    /**
+     * Limit how many Comments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Comment updateManyAndReturn
+   */
+  export type CommentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * The data used to update Comments.
+     */
+    data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyInput>
+    /**
+     * Filter which Comments to update
+     */
+    where?: CommentWhereInput
+    /**
+     * Limit how many Comments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Comment upsert
+   */
+  export type CommentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Comment to update in case it exists.
+     */
+    where: CommentWhereUniqueInput
+    /**
+     * In case the Comment found by the `where` argument doesn't exist, create a new Comment with this data.
+     */
+    create: XOR<CommentCreateInput, CommentUncheckedCreateInput>
+    /**
+     * In case the Comment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CommentUpdateInput, CommentUncheckedUpdateInput>
+  }
+
+  /**
+   * Comment delete
+   */
+  export type CommentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    /**
+     * Filter which Comment to delete.
+     */
+    where: CommentWhereUniqueInput
+  }
+
+  /**
+   * Comment deleteMany
+   */
+  export type CommentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Comments to delete
+     */
+    where?: CommentWhereInput
+    /**
+     * Limit how many Comments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Comment.parent
+   */
+  export type Comment$parentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    where?: CommentWhereInput
+  }
+
+  /**
+   * Comment.replies
+   */
+  export type Comment$repliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    where?: CommentWhereInput
+    orderBy?: CommentOrderByWithRelationInput | CommentOrderByWithRelationInput[]
+    cursor?: CommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+  /**
+   * Comment without action
+   */
+  export type CommentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SavedResource
+   */
+
+  export type AggregateSavedResource = {
+    _count: SavedResourceCountAggregateOutputType | null
+    _min: SavedResourceMinAggregateOutputType | null
+    _max: SavedResourceMaxAggregateOutputType | null
+  }
+
+  export type SavedResourceMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    resourceId: string | null
+    createdAt: Date | null
+  }
+
+  export type SavedResourceMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    resourceId: string | null
+    createdAt: Date | null
+  }
+
+  export type SavedResourceCountAggregateOutputType = {
+    id: number
+    userId: number
+    resourceId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SavedResourceMinAggregateInputType = {
+    id?: true
+    userId?: true
+    resourceId?: true
+    createdAt?: true
+  }
+
+  export type SavedResourceMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    resourceId?: true
+    createdAt?: true
+  }
+
+  export type SavedResourceCountAggregateInputType = {
+    id?: true
+    userId?: true
+    resourceId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SavedResourceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SavedResource to aggregate.
+     */
+    where?: SavedResourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedResources to fetch.
+     */
+    orderBy?: SavedResourceOrderByWithRelationInput | SavedResourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SavedResourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedResources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedResources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SavedResources
+    **/
+    _count?: true | SavedResourceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SavedResourceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SavedResourceMaxAggregateInputType
+  }
+
+  export type GetSavedResourceAggregateType<T extends SavedResourceAggregateArgs> = {
+        [P in keyof T & keyof AggregateSavedResource]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSavedResource[P]>
+      : GetScalarType<T[P], AggregateSavedResource[P]>
+  }
+
+
+
+
+  export type SavedResourceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SavedResourceWhereInput
+    orderBy?: SavedResourceOrderByWithAggregationInput | SavedResourceOrderByWithAggregationInput[]
+    by: SavedResourceScalarFieldEnum[] | SavedResourceScalarFieldEnum
+    having?: SavedResourceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SavedResourceCountAggregateInputType | true
+    _min?: SavedResourceMinAggregateInputType
+    _max?: SavedResourceMaxAggregateInputType
+  }
+
+  export type SavedResourceGroupByOutputType = {
+    id: string
+    userId: string
+    resourceId: string
+    createdAt: Date
+    _count: SavedResourceCountAggregateOutputType | null
+    _min: SavedResourceMinAggregateOutputType | null
+    _max: SavedResourceMaxAggregateOutputType | null
+  }
+
+  type GetSavedResourceGroupByPayload<T extends SavedResourceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SavedResourceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SavedResourceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SavedResourceGroupByOutputType[P]>
+            : GetScalarType<T[P], SavedResourceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SavedResourceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    resourceId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["savedResource"]>
+
+  export type SavedResourceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    resourceId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["savedResource"]>
+
+  export type SavedResourceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    resourceId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["savedResource"]>
+
+  export type SavedResourceSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    resourceId?: boolean
+    createdAt?: boolean
+  }
+
+  export type SavedResourceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "resourceId" | "createdAt", ExtArgs["result"]["savedResource"]>
+  export type SavedResourceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+  export type SavedResourceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+  export type SavedResourceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+
+  export type $SavedResourcePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SavedResource"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      resource: Prisma.$ResourcePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      resourceId: string
+      createdAt: Date
+    }, ExtArgs["result"]["savedResource"]>
+    composites: {}
+  }
+
+  type SavedResourceGetPayload<S extends boolean | null | undefined | SavedResourceDefaultArgs> = $Result.GetResult<Prisma.$SavedResourcePayload, S>
+
+  type SavedResourceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SavedResourceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SavedResourceCountAggregateInputType | true
+    }
+
+  export interface SavedResourceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SavedResource'], meta: { name: 'SavedResource' } }
+    /**
+     * Find zero or one SavedResource that matches the filter.
+     * @param {SavedResourceFindUniqueArgs} args - Arguments to find a SavedResource
+     * @example
+     * // Get one SavedResource
+     * const savedResource = await prisma.savedResource.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SavedResourceFindUniqueArgs>(args: SelectSubset<T, SavedResourceFindUniqueArgs<ExtArgs>>): Prisma__SavedResourceClient<$Result.GetResult<Prisma.$SavedResourcePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SavedResource that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SavedResourceFindUniqueOrThrowArgs} args - Arguments to find a SavedResource
+     * @example
+     * // Get one SavedResource
+     * const savedResource = await prisma.savedResource.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SavedResourceFindUniqueOrThrowArgs>(args: SelectSubset<T, SavedResourceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SavedResourceClient<$Result.GetResult<Prisma.$SavedResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SavedResource that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedResourceFindFirstArgs} args - Arguments to find a SavedResource
+     * @example
+     * // Get one SavedResource
+     * const savedResource = await prisma.savedResource.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SavedResourceFindFirstArgs>(args?: SelectSubset<T, SavedResourceFindFirstArgs<ExtArgs>>): Prisma__SavedResourceClient<$Result.GetResult<Prisma.$SavedResourcePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SavedResource that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedResourceFindFirstOrThrowArgs} args - Arguments to find a SavedResource
+     * @example
+     * // Get one SavedResource
+     * const savedResource = await prisma.savedResource.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SavedResourceFindFirstOrThrowArgs>(args?: SelectSubset<T, SavedResourceFindFirstOrThrowArgs<ExtArgs>>): Prisma__SavedResourceClient<$Result.GetResult<Prisma.$SavedResourcePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SavedResources that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedResourceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SavedResources
+     * const savedResources = await prisma.savedResource.findMany()
+     * 
+     * // Get first 10 SavedResources
+     * const savedResources = await prisma.savedResource.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const savedResourceWithIdOnly = await prisma.savedResource.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SavedResourceFindManyArgs>(args?: SelectSubset<T, SavedResourceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SavedResource.
+     * @param {SavedResourceCreateArgs} args - Arguments to create a SavedResource.
+     * @example
+     * // Create one SavedResource
+     * const SavedResource = await prisma.savedResource.create({
+     *   data: {
+     *     // ... data to create a SavedResource
+     *   }
+     * })
+     * 
+     */
+    create<T extends SavedResourceCreateArgs>(args: SelectSubset<T, SavedResourceCreateArgs<ExtArgs>>): Prisma__SavedResourceClient<$Result.GetResult<Prisma.$SavedResourcePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SavedResources.
+     * @param {SavedResourceCreateManyArgs} args - Arguments to create many SavedResources.
+     * @example
+     * // Create many SavedResources
+     * const savedResource = await prisma.savedResource.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SavedResourceCreateManyArgs>(args?: SelectSubset<T, SavedResourceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SavedResources and returns the data saved in the database.
+     * @param {SavedResourceCreateManyAndReturnArgs} args - Arguments to create many SavedResources.
+     * @example
+     * // Create many SavedResources
+     * const savedResource = await prisma.savedResource.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SavedResources and only return the `id`
+     * const savedResourceWithIdOnly = await prisma.savedResource.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SavedResourceCreateManyAndReturnArgs>(args?: SelectSubset<T, SavedResourceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedResourcePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SavedResource.
+     * @param {SavedResourceDeleteArgs} args - Arguments to delete one SavedResource.
+     * @example
+     * // Delete one SavedResource
+     * const SavedResource = await prisma.savedResource.delete({
+     *   where: {
+     *     // ... filter to delete one SavedResource
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SavedResourceDeleteArgs>(args: SelectSubset<T, SavedResourceDeleteArgs<ExtArgs>>): Prisma__SavedResourceClient<$Result.GetResult<Prisma.$SavedResourcePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SavedResource.
+     * @param {SavedResourceUpdateArgs} args - Arguments to update one SavedResource.
+     * @example
+     * // Update one SavedResource
+     * const savedResource = await prisma.savedResource.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SavedResourceUpdateArgs>(args: SelectSubset<T, SavedResourceUpdateArgs<ExtArgs>>): Prisma__SavedResourceClient<$Result.GetResult<Prisma.$SavedResourcePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SavedResources.
+     * @param {SavedResourceDeleteManyArgs} args - Arguments to filter SavedResources to delete.
+     * @example
+     * // Delete a few SavedResources
+     * const { count } = await prisma.savedResource.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SavedResourceDeleteManyArgs>(args?: SelectSubset<T, SavedResourceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SavedResources.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedResourceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SavedResources
+     * const savedResource = await prisma.savedResource.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SavedResourceUpdateManyArgs>(args: SelectSubset<T, SavedResourceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SavedResources and returns the data updated in the database.
+     * @param {SavedResourceUpdateManyAndReturnArgs} args - Arguments to update many SavedResources.
+     * @example
+     * // Update many SavedResources
+     * const savedResource = await prisma.savedResource.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SavedResources and only return the `id`
+     * const savedResourceWithIdOnly = await prisma.savedResource.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SavedResourceUpdateManyAndReturnArgs>(args: SelectSubset<T, SavedResourceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedResourcePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SavedResource.
+     * @param {SavedResourceUpsertArgs} args - Arguments to update or create a SavedResource.
+     * @example
+     * // Update or create a SavedResource
+     * const savedResource = await prisma.savedResource.upsert({
+     *   create: {
+     *     // ... data to create a SavedResource
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SavedResource we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SavedResourceUpsertArgs>(args: SelectSubset<T, SavedResourceUpsertArgs<ExtArgs>>): Prisma__SavedResourceClient<$Result.GetResult<Prisma.$SavedResourcePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SavedResources.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedResourceCountArgs} args - Arguments to filter SavedResources to count.
+     * @example
+     * // Count the number of SavedResources
+     * const count = await prisma.savedResource.count({
+     *   where: {
+     *     // ... the filter for the SavedResources we want to count
+     *   }
+     * })
+    **/
+    count<T extends SavedResourceCountArgs>(
+      args?: Subset<T, SavedResourceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SavedResourceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SavedResource.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedResourceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SavedResourceAggregateArgs>(args: Subset<T, SavedResourceAggregateArgs>): Prisma.PrismaPromise<GetSavedResourceAggregateType<T>>
+
+    /**
+     * Group by SavedResource.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedResourceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SavedResourceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SavedResourceGroupByArgs['orderBy'] }
+        : { orderBy?: SavedResourceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SavedResourceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSavedResourceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SavedResource model
+   */
+  readonly fields: SavedResourceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SavedResource.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SavedResourceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    resource<T extends ResourceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResourceDefaultArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SavedResource model
+   */
+  interface SavedResourceFieldRefs {
+    readonly id: FieldRef<"SavedResource", 'String'>
+    readonly userId: FieldRef<"SavedResource", 'String'>
+    readonly resourceId: FieldRef<"SavedResource", 'String'>
+    readonly createdAt: FieldRef<"SavedResource", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SavedResource findUnique
+   */
+  export type SavedResourceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedResource
+     */
+    select?: SavedResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedResource
+     */
+    omit?: SavedResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedResource to fetch.
+     */
+    where: SavedResourceWhereUniqueInput
+  }
+
+  /**
+   * SavedResource findUniqueOrThrow
+   */
+  export type SavedResourceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedResource
+     */
+    select?: SavedResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedResource
+     */
+    omit?: SavedResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedResource to fetch.
+     */
+    where: SavedResourceWhereUniqueInput
+  }
+
+  /**
+   * SavedResource findFirst
+   */
+  export type SavedResourceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedResource
+     */
+    select?: SavedResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedResource
+     */
+    omit?: SavedResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedResource to fetch.
+     */
+    where?: SavedResourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedResources to fetch.
+     */
+    orderBy?: SavedResourceOrderByWithRelationInput | SavedResourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SavedResources.
+     */
+    cursor?: SavedResourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedResources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedResources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SavedResources.
+     */
+    distinct?: SavedResourceScalarFieldEnum | SavedResourceScalarFieldEnum[]
+  }
+
+  /**
+   * SavedResource findFirstOrThrow
+   */
+  export type SavedResourceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedResource
+     */
+    select?: SavedResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedResource
+     */
+    omit?: SavedResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedResource to fetch.
+     */
+    where?: SavedResourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedResources to fetch.
+     */
+    orderBy?: SavedResourceOrderByWithRelationInput | SavedResourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SavedResources.
+     */
+    cursor?: SavedResourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedResources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedResources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SavedResources.
+     */
+    distinct?: SavedResourceScalarFieldEnum | SavedResourceScalarFieldEnum[]
+  }
+
+  /**
+   * SavedResource findMany
+   */
+  export type SavedResourceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedResource
+     */
+    select?: SavedResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedResource
+     */
+    omit?: SavedResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedResourceInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedResources to fetch.
+     */
+    where?: SavedResourceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedResources to fetch.
+     */
+    orderBy?: SavedResourceOrderByWithRelationInput | SavedResourceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SavedResources.
+     */
+    cursor?: SavedResourceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedResources from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedResources.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SavedResources.
+     */
+    distinct?: SavedResourceScalarFieldEnum | SavedResourceScalarFieldEnum[]
+  }
+
+  /**
+   * SavedResource create
+   */
+  export type SavedResourceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedResource
+     */
+    select?: SavedResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedResource
+     */
+    omit?: SavedResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedResourceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SavedResource.
+     */
+    data: XOR<SavedResourceCreateInput, SavedResourceUncheckedCreateInput>
+  }
+
+  /**
+   * SavedResource createMany
+   */
+  export type SavedResourceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SavedResources.
+     */
+    data: SavedResourceCreateManyInput | SavedResourceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SavedResource createManyAndReturn
+   */
+  export type SavedResourceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedResource
+     */
+    select?: SavedResourceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedResource
+     */
+    omit?: SavedResourceOmit<ExtArgs> | null
+    /**
+     * The data used to create many SavedResources.
+     */
+    data: SavedResourceCreateManyInput | SavedResourceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedResourceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SavedResource update
+   */
+  export type SavedResourceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedResource
+     */
+    select?: SavedResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedResource
+     */
+    omit?: SavedResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedResourceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SavedResource.
+     */
+    data: XOR<SavedResourceUpdateInput, SavedResourceUncheckedUpdateInput>
+    /**
+     * Choose, which SavedResource to update.
+     */
+    where: SavedResourceWhereUniqueInput
+  }
+
+  /**
+   * SavedResource updateMany
+   */
+  export type SavedResourceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SavedResources.
+     */
+    data: XOR<SavedResourceUpdateManyMutationInput, SavedResourceUncheckedUpdateManyInput>
+    /**
+     * Filter which SavedResources to update
+     */
+    where?: SavedResourceWhereInput
+    /**
+     * Limit how many SavedResources to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SavedResource updateManyAndReturn
+   */
+  export type SavedResourceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedResource
+     */
+    select?: SavedResourceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedResource
+     */
+    omit?: SavedResourceOmit<ExtArgs> | null
+    /**
+     * The data used to update SavedResources.
+     */
+    data: XOR<SavedResourceUpdateManyMutationInput, SavedResourceUncheckedUpdateManyInput>
+    /**
+     * Filter which SavedResources to update
+     */
+    where?: SavedResourceWhereInput
+    /**
+     * Limit how many SavedResources to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedResourceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SavedResource upsert
+   */
+  export type SavedResourceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedResource
+     */
+    select?: SavedResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedResource
+     */
+    omit?: SavedResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedResourceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SavedResource to update in case it exists.
+     */
+    where: SavedResourceWhereUniqueInput
+    /**
+     * In case the SavedResource found by the `where` argument doesn't exist, create a new SavedResource with this data.
+     */
+    create: XOR<SavedResourceCreateInput, SavedResourceUncheckedCreateInput>
+    /**
+     * In case the SavedResource was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SavedResourceUpdateInput, SavedResourceUncheckedUpdateInput>
+  }
+
+  /**
+   * SavedResource delete
+   */
+  export type SavedResourceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedResource
+     */
+    select?: SavedResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedResource
+     */
+    omit?: SavedResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedResourceInclude<ExtArgs> | null
+    /**
+     * Filter which SavedResource to delete.
+     */
+    where: SavedResourceWhereUniqueInput
+  }
+
+  /**
+   * SavedResource deleteMany
+   */
+  export type SavedResourceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SavedResources to delete
+     */
+    where?: SavedResourceWhereInput
+    /**
+     * Limit how many SavedResources to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SavedResource without action
+   */
+  export type SavedResourceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedResource
+     */
+    select?: SavedResourceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedResource
+     */
+    omit?: SavedResourceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedResourceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ResourceUsage
+   */
+
+  export type AggregateResourceUsage = {
+    _count: ResourceUsageCountAggregateOutputType | null
+    _min: ResourceUsageMinAggregateOutputType | null
+    _max: ResourceUsageMaxAggregateOutputType | null
+  }
+
+  export type ResourceUsageMinAggregateOutputType = {
+    id: string | null
+    resourceId: string | null
+    userId: string | null
+    event: $Enums.UsageEvent | null
+    sessionId: string | null
+    createdAt: Date | null
+  }
+
+  export type ResourceUsageMaxAggregateOutputType = {
+    id: string | null
+    resourceId: string | null
+    userId: string | null
+    event: $Enums.UsageEvent | null
+    sessionId: string | null
+    createdAt: Date | null
+  }
+
+  export type ResourceUsageCountAggregateOutputType = {
+    id: number
+    resourceId: number
+    userId: number
+    event: number
+    sessionId: number
+    metadata: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ResourceUsageMinAggregateInputType = {
+    id?: true
+    resourceId?: true
+    userId?: true
+    event?: true
+    sessionId?: true
+    createdAt?: true
+  }
+
+  export type ResourceUsageMaxAggregateInputType = {
+    id?: true
+    resourceId?: true
+    userId?: true
+    event?: true
+    sessionId?: true
+    createdAt?: true
+  }
+
+  export type ResourceUsageCountAggregateInputType = {
+    id?: true
+    resourceId?: true
+    userId?: true
+    event?: true
+    sessionId?: true
+    metadata?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ResourceUsageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ResourceUsage to aggregate.
+     */
+    where?: ResourceUsageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceUsages to fetch.
+     */
+    orderBy?: ResourceUsageOrderByWithRelationInput | ResourceUsageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ResourceUsageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceUsages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceUsages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ResourceUsages
+    **/
+    _count?: true | ResourceUsageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ResourceUsageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ResourceUsageMaxAggregateInputType
+  }
+
+  export type GetResourceUsageAggregateType<T extends ResourceUsageAggregateArgs> = {
+        [P in keyof T & keyof AggregateResourceUsage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateResourceUsage[P]>
+      : GetScalarType<T[P], AggregateResourceUsage[P]>
+  }
+
+
+
+
+  export type ResourceUsageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceUsageWhereInput
+    orderBy?: ResourceUsageOrderByWithAggregationInput | ResourceUsageOrderByWithAggregationInput[]
+    by: ResourceUsageScalarFieldEnum[] | ResourceUsageScalarFieldEnum
+    having?: ResourceUsageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ResourceUsageCountAggregateInputType | true
+    _min?: ResourceUsageMinAggregateInputType
+    _max?: ResourceUsageMaxAggregateInputType
+  }
+
+  export type ResourceUsageGroupByOutputType = {
+    id: string
+    resourceId: string
+    userId: string | null
+    event: $Enums.UsageEvent
+    sessionId: string | null
+    metadata: JsonValue | null
+    createdAt: Date
+    _count: ResourceUsageCountAggregateOutputType | null
+    _min: ResourceUsageMinAggregateOutputType | null
+    _max: ResourceUsageMaxAggregateOutputType | null
+  }
+
+  type GetResourceUsageGroupByPayload<T extends ResourceUsageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ResourceUsageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ResourceUsageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ResourceUsageGroupByOutputType[P]>
+            : GetScalarType<T[P], ResourceUsageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ResourceUsageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    resourceId?: boolean
+    userId?: boolean
+    event?: boolean
+    sessionId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    user?: boolean | ResourceUsage$userArgs<ExtArgs>
+  }, ExtArgs["result"]["resourceUsage"]>
+
+  export type ResourceUsageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    resourceId?: boolean
+    userId?: boolean
+    event?: boolean
+    sessionId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    user?: boolean | ResourceUsage$userArgs<ExtArgs>
+  }, ExtArgs["result"]["resourceUsage"]>
+
+  export type ResourceUsageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    resourceId?: boolean
+    userId?: boolean
+    event?: boolean
+    sessionId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    user?: boolean | ResourceUsage$userArgs<ExtArgs>
+  }, ExtArgs["result"]["resourceUsage"]>
+
+  export type ResourceUsageSelectScalar = {
+    id?: boolean
+    resourceId?: boolean
+    userId?: boolean
+    event?: boolean
+    sessionId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+  }
+
+  export type ResourceUsageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "resourceId" | "userId" | "event" | "sessionId" | "metadata" | "createdAt", ExtArgs["result"]["resourceUsage"]>
+  export type ResourceUsageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    user?: boolean | ResourceUsage$userArgs<ExtArgs>
+  }
+  export type ResourceUsageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    user?: boolean | ResourceUsage$userArgs<ExtArgs>
+  }
+  export type ResourceUsageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    user?: boolean | ResourceUsage$userArgs<ExtArgs>
+  }
+
+  export type $ResourceUsagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ResourceUsage"
+    objects: {
+      resource: Prisma.$ResourcePayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      resourceId: string
+      userId: string | null
+      event: $Enums.UsageEvent
+      sessionId: string | null
+      metadata: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["resourceUsage"]>
+    composites: {}
+  }
+
+  type ResourceUsageGetPayload<S extends boolean | null | undefined | ResourceUsageDefaultArgs> = $Result.GetResult<Prisma.$ResourceUsagePayload, S>
+
+  type ResourceUsageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ResourceUsageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ResourceUsageCountAggregateInputType | true
+    }
+
+  export interface ResourceUsageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ResourceUsage'], meta: { name: 'ResourceUsage' } }
+    /**
+     * Find zero or one ResourceUsage that matches the filter.
+     * @param {ResourceUsageFindUniqueArgs} args - Arguments to find a ResourceUsage
+     * @example
+     * // Get one ResourceUsage
+     * const resourceUsage = await prisma.resourceUsage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ResourceUsageFindUniqueArgs>(args: SelectSubset<T, ResourceUsageFindUniqueArgs<ExtArgs>>): Prisma__ResourceUsageClient<$Result.GetResult<Prisma.$ResourceUsagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ResourceUsage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ResourceUsageFindUniqueOrThrowArgs} args - Arguments to find a ResourceUsage
+     * @example
+     * // Get one ResourceUsage
+     * const resourceUsage = await prisma.resourceUsage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ResourceUsageFindUniqueOrThrowArgs>(args: SelectSubset<T, ResourceUsageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ResourceUsageClient<$Result.GetResult<Prisma.$ResourceUsagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ResourceUsage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceUsageFindFirstArgs} args - Arguments to find a ResourceUsage
+     * @example
+     * // Get one ResourceUsage
+     * const resourceUsage = await prisma.resourceUsage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ResourceUsageFindFirstArgs>(args?: SelectSubset<T, ResourceUsageFindFirstArgs<ExtArgs>>): Prisma__ResourceUsageClient<$Result.GetResult<Prisma.$ResourceUsagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ResourceUsage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceUsageFindFirstOrThrowArgs} args - Arguments to find a ResourceUsage
+     * @example
+     * // Get one ResourceUsage
+     * const resourceUsage = await prisma.resourceUsage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ResourceUsageFindFirstOrThrowArgs>(args?: SelectSubset<T, ResourceUsageFindFirstOrThrowArgs<ExtArgs>>): Prisma__ResourceUsageClient<$Result.GetResult<Prisma.$ResourceUsagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ResourceUsages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceUsageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ResourceUsages
+     * const resourceUsages = await prisma.resourceUsage.findMany()
+     * 
+     * // Get first 10 ResourceUsages
+     * const resourceUsages = await prisma.resourceUsage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const resourceUsageWithIdOnly = await prisma.resourceUsage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ResourceUsageFindManyArgs>(args?: SelectSubset<T, ResourceUsageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ResourceUsage.
+     * @param {ResourceUsageCreateArgs} args - Arguments to create a ResourceUsage.
+     * @example
+     * // Create one ResourceUsage
+     * const ResourceUsage = await prisma.resourceUsage.create({
+     *   data: {
+     *     // ... data to create a ResourceUsage
+     *   }
+     * })
+     * 
+     */
+    create<T extends ResourceUsageCreateArgs>(args: SelectSubset<T, ResourceUsageCreateArgs<ExtArgs>>): Prisma__ResourceUsageClient<$Result.GetResult<Prisma.$ResourceUsagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ResourceUsages.
+     * @param {ResourceUsageCreateManyArgs} args - Arguments to create many ResourceUsages.
+     * @example
+     * // Create many ResourceUsages
+     * const resourceUsage = await prisma.resourceUsage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ResourceUsageCreateManyArgs>(args?: SelectSubset<T, ResourceUsageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ResourceUsages and returns the data saved in the database.
+     * @param {ResourceUsageCreateManyAndReturnArgs} args - Arguments to create many ResourceUsages.
+     * @example
+     * // Create many ResourceUsages
+     * const resourceUsage = await prisma.resourceUsage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ResourceUsages and only return the `id`
+     * const resourceUsageWithIdOnly = await prisma.resourceUsage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ResourceUsageCreateManyAndReturnArgs>(args?: SelectSubset<T, ResourceUsageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceUsagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ResourceUsage.
+     * @param {ResourceUsageDeleteArgs} args - Arguments to delete one ResourceUsage.
+     * @example
+     * // Delete one ResourceUsage
+     * const ResourceUsage = await prisma.resourceUsage.delete({
+     *   where: {
+     *     // ... filter to delete one ResourceUsage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ResourceUsageDeleteArgs>(args: SelectSubset<T, ResourceUsageDeleteArgs<ExtArgs>>): Prisma__ResourceUsageClient<$Result.GetResult<Prisma.$ResourceUsagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ResourceUsage.
+     * @param {ResourceUsageUpdateArgs} args - Arguments to update one ResourceUsage.
+     * @example
+     * // Update one ResourceUsage
+     * const resourceUsage = await prisma.resourceUsage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ResourceUsageUpdateArgs>(args: SelectSubset<T, ResourceUsageUpdateArgs<ExtArgs>>): Prisma__ResourceUsageClient<$Result.GetResult<Prisma.$ResourceUsagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ResourceUsages.
+     * @param {ResourceUsageDeleteManyArgs} args - Arguments to filter ResourceUsages to delete.
+     * @example
+     * // Delete a few ResourceUsages
+     * const { count } = await prisma.resourceUsage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ResourceUsageDeleteManyArgs>(args?: SelectSubset<T, ResourceUsageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ResourceUsages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceUsageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ResourceUsages
+     * const resourceUsage = await prisma.resourceUsage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ResourceUsageUpdateManyArgs>(args: SelectSubset<T, ResourceUsageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ResourceUsages and returns the data updated in the database.
+     * @param {ResourceUsageUpdateManyAndReturnArgs} args - Arguments to update many ResourceUsages.
+     * @example
+     * // Update many ResourceUsages
+     * const resourceUsage = await prisma.resourceUsage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ResourceUsages and only return the `id`
+     * const resourceUsageWithIdOnly = await prisma.resourceUsage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ResourceUsageUpdateManyAndReturnArgs>(args: SelectSubset<T, ResourceUsageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceUsagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ResourceUsage.
+     * @param {ResourceUsageUpsertArgs} args - Arguments to update or create a ResourceUsage.
+     * @example
+     * // Update or create a ResourceUsage
+     * const resourceUsage = await prisma.resourceUsage.upsert({
+     *   create: {
+     *     // ... data to create a ResourceUsage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ResourceUsage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ResourceUsageUpsertArgs>(args: SelectSubset<T, ResourceUsageUpsertArgs<ExtArgs>>): Prisma__ResourceUsageClient<$Result.GetResult<Prisma.$ResourceUsagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ResourceUsages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceUsageCountArgs} args - Arguments to filter ResourceUsages to count.
+     * @example
+     * // Count the number of ResourceUsages
+     * const count = await prisma.resourceUsage.count({
+     *   where: {
+     *     // ... the filter for the ResourceUsages we want to count
+     *   }
+     * })
+    **/
+    count<T extends ResourceUsageCountArgs>(
+      args?: Subset<T, ResourceUsageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ResourceUsageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ResourceUsage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceUsageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ResourceUsageAggregateArgs>(args: Subset<T, ResourceUsageAggregateArgs>): Prisma.PrismaPromise<GetResourceUsageAggregateType<T>>
+
+    /**
+     * Group by ResourceUsage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceUsageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ResourceUsageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ResourceUsageGroupByArgs['orderBy'] }
+        : { orderBy?: ResourceUsageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ResourceUsageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetResourceUsageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ResourceUsage model
+   */
+  readonly fields: ResourceUsageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ResourceUsage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ResourceUsageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    resource<T extends ResourceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResourceDefaultArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends ResourceUsage$userArgs<ExtArgs> = {}>(args?: Subset<T, ResourceUsage$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ResourceUsage model
+   */
+  interface ResourceUsageFieldRefs {
+    readonly id: FieldRef<"ResourceUsage", 'String'>
+    readonly resourceId: FieldRef<"ResourceUsage", 'String'>
+    readonly userId: FieldRef<"ResourceUsage", 'String'>
+    readonly event: FieldRef<"ResourceUsage", 'UsageEvent'>
+    readonly sessionId: FieldRef<"ResourceUsage", 'String'>
+    readonly metadata: FieldRef<"ResourceUsage", 'Json'>
+    readonly createdAt: FieldRef<"ResourceUsage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ResourceUsage findUnique
+   */
+  export type ResourceUsageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceUsage
+     */
+    select?: ResourceUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceUsage
+     */
+    omit?: ResourceUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceUsageInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceUsage to fetch.
+     */
+    where: ResourceUsageWhereUniqueInput
+  }
+
+  /**
+   * ResourceUsage findUniqueOrThrow
+   */
+  export type ResourceUsageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceUsage
+     */
+    select?: ResourceUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceUsage
+     */
+    omit?: ResourceUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceUsageInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceUsage to fetch.
+     */
+    where: ResourceUsageWhereUniqueInput
+  }
+
+  /**
+   * ResourceUsage findFirst
+   */
+  export type ResourceUsageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceUsage
+     */
+    select?: ResourceUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceUsage
+     */
+    omit?: ResourceUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceUsageInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceUsage to fetch.
+     */
+    where?: ResourceUsageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceUsages to fetch.
+     */
+    orderBy?: ResourceUsageOrderByWithRelationInput | ResourceUsageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ResourceUsages.
+     */
+    cursor?: ResourceUsageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceUsages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceUsages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ResourceUsages.
+     */
+    distinct?: ResourceUsageScalarFieldEnum | ResourceUsageScalarFieldEnum[]
+  }
+
+  /**
+   * ResourceUsage findFirstOrThrow
+   */
+  export type ResourceUsageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceUsage
+     */
+    select?: ResourceUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceUsage
+     */
+    omit?: ResourceUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceUsageInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceUsage to fetch.
+     */
+    where?: ResourceUsageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceUsages to fetch.
+     */
+    orderBy?: ResourceUsageOrderByWithRelationInput | ResourceUsageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ResourceUsages.
+     */
+    cursor?: ResourceUsageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceUsages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceUsages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ResourceUsages.
+     */
+    distinct?: ResourceUsageScalarFieldEnum | ResourceUsageScalarFieldEnum[]
+  }
+
+  /**
+   * ResourceUsage findMany
+   */
+  export type ResourceUsageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceUsage
+     */
+    select?: ResourceUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceUsage
+     */
+    omit?: ResourceUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceUsageInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceUsages to fetch.
+     */
+    where?: ResourceUsageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceUsages to fetch.
+     */
+    orderBy?: ResourceUsageOrderByWithRelationInput | ResourceUsageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ResourceUsages.
+     */
+    cursor?: ResourceUsageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceUsages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceUsages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ResourceUsages.
+     */
+    distinct?: ResourceUsageScalarFieldEnum | ResourceUsageScalarFieldEnum[]
+  }
+
+  /**
+   * ResourceUsage create
+   */
+  export type ResourceUsageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceUsage
+     */
+    select?: ResourceUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceUsage
+     */
+    omit?: ResourceUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceUsageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ResourceUsage.
+     */
+    data: XOR<ResourceUsageCreateInput, ResourceUsageUncheckedCreateInput>
+  }
+
+  /**
+   * ResourceUsage createMany
+   */
+  export type ResourceUsageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ResourceUsages.
+     */
+    data: ResourceUsageCreateManyInput | ResourceUsageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ResourceUsage createManyAndReturn
+   */
+  export type ResourceUsageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceUsage
+     */
+    select?: ResourceUsageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceUsage
+     */
+    omit?: ResourceUsageOmit<ExtArgs> | null
+    /**
+     * The data used to create many ResourceUsages.
+     */
+    data: ResourceUsageCreateManyInput | ResourceUsageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceUsageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ResourceUsage update
+   */
+  export type ResourceUsageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceUsage
+     */
+    select?: ResourceUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceUsage
+     */
+    omit?: ResourceUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceUsageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ResourceUsage.
+     */
+    data: XOR<ResourceUsageUpdateInput, ResourceUsageUncheckedUpdateInput>
+    /**
+     * Choose, which ResourceUsage to update.
+     */
+    where: ResourceUsageWhereUniqueInput
+  }
+
+  /**
+   * ResourceUsage updateMany
+   */
+  export type ResourceUsageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ResourceUsages.
+     */
+    data: XOR<ResourceUsageUpdateManyMutationInput, ResourceUsageUncheckedUpdateManyInput>
+    /**
+     * Filter which ResourceUsages to update
+     */
+    where?: ResourceUsageWhereInput
+    /**
+     * Limit how many ResourceUsages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ResourceUsage updateManyAndReturn
+   */
+  export type ResourceUsageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceUsage
+     */
+    select?: ResourceUsageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceUsage
+     */
+    omit?: ResourceUsageOmit<ExtArgs> | null
+    /**
+     * The data used to update ResourceUsages.
+     */
+    data: XOR<ResourceUsageUpdateManyMutationInput, ResourceUsageUncheckedUpdateManyInput>
+    /**
+     * Filter which ResourceUsages to update
+     */
+    where?: ResourceUsageWhereInput
+    /**
+     * Limit how many ResourceUsages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceUsageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ResourceUsage upsert
+   */
+  export type ResourceUsageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceUsage
+     */
+    select?: ResourceUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceUsage
+     */
+    omit?: ResourceUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceUsageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ResourceUsage to update in case it exists.
+     */
+    where: ResourceUsageWhereUniqueInput
+    /**
+     * In case the ResourceUsage found by the `where` argument doesn't exist, create a new ResourceUsage with this data.
+     */
+    create: XOR<ResourceUsageCreateInput, ResourceUsageUncheckedCreateInput>
+    /**
+     * In case the ResourceUsage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ResourceUsageUpdateInput, ResourceUsageUncheckedUpdateInput>
+  }
+
+  /**
+   * ResourceUsage delete
+   */
+  export type ResourceUsageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceUsage
+     */
+    select?: ResourceUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceUsage
+     */
+    omit?: ResourceUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceUsageInclude<ExtArgs> | null
+    /**
+     * Filter which ResourceUsage to delete.
+     */
+    where: ResourceUsageWhereUniqueInput
+  }
+
+  /**
+   * ResourceUsage deleteMany
+   */
+  export type ResourceUsageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ResourceUsages to delete
+     */
+    where?: ResourceUsageWhereInput
+    /**
+     * Limit how many ResourceUsages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ResourceUsage.user
+   */
+  export type ResourceUsage$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * ResourceUsage without action
+   */
+  export type ResourceUsageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceUsage
+     */
+    select?: ResourceUsageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceUsage
+     */
+    omit?: ResourceUsageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceUsageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ResourceMetrics
+   */
+
+  export type AggregateResourceMetrics = {
+    _count: ResourceMetricsCountAggregateOutputType | null
+    _avg: ResourceMetricsAvgAggregateOutputType | null
+    _sum: ResourceMetricsSumAggregateOutputType | null
+    _min: ResourceMetricsMinAggregateOutputType | null
+    _max: ResourceMetricsMaxAggregateOutputType | null
+  }
+
+  export type ResourceMetricsAvgAggregateOutputType = {
+    views: number | null
+    opens: number | null
+    downloads: number | null
+    shares: number | null
+    likes: number | null
+    bookmarks: number | null
+    engagementScore: number | null
+  }
+
+  export type ResourceMetricsSumAggregateOutputType = {
+    views: number | null
+    opens: number | null
+    downloads: number | null
+    shares: number | null
+    likes: number | null
+    bookmarks: number | null
+    engagementScore: number | null
+  }
+
+  export type ResourceMetricsMinAggregateOutputType = {
+    id: string | null
+    resourceId: string | null
+    views: number | null
+    opens: number | null
+    downloads: number | null
+    shares: number | null
+    likes: number | null
+    bookmarks: number | null
+    engagementScore: number | null
+    updatedAt: Date | null
+  }
+
+  export type ResourceMetricsMaxAggregateOutputType = {
+    id: string | null
+    resourceId: string | null
+    views: number | null
+    opens: number | null
+    downloads: number | null
+    shares: number | null
+    likes: number | null
+    bookmarks: number | null
+    engagementScore: number | null
+    updatedAt: Date | null
+  }
+
+  export type ResourceMetricsCountAggregateOutputType = {
+    id: number
+    resourceId: number
+    views: number
+    opens: number
+    downloads: number
+    shares: number
+    likes: number
+    bookmarks: number
+    engagementScore: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ResourceMetricsAvgAggregateInputType = {
+    views?: true
+    opens?: true
+    downloads?: true
+    shares?: true
+    likes?: true
+    bookmarks?: true
+    engagementScore?: true
+  }
+
+  export type ResourceMetricsSumAggregateInputType = {
+    views?: true
+    opens?: true
+    downloads?: true
+    shares?: true
+    likes?: true
+    bookmarks?: true
+    engagementScore?: true
+  }
+
+  export type ResourceMetricsMinAggregateInputType = {
+    id?: true
+    resourceId?: true
+    views?: true
+    opens?: true
+    downloads?: true
+    shares?: true
+    likes?: true
+    bookmarks?: true
+    engagementScore?: true
+    updatedAt?: true
+  }
+
+  export type ResourceMetricsMaxAggregateInputType = {
+    id?: true
+    resourceId?: true
+    views?: true
+    opens?: true
+    downloads?: true
+    shares?: true
+    likes?: true
+    bookmarks?: true
+    engagementScore?: true
+    updatedAt?: true
+  }
+
+  export type ResourceMetricsCountAggregateInputType = {
+    id?: true
+    resourceId?: true
+    views?: true
+    opens?: true
+    downloads?: true
+    shares?: true
+    likes?: true
+    bookmarks?: true
+    engagementScore?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ResourceMetricsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ResourceMetrics to aggregate.
+     */
+    where?: ResourceMetricsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceMetrics to fetch.
+     */
+    orderBy?: ResourceMetricsOrderByWithRelationInput | ResourceMetricsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ResourceMetricsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceMetrics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceMetrics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ResourceMetrics
+    **/
+    _count?: true | ResourceMetricsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ResourceMetricsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ResourceMetricsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ResourceMetricsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ResourceMetricsMaxAggregateInputType
+  }
+
+  export type GetResourceMetricsAggregateType<T extends ResourceMetricsAggregateArgs> = {
+        [P in keyof T & keyof AggregateResourceMetrics]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateResourceMetrics[P]>
+      : GetScalarType<T[P], AggregateResourceMetrics[P]>
+  }
+
+
+
+
+  export type ResourceMetricsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResourceMetricsWhereInput
+    orderBy?: ResourceMetricsOrderByWithAggregationInput | ResourceMetricsOrderByWithAggregationInput[]
+    by: ResourceMetricsScalarFieldEnum[] | ResourceMetricsScalarFieldEnum
+    having?: ResourceMetricsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ResourceMetricsCountAggregateInputType | true
+    _avg?: ResourceMetricsAvgAggregateInputType
+    _sum?: ResourceMetricsSumAggregateInputType
+    _min?: ResourceMetricsMinAggregateInputType
+    _max?: ResourceMetricsMaxAggregateInputType
+  }
+
+  export type ResourceMetricsGroupByOutputType = {
+    id: string
+    resourceId: string
+    views: number
+    opens: number
+    downloads: number
+    shares: number
+    likes: number
+    bookmarks: number
+    engagementScore: number
+    updatedAt: Date
+    _count: ResourceMetricsCountAggregateOutputType | null
+    _avg: ResourceMetricsAvgAggregateOutputType | null
+    _sum: ResourceMetricsSumAggregateOutputType | null
+    _min: ResourceMetricsMinAggregateOutputType | null
+    _max: ResourceMetricsMaxAggregateOutputType | null
+  }
+
+  type GetResourceMetricsGroupByPayload<T extends ResourceMetricsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ResourceMetricsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ResourceMetricsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ResourceMetricsGroupByOutputType[P]>
+            : GetScalarType<T[P], ResourceMetricsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ResourceMetricsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    resourceId?: boolean
+    views?: boolean
+    opens?: boolean
+    downloads?: boolean
+    shares?: boolean
+    likes?: boolean
+    bookmarks?: boolean
+    engagementScore?: boolean
+    updatedAt?: boolean
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["resourceMetrics"]>
+
+  export type ResourceMetricsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    resourceId?: boolean
+    views?: boolean
+    opens?: boolean
+    downloads?: boolean
+    shares?: boolean
+    likes?: boolean
+    bookmarks?: boolean
+    engagementScore?: boolean
+    updatedAt?: boolean
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["resourceMetrics"]>
+
+  export type ResourceMetricsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    resourceId?: boolean
+    views?: boolean
+    opens?: boolean
+    downloads?: boolean
+    shares?: boolean
+    likes?: boolean
+    bookmarks?: boolean
+    engagementScore?: boolean
+    updatedAt?: boolean
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["resourceMetrics"]>
+
+  export type ResourceMetricsSelectScalar = {
+    id?: boolean
+    resourceId?: boolean
+    views?: boolean
+    opens?: boolean
+    downloads?: boolean
+    shares?: boolean
+    likes?: boolean
+    bookmarks?: boolean
+    engagementScore?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ResourceMetricsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "resourceId" | "views" | "opens" | "downloads" | "shares" | "likes" | "bookmarks" | "engagementScore" | "updatedAt", ExtArgs["result"]["resourceMetrics"]>
+  export type ResourceMetricsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+  export type ResourceMetricsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+  export type ResourceMetricsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+
+  export type $ResourceMetricsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ResourceMetrics"
+    objects: {
+      resource: Prisma.$ResourcePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      resourceId: string
+      views: number
+      opens: number
+      downloads: number
+      shares: number
+      likes: number
+      bookmarks: number
+      engagementScore: number
+      updatedAt: Date
+    }, ExtArgs["result"]["resourceMetrics"]>
+    composites: {}
+  }
+
+  type ResourceMetricsGetPayload<S extends boolean | null | undefined | ResourceMetricsDefaultArgs> = $Result.GetResult<Prisma.$ResourceMetricsPayload, S>
+
+  type ResourceMetricsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ResourceMetricsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ResourceMetricsCountAggregateInputType | true
+    }
+
+  export interface ResourceMetricsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ResourceMetrics'], meta: { name: 'ResourceMetrics' } }
+    /**
+     * Find zero or one ResourceMetrics that matches the filter.
+     * @param {ResourceMetricsFindUniqueArgs} args - Arguments to find a ResourceMetrics
+     * @example
+     * // Get one ResourceMetrics
+     * const resourceMetrics = await prisma.resourceMetrics.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ResourceMetricsFindUniqueArgs>(args: SelectSubset<T, ResourceMetricsFindUniqueArgs<ExtArgs>>): Prisma__ResourceMetricsClient<$Result.GetResult<Prisma.$ResourceMetricsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ResourceMetrics that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ResourceMetricsFindUniqueOrThrowArgs} args - Arguments to find a ResourceMetrics
+     * @example
+     * // Get one ResourceMetrics
+     * const resourceMetrics = await prisma.resourceMetrics.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ResourceMetricsFindUniqueOrThrowArgs>(args: SelectSubset<T, ResourceMetricsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ResourceMetricsClient<$Result.GetResult<Prisma.$ResourceMetricsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ResourceMetrics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceMetricsFindFirstArgs} args - Arguments to find a ResourceMetrics
+     * @example
+     * // Get one ResourceMetrics
+     * const resourceMetrics = await prisma.resourceMetrics.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ResourceMetricsFindFirstArgs>(args?: SelectSubset<T, ResourceMetricsFindFirstArgs<ExtArgs>>): Prisma__ResourceMetricsClient<$Result.GetResult<Prisma.$ResourceMetricsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ResourceMetrics that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceMetricsFindFirstOrThrowArgs} args - Arguments to find a ResourceMetrics
+     * @example
+     * // Get one ResourceMetrics
+     * const resourceMetrics = await prisma.resourceMetrics.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ResourceMetricsFindFirstOrThrowArgs>(args?: SelectSubset<T, ResourceMetricsFindFirstOrThrowArgs<ExtArgs>>): Prisma__ResourceMetricsClient<$Result.GetResult<Prisma.$ResourceMetricsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ResourceMetrics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceMetricsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ResourceMetrics
+     * const resourceMetrics = await prisma.resourceMetrics.findMany()
+     * 
+     * // Get first 10 ResourceMetrics
+     * const resourceMetrics = await prisma.resourceMetrics.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const resourceMetricsWithIdOnly = await prisma.resourceMetrics.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ResourceMetricsFindManyArgs>(args?: SelectSubset<T, ResourceMetricsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceMetricsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ResourceMetrics.
+     * @param {ResourceMetricsCreateArgs} args - Arguments to create a ResourceMetrics.
+     * @example
+     * // Create one ResourceMetrics
+     * const ResourceMetrics = await prisma.resourceMetrics.create({
+     *   data: {
+     *     // ... data to create a ResourceMetrics
+     *   }
+     * })
+     * 
+     */
+    create<T extends ResourceMetricsCreateArgs>(args: SelectSubset<T, ResourceMetricsCreateArgs<ExtArgs>>): Prisma__ResourceMetricsClient<$Result.GetResult<Prisma.$ResourceMetricsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ResourceMetrics.
+     * @param {ResourceMetricsCreateManyArgs} args - Arguments to create many ResourceMetrics.
+     * @example
+     * // Create many ResourceMetrics
+     * const resourceMetrics = await prisma.resourceMetrics.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ResourceMetricsCreateManyArgs>(args?: SelectSubset<T, ResourceMetricsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ResourceMetrics and returns the data saved in the database.
+     * @param {ResourceMetricsCreateManyAndReturnArgs} args - Arguments to create many ResourceMetrics.
+     * @example
+     * // Create many ResourceMetrics
+     * const resourceMetrics = await prisma.resourceMetrics.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ResourceMetrics and only return the `id`
+     * const resourceMetricsWithIdOnly = await prisma.resourceMetrics.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ResourceMetricsCreateManyAndReturnArgs>(args?: SelectSubset<T, ResourceMetricsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceMetricsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ResourceMetrics.
+     * @param {ResourceMetricsDeleteArgs} args - Arguments to delete one ResourceMetrics.
+     * @example
+     * // Delete one ResourceMetrics
+     * const ResourceMetrics = await prisma.resourceMetrics.delete({
+     *   where: {
+     *     // ... filter to delete one ResourceMetrics
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ResourceMetricsDeleteArgs>(args: SelectSubset<T, ResourceMetricsDeleteArgs<ExtArgs>>): Prisma__ResourceMetricsClient<$Result.GetResult<Prisma.$ResourceMetricsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ResourceMetrics.
+     * @param {ResourceMetricsUpdateArgs} args - Arguments to update one ResourceMetrics.
+     * @example
+     * // Update one ResourceMetrics
+     * const resourceMetrics = await prisma.resourceMetrics.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ResourceMetricsUpdateArgs>(args: SelectSubset<T, ResourceMetricsUpdateArgs<ExtArgs>>): Prisma__ResourceMetricsClient<$Result.GetResult<Prisma.$ResourceMetricsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ResourceMetrics.
+     * @param {ResourceMetricsDeleteManyArgs} args - Arguments to filter ResourceMetrics to delete.
+     * @example
+     * // Delete a few ResourceMetrics
+     * const { count } = await prisma.resourceMetrics.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ResourceMetricsDeleteManyArgs>(args?: SelectSubset<T, ResourceMetricsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ResourceMetrics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceMetricsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ResourceMetrics
+     * const resourceMetrics = await prisma.resourceMetrics.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ResourceMetricsUpdateManyArgs>(args: SelectSubset<T, ResourceMetricsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ResourceMetrics and returns the data updated in the database.
+     * @param {ResourceMetricsUpdateManyAndReturnArgs} args - Arguments to update many ResourceMetrics.
+     * @example
+     * // Update many ResourceMetrics
+     * const resourceMetrics = await prisma.resourceMetrics.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ResourceMetrics and only return the `id`
+     * const resourceMetricsWithIdOnly = await prisma.resourceMetrics.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ResourceMetricsUpdateManyAndReturnArgs>(args: SelectSubset<T, ResourceMetricsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceMetricsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ResourceMetrics.
+     * @param {ResourceMetricsUpsertArgs} args - Arguments to update or create a ResourceMetrics.
+     * @example
+     * // Update or create a ResourceMetrics
+     * const resourceMetrics = await prisma.resourceMetrics.upsert({
+     *   create: {
+     *     // ... data to create a ResourceMetrics
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ResourceMetrics we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ResourceMetricsUpsertArgs>(args: SelectSubset<T, ResourceMetricsUpsertArgs<ExtArgs>>): Prisma__ResourceMetricsClient<$Result.GetResult<Prisma.$ResourceMetricsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ResourceMetrics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceMetricsCountArgs} args - Arguments to filter ResourceMetrics to count.
+     * @example
+     * // Count the number of ResourceMetrics
+     * const count = await prisma.resourceMetrics.count({
+     *   where: {
+     *     // ... the filter for the ResourceMetrics we want to count
+     *   }
+     * })
+    **/
+    count<T extends ResourceMetricsCountArgs>(
+      args?: Subset<T, ResourceMetricsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ResourceMetricsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ResourceMetrics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceMetricsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ResourceMetricsAggregateArgs>(args: Subset<T, ResourceMetricsAggregateArgs>): Prisma.PrismaPromise<GetResourceMetricsAggregateType<T>>
+
+    /**
+     * Group by ResourceMetrics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResourceMetricsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ResourceMetricsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ResourceMetricsGroupByArgs['orderBy'] }
+        : { orderBy?: ResourceMetricsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ResourceMetricsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetResourceMetricsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ResourceMetrics model
+   */
+  readonly fields: ResourceMetricsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ResourceMetrics.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ResourceMetricsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    resource<T extends ResourceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResourceDefaultArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ResourceMetrics model
+   */
+  interface ResourceMetricsFieldRefs {
+    readonly id: FieldRef<"ResourceMetrics", 'String'>
+    readonly resourceId: FieldRef<"ResourceMetrics", 'String'>
+    readonly views: FieldRef<"ResourceMetrics", 'Int'>
+    readonly opens: FieldRef<"ResourceMetrics", 'Int'>
+    readonly downloads: FieldRef<"ResourceMetrics", 'Int'>
+    readonly shares: FieldRef<"ResourceMetrics", 'Int'>
+    readonly likes: FieldRef<"ResourceMetrics", 'Int'>
+    readonly bookmarks: FieldRef<"ResourceMetrics", 'Int'>
+    readonly engagementScore: FieldRef<"ResourceMetrics", 'Float'>
+    readonly updatedAt: FieldRef<"ResourceMetrics", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ResourceMetrics findUnique
+   */
+  export type ResourceMetricsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceMetrics
+     */
+    select?: ResourceMetricsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceMetrics
+     */
+    omit?: ResourceMetricsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceMetricsInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceMetrics to fetch.
+     */
+    where: ResourceMetricsWhereUniqueInput
+  }
+
+  /**
+   * ResourceMetrics findUniqueOrThrow
+   */
+  export type ResourceMetricsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceMetrics
+     */
+    select?: ResourceMetricsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceMetrics
+     */
+    omit?: ResourceMetricsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceMetricsInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceMetrics to fetch.
+     */
+    where: ResourceMetricsWhereUniqueInput
+  }
+
+  /**
+   * ResourceMetrics findFirst
+   */
+  export type ResourceMetricsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceMetrics
+     */
+    select?: ResourceMetricsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceMetrics
+     */
+    omit?: ResourceMetricsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceMetricsInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceMetrics to fetch.
+     */
+    where?: ResourceMetricsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceMetrics to fetch.
+     */
+    orderBy?: ResourceMetricsOrderByWithRelationInput | ResourceMetricsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ResourceMetrics.
+     */
+    cursor?: ResourceMetricsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceMetrics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceMetrics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ResourceMetrics.
+     */
+    distinct?: ResourceMetricsScalarFieldEnum | ResourceMetricsScalarFieldEnum[]
+  }
+
+  /**
+   * ResourceMetrics findFirstOrThrow
+   */
+  export type ResourceMetricsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceMetrics
+     */
+    select?: ResourceMetricsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceMetrics
+     */
+    omit?: ResourceMetricsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceMetricsInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceMetrics to fetch.
+     */
+    where?: ResourceMetricsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceMetrics to fetch.
+     */
+    orderBy?: ResourceMetricsOrderByWithRelationInput | ResourceMetricsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ResourceMetrics.
+     */
+    cursor?: ResourceMetricsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceMetrics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceMetrics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ResourceMetrics.
+     */
+    distinct?: ResourceMetricsScalarFieldEnum | ResourceMetricsScalarFieldEnum[]
+  }
+
+  /**
+   * ResourceMetrics findMany
+   */
+  export type ResourceMetricsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceMetrics
+     */
+    select?: ResourceMetricsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceMetrics
+     */
+    omit?: ResourceMetricsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceMetricsInclude<ExtArgs> | null
+    /**
+     * Filter, which ResourceMetrics to fetch.
+     */
+    where?: ResourceMetricsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResourceMetrics to fetch.
+     */
+    orderBy?: ResourceMetricsOrderByWithRelationInput | ResourceMetricsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ResourceMetrics.
+     */
+    cursor?: ResourceMetricsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResourceMetrics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResourceMetrics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ResourceMetrics.
+     */
+    distinct?: ResourceMetricsScalarFieldEnum | ResourceMetricsScalarFieldEnum[]
+  }
+
+  /**
+   * ResourceMetrics create
+   */
+  export type ResourceMetricsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceMetrics
+     */
+    select?: ResourceMetricsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceMetrics
+     */
+    omit?: ResourceMetricsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceMetricsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ResourceMetrics.
+     */
+    data: XOR<ResourceMetricsCreateInput, ResourceMetricsUncheckedCreateInput>
+  }
+
+  /**
+   * ResourceMetrics createMany
+   */
+  export type ResourceMetricsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ResourceMetrics.
+     */
+    data: ResourceMetricsCreateManyInput | ResourceMetricsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ResourceMetrics createManyAndReturn
+   */
+  export type ResourceMetricsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceMetrics
+     */
+    select?: ResourceMetricsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceMetrics
+     */
+    omit?: ResourceMetricsOmit<ExtArgs> | null
+    /**
+     * The data used to create many ResourceMetrics.
+     */
+    data: ResourceMetricsCreateManyInput | ResourceMetricsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceMetricsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ResourceMetrics update
+   */
+  export type ResourceMetricsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceMetrics
+     */
+    select?: ResourceMetricsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceMetrics
+     */
+    omit?: ResourceMetricsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceMetricsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ResourceMetrics.
+     */
+    data: XOR<ResourceMetricsUpdateInput, ResourceMetricsUncheckedUpdateInput>
+    /**
+     * Choose, which ResourceMetrics to update.
+     */
+    where: ResourceMetricsWhereUniqueInput
+  }
+
+  /**
+   * ResourceMetrics updateMany
+   */
+  export type ResourceMetricsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ResourceMetrics.
+     */
+    data: XOR<ResourceMetricsUpdateManyMutationInput, ResourceMetricsUncheckedUpdateManyInput>
+    /**
+     * Filter which ResourceMetrics to update
+     */
+    where?: ResourceMetricsWhereInput
+    /**
+     * Limit how many ResourceMetrics to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ResourceMetrics updateManyAndReturn
+   */
+  export type ResourceMetricsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceMetrics
+     */
+    select?: ResourceMetricsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceMetrics
+     */
+    omit?: ResourceMetricsOmit<ExtArgs> | null
+    /**
+     * The data used to update ResourceMetrics.
+     */
+    data: XOR<ResourceMetricsUpdateManyMutationInput, ResourceMetricsUncheckedUpdateManyInput>
+    /**
+     * Filter which ResourceMetrics to update
+     */
+    where?: ResourceMetricsWhereInput
+    /**
+     * Limit how many ResourceMetrics to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceMetricsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ResourceMetrics upsert
+   */
+  export type ResourceMetricsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceMetrics
+     */
+    select?: ResourceMetricsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceMetrics
+     */
+    omit?: ResourceMetricsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceMetricsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ResourceMetrics to update in case it exists.
+     */
+    where: ResourceMetricsWhereUniqueInput
+    /**
+     * In case the ResourceMetrics found by the `where` argument doesn't exist, create a new ResourceMetrics with this data.
+     */
+    create: XOR<ResourceMetricsCreateInput, ResourceMetricsUncheckedCreateInput>
+    /**
+     * In case the ResourceMetrics was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ResourceMetricsUpdateInput, ResourceMetricsUncheckedUpdateInput>
+  }
+
+  /**
+   * ResourceMetrics delete
+   */
+  export type ResourceMetricsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceMetrics
+     */
+    select?: ResourceMetricsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceMetrics
+     */
+    omit?: ResourceMetricsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceMetricsInclude<ExtArgs> | null
+    /**
+     * Filter which ResourceMetrics to delete.
+     */
+    where: ResourceMetricsWhereUniqueInput
+  }
+
+  /**
+   * ResourceMetrics deleteMany
+   */
+  export type ResourceMetricsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ResourceMetrics to delete
+     */
+    where?: ResourceMetricsWhereInput
+    /**
+     * Limit how many ResourceMetrics to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ResourceMetrics without action
+   */
+  export type ResourceMetricsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResourceMetrics
+     */
+    select?: ResourceMetricsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResourceMetrics
+     */
+    omit?: ResourceMetricsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResourceMetricsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Enums
+   */
+
+  export const TransactionIsolationLevel: {
+    ReadUncommitted: 'ReadUncommitted',
+    ReadCommitted: 'ReadCommitted',
+    RepeatableRead: 'RepeatableRead',
+    Serializable: 'Serializable'
+  };
+
+  export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+  export const UserScalarFieldEnum: {
+    id: 'id',
+    identityId: 'identityId',
+    username: 'username',
+    email: 'email',
+    passwordHash: 'passwordHash',
+    displayName: 'displayName',
+    avatarUrl: 'avatarUrl',
+    bio: 'bio',
+    onboardingStep: 'onboardingStep',
+    onboardingJson: 'onboardingJson',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    archivedAt: 'archivedAt',
+    deletedAt: 'deletedAt'
+  };
+
+  export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const ResourceScalarFieldEnum: {
+    id: 'id',
+    slug: 'slug',
+    title: 'title',
+    description: 'description',
+    excerpt: 'excerpt',
+    content: 'content',
+    contentJson: 'contentJson',
+    type: 'type',
+    status: 'status',
+    visibility: 'visibility',
+    category: 'category',
+    language: 'language',
+    thumbnailUrl: 'thumbnailUrl',
+    coverImageUrl: 'coverImageUrl',
+    fileUrl: 'fileUrl',
+    metadata: 'metadata',
+    wordCount: 'wordCount',
+    estimatedTime: 'estimatedTime',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    publishedAt: 'publishedAt',
+    archivedAt: 'archivedAt',
+    deletedAt: 'deletedAt',
+    authorId: 'authorId',
+    parentId: 'parentId'
+  };
+
+  export type ResourceScalarFieldEnum = (typeof ResourceScalarFieldEnum)[keyof typeof ResourceScalarFieldEnum]
+
+
+  export const ResourceVersionScalarFieldEnum: {
+    id: 'id',
+    resourceId: 'resourceId',
+    authorId: 'authorId',
+    versionNumber: 'versionNumber',
+    title: 'title',
+    content: 'content',
+    contentJson: 'contentJson',
+    changeSummary: 'changeSummary',
+    createdAt: 'createdAt'
+  };
+
+  export type ResourceVersionScalarFieldEnum = (typeof ResourceVersionScalarFieldEnum)[keyof typeof ResourceVersionScalarFieldEnum]
+
+
+  export const RelationScalarFieldEnum: {
+    id: 'id',
+    type: 'type',
+    fromId: 'fromId',
+    toId: 'toId',
+    metadata: 'metadata',
+    createdAt: 'createdAt'
+  };
+
+  export type RelationScalarFieldEnum = (typeof RelationScalarFieldEnum)[keyof typeof RelationScalarFieldEnum]
+
+
+  export const CollectionScalarFieldEnum: {
+    id: 'id',
+    slug: 'slug',
+    title: 'title',
+    description: 'description',
+    visibility: 'visibility',
+    metadata: 'metadata',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    archivedAt: 'archivedAt',
+    deletedAt: 'deletedAt',
+    authorId: 'authorId'
+  };
+
+  export type CollectionScalarFieldEnum = (typeof CollectionScalarFieldEnum)[keyof typeof CollectionScalarFieldEnum]
+
+
+  export const CollectionResourceScalarFieldEnum: {
+    id: 'id',
+    collectionId: 'collectionId',
+    resourceId: 'resourceId',
+    orderIndex: 'orderIndex',
+    addedAt: 'addedAt'
+  };
+
+  export type CollectionResourceScalarFieldEnum = (typeof CollectionResourceScalarFieldEnum)[keyof typeof CollectionResourceScalarFieldEnum]
+
+
+  export const TagScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    slug: 'slug',
+    createdAt: 'createdAt'
+  };
+
+  export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
+
+
+  export const CommentScalarFieldEnum: {
+    id: 'id',
+    content: 'content',
+    status: 'status',
+    metadata: 'metadata',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt',
+    authorId: 'authorId',
+    resourceId: 'resourceId',
+    parentId: 'parentId'
+  };
+
+  export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
+
+
+  export const SavedResourceScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    resourceId: 'resourceId',
+    createdAt: 'createdAt'
+  };
+
+  export type SavedResourceScalarFieldEnum = (typeof SavedResourceScalarFieldEnum)[keyof typeof SavedResourceScalarFieldEnum]
+
+
+  export const ResourceUsageScalarFieldEnum: {
+    id: 'id',
+    resourceId: 'resourceId',
+    userId: 'userId',
+    event: 'event',
+    sessionId: 'sessionId',
+    metadata: 'metadata',
+    createdAt: 'createdAt'
+  };
+
+  export type ResourceUsageScalarFieldEnum = (typeof ResourceUsageScalarFieldEnum)[keyof typeof ResourceUsageScalarFieldEnum]
+
+
+  export const ResourceMetricsScalarFieldEnum: {
+    id: 'id',
+    resourceId: 'resourceId',
+    views: 'views',
+    opens: 'opens',
+    downloads: 'downloads',
+    shares: 'shares',
+    likes: 'likes',
+    bookmarks: 'bookmarks',
+    engagementScore: 'engagementScore',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ResourceMetricsScalarFieldEnum = (typeof ResourceMetricsScalarFieldEnum)[keyof typeof ResourceMetricsScalarFieldEnum]
+
+
+  export const SortOrder: {
+    asc: 'asc',
+    desc: 'desc'
+  };
+
+  export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+  export const QueryMode: {
+    default: 'default',
+    insensitive: 'insensitive'
+  };
+
+  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  /**
+   * Field references
+   */
+
+
+  /**
+   * Reference to a field of type 'String'
+   */
+  export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
+    
+
+
+  /**
+   * Reference to a field of type 'String[]'
+   */
+  export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ResourceType'
+   */
+  export type EnumResourceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ResourceType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ResourceType[]'
+   */
+  export type ListEnumResourceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ResourceType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ResourceStatus'
+   */
+  export type EnumResourceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ResourceStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ResourceStatus[]'
+   */
+  export type ListEnumResourceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ResourceStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Visibility'
+   */
+  export type EnumVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Visibility'>
+    
+
+
+  /**
+   * Reference to a field of type 'Visibility[]'
+   */
+  export type ListEnumVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Visibility[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'RelationType'
+   */
+  export type EnumRelationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RelationType'>
+    
+
+
+  /**
+   * Reference to a field of type 'RelationType[]'
+   */
+  export type ListEnumRelationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RelationType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CommentStatus'
+   */
+  export type EnumCommentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CommentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'CommentStatus[]'
+   */
+  export type ListEnumCommentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CommentStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'UsageEvent'
+   */
+  export type EnumUsageEventFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UsageEvent'>
+    
+
+
+  /**
+   * Reference to a field of type 'UsageEvent[]'
+   */
+  export type ListEnumUsageEventFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UsageEvent[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+  /**
+   * Deep Input Types
+   */
+
+
+  export type UserWhereInput = {
+    AND?: UserWhereInput | UserWhereInput[]
+    OR?: UserWhereInput[]
+    NOT?: UserWhereInput | UserWhereInput[]
+    id?: StringFilter<"User"> | string
+    identityId?: StringNullableFilter<"User"> | string | null
+    username?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
+    passwordHash?: StringFilter<"User"> | string
+    displayName?: StringNullableFilter<"User"> | string | null
+    avatarUrl?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
+    onboardingStep?: IntFilter<"User"> | number
+    onboardingJson?: JsonNullableFilter<"User">
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+    archivedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    resources?: ResourceListRelationFilter
+    collections?: CollectionListRelationFilter
+    comments?: CommentListRelationFilter
+    savedResources?: SavedResourceListRelationFilter
+    usageEvents?: ResourceUsageListRelationFilter
+    resourceVersions?: ResourceVersionListRelationFilter
+  }
+
+  export type UserOrderByWithRelationInput = {
+    id?: SortOrder
+    identityId?: SortOrderInput | SortOrder
+    username?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    displayName?: SortOrderInput | SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
+    onboardingStep?: SortOrder
+    onboardingJson?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    archivedAt?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    resources?: ResourceOrderByRelationAggregateInput
+    collections?: CollectionOrderByRelationAggregateInput
+    comments?: CommentOrderByRelationAggregateInput
+    savedResources?: SavedResourceOrderByRelationAggregateInput
+    usageEvents?: ResourceUsageOrderByRelationAggregateInput
+    resourceVersions?: ResourceVersionOrderByRelationAggregateInput
+  }
+
+  export type UserWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    identityId?: string
+    username?: string
+    email?: string
+    AND?: UserWhereInput | UserWhereInput[]
+    OR?: UserWhereInput[]
+    NOT?: UserWhereInput | UserWhereInput[]
+    passwordHash?: StringFilter<"User"> | string
+    displayName?: StringNullableFilter<"User"> | string | null
+    avatarUrl?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
+    onboardingStep?: IntFilter<"User"> | number
+    onboardingJson?: JsonNullableFilter<"User">
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+    archivedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    resources?: ResourceListRelationFilter
+    collections?: CollectionListRelationFilter
+    comments?: CommentListRelationFilter
+    savedResources?: SavedResourceListRelationFilter
+    usageEvents?: ResourceUsageListRelationFilter
+    resourceVersions?: ResourceVersionListRelationFilter
+  }, "id" | "identityId" | "username" | "email">
+
+  export type UserOrderByWithAggregationInput = {
+    id?: SortOrder
+    identityId?: SortOrderInput | SortOrder
+    username?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    displayName?: SortOrderInput | SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
+    onboardingStep?: SortOrder
+    onboardingJson?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    archivedAt?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
+    _max?: UserMaxOrderByAggregateInput
+    _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
+  }
+
+  export type UserScalarWhereWithAggregatesInput = {
+    AND?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
+    OR?: UserScalarWhereWithAggregatesInput[]
+    NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"User"> | string
+    identityId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    username?: StringWithAggregatesFilter<"User"> | string
+    email?: StringWithAggregatesFilter<"User"> | string
+    passwordHash?: StringWithAggregatesFilter<"User"> | string
+    displayName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    avatarUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bio?: StringNullableWithAggregatesFilter<"User"> | string | null
+    onboardingStep?: IntWithAggregatesFilter<"User"> | number
+    onboardingJson?: JsonNullableWithAggregatesFilter<"User">
+    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    archivedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  }
+
+  export type ResourceWhereInput = {
+    AND?: ResourceWhereInput | ResourceWhereInput[]
+    OR?: ResourceWhereInput[]
+    NOT?: ResourceWhereInput | ResourceWhereInput[]
+    id?: StringFilter<"Resource"> | string
+    slug?: StringNullableFilter<"Resource"> | string | null
+    title?: StringNullableFilter<"Resource"> | string | null
+    description?: StringNullableFilter<"Resource"> | string | null
+    excerpt?: StringNullableFilter<"Resource"> | string | null
+    content?: StringNullableFilter<"Resource"> | string | null
+    contentJson?: JsonNullableFilter<"Resource">
+    type?: EnumResourceTypeFilter<"Resource"> | $Enums.ResourceType
+    status?: EnumResourceStatusFilter<"Resource"> | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFilter<"Resource"> | $Enums.Visibility
+    category?: StringNullableFilter<"Resource"> | string | null
+    language?: StringNullableFilter<"Resource"> | string | null
+    thumbnailUrl?: StringNullableFilter<"Resource"> | string | null
+    coverImageUrl?: StringNullableFilter<"Resource"> | string | null
+    fileUrl?: StringNullableFilter<"Resource"> | string | null
+    metadata?: JsonNullableFilter<"Resource">
+    wordCount?: IntNullableFilter<"Resource"> | number | null
+    estimatedTime?: IntNullableFilter<"Resource"> | number | null
+    createdAt?: DateTimeFilter<"Resource"> | Date | string
+    updatedAt?: DateTimeFilter<"Resource"> | Date | string
+    publishedAt?: DateTimeNullableFilter<"Resource"> | Date | string | null
+    archivedAt?: DateTimeNullableFilter<"Resource"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Resource"> | Date | string | null
+    authorId?: StringFilter<"Resource"> | string
+    parentId?: StringNullableFilter<"Resource"> | string | null
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    parent?: XOR<ResourceNullableScalarRelationFilter, ResourceWhereInput> | null
+    children?: ResourceListRelationFilter
+    tags?: TagListRelationFilter
+    outgoingRelations?: RelationListRelationFilter
+    incomingRelations?: RelationListRelationFilter
+    collections?: CollectionResourceListRelationFilter
+    comments?: CommentListRelationFilter
+    metrics?: XOR<ResourceMetricsNullableScalarRelationFilter, ResourceMetricsWhereInput> | null
+    versions?: ResourceVersionListRelationFilter
+    usageEvents?: ResourceUsageListRelationFilter
+    savedBy?: SavedResourceListRelationFilter
+  }
+
+  export type ResourceOrderByWithRelationInput = {
+    id?: SortOrder
+    slug?: SortOrderInput | SortOrder
+    title?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    excerpt?: SortOrderInput | SortOrder
+    content?: SortOrderInput | SortOrder
+    contentJson?: SortOrderInput | SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    visibility?: SortOrder
+    category?: SortOrderInput | SortOrder
+    language?: SortOrderInput | SortOrder
+    thumbnailUrl?: SortOrderInput | SortOrder
+    coverImageUrl?: SortOrderInput | SortOrder
+    fileUrl?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    wordCount?: SortOrderInput | SortOrder
+    estimatedTime?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    publishedAt?: SortOrderInput | SortOrder
+    archivedAt?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    authorId?: SortOrder
+    parentId?: SortOrderInput | SortOrder
+    author?: UserOrderByWithRelationInput
+    parent?: ResourceOrderByWithRelationInput
+    children?: ResourceOrderByRelationAggregateInput
+    tags?: TagOrderByRelationAggregateInput
+    outgoingRelations?: RelationOrderByRelationAggregateInput
+    incomingRelations?: RelationOrderByRelationAggregateInput
+    collections?: CollectionResourceOrderByRelationAggregateInput
+    comments?: CommentOrderByRelationAggregateInput
+    metrics?: ResourceMetricsOrderByWithRelationInput
+    versions?: ResourceVersionOrderByRelationAggregateInput
+    usageEvents?: ResourceUsageOrderByRelationAggregateInput
+    savedBy?: SavedResourceOrderByRelationAggregateInput
+  }
+
+  export type ResourceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    authorId_slug?: ResourceAuthorIdSlugCompoundUniqueInput
+    AND?: ResourceWhereInput | ResourceWhereInput[]
+    OR?: ResourceWhereInput[]
+    NOT?: ResourceWhereInput | ResourceWhereInput[]
+    slug?: StringNullableFilter<"Resource"> | string | null
+    title?: StringNullableFilter<"Resource"> | string | null
+    description?: StringNullableFilter<"Resource"> | string | null
+    excerpt?: StringNullableFilter<"Resource"> | string | null
+    content?: StringNullableFilter<"Resource"> | string | null
+    contentJson?: JsonNullableFilter<"Resource">
+    type?: EnumResourceTypeFilter<"Resource"> | $Enums.ResourceType
+    status?: EnumResourceStatusFilter<"Resource"> | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFilter<"Resource"> | $Enums.Visibility
+    category?: StringNullableFilter<"Resource"> | string | null
+    language?: StringNullableFilter<"Resource"> | string | null
+    thumbnailUrl?: StringNullableFilter<"Resource"> | string | null
+    coverImageUrl?: StringNullableFilter<"Resource"> | string | null
+    fileUrl?: StringNullableFilter<"Resource"> | string | null
+    metadata?: JsonNullableFilter<"Resource">
+    wordCount?: IntNullableFilter<"Resource"> | number | null
+    estimatedTime?: IntNullableFilter<"Resource"> | number | null
+    createdAt?: DateTimeFilter<"Resource"> | Date | string
+    updatedAt?: DateTimeFilter<"Resource"> | Date | string
+    publishedAt?: DateTimeNullableFilter<"Resource"> | Date | string | null
+    archivedAt?: DateTimeNullableFilter<"Resource"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Resource"> | Date | string | null
+    authorId?: StringFilter<"Resource"> | string
+    parentId?: StringNullableFilter<"Resource"> | string | null
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    parent?: XOR<ResourceNullableScalarRelationFilter, ResourceWhereInput> | null
+    children?: ResourceListRelationFilter
+    tags?: TagListRelationFilter
+    outgoingRelations?: RelationListRelationFilter
+    incomingRelations?: RelationListRelationFilter
+    collections?: CollectionResourceListRelationFilter
+    comments?: CommentListRelationFilter
+    metrics?: XOR<ResourceMetricsNullableScalarRelationFilter, ResourceMetricsWhereInput> | null
+    versions?: ResourceVersionListRelationFilter
+    usageEvents?: ResourceUsageListRelationFilter
+    savedBy?: SavedResourceListRelationFilter
+  }, "id" | "authorId_slug">
+
+  export type ResourceOrderByWithAggregationInput = {
+    id?: SortOrder
+    slug?: SortOrderInput | SortOrder
+    title?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    excerpt?: SortOrderInput | SortOrder
+    content?: SortOrderInput | SortOrder
+    contentJson?: SortOrderInput | SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    visibility?: SortOrder
+    category?: SortOrderInput | SortOrder
+    language?: SortOrderInput | SortOrder
+    thumbnailUrl?: SortOrderInput | SortOrder
+    coverImageUrl?: SortOrderInput | SortOrder
+    fileUrl?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    wordCount?: SortOrderInput | SortOrder
+    estimatedTime?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    publishedAt?: SortOrderInput | SortOrder
+    archivedAt?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    authorId?: SortOrder
+    parentId?: SortOrderInput | SortOrder
+    _count?: ResourceCountOrderByAggregateInput
+    _avg?: ResourceAvgOrderByAggregateInput
+    _max?: ResourceMaxOrderByAggregateInput
+    _min?: ResourceMinOrderByAggregateInput
+    _sum?: ResourceSumOrderByAggregateInput
+  }
+
+  export type ResourceScalarWhereWithAggregatesInput = {
+    AND?: ResourceScalarWhereWithAggregatesInput | ResourceScalarWhereWithAggregatesInput[]
+    OR?: ResourceScalarWhereWithAggregatesInput[]
+    NOT?: ResourceScalarWhereWithAggregatesInput | ResourceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Resource"> | string
+    slug?: StringNullableWithAggregatesFilter<"Resource"> | string | null
+    title?: StringNullableWithAggregatesFilter<"Resource"> | string | null
+    description?: StringNullableWithAggregatesFilter<"Resource"> | string | null
+    excerpt?: StringNullableWithAggregatesFilter<"Resource"> | string | null
+    content?: StringNullableWithAggregatesFilter<"Resource"> | string | null
+    contentJson?: JsonNullableWithAggregatesFilter<"Resource">
+    type?: EnumResourceTypeWithAggregatesFilter<"Resource"> | $Enums.ResourceType
+    status?: EnumResourceStatusWithAggregatesFilter<"Resource"> | $Enums.ResourceStatus
+    visibility?: EnumVisibilityWithAggregatesFilter<"Resource"> | $Enums.Visibility
+    category?: StringNullableWithAggregatesFilter<"Resource"> | string | null
+    language?: StringNullableWithAggregatesFilter<"Resource"> | string | null
+    thumbnailUrl?: StringNullableWithAggregatesFilter<"Resource"> | string | null
+    coverImageUrl?: StringNullableWithAggregatesFilter<"Resource"> | string | null
+    fileUrl?: StringNullableWithAggregatesFilter<"Resource"> | string | null
+    metadata?: JsonNullableWithAggregatesFilter<"Resource">
+    wordCount?: IntNullableWithAggregatesFilter<"Resource"> | number | null
+    estimatedTime?: IntNullableWithAggregatesFilter<"Resource"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"Resource"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Resource"> | Date | string
+    publishedAt?: DateTimeNullableWithAggregatesFilter<"Resource"> | Date | string | null
+    archivedAt?: DateTimeNullableWithAggregatesFilter<"Resource"> | Date | string | null
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Resource"> | Date | string | null
+    authorId?: StringWithAggregatesFilter<"Resource"> | string
+    parentId?: StringNullableWithAggregatesFilter<"Resource"> | string | null
+  }
+
+  export type ResourceVersionWhereInput = {
+    AND?: ResourceVersionWhereInput | ResourceVersionWhereInput[]
+    OR?: ResourceVersionWhereInput[]
+    NOT?: ResourceVersionWhereInput | ResourceVersionWhereInput[]
+    id?: StringFilter<"ResourceVersion"> | string
+    resourceId?: StringFilter<"ResourceVersion"> | string
+    authorId?: StringFilter<"ResourceVersion"> | string
+    versionNumber?: IntFilter<"ResourceVersion"> | number
+    title?: StringFilter<"ResourceVersion"> | string
+    content?: StringNullableFilter<"ResourceVersion"> | string | null
+    contentJson?: JsonNullableFilter<"ResourceVersion">
+    changeSummary?: StringNullableFilter<"ResourceVersion"> | string | null
+    createdAt?: DateTimeFilter<"ResourceVersion"> | Date | string
+    resource?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ResourceVersionOrderByWithRelationInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    authorId?: SortOrder
+    versionNumber?: SortOrder
+    title?: SortOrder
+    content?: SortOrderInput | SortOrder
+    contentJson?: SortOrderInput | SortOrder
+    changeSummary?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    resource?: ResourceOrderByWithRelationInput
+    author?: UserOrderByWithRelationInput
+  }
+
+  export type ResourceVersionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    resourceId_versionNumber?: ResourceVersionResourceIdVersionNumberCompoundUniqueInput
+    AND?: ResourceVersionWhereInput | ResourceVersionWhereInput[]
+    OR?: ResourceVersionWhereInput[]
+    NOT?: ResourceVersionWhereInput | ResourceVersionWhereInput[]
+    resourceId?: StringFilter<"ResourceVersion"> | string
+    authorId?: StringFilter<"ResourceVersion"> | string
+    versionNumber?: IntFilter<"ResourceVersion"> | number
+    title?: StringFilter<"ResourceVersion"> | string
+    content?: StringNullableFilter<"ResourceVersion"> | string | null
+    contentJson?: JsonNullableFilter<"ResourceVersion">
+    changeSummary?: StringNullableFilter<"ResourceVersion"> | string | null
+    createdAt?: DateTimeFilter<"ResourceVersion"> | Date | string
+    resource?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "resourceId_versionNumber">
+
+  export type ResourceVersionOrderByWithAggregationInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    authorId?: SortOrder
+    versionNumber?: SortOrder
+    title?: SortOrder
+    content?: SortOrderInput | SortOrder
+    contentJson?: SortOrderInput | SortOrder
+    changeSummary?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ResourceVersionCountOrderByAggregateInput
+    _avg?: ResourceVersionAvgOrderByAggregateInput
+    _max?: ResourceVersionMaxOrderByAggregateInput
+    _min?: ResourceVersionMinOrderByAggregateInput
+    _sum?: ResourceVersionSumOrderByAggregateInput
+  }
+
+  export type ResourceVersionScalarWhereWithAggregatesInput = {
+    AND?: ResourceVersionScalarWhereWithAggregatesInput | ResourceVersionScalarWhereWithAggregatesInput[]
+    OR?: ResourceVersionScalarWhereWithAggregatesInput[]
+    NOT?: ResourceVersionScalarWhereWithAggregatesInput | ResourceVersionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ResourceVersion"> | string
+    resourceId?: StringWithAggregatesFilter<"ResourceVersion"> | string
+    authorId?: StringWithAggregatesFilter<"ResourceVersion"> | string
+    versionNumber?: IntWithAggregatesFilter<"ResourceVersion"> | number
+    title?: StringWithAggregatesFilter<"ResourceVersion"> | string
+    content?: StringNullableWithAggregatesFilter<"ResourceVersion"> | string | null
+    contentJson?: JsonNullableWithAggregatesFilter<"ResourceVersion">
+    changeSummary?: StringNullableWithAggregatesFilter<"ResourceVersion"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ResourceVersion"> | Date | string
+  }
+
+  export type RelationWhereInput = {
+    AND?: RelationWhereInput | RelationWhereInput[]
+    OR?: RelationWhereInput[]
+    NOT?: RelationWhereInput | RelationWhereInput[]
+    id?: StringFilter<"Relation"> | string
+    type?: EnumRelationTypeFilter<"Relation"> | $Enums.RelationType
+    fromId?: StringFilter<"Relation"> | string
+    toId?: StringFilter<"Relation"> | string
+    metadata?: JsonNullableFilter<"Relation">
+    createdAt?: DateTimeFilter<"Relation"> | Date | string
+    from?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+    to?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+  }
+
+  export type RelationOrderByWithRelationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    fromId?: SortOrder
+    toId?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    from?: ResourceOrderByWithRelationInput
+    to?: ResourceOrderByWithRelationInput
+  }
+
+  export type RelationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    fromId_toId_type?: RelationFromIdToIdTypeCompoundUniqueInput
+    AND?: RelationWhereInput | RelationWhereInput[]
+    OR?: RelationWhereInput[]
+    NOT?: RelationWhereInput | RelationWhereInput[]
+    type?: EnumRelationTypeFilter<"Relation"> | $Enums.RelationType
+    fromId?: StringFilter<"Relation"> | string
+    toId?: StringFilter<"Relation"> | string
+    metadata?: JsonNullableFilter<"Relation">
+    createdAt?: DateTimeFilter<"Relation"> | Date | string
+    from?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+    to?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+  }, "id" | "fromId_toId_type">
+
+  export type RelationOrderByWithAggregationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    fromId?: SortOrder
+    toId?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: RelationCountOrderByAggregateInput
+    _max?: RelationMaxOrderByAggregateInput
+    _min?: RelationMinOrderByAggregateInput
+  }
+
+  export type RelationScalarWhereWithAggregatesInput = {
+    AND?: RelationScalarWhereWithAggregatesInput | RelationScalarWhereWithAggregatesInput[]
+    OR?: RelationScalarWhereWithAggregatesInput[]
+    NOT?: RelationScalarWhereWithAggregatesInput | RelationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Relation"> | string
+    type?: EnumRelationTypeWithAggregatesFilter<"Relation"> | $Enums.RelationType
+    fromId?: StringWithAggregatesFilter<"Relation"> | string
+    toId?: StringWithAggregatesFilter<"Relation"> | string
+    metadata?: JsonNullableWithAggregatesFilter<"Relation">
+    createdAt?: DateTimeWithAggregatesFilter<"Relation"> | Date | string
+  }
+
+  export type CollectionWhereInput = {
+    AND?: CollectionWhereInput | CollectionWhereInput[]
+    OR?: CollectionWhereInput[]
+    NOT?: CollectionWhereInput | CollectionWhereInput[]
+    id?: StringFilter<"Collection"> | string
+    slug?: StringFilter<"Collection"> | string
+    title?: StringFilter<"Collection"> | string
+    description?: StringNullableFilter<"Collection"> | string | null
+    visibility?: EnumVisibilityFilter<"Collection"> | $Enums.Visibility
+    metadata?: JsonNullableFilter<"Collection">
+    createdAt?: DateTimeFilter<"Collection"> | Date | string
+    updatedAt?: DateTimeFilter<"Collection"> | Date | string
+    archivedAt?: DateTimeNullableFilter<"Collection"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Collection"> | Date | string | null
+    authorId?: StringFilter<"Collection"> | string
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    resources?: CollectionResourceListRelationFilter
+  }
+
+  export type CollectionOrderByWithRelationInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    visibility?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    archivedAt?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    authorId?: SortOrder
+    author?: UserOrderByWithRelationInput
+    resources?: CollectionResourceOrderByRelationAggregateInput
+  }
+
+  export type CollectionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    authorId_slug?: CollectionAuthorIdSlugCompoundUniqueInput
+    AND?: CollectionWhereInput | CollectionWhereInput[]
+    OR?: CollectionWhereInput[]
+    NOT?: CollectionWhereInput | CollectionWhereInput[]
+    slug?: StringFilter<"Collection"> | string
+    title?: StringFilter<"Collection"> | string
+    description?: StringNullableFilter<"Collection"> | string | null
+    visibility?: EnumVisibilityFilter<"Collection"> | $Enums.Visibility
+    metadata?: JsonNullableFilter<"Collection">
+    createdAt?: DateTimeFilter<"Collection"> | Date | string
+    updatedAt?: DateTimeFilter<"Collection"> | Date | string
+    archivedAt?: DateTimeNullableFilter<"Collection"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Collection"> | Date | string | null
+    authorId?: StringFilter<"Collection"> | string
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    resources?: CollectionResourceListRelationFilter
+  }, "id" | "authorId_slug">
+
+  export type CollectionOrderByWithAggregationInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    visibility?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    archivedAt?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    authorId?: SortOrder
+    _count?: CollectionCountOrderByAggregateInput
+    _max?: CollectionMaxOrderByAggregateInput
+    _min?: CollectionMinOrderByAggregateInput
+  }
+
+  export type CollectionScalarWhereWithAggregatesInput = {
+    AND?: CollectionScalarWhereWithAggregatesInput | CollectionScalarWhereWithAggregatesInput[]
+    OR?: CollectionScalarWhereWithAggregatesInput[]
+    NOT?: CollectionScalarWhereWithAggregatesInput | CollectionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Collection"> | string
+    slug?: StringWithAggregatesFilter<"Collection"> | string
+    title?: StringWithAggregatesFilter<"Collection"> | string
+    description?: StringNullableWithAggregatesFilter<"Collection"> | string | null
+    visibility?: EnumVisibilityWithAggregatesFilter<"Collection"> | $Enums.Visibility
+    metadata?: JsonNullableWithAggregatesFilter<"Collection">
+    createdAt?: DateTimeWithAggregatesFilter<"Collection"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Collection"> | Date | string
+    archivedAt?: DateTimeNullableWithAggregatesFilter<"Collection"> | Date | string | null
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Collection"> | Date | string | null
+    authorId?: StringWithAggregatesFilter<"Collection"> | string
+  }
+
+  export type CollectionResourceWhereInput = {
+    AND?: CollectionResourceWhereInput | CollectionResourceWhereInput[]
+    OR?: CollectionResourceWhereInput[]
+    NOT?: CollectionResourceWhereInput | CollectionResourceWhereInput[]
+    id?: StringFilter<"CollectionResource"> | string
+    collectionId?: StringFilter<"CollectionResource"> | string
+    resourceId?: StringFilter<"CollectionResource"> | string
+    orderIndex?: IntFilter<"CollectionResource"> | number
+    addedAt?: DateTimeFilter<"CollectionResource"> | Date | string
+    collection?: XOR<CollectionScalarRelationFilter, CollectionWhereInput>
+    resource?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+  }
+
+  export type CollectionResourceOrderByWithRelationInput = {
+    id?: SortOrder
+    collectionId?: SortOrder
+    resourceId?: SortOrder
+    orderIndex?: SortOrder
+    addedAt?: SortOrder
+    collection?: CollectionOrderByWithRelationInput
+    resource?: ResourceOrderByWithRelationInput
+  }
+
+  export type CollectionResourceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    collectionId_resourceId?: CollectionResourceCollectionIdResourceIdCompoundUniqueInput
+    AND?: CollectionResourceWhereInput | CollectionResourceWhereInput[]
+    OR?: CollectionResourceWhereInput[]
+    NOT?: CollectionResourceWhereInput | CollectionResourceWhereInput[]
+    collectionId?: StringFilter<"CollectionResource"> | string
+    resourceId?: StringFilter<"CollectionResource"> | string
+    orderIndex?: IntFilter<"CollectionResource"> | number
+    addedAt?: DateTimeFilter<"CollectionResource"> | Date | string
+    collection?: XOR<CollectionScalarRelationFilter, CollectionWhereInput>
+    resource?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+  }, "id" | "collectionId_resourceId">
+
+  export type CollectionResourceOrderByWithAggregationInput = {
+    id?: SortOrder
+    collectionId?: SortOrder
+    resourceId?: SortOrder
+    orderIndex?: SortOrder
+    addedAt?: SortOrder
+    _count?: CollectionResourceCountOrderByAggregateInput
+    _avg?: CollectionResourceAvgOrderByAggregateInput
+    _max?: CollectionResourceMaxOrderByAggregateInput
+    _min?: CollectionResourceMinOrderByAggregateInput
+    _sum?: CollectionResourceSumOrderByAggregateInput
+  }
+
+  export type CollectionResourceScalarWhereWithAggregatesInput = {
+    AND?: CollectionResourceScalarWhereWithAggregatesInput | CollectionResourceScalarWhereWithAggregatesInput[]
+    OR?: CollectionResourceScalarWhereWithAggregatesInput[]
+    NOT?: CollectionResourceScalarWhereWithAggregatesInput | CollectionResourceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CollectionResource"> | string
+    collectionId?: StringWithAggregatesFilter<"CollectionResource"> | string
+    resourceId?: StringWithAggregatesFilter<"CollectionResource"> | string
+    orderIndex?: IntWithAggregatesFilter<"CollectionResource"> | number
+    addedAt?: DateTimeWithAggregatesFilter<"CollectionResource"> | Date | string
+  }
+
+  export type TagWhereInput = {
+    AND?: TagWhereInput | TagWhereInput[]
+    OR?: TagWhereInput[]
+    NOT?: TagWhereInput | TagWhereInput[]
+    id?: StringFilter<"Tag"> | string
+    name?: StringFilter<"Tag"> | string
+    slug?: StringFilter<"Tag"> | string
+    createdAt?: DateTimeFilter<"Tag"> | Date | string
+    resources?: ResourceListRelationFilter
+  }
+
+  export type TagOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+    resources?: ResourceOrderByRelationAggregateInput
+  }
+
+  export type TagWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name?: string
+    slug?: string
+    AND?: TagWhereInput | TagWhereInput[]
+    OR?: TagWhereInput[]
+    NOT?: TagWhereInput | TagWhereInput[]
+    createdAt?: DateTimeFilter<"Tag"> | Date | string
+    resources?: ResourceListRelationFilter
+  }, "id" | "name" | "slug">
+
+  export type TagOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+    _count?: TagCountOrderByAggregateInput
+    _max?: TagMaxOrderByAggregateInput
+    _min?: TagMinOrderByAggregateInput
+  }
+
+  export type TagScalarWhereWithAggregatesInput = {
+    AND?: TagScalarWhereWithAggregatesInput | TagScalarWhereWithAggregatesInput[]
+    OR?: TagScalarWhereWithAggregatesInput[]
+    NOT?: TagScalarWhereWithAggregatesInput | TagScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Tag"> | string
+    name?: StringWithAggregatesFilter<"Tag"> | string
+    slug?: StringWithAggregatesFilter<"Tag"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Tag"> | Date | string
+  }
+
+  export type CommentWhereInput = {
+    AND?: CommentWhereInput | CommentWhereInput[]
+    OR?: CommentWhereInput[]
+    NOT?: CommentWhereInput | CommentWhereInput[]
+    id?: StringFilter<"Comment"> | string
+    content?: StringFilter<"Comment"> | string
+    status?: EnumCommentStatusFilter<"Comment"> | $Enums.CommentStatus
+    metadata?: JsonNullableFilter<"Comment">
+    createdAt?: DateTimeFilter<"Comment"> | Date | string
+    updatedAt?: DateTimeFilter<"Comment"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Comment"> | Date | string | null
+    authorId?: StringFilter<"Comment"> | string
+    resourceId?: StringFilter<"Comment"> | string
+    parentId?: StringNullableFilter<"Comment"> | string | null
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    resource?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+    parent?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
+    replies?: CommentListRelationFilter
+  }
+
+  export type CommentOrderByWithRelationInput = {
+    id?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    authorId?: SortOrder
+    resourceId?: SortOrder
+    parentId?: SortOrderInput | SortOrder
+    author?: UserOrderByWithRelationInput
+    resource?: ResourceOrderByWithRelationInput
+    parent?: CommentOrderByWithRelationInput
+    replies?: CommentOrderByRelationAggregateInput
+  }
+
+  export type CommentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CommentWhereInput | CommentWhereInput[]
+    OR?: CommentWhereInput[]
+    NOT?: CommentWhereInput | CommentWhereInput[]
+    content?: StringFilter<"Comment"> | string
+    status?: EnumCommentStatusFilter<"Comment"> | $Enums.CommentStatus
+    metadata?: JsonNullableFilter<"Comment">
+    createdAt?: DateTimeFilter<"Comment"> | Date | string
+    updatedAt?: DateTimeFilter<"Comment"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Comment"> | Date | string | null
+    authorId?: StringFilter<"Comment"> | string
+    resourceId?: StringFilter<"Comment"> | string
+    parentId?: StringNullableFilter<"Comment"> | string | null
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    resource?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+    parent?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
+    replies?: CommentListRelationFilter
+  }, "id">
+
+  export type CommentOrderByWithAggregationInput = {
+    id?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    authorId?: SortOrder
+    resourceId?: SortOrder
+    parentId?: SortOrderInput | SortOrder
+    _count?: CommentCountOrderByAggregateInput
+    _max?: CommentMaxOrderByAggregateInput
+    _min?: CommentMinOrderByAggregateInput
+  }
+
+  export type CommentScalarWhereWithAggregatesInput = {
+    AND?: CommentScalarWhereWithAggregatesInput | CommentScalarWhereWithAggregatesInput[]
+    OR?: CommentScalarWhereWithAggregatesInput[]
+    NOT?: CommentScalarWhereWithAggregatesInput | CommentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Comment"> | string
+    content?: StringWithAggregatesFilter<"Comment"> | string
+    status?: EnumCommentStatusWithAggregatesFilter<"Comment"> | $Enums.CommentStatus
+    metadata?: JsonNullableWithAggregatesFilter<"Comment">
+    createdAt?: DateTimeWithAggregatesFilter<"Comment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Comment"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Comment"> | Date | string | null
+    authorId?: StringWithAggregatesFilter<"Comment"> | string
+    resourceId?: StringWithAggregatesFilter<"Comment"> | string
+    parentId?: StringNullableWithAggregatesFilter<"Comment"> | string | null
+  }
+
+  export type SavedResourceWhereInput = {
+    AND?: SavedResourceWhereInput | SavedResourceWhereInput[]
+    OR?: SavedResourceWhereInput[]
+    NOT?: SavedResourceWhereInput | SavedResourceWhereInput[]
+    id?: StringFilter<"SavedResource"> | string
+    userId?: StringFilter<"SavedResource"> | string
+    resourceId?: StringFilter<"SavedResource"> | string
+    createdAt?: DateTimeFilter<"SavedResource"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    resource?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+  }
+
+  export type SavedResourceOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    resourceId?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    resource?: ResourceOrderByWithRelationInput
+  }
+
+  export type SavedResourceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_resourceId?: SavedResourceUserIdResourceIdCompoundUniqueInput
+    AND?: SavedResourceWhereInput | SavedResourceWhereInput[]
+    OR?: SavedResourceWhereInput[]
+    NOT?: SavedResourceWhereInput | SavedResourceWhereInput[]
+    userId?: StringFilter<"SavedResource"> | string
+    resourceId?: StringFilter<"SavedResource"> | string
+    createdAt?: DateTimeFilter<"SavedResource"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    resource?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+  }, "id" | "userId_resourceId">
+
+  export type SavedResourceOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    resourceId?: SortOrder
+    createdAt?: SortOrder
+    _count?: SavedResourceCountOrderByAggregateInput
+    _max?: SavedResourceMaxOrderByAggregateInput
+    _min?: SavedResourceMinOrderByAggregateInput
+  }
+
+  export type SavedResourceScalarWhereWithAggregatesInput = {
+    AND?: SavedResourceScalarWhereWithAggregatesInput | SavedResourceScalarWhereWithAggregatesInput[]
+    OR?: SavedResourceScalarWhereWithAggregatesInput[]
+    NOT?: SavedResourceScalarWhereWithAggregatesInput | SavedResourceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SavedResource"> | string
+    userId?: StringWithAggregatesFilter<"SavedResource"> | string
+    resourceId?: StringWithAggregatesFilter<"SavedResource"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SavedResource"> | Date | string
+  }
+
+  export type ResourceUsageWhereInput = {
+    AND?: ResourceUsageWhereInput | ResourceUsageWhereInput[]
+    OR?: ResourceUsageWhereInput[]
+    NOT?: ResourceUsageWhereInput | ResourceUsageWhereInput[]
+    id?: StringFilter<"ResourceUsage"> | string
+    resourceId?: StringFilter<"ResourceUsage"> | string
+    userId?: StringNullableFilter<"ResourceUsage"> | string | null
+    event?: EnumUsageEventFilter<"ResourceUsage"> | $Enums.UsageEvent
+    sessionId?: StringNullableFilter<"ResourceUsage"> | string | null
+    metadata?: JsonNullableFilter<"ResourceUsage">
+    createdAt?: DateTimeFilter<"ResourceUsage"> | Date | string
+    resource?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type ResourceUsageOrderByWithRelationInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    event?: SortOrder
+    sessionId?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    resource?: ResourceOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ResourceUsageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ResourceUsageWhereInput | ResourceUsageWhereInput[]
+    OR?: ResourceUsageWhereInput[]
+    NOT?: ResourceUsageWhereInput | ResourceUsageWhereInput[]
+    resourceId?: StringFilter<"ResourceUsage"> | string
+    userId?: StringNullableFilter<"ResourceUsage"> | string | null
+    event?: EnumUsageEventFilter<"ResourceUsage"> | $Enums.UsageEvent
+    sessionId?: StringNullableFilter<"ResourceUsage"> | string | null
+    metadata?: JsonNullableFilter<"ResourceUsage">
+    createdAt?: DateTimeFilter<"ResourceUsage"> | Date | string
+    resource?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type ResourceUsageOrderByWithAggregationInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    event?: SortOrder
+    sessionId?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ResourceUsageCountOrderByAggregateInput
+    _max?: ResourceUsageMaxOrderByAggregateInput
+    _min?: ResourceUsageMinOrderByAggregateInput
+  }
+
+  export type ResourceUsageScalarWhereWithAggregatesInput = {
+    AND?: ResourceUsageScalarWhereWithAggregatesInput | ResourceUsageScalarWhereWithAggregatesInput[]
+    OR?: ResourceUsageScalarWhereWithAggregatesInput[]
+    NOT?: ResourceUsageScalarWhereWithAggregatesInput | ResourceUsageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ResourceUsage"> | string
+    resourceId?: StringWithAggregatesFilter<"ResourceUsage"> | string
+    userId?: StringNullableWithAggregatesFilter<"ResourceUsage"> | string | null
+    event?: EnumUsageEventWithAggregatesFilter<"ResourceUsage"> | $Enums.UsageEvent
+    sessionId?: StringNullableWithAggregatesFilter<"ResourceUsage"> | string | null
+    metadata?: JsonNullableWithAggregatesFilter<"ResourceUsage">
+    createdAt?: DateTimeWithAggregatesFilter<"ResourceUsage"> | Date | string
+  }
+
+  export type ResourceMetricsWhereInput = {
+    AND?: ResourceMetricsWhereInput | ResourceMetricsWhereInput[]
+    OR?: ResourceMetricsWhereInput[]
+    NOT?: ResourceMetricsWhereInput | ResourceMetricsWhereInput[]
+    id?: StringFilter<"ResourceMetrics"> | string
+    resourceId?: StringFilter<"ResourceMetrics"> | string
+    views?: IntFilter<"ResourceMetrics"> | number
+    opens?: IntFilter<"ResourceMetrics"> | number
+    downloads?: IntFilter<"ResourceMetrics"> | number
+    shares?: IntFilter<"ResourceMetrics"> | number
+    likes?: IntFilter<"ResourceMetrics"> | number
+    bookmarks?: IntFilter<"ResourceMetrics"> | number
+    engagementScore?: FloatFilter<"ResourceMetrics"> | number
+    updatedAt?: DateTimeFilter<"ResourceMetrics"> | Date | string
+    resource?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+  }
+
+  export type ResourceMetricsOrderByWithRelationInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    views?: SortOrder
+    opens?: SortOrder
+    downloads?: SortOrder
+    shares?: SortOrder
+    likes?: SortOrder
+    bookmarks?: SortOrder
+    engagementScore?: SortOrder
+    updatedAt?: SortOrder
+    resource?: ResourceOrderByWithRelationInput
+  }
+
+  export type ResourceMetricsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    resourceId?: string
+    AND?: ResourceMetricsWhereInput | ResourceMetricsWhereInput[]
+    OR?: ResourceMetricsWhereInput[]
+    NOT?: ResourceMetricsWhereInput | ResourceMetricsWhereInput[]
+    views?: IntFilter<"ResourceMetrics"> | number
+    opens?: IntFilter<"ResourceMetrics"> | number
+    downloads?: IntFilter<"ResourceMetrics"> | number
+    shares?: IntFilter<"ResourceMetrics"> | number
+    likes?: IntFilter<"ResourceMetrics"> | number
+    bookmarks?: IntFilter<"ResourceMetrics"> | number
+    engagementScore?: FloatFilter<"ResourceMetrics"> | number
+    updatedAt?: DateTimeFilter<"ResourceMetrics"> | Date | string
+    resource?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+  }, "id" | "resourceId">
+
+  export type ResourceMetricsOrderByWithAggregationInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    views?: SortOrder
+    opens?: SortOrder
+    downloads?: SortOrder
+    shares?: SortOrder
+    likes?: SortOrder
+    bookmarks?: SortOrder
+    engagementScore?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ResourceMetricsCountOrderByAggregateInput
+    _avg?: ResourceMetricsAvgOrderByAggregateInput
+    _max?: ResourceMetricsMaxOrderByAggregateInput
+    _min?: ResourceMetricsMinOrderByAggregateInput
+    _sum?: ResourceMetricsSumOrderByAggregateInput
+  }
+
+  export type ResourceMetricsScalarWhereWithAggregatesInput = {
+    AND?: ResourceMetricsScalarWhereWithAggregatesInput | ResourceMetricsScalarWhereWithAggregatesInput[]
+    OR?: ResourceMetricsScalarWhereWithAggregatesInput[]
+    NOT?: ResourceMetricsScalarWhereWithAggregatesInput | ResourceMetricsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ResourceMetrics"> | string
+    resourceId?: StringWithAggregatesFilter<"ResourceMetrics"> | string
+    views?: IntWithAggregatesFilter<"ResourceMetrics"> | number
+    opens?: IntWithAggregatesFilter<"ResourceMetrics"> | number
+    downloads?: IntWithAggregatesFilter<"ResourceMetrics"> | number
+    shares?: IntWithAggregatesFilter<"ResourceMetrics"> | number
+    likes?: IntWithAggregatesFilter<"ResourceMetrics"> | number
+    bookmarks?: IntWithAggregatesFilter<"ResourceMetrics"> | number
+    engagementScore?: FloatWithAggregatesFilter<"ResourceMetrics"> | number
+    updatedAt?: DateTimeWithAggregatesFilter<"ResourceMetrics"> | Date | string
+  }
+
+  export type UserCreateInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: ResourceCreateNestedManyWithoutAuthorInput
+    collections?: CollectionCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    savedResources?: SavedResourceCreateNestedManyWithoutUserInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutUserInput
+    resourceVersions?: ResourceVersionCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: ResourceUncheckedCreateNestedManyWithoutAuthorInput
+    collections?: CollectionUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    savedResources?: SavedResourceUncheckedCreateNestedManyWithoutUserInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutUserInput
+    resourceVersions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: ResourceUpdateManyWithoutAuthorNestedInput
+    collections?: CollectionUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    savedResources?: SavedResourceUpdateManyWithoutUserNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutUserNestedInput
+    resourceVersions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: ResourceUncheckedUpdateManyWithoutAuthorNestedInput
+    collections?: CollectionUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    savedResources?: SavedResourceUncheckedUpdateManyWithoutUserNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutUserNestedInput
+    resourceVersions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserCreateManyInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+  }
+
+  export type UserUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ResourceCreateInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutResourcesInput
+    parent?: ResourceCreateNestedOneWithoutChildrenInput
+    children?: ResourceCreateNestedManyWithoutParentInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationCreateNestedManyWithoutToInput
+    collections?: CollectionResourceCreateNestedManyWithoutResourceInput
+    comments?: CommentCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUncheckedCreateInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+    children?: ResourceUncheckedCreateNestedManyWithoutParentInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
+    comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutResourcesNestedInput
+    parent?: ResourceUpdateOneWithoutChildrenNestedInput
+    children?: ResourceUpdateManyWithoutParentNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
+    comments?: CommentUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceCreateManyInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+  }
+
+  export type ResourceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ResourceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ResourceVersionCreateInput = {
+    id?: string
+    versionNumber: number
+    title: string
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: string | null
+    createdAt?: Date | string
+    resource: ResourceCreateNestedOneWithoutVersionsInput
+    author: UserCreateNestedOneWithoutResourceVersionsInput
+  }
+
+  export type ResourceVersionUncheckedCreateInput = {
+    id?: string
+    resourceId: string
+    authorId: string
+    versionNumber: number
+    title: string
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ResourceVersionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resource?: ResourceUpdateOneRequiredWithoutVersionsNestedInput
+    author?: UserUpdateOneRequiredWithoutResourceVersionsNestedInput
+  }
+
+  export type ResourceVersionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceVersionCreateManyInput = {
+    id?: string
+    resourceId: string
+    authorId: string
+    versionNumber: number
+    title: string
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ResourceVersionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceVersionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RelationCreateInput = {
+    id?: string
+    type: $Enums.RelationType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    from: ResourceCreateNestedOneWithoutOutgoingRelationsInput
+    to: ResourceCreateNestedOneWithoutIncomingRelationsInput
+  }
+
+  export type RelationUncheckedCreateInput = {
+    id?: string
+    type: $Enums.RelationType
+    fromId: string
+    toId: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type RelationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    from?: ResourceUpdateOneRequiredWithoutOutgoingRelationsNestedInput
+    to?: ResourceUpdateOneRequiredWithoutIncomingRelationsNestedInput
+  }
+
+  export type RelationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
+    fromId?: StringFieldUpdateOperationsInput | string
+    toId?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RelationCreateManyInput = {
+    id?: string
+    type: $Enums.RelationType
+    fromId: string
+    toId: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type RelationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RelationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
+    fromId?: StringFieldUpdateOperationsInput | string
+    toId?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectionCreateInput = {
+    id?: string
+    slug: string
+    title: string
+    description?: string | null
+    visibility?: $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutCollectionsInput
+    resources?: CollectionResourceCreateNestedManyWithoutCollectionInput
+  }
+
+  export type CollectionUncheckedCreateInput = {
+    id?: string
+    slug: string
+    title: string
+    description?: string | null
+    visibility?: $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    resources?: CollectionResourceUncheckedCreateNestedManyWithoutCollectionInput
+  }
+
+  export type CollectionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutCollectionsNestedInput
+    resources?: CollectionResourceUpdateManyWithoutCollectionNestedInput
+  }
+
+  export type CollectionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    resources?: CollectionResourceUncheckedUpdateManyWithoutCollectionNestedInput
+  }
+
+  export type CollectionCreateManyInput = {
+    id?: string
+    slug: string
+    title: string
+    description?: string | null
+    visibility?: $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+  }
+
+  export type CollectionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CollectionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CollectionResourceCreateInput = {
+    id?: string
+    orderIndex: number
+    addedAt?: Date | string
+    collection: CollectionCreateNestedOneWithoutResourcesInput
+    resource: ResourceCreateNestedOneWithoutCollectionsInput
+  }
+
+  export type CollectionResourceUncheckedCreateInput = {
+    id?: string
+    collectionId: string
+    resourceId: string
+    orderIndex: number
+    addedAt?: Date | string
+  }
+
+  export type CollectionResourceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    addedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    collection?: CollectionUpdateOneRequiredWithoutResourcesNestedInput
+    resource?: ResourceUpdateOneRequiredWithoutCollectionsNestedInput
+  }
+
+  export type CollectionResourceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectionId?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    addedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectionResourceCreateManyInput = {
+    id?: string
+    collectionId: string
+    resourceId: string
+    orderIndex: number
+    addedAt?: Date | string
+  }
+
+  export type CollectionResourceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    addedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectionResourceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectionId?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    addedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagCreateInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    resources?: ResourceCreateNestedManyWithoutTagsInput
+  }
+
+  export type TagUncheckedCreateInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+    resources?: ResourceUncheckedCreateNestedManyWithoutTagsInput
+  }
+
+  export type TagUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resources?: ResourceUpdateManyWithoutTagsNestedInput
+  }
+
+  export type TagUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resources?: ResourceUncheckedUpdateManyWithoutTagsNestedInput
+  }
+
+  export type TagCreateManyInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+  }
+
+  export type TagUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommentCreateInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutCommentsInput
+    resource: ResourceCreateNestedOneWithoutCommentsInput
+    parent?: CommentCreateNestedOneWithoutRepliesInput
+    replies?: CommentCreateNestedManyWithoutParentInput
+  }
+
+  export type CommentUncheckedCreateInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    authorId: string
+    resourceId: string
+    parentId?: string | null
+    replies?: CommentUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type CommentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutCommentsNestedInput
+    resource?: ResourceUpdateOneRequiredWithoutCommentsNestedInput
+    parent?: CommentUpdateOneWithoutRepliesNestedInput
+    replies?: CommentUpdateManyWithoutParentNestedInput
+  }
+
+  export type CommentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    replies?: CommentUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type CommentCreateManyInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    authorId: string
+    resourceId: string
+    parentId?: string | null
+  }
+
+  export type CommentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CommentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SavedResourceCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutSavedResourcesInput
+    resource: ResourceCreateNestedOneWithoutSavedByInput
+  }
+
+  export type SavedResourceUncheckedCreateInput = {
+    id?: string
+    userId: string
+    resourceId: string
+    createdAt?: Date | string
+  }
+
+  export type SavedResourceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSavedResourcesNestedInput
+    resource?: ResourceUpdateOneRequiredWithoutSavedByNestedInput
+  }
+
+  export type SavedResourceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedResourceCreateManyInput = {
+    id?: string
+    userId: string
+    resourceId: string
+    createdAt?: Date | string
+  }
+
+  export type SavedResourceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedResourceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceUsageCreateInput = {
+    id?: string
+    event: $Enums.UsageEvent
+    sessionId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    resource: ResourceCreateNestedOneWithoutUsageEventsInput
+    user?: UserCreateNestedOneWithoutUsageEventsInput
+  }
+
+  export type ResourceUsageUncheckedCreateInput = {
+    id?: string
+    resourceId: string
+    userId?: string | null
+    event: $Enums.UsageEvent
+    sessionId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type ResourceUsageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    event?: EnumUsageEventFieldUpdateOperationsInput | $Enums.UsageEvent
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resource?: ResourceUpdateOneRequiredWithoutUsageEventsNestedInput
+    user?: UserUpdateOneWithoutUsageEventsNestedInput
+  }
+
+  export type ResourceUsageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    event?: EnumUsageEventFieldUpdateOperationsInput | $Enums.UsageEvent
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceUsageCreateManyInput = {
+    id?: string
+    resourceId: string
+    userId?: string | null
+    event: $Enums.UsageEvent
+    sessionId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type ResourceUsageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    event?: EnumUsageEventFieldUpdateOperationsInput | $Enums.UsageEvent
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceUsageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    event?: EnumUsageEventFieldUpdateOperationsInput | $Enums.UsageEvent
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceMetricsCreateInput = {
+    id?: string
+    views?: number
+    opens?: number
+    downloads?: number
+    shares?: number
+    likes?: number
+    bookmarks?: number
+    engagementScore?: number
+    updatedAt?: Date | string
+    resource: ResourceCreateNestedOneWithoutMetricsInput
+  }
+
+  export type ResourceMetricsUncheckedCreateInput = {
+    id?: string
+    resourceId: string
+    views?: number
+    opens?: number
+    downloads?: number
+    shares?: number
+    likes?: number
+    bookmarks?: number
+    engagementScore?: number
+    updatedAt?: Date | string
+  }
+
+  export type ResourceMetricsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    views?: IntFieldUpdateOperationsInput | number
+    opens?: IntFieldUpdateOperationsInput | number
+    downloads?: IntFieldUpdateOperationsInput | number
+    shares?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    bookmarks?: IntFieldUpdateOperationsInput | number
+    engagementScore?: FloatFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resource?: ResourceUpdateOneRequiredWithoutMetricsNestedInput
+  }
+
+  export type ResourceMetricsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    views?: IntFieldUpdateOperationsInput | number
+    opens?: IntFieldUpdateOperationsInput | number
+    downloads?: IntFieldUpdateOperationsInput | number
+    shares?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    bookmarks?: IntFieldUpdateOperationsInput | number
+    engagementScore?: FloatFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceMetricsCreateManyInput = {
+    id?: string
+    resourceId: string
+    views?: number
+    opens?: number
+    downloads?: number
+    shares?: number
+    likes?: number
+    bookmarks?: number
+    engagementScore?: number
+    updatedAt?: Date | string
+  }
+
+  export type ResourceMetricsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    views?: IntFieldUpdateOperationsInput | number
+    opens?: IntFieldUpdateOperationsInput | number
+    downloads?: IntFieldUpdateOperationsInput | number
+    shares?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    bookmarks?: IntFieldUpdateOperationsInput | number
+    engagementScore?: FloatFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceMetricsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    views?: IntFieldUpdateOperationsInput | number
+    opens?: IntFieldUpdateOperationsInput | number
+    downloads?: IntFieldUpdateOperationsInput | number
+    shares?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    bookmarks?: IntFieldUpdateOperationsInput | number
+    engagementScore?: FloatFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type ResourceListRelationFilter = {
+    every?: ResourceWhereInput
+    some?: ResourceWhereInput
+    none?: ResourceWhereInput
+  }
+
+  export type CollectionListRelationFilter = {
+    every?: CollectionWhereInput
+    some?: CollectionWhereInput
+    none?: CollectionWhereInput
+  }
+
+  export type CommentListRelationFilter = {
+    every?: CommentWhereInput
+    some?: CommentWhereInput
+    none?: CommentWhereInput
+  }
+
+  export type SavedResourceListRelationFilter = {
+    every?: SavedResourceWhereInput
+    some?: SavedResourceWhereInput
+    none?: SavedResourceWhereInput
+  }
+
+  export type ResourceUsageListRelationFilter = {
+    every?: ResourceUsageWhereInput
+    some?: ResourceUsageWhereInput
+    none?: ResourceUsageWhereInput
+  }
+
+  export type ResourceVersionListRelationFilter = {
+    every?: ResourceVersionWhereInput
+    some?: ResourceVersionWhereInput
+    none?: ResourceVersionWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type ResourceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CollectionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SavedResourceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ResourceUsageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ResourceVersionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserCountOrderByAggregateInput = {
+    id?: SortOrder
+    identityId?: SortOrder
+    username?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    displayName?: SortOrder
+    avatarUrl?: SortOrder
+    bio?: SortOrder
+    onboardingStep?: SortOrder
+    onboardingJson?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    archivedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    onboardingStep?: SortOrder
+  }
+
+  export type UserMaxOrderByAggregateInput = {
+    id?: SortOrder
+    identityId?: SortOrder
+    username?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    displayName?: SortOrder
+    avatarUrl?: SortOrder
+    bio?: SortOrder
+    onboardingStep?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    archivedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type UserMinOrderByAggregateInput = {
+    id?: SortOrder
+    identityId?: SortOrder
+    username?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    displayName?: SortOrder
+    avatarUrl?: SortOrder
+    bio?: SortOrder
+    onboardingStep?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    archivedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    onboardingStep?: SortOrder
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type EnumResourceTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResourceType | EnumResourceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ResourceType[] | ListEnumResourceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResourceType[] | ListEnumResourceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumResourceTypeFilter<$PrismaModel> | $Enums.ResourceType
+  }
+
+  export type EnumResourceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResourceStatus | EnumResourceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ResourceStatus[] | ListEnumResourceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResourceStatus[] | ListEnumResourceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumResourceStatusFilter<$PrismaModel> | $Enums.ResourceStatus
+  }
+
+  export type EnumVisibilityFilter<$PrismaModel = never> = {
+    equals?: $Enums.Visibility | EnumVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisibilityFilter<$PrismaModel> | $Enums.Visibility
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type ResourceNullableScalarRelationFilter = {
+    is?: ResourceWhereInput | null
+    isNot?: ResourceWhereInput | null
+  }
+
+  export type TagListRelationFilter = {
+    every?: TagWhereInput
+    some?: TagWhereInput
+    none?: TagWhereInput
+  }
+
+  export type RelationListRelationFilter = {
+    every?: RelationWhereInput
+    some?: RelationWhereInput
+    none?: RelationWhereInput
+  }
+
+  export type CollectionResourceListRelationFilter = {
+    every?: CollectionResourceWhereInput
+    some?: CollectionResourceWhereInput
+    none?: CollectionResourceWhereInput
+  }
+
+  export type ResourceMetricsNullableScalarRelationFilter = {
+    is?: ResourceMetricsWhereInput | null
+    isNot?: ResourceMetricsWhereInput | null
+  }
+
+  export type TagOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RelationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CollectionResourceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ResourceAuthorIdSlugCompoundUniqueInput = {
+    authorId: string
+    slug: string
+  }
+
+  export type ResourceCountOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    excerpt?: SortOrder
+    content?: SortOrder
+    contentJson?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    visibility?: SortOrder
+    category?: SortOrder
+    language?: SortOrder
+    thumbnailUrl?: SortOrder
+    coverImageUrl?: SortOrder
+    fileUrl?: SortOrder
+    metadata?: SortOrder
+    wordCount?: SortOrder
+    estimatedTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    publishedAt?: SortOrder
+    archivedAt?: SortOrder
+    deletedAt?: SortOrder
+    authorId?: SortOrder
+    parentId?: SortOrder
+  }
+
+  export type ResourceAvgOrderByAggregateInput = {
+    wordCount?: SortOrder
+    estimatedTime?: SortOrder
+  }
+
+  export type ResourceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    excerpt?: SortOrder
+    content?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    visibility?: SortOrder
+    category?: SortOrder
+    language?: SortOrder
+    thumbnailUrl?: SortOrder
+    coverImageUrl?: SortOrder
+    fileUrl?: SortOrder
+    wordCount?: SortOrder
+    estimatedTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    publishedAt?: SortOrder
+    archivedAt?: SortOrder
+    deletedAt?: SortOrder
+    authorId?: SortOrder
+    parentId?: SortOrder
+  }
+
+  export type ResourceMinOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    excerpt?: SortOrder
+    content?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    visibility?: SortOrder
+    category?: SortOrder
+    language?: SortOrder
+    thumbnailUrl?: SortOrder
+    coverImageUrl?: SortOrder
+    fileUrl?: SortOrder
+    wordCount?: SortOrder
+    estimatedTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    publishedAt?: SortOrder
+    archivedAt?: SortOrder
+    deletedAt?: SortOrder
+    authorId?: SortOrder
+    parentId?: SortOrder
+  }
+
+  export type ResourceSumOrderByAggregateInput = {
+    wordCount?: SortOrder
+    estimatedTime?: SortOrder
+  }
+
+  export type EnumResourceTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResourceType | EnumResourceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ResourceType[] | ListEnumResourceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResourceType[] | ListEnumResourceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumResourceTypeWithAggregatesFilter<$PrismaModel> | $Enums.ResourceType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumResourceTypeFilter<$PrismaModel>
+    _max?: NestedEnumResourceTypeFilter<$PrismaModel>
+  }
+
+  export type EnumResourceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResourceStatus | EnumResourceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ResourceStatus[] | ListEnumResourceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResourceStatus[] | ListEnumResourceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumResourceStatusWithAggregatesFilter<$PrismaModel> | $Enums.ResourceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumResourceStatusFilter<$PrismaModel>
+    _max?: NestedEnumResourceStatusFilter<$PrismaModel>
+  }
+
+  export type EnumVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Visibility | EnumVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.Visibility
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVisibilityFilter<$PrismaModel>
+    _max?: NestedEnumVisibilityFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type ResourceScalarRelationFilter = {
+    is?: ResourceWhereInput
+    isNot?: ResourceWhereInput
+  }
+
+  export type ResourceVersionResourceIdVersionNumberCompoundUniqueInput = {
+    resourceId: string
+    versionNumber: number
+  }
+
+  export type ResourceVersionCountOrderByAggregateInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    authorId?: SortOrder
+    versionNumber?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    contentJson?: SortOrder
+    changeSummary?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ResourceVersionAvgOrderByAggregateInput = {
+    versionNumber?: SortOrder
+  }
+
+  export type ResourceVersionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    authorId?: SortOrder
+    versionNumber?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    changeSummary?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ResourceVersionMinOrderByAggregateInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    authorId?: SortOrder
+    versionNumber?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    changeSummary?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ResourceVersionSumOrderByAggregateInput = {
+    versionNumber?: SortOrder
+  }
+
+  export type EnumRelationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RelationType | EnumRelationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRelationTypeFilter<$PrismaModel> | $Enums.RelationType
+  }
+
+  export type RelationFromIdToIdTypeCompoundUniqueInput = {
+    fromId: string
+    toId: string
+    type: $Enums.RelationType
+  }
+
+  export type RelationCountOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    fromId?: SortOrder
+    toId?: SortOrder
+    metadata?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RelationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    fromId?: SortOrder
+    toId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RelationMinOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    fromId?: SortOrder
+    toId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumRelationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RelationType | EnumRelationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRelationTypeWithAggregatesFilter<$PrismaModel> | $Enums.RelationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRelationTypeFilter<$PrismaModel>
+    _max?: NestedEnumRelationTypeFilter<$PrismaModel>
+  }
+
+  export type CollectionAuthorIdSlugCompoundUniqueInput = {
+    authorId: string
+    slug: string
+  }
+
+  export type CollectionCountOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    visibility?: SortOrder
+    metadata?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    archivedAt?: SortOrder
+    deletedAt?: SortOrder
+    authorId?: SortOrder
+  }
+
+  export type CollectionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    visibility?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    archivedAt?: SortOrder
+    deletedAt?: SortOrder
+    authorId?: SortOrder
+  }
+
+  export type CollectionMinOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    visibility?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    archivedAt?: SortOrder
+    deletedAt?: SortOrder
+    authorId?: SortOrder
+  }
+
+  export type CollectionScalarRelationFilter = {
+    is?: CollectionWhereInput
+    isNot?: CollectionWhereInput
+  }
+
+  export type CollectionResourceCollectionIdResourceIdCompoundUniqueInput = {
+    collectionId: string
+    resourceId: string
+  }
+
+  export type CollectionResourceCountOrderByAggregateInput = {
+    id?: SortOrder
+    collectionId?: SortOrder
+    resourceId?: SortOrder
+    orderIndex?: SortOrder
+    addedAt?: SortOrder
+  }
+
+  export type CollectionResourceAvgOrderByAggregateInput = {
+    orderIndex?: SortOrder
+  }
+
+  export type CollectionResourceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    collectionId?: SortOrder
+    resourceId?: SortOrder
+    orderIndex?: SortOrder
+    addedAt?: SortOrder
+  }
+
+  export type CollectionResourceMinOrderByAggregateInput = {
+    id?: SortOrder
+    collectionId?: SortOrder
+    resourceId?: SortOrder
+    orderIndex?: SortOrder
+    addedAt?: SortOrder
+  }
+
+  export type CollectionResourceSumOrderByAggregateInput = {
+    orderIndex?: SortOrder
+  }
+
+  export type TagCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TagMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TagMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumCommentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommentStatus | EnumCommentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CommentStatus[] | ListEnumCommentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CommentStatus[] | ListEnumCommentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCommentStatusFilter<$PrismaModel> | $Enums.CommentStatus
+  }
+
+  export type CommentNullableScalarRelationFilter = {
+    is?: CommentWhereInput | null
+    isNot?: CommentWhereInput | null
+  }
+
+  export type CommentCountOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    metadata?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    authorId?: SortOrder
+    resourceId?: SortOrder
+    parentId?: SortOrder
+  }
+
+  export type CommentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    authorId?: SortOrder
+    resourceId?: SortOrder
+    parentId?: SortOrder
+  }
+
+  export type CommentMinOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    authorId?: SortOrder
+    resourceId?: SortOrder
+    parentId?: SortOrder
+  }
+
+  export type EnumCommentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommentStatus | EnumCommentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CommentStatus[] | ListEnumCommentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CommentStatus[] | ListEnumCommentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCommentStatusWithAggregatesFilter<$PrismaModel> | $Enums.CommentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCommentStatusFilter<$PrismaModel>
+    _max?: NestedEnumCommentStatusFilter<$PrismaModel>
+  }
+
+  export type SavedResourceUserIdResourceIdCompoundUniqueInput = {
+    userId: string
+    resourceId: string
+  }
+
+  export type SavedResourceCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    resourceId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SavedResourceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    resourceId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SavedResourceMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    resourceId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumUsageEventFilter<$PrismaModel = never> = {
+    equals?: $Enums.UsageEvent | EnumUsageEventFieldRefInput<$PrismaModel>
+    in?: $Enums.UsageEvent[] | ListEnumUsageEventFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UsageEvent[] | ListEnumUsageEventFieldRefInput<$PrismaModel>
+    not?: NestedEnumUsageEventFilter<$PrismaModel> | $Enums.UsageEvent
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type ResourceUsageCountOrderByAggregateInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    userId?: SortOrder
+    event?: SortOrder
+    sessionId?: SortOrder
+    metadata?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ResourceUsageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    userId?: SortOrder
+    event?: SortOrder
+    sessionId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ResourceUsageMinOrderByAggregateInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    userId?: SortOrder
+    event?: SortOrder
+    sessionId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumUsageEventWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UsageEvent | EnumUsageEventFieldRefInput<$PrismaModel>
+    in?: $Enums.UsageEvent[] | ListEnumUsageEventFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UsageEvent[] | ListEnumUsageEventFieldRefInput<$PrismaModel>
+    not?: NestedEnumUsageEventWithAggregatesFilter<$PrismaModel> | $Enums.UsageEvent
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUsageEventFilter<$PrismaModel>
+    _max?: NestedEnumUsageEventFilter<$PrismaModel>
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type ResourceMetricsCountOrderByAggregateInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    views?: SortOrder
+    opens?: SortOrder
+    downloads?: SortOrder
+    shares?: SortOrder
+    likes?: SortOrder
+    bookmarks?: SortOrder
+    engagementScore?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ResourceMetricsAvgOrderByAggregateInput = {
+    views?: SortOrder
+    opens?: SortOrder
+    downloads?: SortOrder
+    shares?: SortOrder
+    likes?: SortOrder
+    bookmarks?: SortOrder
+    engagementScore?: SortOrder
+  }
+
+  export type ResourceMetricsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    views?: SortOrder
+    opens?: SortOrder
+    downloads?: SortOrder
+    shares?: SortOrder
+    likes?: SortOrder
+    bookmarks?: SortOrder
+    engagementScore?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ResourceMetricsMinOrderByAggregateInput = {
+    id?: SortOrder
+    resourceId?: SortOrder
+    views?: SortOrder
+    opens?: SortOrder
+    downloads?: SortOrder
+    shares?: SortOrder
+    likes?: SortOrder
+    bookmarks?: SortOrder
+    engagementScore?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ResourceMetricsSumOrderByAggregateInput = {
+    views?: SortOrder
+    opens?: SortOrder
+    downloads?: SortOrder
+    shares?: SortOrder
+    likes?: SortOrder
+    bookmarks?: SortOrder
+    engagementScore?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type ResourceCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<ResourceCreateWithoutAuthorInput, ResourceUncheckedCreateWithoutAuthorInput> | ResourceCreateWithoutAuthorInput[] | ResourceUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ResourceCreateOrConnectWithoutAuthorInput | ResourceCreateOrConnectWithoutAuthorInput[]
+    createMany?: ResourceCreateManyAuthorInputEnvelope
+    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+  }
+
+  export type CollectionCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<CollectionCreateWithoutAuthorInput, CollectionUncheckedCreateWithoutAuthorInput> | CollectionCreateWithoutAuthorInput[] | CollectionUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CollectionCreateOrConnectWithoutAuthorInput | CollectionCreateOrConnectWithoutAuthorInput[]
+    createMany?: CollectionCreateManyAuthorInputEnvelope
+    connect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+  }
+
+  export type CommentCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput> | CommentCreateWithoutAuthorInput[] | CommentUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutAuthorInput | CommentCreateOrConnectWithoutAuthorInput[]
+    createMany?: CommentCreateManyAuthorInputEnvelope
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type SavedResourceCreateNestedManyWithoutUserInput = {
+    create?: XOR<SavedResourceCreateWithoutUserInput, SavedResourceUncheckedCreateWithoutUserInput> | SavedResourceCreateWithoutUserInput[] | SavedResourceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedResourceCreateOrConnectWithoutUserInput | SavedResourceCreateOrConnectWithoutUserInput[]
+    createMany?: SavedResourceCreateManyUserInputEnvelope
+    connect?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+  }
+
+  export type ResourceUsageCreateNestedManyWithoutUserInput = {
+    create?: XOR<ResourceUsageCreateWithoutUserInput, ResourceUsageUncheckedCreateWithoutUserInput> | ResourceUsageCreateWithoutUserInput[] | ResourceUsageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ResourceUsageCreateOrConnectWithoutUserInput | ResourceUsageCreateOrConnectWithoutUserInput[]
+    createMany?: ResourceUsageCreateManyUserInputEnvelope
+    connect?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+  }
+
+  export type ResourceVersionCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<ResourceVersionCreateWithoutAuthorInput, ResourceVersionUncheckedCreateWithoutAuthorInput> | ResourceVersionCreateWithoutAuthorInput[] | ResourceVersionUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ResourceVersionCreateOrConnectWithoutAuthorInput | ResourceVersionCreateOrConnectWithoutAuthorInput[]
+    createMany?: ResourceVersionCreateManyAuthorInputEnvelope
+    connect?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+  }
+
+  export type ResourceUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<ResourceCreateWithoutAuthorInput, ResourceUncheckedCreateWithoutAuthorInput> | ResourceCreateWithoutAuthorInput[] | ResourceUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ResourceCreateOrConnectWithoutAuthorInput | ResourceCreateOrConnectWithoutAuthorInput[]
+    createMany?: ResourceCreateManyAuthorInputEnvelope
+    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+  }
+
+  export type CollectionUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<CollectionCreateWithoutAuthorInput, CollectionUncheckedCreateWithoutAuthorInput> | CollectionCreateWithoutAuthorInput[] | CollectionUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CollectionCreateOrConnectWithoutAuthorInput | CollectionCreateOrConnectWithoutAuthorInput[]
+    createMany?: CollectionCreateManyAuthorInputEnvelope
+    connect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+  }
+
+  export type CommentUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput> | CommentCreateWithoutAuthorInput[] | CommentUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutAuthorInput | CommentCreateOrConnectWithoutAuthorInput[]
+    createMany?: CommentCreateManyAuthorInputEnvelope
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type SavedResourceUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SavedResourceCreateWithoutUserInput, SavedResourceUncheckedCreateWithoutUserInput> | SavedResourceCreateWithoutUserInput[] | SavedResourceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedResourceCreateOrConnectWithoutUserInput | SavedResourceCreateOrConnectWithoutUserInput[]
+    createMany?: SavedResourceCreateManyUserInputEnvelope
+    connect?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+  }
+
+  export type ResourceUsageUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ResourceUsageCreateWithoutUserInput, ResourceUsageUncheckedCreateWithoutUserInput> | ResourceUsageCreateWithoutUserInput[] | ResourceUsageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ResourceUsageCreateOrConnectWithoutUserInput | ResourceUsageCreateOrConnectWithoutUserInput[]
+    createMany?: ResourceUsageCreateManyUserInputEnvelope
+    connect?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+  }
+
+  export type ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<ResourceVersionCreateWithoutAuthorInput, ResourceVersionUncheckedCreateWithoutAuthorInput> | ResourceVersionCreateWithoutAuthorInput[] | ResourceVersionUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ResourceVersionCreateOrConnectWithoutAuthorInput | ResourceVersionCreateOrConnectWithoutAuthorInput[]
+    createMany?: ResourceVersionCreateManyAuthorInputEnvelope
+    connect?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type ResourceUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<ResourceCreateWithoutAuthorInput, ResourceUncheckedCreateWithoutAuthorInput> | ResourceCreateWithoutAuthorInput[] | ResourceUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ResourceCreateOrConnectWithoutAuthorInput | ResourceCreateOrConnectWithoutAuthorInput[]
+    upsert?: ResourceUpsertWithWhereUniqueWithoutAuthorInput | ResourceUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: ResourceCreateManyAuthorInputEnvelope
+    set?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    disconnect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    delete?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    update?: ResourceUpdateWithWhereUniqueWithoutAuthorInput | ResourceUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: ResourceUpdateManyWithWhereWithoutAuthorInput | ResourceUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
+  }
+
+  export type CollectionUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<CollectionCreateWithoutAuthorInput, CollectionUncheckedCreateWithoutAuthorInput> | CollectionCreateWithoutAuthorInput[] | CollectionUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CollectionCreateOrConnectWithoutAuthorInput | CollectionCreateOrConnectWithoutAuthorInput[]
+    upsert?: CollectionUpsertWithWhereUniqueWithoutAuthorInput | CollectionUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: CollectionCreateManyAuthorInputEnvelope
+    set?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    disconnect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    delete?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    connect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    update?: CollectionUpdateWithWhereUniqueWithoutAuthorInput | CollectionUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: CollectionUpdateManyWithWhereWithoutAuthorInput | CollectionUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: CollectionScalarWhereInput | CollectionScalarWhereInput[]
+  }
+
+  export type CommentUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput> | CommentCreateWithoutAuthorInput[] | CommentUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutAuthorInput | CommentCreateOrConnectWithoutAuthorInput[]
+    upsert?: CommentUpsertWithWhereUniqueWithoutAuthorInput | CommentUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: CommentCreateManyAuthorInputEnvelope
+    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    update?: CommentUpdateWithWhereUniqueWithoutAuthorInput | CommentUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: CommentUpdateManyWithWhereWithoutAuthorInput | CommentUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type SavedResourceUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SavedResourceCreateWithoutUserInput, SavedResourceUncheckedCreateWithoutUserInput> | SavedResourceCreateWithoutUserInput[] | SavedResourceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedResourceCreateOrConnectWithoutUserInput | SavedResourceCreateOrConnectWithoutUserInput[]
+    upsert?: SavedResourceUpsertWithWhereUniqueWithoutUserInput | SavedResourceUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SavedResourceCreateManyUserInputEnvelope
+    set?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    disconnect?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    delete?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    connect?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    update?: SavedResourceUpdateWithWhereUniqueWithoutUserInput | SavedResourceUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SavedResourceUpdateManyWithWhereWithoutUserInput | SavedResourceUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SavedResourceScalarWhereInput | SavedResourceScalarWhereInput[]
+  }
+
+  export type ResourceUsageUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ResourceUsageCreateWithoutUserInput, ResourceUsageUncheckedCreateWithoutUserInput> | ResourceUsageCreateWithoutUserInput[] | ResourceUsageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ResourceUsageCreateOrConnectWithoutUserInput | ResourceUsageCreateOrConnectWithoutUserInput[]
+    upsert?: ResourceUsageUpsertWithWhereUniqueWithoutUserInput | ResourceUsageUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ResourceUsageCreateManyUserInputEnvelope
+    set?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    disconnect?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    delete?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    connect?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    update?: ResourceUsageUpdateWithWhereUniqueWithoutUserInput | ResourceUsageUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ResourceUsageUpdateManyWithWhereWithoutUserInput | ResourceUsageUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ResourceUsageScalarWhereInput | ResourceUsageScalarWhereInput[]
+  }
+
+  export type ResourceVersionUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<ResourceVersionCreateWithoutAuthorInput, ResourceVersionUncheckedCreateWithoutAuthorInput> | ResourceVersionCreateWithoutAuthorInput[] | ResourceVersionUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ResourceVersionCreateOrConnectWithoutAuthorInput | ResourceVersionCreateOrConnectWithoutAuthorInput[]
+    upsert?: ResourceVersionUpsertWithWhereUniqueWithoutAuthorInput | ResourceVersionUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: ResourceVersionCreateManyAuthorInputEnvelope
+    set?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    disconnect?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    delete?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    connect?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    update?: ResourceVersionUpdateWithWhereUniqueWithoutAuthorInput | ResourceVersionUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: ResourceVersionUpdateManyWithWhereWithoutAuthorInput | ResourceVersionUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: ResourceVersionScalarWhereInput | ResourceVersionScalarWhereInput[]
+  }
+
+  export type ResourceUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<ResourceCreateWithoutAuthorInput, ResourceUncheckedCreateWithoutAuthorInput> | ResourceCreateWithoutAuthorInput[] | ResourceUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ResourceCreateOrConnectWithoutAuthorInput | ResourceCreateOrConnectWithoutAuthorInput[]
+    upsert?: ResourceUpsertWithWhereUniqueWithoutAuthorInput | ResourceUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: ResourceCreateManyAuthorInputEnvelope
+    set?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    disconnect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    delete?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    update?: ResourceUpdateWithWhereUniqueWithoutAuthorInput | ResourceUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: ResourceUpdateManyWithWhereWithoutAuthorInput | ResourceUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
+  }
+
+  export type CollectionUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<CollectionCreateWithoutAuthorInput, CollectionUncheckedCreateWithoutAuthorInput> | CollectionCreateWithoutAuthorInput[] | CollectionUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CollectionCreateOrConnectWithoutAuthorInput | CollectionCreateOrConnectWithoutAuthorInput[]
+    upsert?: CollectionUpsertWithWhereUniqueWithoutAuthorInput | CollectionUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: CollectionCreateManyAuthorInputEnvelope
+    set?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    disconnect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    delete?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    connect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    update?: CollectionUpdateWithWhereUniqueWithoutAuthorInput | CollectionUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: CollectionUpdateManyWithWhereWithoutAuthorInput | CollectionUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: CollectionScalarWhereInput | CollectionScalarWhereInput[]
+  }
+
+  export type CommentUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput> | CommentCreateWithoutAuthorInput[] | CommentUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutAuthorInput | CommentCreateOrConnectWithoutAuthorInput[]
+    upsert?: CommentUpsertWithWhereUniqueWithoutAuthorInput | CommentUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: CommentCreateManyAuthorInputEnvelope
+    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    update?: CommentUpdateWithWhereUniqueWithoutAuthorInput | CommentUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: CommentUpdateManyWithWhereWithoutAuthorInput | CommentUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type SavedResourceUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SavedResourceCreateWithoutUserInput, SavedResourceUncheckedCreateWithoutUserInput> | SavedResourceCreateWithoutUserInput[] | SavedResourceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedResourceCreateOrConnectWithoutUserInput | SavedResourceCreateOrConnectWithoutUserInput[]
+    upsert?: SavedResourceUpsertWithWhereUniqueWithoutUserInput | SavedResourceUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SavedResourceCreateManyUserInputEnvelope
+    set?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    disconnect?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    delete?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    connect?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    update?: SavedResourceUpdateWithWhereUniqueWithoutUserInput | SavedResourceUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SavedResourceUpdateManyWithWhereWithoutUserInput | SavedResourceUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SavedResourceScalarWhereInput | SavedResourceScalarWhereInput[]
+  }
+
+  export type ResourceUsageUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ResourceUsageCreateWithoutUserInput, ResourceUsageUncheckedCreateWithoutUserInput> | ResourceUsageCreateWithoutUserInput[] | ResourceUsageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ResourceUsageCreateOrConnectWithoutUserInput | ResourceUsageCreateOrConnectWithoutUserInput[]
+    upsert?: ResourceUsageUpsertWithWhereUniqueWithoutUserInput | ResourceUsageUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ResourceUsageCreateManyUserInputEnvelope
+    set?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    disconnect?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    delete?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    connect?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    update?: ResourceUsageUpdateWithWhereUniqueWithoutUserInput | ResourceUsageUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ResourceUsageUpdateManyWithWhereWithoutUserInput | ResourceUsageUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ResourceUsageScalarWhereInput | ResourceUsageScalarWhereInput[]
+  }
+
+  export type ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<ResourceVersionCreateWithoutAuthorInput, ResourceVersionUncheckedCreateWithoutAuthorInput> | ResourceVersionCreateWithoutAuthorInput[] | ResourceVersionUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ResourceVersionCreateOrConnectWithoutAuthorInput | ResourceVersionCreateOrConnectWithoutAuthorInput[]
+    upsert?: ResourceVersionUpsertWithWhereUniqueWithoutAuthorInput | ResourceVersionUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: ResourceVersionCreateManyAuthorInputEnvelope
+    set?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    disconnect?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    delete?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    connect?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    update?: ResourceVersionUpdateWithWhereUniqueWithoutAuthorInput | ResourceVersionUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: ResourceVersionUpdateManyWithWhereWithoutAuthorInput | ResourceVersionUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: ResourceVersionScalarWhereInput | ResourceVersionScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutResourcesInput = {
+    create?: XOR<UserCreateWithoutResourcesInput, UserUncheckedCreateWithoutResourcesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutResourcesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ResourceCreateNestedOneWithoutChildrenInput = {
+    create?: XOR<ResourceCreateWithoutChildrenInput, ResourceUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutChildrenInput
+    connect?: ResourceWhereUniqueInput
+  }
+
+  export type ResourceCreateNestedManyWithoutParentInput = {
+    create?: XOR<ResourceCreateWithoutParentInput, ResourceUncheckedCreateWithoutParentInput> | ResourceCreateWithoutParentInput[] | ResourceUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: ResourceCreateOrConnectWithoutParentInput | ResourceCreateOrConnectWithoutParentInput[]
+    createMany?: ResourceCreateManyParentInputEnvelope
+    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+  }
+
+  export type TagCreateNestedManyWithoutResourcesInput = {
+    create?: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput> | TagCreateWithoutResourcesInput[] | TagUncheckedCreateWithoutResourcesInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutResourcesInput | TagCreateOrConnectWithoutResourcesInput[]
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+  }
+
+  export type RelationCreateNestedManyWithoutFromInput = {
+    create?: XOR<RelationCreateWithoutFromInput, RelationUncheckedCreateWithoutFromInput> | RelationCreateWithoutFromInput[] | RelationUncheckedCreateWithoutFromInput[]
+    connectOrCreate?: RelationCreateOrConnectWithoutFromInput | RelationCreateOrConnectWithoutFromInput[]
+    createMany?: RelationCreateManyFromInputEnvelope
+    connect?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+  }
+
+  export type RelationCreateNestedManyWithoutToInput = {
+    create?: XOR<RelationCreateWithoutToInput, RelationUncheckedCreateWithoutToInput> | RelationCreateWithoutToInput[] | RelationUncheckedCreateWithoutToInput[]
+    connectOrCreate?: RelationCreateOrConnectWithoutToInput | RelationCreateOrConnectWithoutToInput[]
+    createMany?: RelationCreateManyToInputEnvelope
+    connect?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+  }
+
+  export type CollectionResourceCreateNestedManyWithoutResourceInput = {
+    create?: XOR<CollectionResourceCreateWithoutResourceInput, CollectionResourceUncheckedCreateWithoutResourceInput> | CollectionResourceCreateWithoutResourceInput[] | CollectionResourceUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: CollectionResourceCreateOrConnectWithoutResourceInput | CollectionResourceCreateOrConnectWithoutResourceInput[]
+    createMany?: CollectionResourceCreateManyResourceInputEnvelope
+    connect?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+  }
+
+  export type CommentCreateNestedManyWithoutResourceInput = {
+    create?: XOR<CommentCreateWithoutResourceInput, CommentUncheckedCreateWithoutResourceInput> | CommentCreateWithoutResourceInput[] | CommentUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutResourceInput | CommentCreateOrConnectWithoutResourceInput[]
+    createMany?: CommentCreateManyResourceInputEnvelope
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type ResourceMetricsCreateNestedOneWithoutResourceInput = {
+    create?: XOR<ResourceMetricsCreateWithoutResourceInput, ResourceMetricsUncheckedCreateWithoutResourceInput>
+    connectOrCreate?: ResourceMetricsCreateOrConnectWithoutResourceInput
+    connect?: ResourceMetricsWhereUniqueInput
+  }
+
+  export type ResourceVersionCreateNestedManyWithoutResourceInput = {
+    create?: XOR<ResourceVersionCreateWithoutResourceInput, ResourceVersionUncheckedCreateWithoutResourceInput> | ResourceVersionCreateWithoutResourceInput[] | ResourceVersionUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: ResourceVersionCreateOrConnectWithoutResourceInput | ResourceVersionCreateOrConnectWithoutResourceInput[]
+    createMany?: ResourceVersionCreateManyResourceInputEnvelope
+    connect?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+  }
+
+  export type ResourceUsageCreateNestedManyWithoutResourceInput = {
+    create?: XOR<ResourceUsageCreateWithoutResourceInput, ResourceUsageUncheckedCreateWithoutResourceInput> | ResourceUsageCreateWithoutResourceInput[] | ResourceUsageUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: ResourceUsageCreateOrConnectWithoutResourceInput | ResourceUsageCreateOrConnectWithoutResourceInput[]
+    createMany?: ResourceUsageCreateManyResourceInputEnvelope
+    connect?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+  }
+
+  export type SavedResourceCreateNestedManyWithoutResourceInput = {
+    create?: XOR<SavedResourceCreateWithoutResourceInput, SavedResourceUncheckedCreateWithoutResourceInput> | SavedResourceCreateWithoutResourceInput[] | SavedResourceUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: SavedResourceCreateOrConnectWithoutResourceInput | SavedResourceCreateOrConnectWithoutResourceInput[]
+    createMany?: SavedResourceCreateManyResourceInputEnvelope
+    connect?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+  }
+
+  export type ResourceUncheckedCreateNestedManyWithoutParentInput = {
+    create?: XOR<ResourceCreateWithoutParentInput, ResourceUncheckedCreateWithoutParentInput> | ResourceCreateWithoutParentInput[] | ResourceUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: ResourceCreateOrConnectWithoutParentInput | ResourceCreateOrConnectWithoutParentInput[]
+    createMany?: ResourceCreateManyParentInputEnvelope
+    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+  }
+
+  export type TagUncheckedCreateNestedManyWithoutResourcesInput = {
+    create?: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput> | TagCreateWithoutResourcesInput[] | TagUncheckedCreateWithoutResourcesInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutResourcesInput | TagCreateOrConnectWithoutResourcesInput[]
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+  }
+
+  export type RelationUncheckedCreateNestedManyWithoutFromInput = {
+    create?: XOR<RelationCreateWithoutFromInput, RelationUncheckedCreateWithoutFromInput> | RelationCreateWithoutFromInput[] | RelationUncheckedCreateWithoutFromInput[]
+    connectOrCreate?: RelationCreateOrConnectWithoutFromInput | RelationCreateOrConnectWithoutFromInput[]
+    createMany?: RelationCreateManyFromInputEnvelope
+    connect?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+  }
+
+  export type RelationUncheckedCreateNestedManyWithoutToInput = {
+    create?: XOR<RelationCreateWithoutToInput, RelationUncheckedCreateWithoutToInput> | RelationCreateWithoutToInput[] | RelationUncheckedCreateWithoutToInput[]
+    connectOrCreate?: RelationCreateOrConnectWithoutToInput | RelationCreateOrConnectWithoutToInput[]
+    createMany?: RelationCreateManyToInputEnvelope
+    connect?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+  }
+
+  export type CollectionResourceUncheckedCreateNestedManyWithoutResourceInput = {
+    create?: XOR<CollectionResourceCreateWithoutResourceInput, CollectionResourceUncheckedCreateWithoutResourceInput> | CollectionResourceCreateWithoutResourceInput[] | CollectionResourceUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: CollectionResourceCreateOrConnectWithoutResourceInput | CollectionResourceCreateOrConnectWithoutResourceInput[]
+    createMany?: CollectionResourceCreateManyResourceInputEnvelope
+    connect?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+  }
+
+  export type CommentUncheckedCreateNestedManyWithoutResourceInput = {
+    create?: XOR<CommentCreateWithoutResourceInput, CommentUncheckedCreateWithoutResourceInput> | CommentCreateWithoutResourceInput[] | CommentUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutResourceInput | CommentCreateOrConnectWithoutResourceInput[]
+    createMany?: CommentCreateManyResourceInputEnvelope
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput = {
+    create?: XOR<ResourceMetricsCreateWithoutResourceInput, ResourceMetricsUncheckedCreateWithoutResourceInput>
+    connectOrCreate?: ResourceMetricsCreateOrConnectWithoutResourceInput
+    connect?: ResourceMetricsWhereUniqueInput
+  }
+
+  export type ResourceVersionUncheckedCreateNestedManyWithoutResourceInput = {
+    create?: XOR<ResourceVersionCreateWithoutResourceInput, ResourceVersionUncheckedCreateWithoutResourceInput> | ResourceVersionCreateWithoutResourceInput[] | ResourceVersionUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: ResourceVersionCreateOrConnectWithoutResourceInput | ResourceVersionCreateOrConnectWithoutResourceInput[]
+    createMany?: ResourceVersionCreateManyResourceInputEnvelope
+    connect?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+  }
+
+  export type ResourceUsageUncheckedCreateNestedManyWithoutResourceInput = {
+    create?: XOR<ResourceUsageCreateWithoutResourceInput, ResourceUsageUncheckedCreateWithoutResourceInput> | ResourceUsageCreateWithoutResourceInput[] | ResourceUsageUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: ResourceUsageCreateOrConnectWithoutResourceInput | ResourceUsageCreateOrConnectWithoutResourceInput[]
+    createMany?: ResourceUsageCreateManyResourceInputEnvelope
+    connect?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+  }
+
+  export type SavedResourceUncheckedCreateNestedManyWithoutResourceInput = {
+    create?: XOR<SavedResourceCreateWithoutResourceInput, SavedResourceUncheckedCreateWithoutResourceInput> | SavedResourceCreateWithoutResourceInput[] | SavedResourceUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: SavedResourceCreateOrConnectWithoutResourceInput | SavedResourceCreateOrConnectWithoutResourceInput[]
+    createMany?: SavedResourceCreateManyResourceInputEnvelope
+    connect?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+  }
+
+  export type EnumResourceTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ResourceType
+  }
+
+  export type EnumResourceStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ResourceStatus
+  }
+
+  export type EnumVisibilityFieldUpdateOperationsInput = {
+    set?: $Enums.Visibility
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UserUpdateOneRequiredWithoutResourcesNestedInput = {
+    create?: XOR<UserCreateWithoutResourcesInput, UserUncheckedCreateWithoutResourcesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutResourcesInput
+    upsert?: UserUpsertWithoutResourcesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutResourcesInput, UserUpdateWithoutResourcesInput>, UserUncheckedUpdateWithoutResourcesInput>
+  }
+
+  export type ResourceUpdateOneWithoutChildrenNestedInput = {
+    create?: XOR<ResourceCreateWithoutChildrenInput, ResourceUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutChildrenInput
+    upsert?: ResourceUpsertWithoutChildrenInput
+    disconnect?: ResourceWhereInput | boolean
+    delete?: ResourceWhereInput | boolean
+    connect?: ResourceWhereUniqueInput
+    update?: XOR<XOR<ResourceUpdateToOneWithWhereWithoutChildrenInput, ResourceUpdateWithoutChildrenInput>, ResourceUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type ResourceUpdateManyWithoutParentNestedInput = {
+    create?: XOR<ResourceCreateWithoutParentInput, ResourceUncheckedCreateWithoutParentInput> | ResourceCreateWithoutParentInput[] | ResourceUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: ResourceCreateOrConnectWithoutParentInput | ResourceCreateOrConnectWithoutParentInput[]
+    upsert?: ResourceUpsertWithWhereUniqueWithoutParentInput | ResourceUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: ResourceCreateManyParentInputEnvelope
+    set?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    disconnect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    delete?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    update?: ResourceUpdateWithWhereUniqueWithoutParentInput | ResourceUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: ResourceUpdateManyWithWhereWithoutParentInput | ResourceUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
+  }
+
+  export type TagUpdateManyWithoutResourcesNestedInput = {
+    create?: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput> | TagCreateWithoutResourcesInput[] | TagUncheckedCreateWithoutResourcesInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutResourcesInput | TagCreateOrConnectWithoutResourcesInput[]
+    upsert?: TagUpsertWithWhereUniqueWithoutResourcesInput | TagUpsertWithWhereUniqueWithoutResourcesInput[]
+    set?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    disconnect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    delete?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    update?: TagUpdateWithWhereUniqueWithoutResourcesInput | TagUpdateWithWhereUniqueWithoutResourcesInput[]
+    updateMany?: TagUpdateManyWithWhereWithoutResourcesInput | TagUpdateManyWithWhereWithoutResourcesInput[]
+    deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
+  }
+
+  export type RelationUpdateManyWithoutFromNestedInput = {
+    create?: XOR<RelationCreateWithoutFromInput, RelationUncheckedCreateWithoutFromInput> | RelationCreateWithoutFromInput[] | RelationUncheckedCreateWithoutFromInput[]
+    connectOrCreate?: RelationCreateOrConnectWithoutFromInput | RelationCreateOrConnectWithoutFromInput[]
+    upsert?: RelationUpsertWithWhereUniqueWithoutFromInput | RelationUpsertWithWhereUniqueWithoutFromInput[]
+    createMany?: RelationCreateManyFromInputEnvelope
+    set?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    disconnect?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    delete?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    connect?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    update?: RelationUpdateWithWhereUniqueWithoutFromInput | RelationUpdateWithWhereUniqueWithoutFromInput[]
+    updateMany?: RelationUpdateManyWithWhereWithoutFromInput | RelationUpdateManyWithWhereWithoutFromInput[]
+    deleteMany?: RelationScalarWhereInput | RelationScalarWhereInput[]
+  }
+
+  export type RelationUpdateManyWithoutToNestedInput = {
+    create?: XOR<RelationCreateWithoutToInput, RelationUncheckedCreateWithoutToInput> | RelationCreateWithoutToInput[] | RelationUncheckedCreateWithoutToInput[]
+    connectOrCreate?: RelationCreateOrConnectWithoutToInput | RelationCreateOrConnectWithoutToInput[]
+    upsert?: RelationUpsertWithWhereUniqueWithoutToInput | RelationUpsertWithWhereUniqueWithoutToInput[]
+    createMany?: RelationCreateManyToInputEnvelope
+    set?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    disconnect?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    delete?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    connect?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    update?: RelationUpdateWithWhereUniqueWithoutToInput | RelationUpdateWithWhereUniqueWithoutToInput[]
+    updateMany?: RelationUpdateManyWithWhereWithoutToInput | RelationUpdateManyWithWhereWithoutToInput[]
+    deleteMany?: RelationScalarWhereInput | RelationScalarWhereInput[]
+  }
+
+  export type CollectionResourceUpdateManyWithoutResourceNestedInput = {
+    create?: XOR<CollectionResourceCreateWithoutResourceInput, CollectionResourceUncheckedCreateWithoutResourceInput> | CollectionResourceCreateWithoutResourceInput[] | CollectionResourceUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: CollectionResourceCreateOrConnectWithoutResourceInput | CollectionResourceCreateOrConnectWithoutResourceInput[]
+    upsert?: CollectionResourceUpsertWithWhereUniqueWithoutResourceInput | CollectionResourceUpsertWithWhereUniqueWithoutResourceInput[]
+    createMany?: CollectionResourceCreateManyResourceInputEnvelope
+    set?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    disconnect?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    delete?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    connect?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    update?: CollectionResourceUpdateWithWhereUniqueWithoutResourceInput | CollectionResourceUpdateWithWhereUniqueWithoutResourceInput[]
+    updateMany?: CollectionResourceUpdateManyWithWhereWithoutResourceInput | CollectionResourceUpdateManyWithWhereWithoutResourceInput[]
+    deleteMany?: CollectionResourceScalarWhereInput | CollectionResourceScalarWhereInput[]
+  }
+
+  export type CommentUpdateManyWithoutResourceNestedInput = {
+    create?: XOR<CommentCreateWithoutResourceInput, CommentUncheckedCreateWithoutResourceInput> | CommentCreateWithoutResourceInput[] | CommentUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutResourceInput | CommentCreateOrConnectWithoutResourceInput[]
+    upsert?: CommentUpsertWithWhereUniqueWithoutResourceInput | CommentUpsertWithWhereUniqueWithoutResourceInput[]
+    createMany?: CommentCreateManyResourceInputEnvelope
+    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    update?: CommentUpdateWithWhereUniqueWithoutResourceInput | CommentUpdateWithWhereUniqueWithoutResourceInput[]
+    updateMany?: CommentUpdateManyWithWhereWithoutResourceInput | CommentUpdateManyWithWhereWithoutResourceInput[]
+    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type ResourceMetricsUpdateOneWithoutResourceNestedInput = {
+    create?: XOR<ResourceMetricsCreateWithoutResourceInput, ResourceMetricsUncheckedCreateWithoutResourceInput>
+    connectOrCreate?: ResourceMetricsCreateOrConnectWithoutResourceInput
+    upsert?: ResourceMetricsUpsertWithoutResourceInput
+    disconnect?: ResourceMetricsWhereInput | boolean
+    delete?: ResourceMetricsWhereInput | boolean
+    connect?: ResourceMetricsWhereUniqueInput
+    update?: XOR<XOR<ResourceMetricsUpdateToOneWithWhereWithoutResourceInput, ResourceMetricsUpdateWithoutResourceInput>, ResourceMetricsUncheckedUpdateWithoutResourceInput>
+  }
+
+  export type ResourceVersionUpdateManyWithoutResourceNestedInput = {
+    create?: XOR<ResourceVersionCreateWithoutResourceInput, ResourceVersionUncheckedCreateWithoutResourceInput> | ResourceVersionCreateWithoutResourceInput[] | ResourceVersionUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: ResourceVersionCreateOrConnectWithoutResourceInput | ResourceVersionCreateOrConnectWithoutResourceInput[]
+    upsert?: ResourceVersionUpsertWithWhereUniqueWithoutResourceInput | ResourceVersionUpsertWithWhereUniqueWithoutResourceInput[]
+    createMany?: ResourceVersionCreateManyResourceInputEnvelope
+    set?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    disconnect?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    delete?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    connect?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    update?: ResourceVersionUpdateWithWhereUniqueWithoutResourceInput | ResourceVersionUpdateWithWhereUniqueWithoutResourceInput[]
+    updateMany?: ResourceVersionUpdateManyWithWhereWithoutResourceInput | ResourceVersionUpdateManyWithWhereWithoutResourceInput[]
+    deleteMany?: ResourceVersionScalarWhereInput | ResourceVersionScalarWhereInput[]
+  }
+
+  export type ResourceUsageUpdateManyWithoutResourceNestedInput = {
+    create?: XOR<ResourceUsageCreateWithoutResourceInput, ResourceUsageUncheckedCreateWithoutResourceInput> | ResourceUsageCreateWithoutResourceInput[] | ResourceUsageUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: ResourceUsageCreateOrConnectWithoutResourceInput | ResourceUsageCreateOrConnectWithoutResourceInput[]
+    upsert?: ResourceUsageUpsertWithWhereUniqueWithoutResourceInput | ResourceUsageUpsertWithWhereUniqueWithoutResourceInput[]
+    createMany?: ResourceUsageCreateManyResourceInputEnvelope
+    set?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    disconnect?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    delete?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    connect?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    update?: ResourceUsageUpdateWithWhereUniqueWithoutResourceInput | ResourceUsageUpdateWithWhereUniqueWithoutResourceInput[]
+    updateMany?: ResourceUsageUpdateManyWithWhereWithoutResourceInput | ResourceUsageUpdateManyWithWhereWithoutResourceInput[]
+    deleteMany?: ResourceUsageScalarWhereInput | ResourceUsageScalarWhereInput[]
+  }
+
+  export type SavedResourceUpdateManyWithoutResourceNestedInput = {
+    create?: XOR<SavedResourceCreateWithoutResourceInput, SavedResourceUncheckedCreateWithoutResourceInput> | SavedResourceCreateWithoutResourceInput[] | SavedResourceUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: SavedResourceCreateOrConnectWithoutResourceInput | SavedResourceCreateOrConnectWithoutResourceInput[]
+    upsert?: SavedResourceUpsertWithWhereUniqueWithoutResourceInput | SavedResourceUpsertWithWhereUniqueWithoutResourceInput[]
+    createMany?: SavedResourceCreateManyResourceInputEnvelope
+    set?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    disconnect?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    delete?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    connect?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    update?: SavedResourceUpdateWithWhereUniqueWithoutResourceInput | SavedResourceUpdateWithWhereUniqueWithoutResourceInput[]
+    updateMany?: SavedResourceUpdateManyWithWhereWithoutResourceInput | SavedResourceUpdateManyWithWhereWithoutResourceInput[]
+    deleteMany?: SavedResourceScalarWhereInput | SavedResourceScalarWhereInput[]
+  }
+
+  export type ResourceUncheckedUpdateManyWithoutParentNestedInput = {
+    create?: XOR<ResourceCreateWithoutParentInput, ResourceUncheckedCreateWithoutParentInput> | ResourceCreateWithoutParentInput[] | ResourceUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: ResourceCreateOrConnectWithoutParentInput | ResourceCreateOrConnectWithoutParentInput[]
+    upsert?: ResourceUpsertWithWhereUniqueWithoutParentInput | ResourceUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: ResourceCreateManyParentInputEnvelope
+    set?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    disconnect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    delete?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    update?: ResourceUpdateWithWhereUniqueWithoutParentInput | ResourceUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: ResourceUpdateManyWithWhereWithoutParentInput | ResourceUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
+  }
+
+  export type TagUncheckedUpdateManyWithoutResourcesNestedInput = {
+    create?: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput> | TagCreateWithoutResourcesInput[] | TagUncheckedCreateWithoutResourcesInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutResourcesInput | TagCreateOrConnectWithoutResourcesInput[]
+    upsert?: TagUpsertWithWhereUniqueWithoutResourcesInput | TagUpsertWithWhereUniqueWithoutResourcesInput[]
+    set?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    disconnect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    delete?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    update?: TagUpdateWithWhereUniqueWithoutResourcesInput | TagUpdateWithWhereUniqueWithoutResourcesInput[]
+    updateMany?: TagUpdateManyWithWhereWithoutResourcesInput | TagUpdateManyWithWhereWithoutResourcesInput[]
+    deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
+  }
+
+  export type RelationUncheckedUpdateManyWithoutFromNestedInput = {
+    create?: XOR<RelationCreateWithoutFromInput, RelationUncheckedCreateWithoutFromInput> | RelationCreateWithoutFromInput[] | RelationUncheckedCreateWithoutFromInput[]
+    connectOrCreate?: RelationCreateOrConnectWithoutFromInput | RelationCreateOrConnectWithoutFromInput[]
+    upsert?: RelationUpsertWithWhereUniqueWithoutFromInput | RelationUpsertWithWhereUniqueWithoutFromInput[]
+    createMany?: RelationCreateManyFromInputEnvelope
+    set?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    disconnect?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    delete?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    connect?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    update?: RelationUpdateWithWhereUniqueWithoutFromInput | RelationUpdateWithWhereUniqueWithoutFromInput[]
+    updateMany?: RelationUpdateManyWithWhereWithoutFromInput | RelationUpdateManyWithWhereWithoutFromInput[]
+    deleteMany?: RelationScalarWhereInput | RelationScalarWhereInput[]
+  }
+
+  export type RelationUncheckedUpdateManyWithoutToNestedInput = {
+    create?: XOR<RelationCreateWithoutToInput, RelationUncheckedCreateWithoutToInput> | RelationCreateWithoutToInput[] | RelationUncheckedCreateWithoutToInput[]
+    connectOrCreate?: RelationCreateOrConnectWithoutToInput | RelationCreateOrConnectWithoutToInput[]
+    upsert?: RelationUpsertWithWhereUniqueWithoutToInput | RelationUpsertWithWhereUniqueWithoutToInput[]
+    createMany?: RelationCreateManyToInputEnvelope
+    set?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    disconnect?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    delete?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    connect?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+    update?: RelationUpdateWithWhereUniqueWithoutToInput | RelationUpdateWithWhereUniqueWithoutToInput[]
+    updateMany?: RelationUpdateManyWithWhereWithoutToInput | RelationUpdateManyWithWhereWithoutToInput[]
+    deleteMany?: RelationScalarWhereInput | RelationScalarWhereInput[]
+  }
+
+  export type CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput = {
+    create?: XOR<CollectionResourceCreateWithoutResourceInput, CollectionResourceUncheckedCreateWithoutResourceInput> | CollectionResourceCreateWithoutResourceInput[] | CollectionResourceUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: CollectionResourceCreateOrConnectWithoutResourceInput | CollectionResourceCreateOrConnectWithoutResourceInput[]
+    upsert?: CollectionResourceUpsertWithWhereUniqueWithoutResourceInput | CollectionResourceUpsertWithWhereUniqueWithoutResourceInput[]
+    createMany?: CollectionResourceCreateManyResourceInputEnvelope
+    set?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    disconnect?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    delete?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    connect?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    update?: CollectionResourceUpdateWithWhereUniqueWithoutResourceInput | CollectionResourceUpdateWithWhereUniqueWithoutResourceInput[]
+    updateMany?: CollectionResourceUpdateManyWithWhereWithoutResourceInput | CollectionResourceUpdateManyWithWhereWithoutResourceInput[]
+    deleteMany?: CollectionResourceScalarWhereInput | CollectionResourceScalarWhereInput[]
+  }
+
+  export type CommentUncheckedUpdateManyWithoutResourceNestedInput = {
+    create?: XOR<CommentCreateWithoutResourceInput, CommentUncheckedCreateWithoutResourceInput> | CommentCreateWithoutResourceInput[] | CommentUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutResourceInput | CommentCreateOrConnectWithoutResourceInput[]
+    upsert?: CommentUpsertWithWhereUniqueWithoutResourceInput | CommentUpsertWithWhereUniqueWithoutResourceInput[]
+    createMany?: CommentCreateManyResourceInputEnvelope
+    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    update?: CommentUpdateWithWhereUniqueWithoutResourceInput | CommentUpdateWithWhereUniqueWithoutResourceInput[]
+    updateMany?: CommentUpdateManyWithWhereWithoutResourceInput | CommentUpdateManyWithWhereWithoutResourceInput[]
+    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput = {
+    create?: XOR<ResourceMetricsCreateWithoutResourceInput, ResourceMetricsUncheckedCreateWithoutResourceInput>
+    connectOrCreate?: ResourceMetricsCreateOrConnectWithoutResourceInput
+    upsert?: ResourceMetricsUpsertWithoutResourceInput
+    disconnect?: ResourceMetricsWhereInput | boolean
+    delete?: ResourceMetricsWhereInput | boolean
+    connect?: ResourceMetricsWhereUniqueInput
+    update?: XOR<XOR<ResourceMetricsUpdateToOneWithWhereWithoutResourceInput, ResourceMetricsUpdateWithoutResourceInput>, ResourceMetricsUncheckedUpdateWithoutResourceInput>
+  }
+
+  export type ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput = {
+    create?: XOR<ResourceVersionCreateWithoutResourceInput, ResourceVersionUncheckedCreateWithoutResourceInput> | ResourceVersionCreateWithoutResourceInput[] | ResourceVersionUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: ResourceVersionCreateOrConnectWithoutResourceInput | ResourceVersionCreateOrConnectWithoutResourceInput[]
+    upsert?: ResourceVersionUpsertWithWhereUniqueWithoutResourceInput | ResourceVersionUpsertWithWhereUniqueWithoutResourceInput[]
+    createMany?: ResourceVersionCreateManyResourceInputEnvelope
+    set?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    disconnect?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    delete?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    connect?: ResourceVersionWhereUniqueInput | ResourceVersionWhereUniqueInput[]
+    update?: ResourceVersionUpdateWithWhereUniqueWithoutResourceInput | ResourceVersionUpdateWithWhereUniqueWithoutResourceInput[]
+    updateMany?: ResourceVersionUpdateManyWithWhereWithoutResourceInput | ResourceVersionUpdateManyWithWhereWithoutResourceInput[]
+    deleteMany?: ResourceVersionScalarWhereInput | ResourceVersionScalarWhereInput[]
+  }
+
+  export type ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput = {
+    create?: XOR<ResourceUsageCreateWithoutResourceInput, ResourceUsageUncheckedCreateWithoutResourceInput> | ResourceUsageCreateWithoutResourceInput[] | ResourceUsageUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: ResourceUsageCreateOrConnectWithoutResourceInput | ResourceUsageCreateOrConnectWithoutResourceInput[]
+    upsert?: ResourceUsageUpsertWithWhereUniqueWithoutResourceInput | ResourceUsageUpsertWithWhereUniqueWithoutResourceInput[]
+    createMany?: ResourceUsageCreateManyResourceInputEnvelope
+    set?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    disconnect?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    delete?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    connect?: ResourceUsageWhereUniqueInput | ResourceUsageWhereUniqueInput[]
+    update?: ResourceUsageUpdateWithWhereUniqueWithoutResourceInput | ResourceUsageUpdateWithWhereUniqueWithoutResourceInput[]
+    updateMany?: ResourceUsageUpdateManyWithWhereWithoutResourceInput | ResourceUsageUpdateManyWithWhereWithoutResourceInput[]
+    deleteMany?: ResourceUsageScalarWhereInput | ResourceUsageScalarWhereInput[]
+  }
+
+  export type SavedResourceUncheckedUpdateManyWithoutResourceNestedInput = {
+    create?: XOR<SavedResourceCreateWithoutResourceInput, SavedResourceUncheckedCreateWithoutResourceInput> | SavedResourceCreateWithoutResourceInput[] | SavedResourceUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: SavedResourceCreateOrConnectWithoutResourceInput | SavedResourceCreateOrConnectWithoutResourceInput[]
+    upsert?: SavedResourceUpsertWithWhereUniqueWithoutResourceInput | SavedResourceUpsertWithWhereUniqueWithoutResourceInput[]
+    createMany?: SavedResourceCreateManyResourceInputEnvelope
+    set?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    disconnect?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    delete?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    connect?: SavedResourceWhereUniqueInput | SavedResourceWhereUniqueInput[]
+    update?: SavedResourceUpdateWithWhereUniqueWithoutResourceInput | SavedResourceUpdateWithWhereUniqueWithoutResourceInput[]
+    updateMany?: SavedResourceUpdateManyWithWhereWithoutResourceInput | SavedResourceUpdateManyWithWhereWithoutResourceInput[]
+    deleteMany?: SavedResourceScalarWhereInput | SavedResourceScalarWhereInput[]
+  }
+
+  export type ResourceCreateNestedOneWithoutVersionsInput = {
+    create?: XOR<ResourceCreateWithoutVersionsInput, ResourceUncheckedCreateWithoutVersionsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutVersionsInput
+    connect?: ResourceWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutResourceVersionsInput = {
+    create?: XOR<UserCreateWithoutResourceVersionsInput, UserUncheckedCreateWithoutResourceVersionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutResourceVersionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ResourceUpdateOneRequiredWithoutVersionsNestedInput = {
+    create?: XOR<ResourceCreateWithoutVersionsInput, ResourceUncheckedCreateWithoutVersionsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutVersionsInput
+    upsert?: ResourceUpsertWithoutVersionsInput
+    connect?: ResourceWhereUniqueInput
+    update?: XOR<XOR<ResourceUpdateToOneWithWhereWithoutVersionsInput, ResourceUpdateWithoutVersionsInput>, ResourceUncheckedUpdateWithoutVersionsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutResourceVersionsNestedInput = {
+    create?: XOR<UserCreateWithoutResourceVersionsInput, UserUncheckedCreateWithoutResourceVersionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutResourceVersionsInput
+    upsert?: UserUpsertWithoutResourceVersionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutResourceVersionsInput, UserUpdateWithoutResourceVersionsInput>, UserUncheckedUpdateWithoutResourceVersionsInput>
+  }
+
+  export type ResourceCreateNestedOneWithoutOutgoingRelationsInput = {
+    create?: XOR<ResourceCreateWithoutOutgoingRelationsInput, ResourceUncheckedCreateWithoutOutgoingRelationsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutOutgoingRelationsInput
+    connect?: ResourceWhereUniqueInput
+  }
+
+  export type ResourceCreateNestedOneWithoutIncomingRelationsInput = {
+    create?: XOR<ResourceCreateWithoutIncomingRelationsInput, ResourceUncheckedCreateWithoutIncomingRelationsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutIncomingRelationsInput
+    connect?: ResourceWhereUniqueInput
+  }
+
+  export type EnumRelationTypeFieldUpdateOperationsInput = {
+    set?: $Enums.RelationType
+  }
+
+  export type ResourceUpdateOneRequiredWithoutOutgoingRelationsNestedInput = {
+    create?: XOR<ResourceCreateWithoutOutgoingRelationsInput, ResourceUncheckedCreateWithoutOutgoingRelationsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutOutgoingRelationsInput
+    upsert?: ResourceUpsertWithoutOutgoingRelationsInput
+    connect?: ResourceWhereUniqueInput
+    update?: XOR<XOR<ResourceUpdateToOneWithWhereWithoutOutgoingRelationsInput, ResourceUpdateWithoutOutgoingRelationsInput>, ResourceUncheckedUpdateWithoutOutgoingRelationsInput>
+  }
+
+  export type ResourceUpdateOneRequiredWithoutIncomingRelationsNestedInput = {
+    create?: XOR<ResourceCreateWithoutIncomingRelationsInput, ResourceUncheckedCreateWithoutIncomingRelationsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutIncomingRelationsInput
+    upsert?: ResourceUpsertWithoutIncomingRelationsInput
+    connect?: ResourceWhereUniqueInput
+    update?: XOR<XOR<ResourceUpdateToOneWithWhereWithoutIncomingRelationsInput, ResourceUpdateWithoutIncomingRelationsInput>, ResourceUncheckedUpdateWithoutIncomingRelationsInput>
+  }
+
+  export type UserCreateNestedOneWithoutCollectionsInput = {
+    create?: XOR<UserCreateWithoutCollectionsInput, UserUncheckedCreateWithoutCollectionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCollectionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CollectionResourceCreateNestedManyWithoutCollectionInput = {
+    create?: XOR<CollectionResourceCreateWithoutCollectionInput, CollectionResourceUncheckedCreateWithoutCollectionInput> | CollectionResourceCreateWithoutCollectionInput[] | CollectionResourceUncheckedCreateWithoutCollectionInput[]
+    connectOrCreate?: CollectionResourceCreateOrConnectWithoutCollectionInput | CollectionResourceCreateOrConnectWithoutCollectionInput[]
+    createMany?: CollectionResourceCreateManyCollectionInputEnvelope
+    connect?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+  }
+
+  export type CollectionResourceUncheckedCreateNestedManyWithoutCollectionInput = {
+    create?: XOR<CollectionResourceCreateWithoutCollectionInput, CollectionResourceUncheckedCreateWithoutCollectionInput> | CollectionResourceCreateWithoutCollectionInput[] | CollectionResourceUncheckedCreateWithoutCollectionInput[]
+    connectOrCreate?: CollectionResourceCreateOrConnectWithoutCollectionInput | CollectionResourceCreateOrConnectWithoutCollectionInput[]
+    createMany?: CollectionResourceCreateManyCollectionInputEnvelope
+    connect?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutCollectionsNestedInput = {
+    create?: XOR<UserCreateWithoutCollectionsInput, UserUncheckedCreateWithoutCollectionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCollectionsInput
+    upsert?: UserUpsertWithoutCollectionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCollectionsInput, UserUpdateWithoutCollectionsInput>, UserUncheckedUpdateWithoutCollectionsInput>
+  }
+
+  export type CollectionResourceUpdateManyWithoutCollectionNestedInput = {
+    create?: XOR<CollectionResourceCreateWithoutCollectionInput, CollectionResourceUncheckedCreateWithoutCollectionInput> | CollectionResourceCreateWithoutCollectionInput[] | CollectionResourceUncheckedCreateWithoutCollectionInput[]
+    connectOrCreate?: CollectionResourceCreateOrConnectWithoutCollectionInput | CollectionResourceCreateOrConnectWithoutCollectionInput[]
+    upsert?: CollectionResourceUpsertWithWhereUniqueWithoutCollectionInput | CollectionResourceUpsertWithWhereUniqueWithoutCollectionInput[]
+    createMany?: CollectionResourceCreateManyCollectionInputEnvelope
+    set?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    disconnect?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    delete?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    connect?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    update?: CollectionResourceUpdateWithWhereUniqueWithoutCollectionInput | CollectionResourceUpdateWithWhereUniqueWithoutCollectionInput[]
+    updateMany?: CollectionResourceUpdateManyWithWhereWithoutCollectionInput | CollectionResourceUpdateManyWithWhereWithoutCollectionInput[]
+    deleteMany?: CollectionResourceScalarWhereInput | CollectionResourceScalarWhereInput[]
+  }
+
+  export type CollectionResourceUncheckedUpdateManyWithoutCollectionNestedInput = {
+    create?: XOR<CollectionResourceCreateWithoutCollectionInput, CollectionResourceUncheckedCreateWithoutCollectionInput> | CollectionResourceCreateWithoutCollectionInput[] | CollectionResourceUncheckedCreateWithoutCollectionInput[]
+    connectOrCreate?: CollectionResourceCreateOrConnectWithoutCollectionInput | CollectionResourceCreateOrConnectWithoutCollectionInput[]
+    upsert?: CollectionResourceUpsertWithWhereUniqueWithoutCollectionInput | CollectionResourceUpsertWithWhereUniqueWithoutCollectionInput[]
+    createMany?: CollectionResourceCreateManyCollectionInputEnvelope
+    set?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    disconnect?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    delete?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    connect?: CollectionResourceWhereUniqueInput | CollectionResourceWhereUniqueInput[]
+    update?: CollectionResourceUpdateWithWhereUniqueWithoutCollectionInput | CollectionResourceUpdateWithWhereUniqueWithoutCollectionInput[]
+    updateMany?: CollectionResourceUpdateManyWithWhereWithoutCollectionInput | CollectionResourceUpdateManyWithWhereWithoutCollectionInput[]
+    deleteMany?: CollectionResourceScalarWhereInput | CollectionResourceScalarWhereInput[]
+  }
+
+  export type CollectionCreateNestedOneWithoutResourcesInput = {
+    create?: XOR<CollectionCreateWithoutResourcesInput, CollectionUncheckedCreateWithoutResourcesInput>
+    connectOrCreate?: CollectionCreateOrConnectWithoutResourcesInput
+    connect?: CollectionWhereUniqueInput
+  }
+
+  export type ResourceCreateNestedOneWithoutCollectionsInput = {
+    create?: XOR<ResourceCreateWithoutCollectionsInput, ResourceUncheckedCreateWithoutCollectionsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutCollectionsInput
+    connect?: ResourceWhereUniqueInput
+  }
+
+  export type CollectionUpdateOneRequiredWithoutResourcesNestedInput = {
+    create?: XOR<CollectionCreateWithoutResourcesInput, CollectionUncheckedCreateWithoutResourcesInput>
+    connectOrCreate?: CollectionCreateOrConnectWithoutResourcesInput
+    upsert?: CollectionUpsertWithoutResourcesInput
+    connect?: CollectionWhereUniqueInput
+    update?: XOR<XOR<CollectionUpdateToOneWithWhereWithoutResourcesInput, CollectionUpdateWithoutResourcesInput>, CollectionUncheckedUpdateWithoutResourcesInput>
+  }
+
+  export type ResourceUpdateOneRequiredWithoutCollectionsNestedInput = {
+    create?: XOR<ResourceCreateWithoutCollectionsInput, ResourceUncheckedCreateWithoutCollectionsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutCollectionsInput
+    upsert?: ResourceUpsertWithoutCollectionsInput
+    connect?: ResourceWhereUniqueInput
+    update?: XOR<XOR<ResourceUpdateToOneWithWhereWithoutCollectionsInput, ResourceUpdateWithoutCollectionsInput>, ResourceUncheckedUpdateWithoutCollectionsInput>
+  }
+
+  export type ResourceCreateNestedManyWithoutTagsInput = {
+    create?: XOR<ResourceCreateWithoutTagsInput, ResourceUncheckedCreateWithoutTagsInput> | ResourceCreateWithoutTagsInput[] | ResourceUncheckedCreateWithoutTagsInput[]
+    connectOrCreate?: ResourceCreateOrConnectWithoutTagsInput | ResourceCreateOrConnectWithoutTagsInput[]
+    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+  }
+
+  export type ResourceUncheckedCreateNestedManyWithoutTagsInput = {
+    create?: XOR<ResourceCreateWithoutTagsInput, ResourceUncheckedCreateWithoutTagsInput> | ResourceCreateWithoutTagsInput[] | ResourceUncheckedCreateWithoutTagsInput[]
+    connectOrCreate?: ResourceCreateOrConnectWithoutTagsInput | ResourceCreateOrConnectWithoutTagsInput[]
+    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+  }
+
+  export type ResourceUpdateManyWithoutTagsNestedInput = {
+    create?: XOR<ResourceCreateWithoutTagsInput, ResourceUncheckedCreateWithoutTagsInput> | ResourceCreateWithoutTagsInput[] | ResourceUncheckedCreateWithoutTagsInput[]
+    connectOrCreate?: ResourceCreateOrConnectWithoutTagsInput | ResourceCreateOrConnectWithoutTagsInput[]
+    upsert?: ResourceUpsertWithWhereUniqueWithoutTagsInput | ResourceUpsertWithWhereUniqueWithoutTagsInput[]
+    set?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    disconnect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    delete?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    update?: ResourceUpdateWithWhereUniqueWithoutTagsInput | ResourceUpdateWithWhereUniqueWithoutTagsInput[]
+    updateMany?: ResourceUpdateManyWithWhereWithoutTagsInput | ResourceUpdateManyWithWhereWithoutTagsInput[]
+    deleteMany?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
+  }
+
+  export type ResourceUncheckedUpdateManyWithoutTagsNestedInput = {
+    create?: XOR<ResourceCreateWithoutTagsInput, ResourceUncheckedCreateWithoutTagsInput> | ResourceCreateWithoutTagsInput[] | ResourceUncheckedCreateWithoutTagsInput[]
+    connectOrCreate?: ResourceCreateOrConnectWithoutTagsInput | ResourceCreateOrConnectWithoutTagsInput[]
+    upsert?: ResourceUpsertWithWhereUniqueWithoutTagsInput | ResourceUpsertWithWhereUniqueWithoutTagsInput[]
+    set?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    disconnect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    delete?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+    update?: ResourceUpdateWithWhereUniqueWithoutTagsInput | ResourceUpdateWithWhereUniqueWithoutTagsInput[]
+    updateMany?: ResourceUpdateManyWithWhereWithoutTagsInput | ResourceUpdateManyWithWhereWithoutTagsInput[]
+    deleteMany?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutCommentsInput = {
+    create?: XOR<UserCreateWithoutCommentsInput, UserUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommentsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ResourceCreateNestedOneWithoutCommentsInput = {
+    create?: XOR<ResourceCreateWithoutCommentsInput, ResourceUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutCommentsInput
+    connect?: ResourceWhereUniqueInput
+  }
+
+  export type CommentCreateNestedOneWithoutRepliesInput = {
+    create?: XOR<CommentCreateWithoutRepliesInput, CommentUncheckedCreateWithoutRepliesInput>
+    connectOrCreate?: CommentCreateOrConnectWithoutRepliesInput
+    connect?: CommentWhereUniqueInput
+  }
+
+  export type CommentCreateNestedManyWithoutParentInput = {
+    create?: XOR<CommentCreateWithoutParentInput, CommentUncheckedCreateWithoutParentInput> | CommentCreateWithoutParentInput[] | CommentUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutParentInput | CommentCreateOrConnectWithoutParentInput[]
+    createMany?: CommentCreateManyParentInputEnvelope
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type CommentUncheckedCreateNestedManyWithoutParentInput = {
+    create?: XOR<CommentCreateWithoutParentInput, CommentUncheckedCreateWithoutParentInput> | CommentCreateWithoutParentInput[] | CommentUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutParentInput | CommentCreateOrConnectWithoutParentInput[]
+    createMany?: CommentCreateManyParentInputEnvelope
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type EnumCommentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.CommentStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutCommentsNestedInput = {
+    create?: XOR<UserCreateWithoutCommentsInput, UserUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommentsInput
+    upsert?: UserUpsertWithoutCommentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommentsInput, UserUpdateWithoutCommentsInput>, UserUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type ResourceUpdateOneRequiredWithoutCommentsNestedInput = {
+    create?: XOR<ResourceCreateWithoutCommentsInput, ResourceUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutCommentsInput
+    upsert?: ResourceUpsertWithoutCommentsInput
+    connect?: ResourceWhereUniqueInput
+    update?: XOR<XOR<ResourceUpdateToOneWithWhereWithoutCommentsInput, ResourceUpdateWithoutCommentsInput>, ResourceUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type CommentUpdateOneWithoutRepliesNestedInput = {
+    create?: XOR<CommentCreateWithoutRepliesInput, CommentUncheckedCreateWithoutRepliesInput>
+    connectOrCreate?: CommentCreateOrConnectWithoutRepliesInput
+    upsert?: CommentUpsertWithoutRepliesInput
+    disconnect?: CommentWhereInput | boolean
+    delete?: CommentWhereInput | boolean
+    connect?: CommentWhereUniqueInput
+    update?: XOR<XOR<CommentUpdateToOneWithWhereWithoutRepliesInput, CommentUpdateWithoutRepliesInput>, CommentUncheckedUpdateWithoutRepliesInput>
+  }
+
+  export type CommentUpdateManyWithoutParentNestedInput = {
+    create?: XOR<CommentCreateWithoutParentInput, CommentUncheckedCreateWithoutParentInput> | CommentCreateWithoutParentInput[] | CommentUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutParentInput | CommentCreateOrConnectWithoutParentInput[]
+    upsert?: CommentUpsertWithWhereUniqueWithoutParentInput | CommentUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: CommentCreateManyParentInputEnvelope
+    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    update?: CommentUpdateWithWhereUniqueWithoutParentInput | CommentUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: CommentUpdateManyWithWhereWithoutParentInput | CommentUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type CommentUncheckedUpdateManyWithoutParentNestedInput = {
+    create?: XOR<CommentCreateWithoutParentInput, CommentUncheckedCreateWithoutParentInput> | CommentCreateWithoutParentInput[] | CommentUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutParentInput | CommentCreateOrConnectWithoutParentInput[]
+    upsert?: CommentUpsertWithWhereUniqueWithoutParentInput | CommentUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: CommentCreateManyParentInputEnvelope
+    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    update?: CommentUpdateWithWhereUniqueWithoutParentInput | CommentUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: CommentUpdateManyWithWhereWithoutParentInput | CommentUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutSavedResourcesInput = {
+    create?: XOR<UserCreateWithoutSavedResourcesInput, UserUncheckedCreateWithoutSavedResourcesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSavedResourcesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ResourceCreateNestedOneWithoutSavedByInput = {
+    create?: XOR<ResourceCreateWithoutSavedByInput, ResourceUncheckedCreateWithoutSavedByInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutSavedByInput
+    connect?: ResourceWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutSavedResourcesNestedInput = {
+    create?: XOR<UserCreateWithoutSavedResourcesInput, UserUncheckedCreateWithoutSavedResourcesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSavedResourcesInput
+    upsert?: UserUpsertWithoutSavedResourcesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSavedResourcesInput, UserUpdateWithoutSavedResourcesInput>, UserUncheckedUpdateWithoutSavedResourcesInput>
+  }
+
+  export type ResourceUpdateOneRequiredWithoutSavedByNestedInput = {
+    create?: XOR<ResourceCreateWithoutSavedByInput, ResourceUncheckedCreateWithoutSavedByInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutSavedByInput
+    upsert?: ResourceUpsertWithoutSavedByInput
+    connect?: ResourceWhereUniqueInput
+    update?: XOR<XOR<ResourceUpdateToOneWithWhereWithoutSavedByInput, ResourceUpdateWithoutSavedByInput>, ResourceUncheckedUpdateWithoutSavedByInput>
+  }
+
+  export type ResourceCreateNestedOneWithoutUsageEventsInput = {
+    create?: XOR<ResourceCreateWithoutUsageEventsInput, ResourceUncheckedCreateWithoutUsageEventsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutUsageEventsInput
+    connect?: ResourceWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutUsageEventsInput = {
+    create?: XOR<UserCreateWithoutUsageEventsInput, UserUncheckedCreateWithoutUsageEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUsageEventsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumUsageEventFieldUpdateOperationsInput = {
+    set?: $Enums.UsageEvent
+  }
+
+  export type ResourceUpdateOneRequiredWithoutUsageEventsNestedInput = {
+    create?: XOR<ResourceCreateWithoutUsageEventsInput, ResourceUncheckedCreateWithoutUsageEventsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutUsageEventsInput
+    upsert?: ResourceUpsertWithoutUsageEventsInput
+    connect?: ResourceWhereUniqueInput
+    update?: XOR<XOR<ResourceUpdateToOneWithWhereWithoutUsageEventsInput, ResourceUpdateWithoutUsageEventsInput>, ResourceUncheckedUpdateWithoutUsageEventsInput>
+  }
+
+  export type UserUpdateOneWithoutUsageEventsNestedInput = {
+    create?: XOR<UserCreateWithoutUsageEventsInput, UserUncheckedCreateWithoutUsageEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUsageEventsInput
+    upsert?: UserUpsertWithoutUsageEventsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUsageEventsInput, UserUpdateWithoutUsageEventsInput>, UserUncheckedUpdateWithoutUsageEventsInput>
+  }
+
+  export type ResourceCreateNestedOneWithoutMetricsInput = {
+    create?: XOR<ResourceCreateWithoutMetricsInput, ResourceUncheckedCreateWithoutMetricsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutMetricsInput
+    connect?: ResourceWhereUniqueInput
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type ResourceUpdateOneRequiredWithoutMetricsNestedInput = {
+    create?: XOR<ResourceCreateWithoutMetricsInput, ResourceUncheckedCreateWithoutMetricsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutMetricsInput
+    upsert?: ResourceUpsertWithoutMetricsInput
+    connect?: ResourceWhereUniqueInput
+    update?: XOR<XOR<ResourceUpdateToOneWithWhereWithoutMetricsInput, ResourceUpdateWithoutMetricsInput>, ResourceUncheckedUpdateWithoutMetricsInput>
+  }
+
+  export type NestedStringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumResourceTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResourceType | EnumResourceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ResourceType[] | ListEnumResourceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResourceType[] | ListEnumResourceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumResourceTypeFilter<$PrismaModel> | $Enums.ResourceType
+  }
+
+  export type NestedEnumResourceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResourceStatus | EnumResourceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ResourceStatus[] | ListEnumResourceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResourceStatus[] | ListEnumResourceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumResourceStatusFilter<$PrismaModel> | $Enums.ResourceStatus
+  }
+
+  export type NestedEnumVisibilityFilter<$PrismaModel = never> = {
+    equals?: $Enums.Visibility | EnumVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisibilityFilter<$PrismaModel> | $Enums.Visibility
+  }
+
+  export type NestedEnumResourceTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResourceType | EnumResourceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ResourceType[] | ListEnumResourceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResourceType[] | ListEnumResourceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumResourceTypeWithAggregatesFilter<$PrismaModel> | $Enums.ResourceType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumResourceTypeFilter<$PrismaModel>
+    _max?: NestedEnumResourceTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumResourceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResourceStatus | EnumResourceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ResourceStatus[] | ListEnumResourceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResourceStatus[] | ListEnumResourceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumResourceStatusWithAggregatesFilter<$PrismaModel> | $Enums.ResourceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumResourceStatusFilter<$PrismaModel>
+    _max?: NestedEnumResourceStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Visibility | EnumVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.Visibility
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVisibilityFilter<$PrismaModel>
+    _max?: NestedEnumVisibilityFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumRelationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RelationType | EnumRelationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRelationTypeFilter<$PrismaModel> | $Enums.RelationType
+  }
+
+  export type NestedEnumRelationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RelationType | EnumRelationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRelationTypeWithAggregatesFilter<$PrismaModel> | $Enums.RelationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRelationTypeFilter<$PrismaModel>
+    _max?: NestedEnumRelationTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCommentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommentStatus | EnumCommentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CommentStatus[] | ListEnumCommentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CommentStatus[] | ListEnumCommentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCommentStatusFilter<$PrismaModel> | $Enums.CommentStatus
+  }
+
+  export type NestedEnumCommentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommentStatus | EnumCommentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CommentStatus[] | ListEnumCommentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CommentStatus[] | ListEnumCommentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCommentStatusWithAggregatesFilter<$PrismaModel> | $Enums.CommentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCommentStatusFilter<$PrismaModel>
+    _max?: NestedEnumCommentStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumUsageEventFilter<$PrismaModel = never> = {
+    equals?: $Enums.UsageEvent | EnumUsageEventFieldRefInput<$PrismaModel>
+    in?: $Enums.UsageEvent[] | ListEnumUsageEventFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UsageEvent[] | ListEnumUsageEventFieldRefInput<$PrismaModel>
+    not?: NestedEnumUsageEventFilter<$PrismaModel> | $Enums.UsageEvent
+  }
+
+  export type NestedEnumUsageEventWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UsageEvent | EnumUsageEventFieldRefInput<$PrismaModel>
+    in?: $Enums.UsageEvent[] | ListEnumUsageEventFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UsageEvent[] | ListEnumUsageEventFieldRefInput<$PrismaModel>
+    not?: NestedEnumUsageEventWithAggregatesFilter<$PrismaModel> | $Enums.UsageEvent
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUsageEventFilter<$PrismaModel>
+    _max?: NestedEnumUsageEventFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type ResourceCreateWithoutAuthorInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    parent?: ResourceCreateNestedOneWithoutChildrenInput
+    children?: ResourceCreateNestedManyWithoutParentInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationCreateNestedManyWithoutToInput
+    collections?: CollectionResourceCreateNestedManyWithoutResourceInput
+    comments?: CommentCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    parentId?: string | null
+    children?: ResourceUncheckedCreateNestedManyWithoutParentInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
+    comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceCreateOrConnectWithoutAuthorInput = {
+    where: ResourceWhereUniqueInput
+    create: XOR<ResourceCreateWithoutAuthorInput, ResourceUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type ResourceCreateManyAuthorInputEnvelope = {
+    data: ResourceCreateManyAuthorInput | ResourceCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CollectionCreateWithoutAuthorInput = {
+    id?: string
+    slug: string
+    title: string
+    description?: string | null
+    visibility?: $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: CollectionResourceCreateNestedManyWithoutCollectionInput
+  }
+
+  export type CollectionUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    slug: string
+    title: string
+    description?: string | null
+    visibility?: $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: CollectionResourceUncheckedCreateNestedManyWithoutCollectionInput
+  }
+
+  export type CollectionCreateOrConnectWithoutAuthorInput = {
+    where: CollectionWhereUniqueInput
+    create: XOR<CollectionCreateWithoutAuthorInput, CollectionUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type CollectionCreateManyAuthorInputEnvelope = {
+    data: CollectionCreateManyAuthorInput | CollectionCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommentCreateWithoutAuthorInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    resource: ResourceCreateNestedOneWithoutCommentsInput
+    parent?: CommentCreateNestedOneWithoutRepliesInput
+    replies?: CommentCreateNestedManyWithoutParentInput
+  }
+
+  export type CommentUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    resourceId: string
+    parentId?: string | null
+    replies?: CommentUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type CommentCreateOrConnectWithoutAuthorInput = {
+    where: CommentWhereUniqueInput
+    create: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type CommentCreateManyAuthorInputEnvelope = {
+    data: CommentCreateManyAuthorInput | CommentCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SavedResourceCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    resource: ResourceCreateNestedOneWithoutSavedByInput
+  }
+
+  export type SavedResourceUncheckedCreateWithoutUserInput = {
+    id?: string
+    resourceId: string
+    createdAt?: Date | string
+  }
+
+  export type SavedResourceCreateOrConnectWithoutUserInput = {
+    where: SavedResourceWhereUniqueInput
+    create: XOR<SavedResourceCreateWithoutUserInput, SavedResourceUncheckedCreateWithoutUserInput>
+  }
+
+  export type SavedResourceCreateManyUserInputEnvelope = {
+    data: SavedResourceCreateManyUserInput | SavedResourceCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ResourceUsageCreateWithoutUserInput = {
+    id?: string
+    event: $Enums.UsageEvent
+    sessionId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    resource: ResourceCreateNestedOneWithoutUsageEventsInput
+  }
+
+  export type ResourceUsageUncheckedCreateWithoutUserInput = {
+    id?: string
+    resourceId: string
+    event: $Enums.UsageEvent
+    sessionId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type ResourceUsageCreateOrConnectWithoutUserInput = {
+    where: ResourceUsageWhereUniqueInput
+    create: XOR<ResourceUsageCreateWithoutUserInput, ResourceUsageUncheckedCreateWithoutUserInput>
+  }
+
+  export type ResourceUsageCreateManyUserInputEnvelope = {
+    data: ResourceUsageCreateManyUserInput | ResourceUsageCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ResourceVersionCreateWithoutAuthorInput = {
+    id?: string
+    versionNumber: number
+    title: string
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: string | null
+    createdAt?: Date | string
+    resource: ResourceCreateNestedOneWithoutVersionsInput
+  }
+
+  export type ResourceVersionUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    resourceId: string
+    versionNumber: number
+    title: string
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ResourceVersionCreateOrConnectWithoutAuthorInput = {
+    where: ResourceVersionWhereUniqueInput
+    create: XOR<ResourceVersionCreateWithoutAuthorInput, ResourceVersionUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type ResourceVersionCreateManyAuthorInputEnvelope = {
+    data: ResourceVersionCreateManyAuthorInput | ResourceVersionCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ResourceUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: ResourceWhereUniqueInput
+    update: XOR<ResourceUpdateWithoutAuthorInput, ResourceUncheckedUpdateWithoutAuthorInput>
+    create: XOR<ResourceCreateWithoutAuthorInput, ResourceUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type ResourceUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: ResourceWhereUniqueInput
+    data: XOR<ResourceUpdateWithoutAuthorInput, ResourceUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type ResourceUpdateManyWithWhereWithoutAuthorInput = {
+    where: ResourceScalarWhereInput
+    data: XOR<ResourceUpdateManyMutationInput, ResourceUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type ResourceScalarWhereInput = {
+    AND?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
+    OR?: ResourceScalarWhereInput[]
+    NOT?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
+    id?: StringFilter<"Resource"> | string
+    slug?: StringNullableFilter<"Resource"> | string | null
+    title?: StringNullableFilter<"Resource"> | string | null
+    description?: StringNullableFilter<"Resource"> | string | null
+    excerpt?: StringNullableFilter<"Resource"> | string | null
+    content?: StringNullableFilter<"Resource"> | string | null
+    contentJson?: JsonNullableFilter<"Resource">
+    type?: EnumResourceTypeFilter<"Resource"> | $Enums.ResourceType
+    status?: EnumResourceStatusFilter<"Resource"> | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFilter<"Resource"> | $Enums.Visibility
+    category?: StringNullableFilter<"Resource"> | string | null
+    language?: StringNullableFilter<"Resource"> | string | null
+    thumbnailUrl?: StringNullableFilter<"Resource"> | string | null
+    coverImageUrl?: StringNullableFilter<"Resource"> | string | null
+    fileUrl?: StringNullableFilter<"Resource"> | string | null
+    metadata?: JsonNullableFilter<"Resource">
+    wordCount?: IntNullableFilter<"Resource"> | number | null
+    estimatedTime?: IntNullableFilter<"Resource"> | number | null
+    createdAt?: DateTimeFilter<"Resource"> | Date | string
+    updatedAt?: DateTimeFilter<"Resource"> | Date | string
+    publishedAt?: DateTimeNullableFilter<"Resource"> | Date | string | null
+    archivedAt?: DateTimeNullableFilter<"Resource"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Resource"> | Date | string | null
+    authorId?: StringFilter<"Resource"> | string
+    parentId?: StringNullableFilter<"Resource"> | string | null
+  }
+
+  export type CollectionUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: CollectionWhereUniqueInput
+    update: XOR<CollectionUpdateWithoutAuthorInput, CollectionUncheckedUpdateWithoutAuthorInput>
+    create: XOR<CollectionCreateWithoutAuthorInput, CollectionUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type CollectionUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: CollectionWhereUniqueInput
+    data: XOR<CollectionUpdateWithoutAuthorInput, CollectionUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type CollectionUpdateManyWithWhereWithoutAuthorInput = {
+    where: CollectionScalarWhereInput
+    data: XOR<CollectionUpdateManyMutationInput, CollectionUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type CollectionScalarWhereInput = {
+    AND?: CollectionScalarWhereInput | CollectionScalarWhereInput[]
+    OR?: CollectionScalarWhereInput[]
+    NOT?: CollectionScalarWhereInput | CollectionScalarWhereInput[]
+    id?: StringFilter<"Collection"> | string
+    slug?: StringFilter<"Collection"> | string
+    title?: StringFilter<"Collection"> | string
+    description?: StringNullableFilter<"Collection"> | string | null
+    visibility?: EnumVisibilityFilter<"Collection"> | $Enums.Visibility
+    metadata?: JsonNullableFilter<"Collection">
+    createdAt?: DateTimeFilter<"Collection"> | Date | string
+    updatedAt?: DateTimeFilter<"Collection"> | Date | string
+    archivedAt?: DateTimeNullableFilter<"Collection"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Collection"> | Date | string | null
+    authorId?: StringFilter<"Collection"> | string
+  }
+
+  export type CommentUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: CommentWhereUniqueInput
+    update: XOR<CommentUpdateWithoutAuthorInput, CommentUncheckedUpdateWithoutAuthorInput>
+    create: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type CommentUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: CommentWhereUniqueInput
+    data: XOR<CommentUpdateWithoutAuthorInput, CommentUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type CommentUpdateManyWithWhereWithoutAuthorInput = {
+    where: CommentScalarWhereInput
+    data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type CommentScalarWhereInput = {
+    AND?: CommentScalarWhereInput | CommentScalarWhereInput[]
+    OR?: CommentScalarWhereInput[]
+    NOT?: CommentScalarWhereInput | CommentScalarWhereInput[]
+    id?: StringFilter<"Comment"> | string
+    content?: StringFilter<"Comment"> | string
+    status?: EnumCommentStatusFilter<"Comment"> | $Enums.CommentStatus
+    metadata?: JsonNullableFilter<"Comment">
+    createdAt?: DateTimeFilter<"Comment"> | Date | string
+    updatedAt?: DateTimeFilter<"Comment"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Comment"> | Date | string | null
+    authorId?: StringFilter<"Comment"> | string
+    resourceId?: StringFilter<"Comment"> | string
+    parentId?: StringNullableFilter<"Comment"> | string | null
+  }
+
+  export type SavedResourceUpsertWithWhereUniqueWithoutUserInput = {
+    where: SavedResourceWhereUniqueInput
+    update: XOR<SavedResourceUpdateWithoutUserInput, SavedResourceUncheckedUpdateWithoutUserInput>
+    create: XOR<SavedResourceCreateWithoutUserInput, SavedResourceUncheckedCreateWithoutUserInput>
+  }
+
+  export type SavedResourceUpdateWithWhereUniqueWithoutUserInput = {
+    where: SavedResourceWhereUniqueInput
+    data: XOR<SavedResourceUpdateWithoutUserInput, SavedResourceUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SavedResourceUpdateManyWithWhereWithoutUserInput = {
+    where: SavedResourceScalarWhereInput
+    data: XOR<SavedResourceUpdateManyMutationInput, SavedResourceUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SavedResourceScalarWhereInput = {
+    AND?: SavedResourceScalarWhereInput | SavedResourceScalarWhereInput[]
+    OR?: SavedResourceScalarWhereInput[]
+    NOT?: SavedResourceScalarWhereInput | SavedResourceScalarWhereInput[]
+    id?: StringFilter<"SavedResource"> | string
+    userId?: StringFilter<"SavedResource"> | string
+    resourceId?: StringFilter<"SavedResource"> | string
+    createdAt?: DateTimeFilter<"SavedResource"> | Date | string
+  }
+
+  export type ResourceUsageUpsertWithWhereUniqueWithoutUserInput = {
+    where: ResourceUsageWhereUniqueInput
+    update: XOR<ResourceUsageUpdateWithoutUserInput, ResourceUsageUncheckedUpdateWithoutUserInput>
+    create: XOR<ResourceUsageCreateWithoutUserInput, ResourceUsageUncheckedCreateWithoutUserInput>
+  }
+
+  export type ResourceUsageUpdateWithWhereUniqueWithoutUserInput = {
+    where: ResourceUsageWhereUniqueInput
+    data: XOR<ResourceUsageUpdateWithoutUserInput, ResourceUsageUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ResourceUsageUpdateManyWithWhereWithoutUserInput = {
+    where: ResourceUsageScalarWhereInput
+    data: XOR<ResourceUsageUpdateManyMutationInput, ResourceUsageUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ResourceUsageScalarWhereInput = {
+    AND?: ResourceUsageScalarWhereInput | ResourceUsageScalarWhereInput[]
+    OR?: ResourceUsageScalarWhereInput[]
+    NOT?: ResourceUsageScalarWhereInput | ResourceUsageScalarWhereInput[]
+    id?: StringFilter<"ResourceUsage"> | string
+    resourceId?: StringFilter<"ResourceUsage"> | string
+    userId?: StringNullableFilter<"ResourceUsage"> | string | null
+    event?: EnumUsageEventFilter<"ResourceUsage"> | $Enums.UsageEvent
+    sessionId?: StringNullableFilter<"ResourceUsage"> | string | null
+    metadata?: JsonNullableFilter<"ResourceUsage">
+    createdAt?: DateTimeFilter<"ResourceUsage"> | Date | string
+  }
+
+  export type ResourceVersionUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: ResourceVersionWhereUniqueInput
+    update: XOR<ResourceVersionUpdateWithoutAuthorInput, ResourceVersionUncheckedUpdateWithoutAuthorInput>
+    create: XOR<ResourceVersionCreateWithoutAuthorInput, ResourceVersionUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type ResourceVersionUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: ResourceVersionWhereUniqueInput
+    data: XOR<ResourceVersionUpdateWithoutAuthorInput, ResourceVersionUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type ResourceVersionUpdateManyWithWhereWithoutAuthorInput = {
+    where: ResourceVersionScalarWhereInput
+    data: XOR<ResourceVersionUpdateManyMutationInput, ResourceVersionUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type ResourceVersionScalarWhereInput = {
+    AND?: ResourceVersionScalarWhereInput | ResourceVersionScalarWhereInput[]
+    OR?: ResourceVersionScalarWhereInput[]
+    NOT?: ResourceVersionScalarWhereInput | ResourceVersionScalarWhereInput[]
+    id?: StringFilter<"ResourceVersion"> | string
+    resourceId?: StringFilter<"ResourceVersion"> | string
+    authorId?: StringFilter<"ResourceVersion"> | string
+    versionNumber?: IntFilter<"ResourceVersion"> | number
+    title?: StringFilter<"ResourceVersion"> | string
+    content?: StringNullableFilter<"ResourceVersion"> | string | null
+    contentJson?: JsonNullableFilter<"ResourceVersion">
+    changeSummary?: StringNullableFilter<"ResourceVersion"> | string | null
+    createdAt?: DateTimeFilter<"ResourceVersion"> | Date | string
+  }
+
+  export type UserCreateWithoutResourcesInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    collections?: CollectionCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    savedResources?: SavedResourceCreateNestedManyWithoutUserInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutUserInput
+    resourceVersions?: ResourceVersionCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutResourcesInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    collections?: CollectionUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    savedResources?: SavedResourceUncheckedCreateNestedManyWithoutUserInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutUserInput
+    resourceVersions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutResourcesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutResourcesInput, UserUncheckedCreateWithoutResourcesInput>
+  }
+
+  export type ResourceCreateWithoutChildrenInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutResourcesInput
+    parent?: ResourceCreateNestedOneWithoutChildrenInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationCreateNestedManyWithoutToInput
+    collections?: CollectionResourceCreateNestedManyWithoutResourceInput
+    comments?: CommentCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUncheckedCreateWithoutChildrenInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
+    comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceCreateOrConnectWithoutChildrenInput = {
+    where: ResourceWhereUniqueInput
+    create: XOR<ResourceCreateWithoutChildrenInput, ResourceUncheckedCreateWithoutChildrenInput>
+  }
+
+  export type ResourceCreateWithoutParentInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutResourcesInput
+    children?: ResourceCreateNestedManyWithoutParentInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationCreateNestedManyWithoutToInput
+    collections?: CollectionResourceCreateNestedManyWithoutResourceInput
+    comments?: CommentCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUncheckedCreateWithoutParentInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    children?: ResourceUncheckedCreateNestedManyWithoutParentInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
+    comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceCreateOrConnectWithoutParentInput = {
+    where: ResourceWhereUniqueInput
+    create: XOR<ResourceCreateWithoutParentInput, ResourceUncheckedCreateWithoutParentInput>
+  }
+
+  export type ResourceCreateManyParentInputEnvelope = {
+    data: ResourceCreateManyParentInput | ResourceCreateManyParentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TagCreateWithoutResourcesInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+  }
+
+  export type TagUncheckedCreateWithoutResourcesInput = {
+    id?: string
+    name: string
+    slug: string
+    createdAt?: Date | string
+  }
+
+  export type TagCreateOrConnectWithoutResourcesInput = {
+    where: TagWhereUniqueInput
+    create: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput>
+  }
+
+  export type RelationCreateWithoutFromInput = {
+    id?: string
+    type: $Enums.RelationType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    to: ResourceCreateNestedOneWithoutIncomingRelationsInput
+  }
+
+  export type RelationUncheckedCreateWithoutFromInput = {
+    id?: string
+    type: $Enums.RelationType
+    toId: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type RelationCreateOrConnectWithoutFromInput = {
+    where: RelationWhereUniqueInput
+    create: XOR<RelationCreateWithoutFromInput, RelationUncheckedCreateWithoutFromInput>
+  }
+
+  export type RelationCreateManyFromInputEnvelope = {
+    data: RelationCreateManyFromInput | RelationCreateManyFromInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RelationCreateWithoutToInput = {
+    id?: string
+    type: $Enums.RelationType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    from: ResourceCreateNestedOneWithoutOutgoingRelationsInput
+  }
+
+  export type RelationUncheckedCreateWithoutToInput = {
+    id?: string
+    type: $Enums.RelationType
+    fromId: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type RelationCreateOrConnectWithoutToInput = {
+    where: RelationWhereUniqueInput
+    create: XOR<RelationCreateWithoutToInput, RelationUncheckedCreateWithoutToInput>
+  }
+
+  export type RelationCreateManyToInputEnvelope = {
+    data: RelationCreateManyToInput | RelationCreateManyToInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CollectionResourceCreateWithoutResourceInput = {
+    id?: string
+    orderIndex: number
+    addedAt?: Date | string
+    collection: CollectionCreateNestedOneWithoutResourcesInput
+  }
+
+  export type CollectionResourceUncheckedCreateWithoutResourceInput = {
+    id?: string
+    collectionId: string
+    orderIndex: number
+    addedAt?: Date | string
+  }
+
+  export type CollectionResourceCreateOrConnectWithoutResourceInput = {
+    where: CollectionResourceWhereUniqueInput
+    create: XOR<CollectionResourceCreateWithoutResourceInput, CollectionResourceUncheckedCreateWithoutResourceInput>
+  }
+
+  export type CollectionResourceCreateManyResourceInputEnvelope = {
+    data: CollectionResourceCreateManyResourceInput | CollectionResourceCreateManyResourceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommentCreateWithoutResourceInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutCommentsInput
+    parent?: CommentCreateNestedOneWithoutRepliesInput
+    replies?: CommentCreateNestedManyWithoutParentInput
+  }
+
+  export type CommentUncheckedCreateWithoutResourceInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+    replies?: CommentUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type CommentCreateOrConnectWithoutResourceInput = {
+    where: CommentWhereUniqueInput
+    create: XOR<CommentCreateWithoutResourceInput, CommentUncheckedCreateWithoutResourceInput>
+  }
+
+  export type CommentCreateManyResourceInputEnvelope = {
+    data: CommentCreateManyResourceInput | CommentCreateManyResourceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ResourceMetricsCreateWithoutResourceInput = {
+    id?: string
+    views?: number
+    opens?: number
+    downloads?: number
+    shares?: number
+    likes?: number
+    bookmarks?: number
+    engagementScore?: number
+    updatedAt?: Date | string
+  }
+
+  export type ResourceMetricsUncheckedCreateWithoutResourceInput = {
+    id?: string
+    views?: number
+    opens?: number
+    downloads?: number
+    shares?: number
+    likes?: number
+    bookmarks?: number
+    engagementScore?: number
+    updatedAt?: Date | string
+  }
+
+  export type ResourceMetricsCreateOrConnectWithoutResourceInput = {
+    where: ResourceMetricsWhereUniqueInput
+    create: XOR<ResourceMetricsCreateWithoutResourceInput, ResourceMetricsUncheckedCreateWithoutResourceInput>
+  }
+
+  export type ResourceVersionCreateWithoutResourceInput = {
+    id?: string
+    versionNumber: number
+    title: string
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: string | null
+    createdAt?: Date | string
+    author: UserCreateNestedOneWithoutResourceVersionsInput
+  }
+
+  export type ResourceVersionUncheckedCreateWithoutResourceInput = {
+    id?: string
+    authorId: string
+    versionNumber: number
+    title: string
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ResourceVersionCreateOrConnectWithoutResourceInput = {
+    where: ResourceVersionWhereUniqueInput
+    create: XOR<ResourceVersionCreateWithoutResourceInput, ResourceVersionUncheckedCreateWithoutResourceInput>
+  }
+
+  export type ResourceVersionCreateManyResourceInputEnvelope = {
+    data: ResourceVersionCreateManyResourceInput | ResourceVersionCreateManyResourceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ResourceUsageCreateWithoutResourceInput = {
+    id?: string
+    event: $Enums.UsageEvent
+    sessionId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    user?: UserCreateNestedOneWithoutUsageEventsInput
+  }
+
+  export type ResourceUsageUncheckedCreateWithoutResourceInput = {
+    id?: string
+    userId?: string | null
+    event: $Enums.UsageEvent
+    sessionId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type ResourceUsageCreateOrConnectWithoutResourceInput = {
+    where: ResourceUsageWhereUniqueInput
+    create: XOR<ResourceUsageCreateWithoutResourceInput, ResourceUsageUncheckedCreateWithoutResourceInput>
+  }
+
+  export type ResourceUsageCreateManyResourceInputEnvelope = {
+    data: ResourceUsageCreateManyResourceInput | ResourceUsageCreateManyResourceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SavedResourceCreateWithoutResourceInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutSavedResourcesInput
+  }
+
+  export type SavedResourceUncheckedCreateWithoutResourceInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type SavedResourceCreateOrConnectWithoutResourceInput = {
+    where: SavedResourceWhereUniqueInput
+    create: XOR<SavedResourceCreateWithoutResourceInput, SavedResourceUncheckedCreateWithoutResourceInput>
+  }
+
+  export type SavedResourceCreateManyResourceInputEnvelope = {
+    data: SavedResourceCreateManyResourceInput | SavedResourceCreateManyResourceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutResourcesInput = {
+    update: XOR<UserUpdateWithoutResourcesInput, UserUncheckedUpdateWithoutResourcesInput>
+    create: XOR<UserCreateWithoutResourcesInput, UserUncheckedCreateWithoutResourcesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutResourcesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutResourcesInput, UserUncheckedUpdateWithoutResourcesInput>
+  }
+
+  export type UserUpdateWithoutResourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    collections?: CollectionUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    savedResources?: SavedResourceUpdateManyWithoutUserNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutUserNestedInput
+    resourceVersions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutResourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    collections?: CollectionUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    savedResources?: SavedResourceUncheckedUpdateManyWithoutUserNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutUserNestedInput
+    resourceVersions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type ResourceUpsertWithoutChildrenInput = {
+    update: XOR<ResourceUpdateWithoutChildrenInput, ResourceUncheckedUpdateWithoutChildrenInput>
+    create: XOR<ResourceCreateWithoutChildrenInput, ResourceUncheckedCreateWithoutChildrenInput>
+    where?: ResourceWhereInput
+  }
+
+  export type ResourceUpdateToOneWithWhereWithoutChildrenInput = {
+    where?: ResourceWhereInput
+    data: XOR<ResourceUpdateWithoutChildrenInput, ResourceUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type ResourceUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutResourcesNestedInput
+    parent?: ResourceUpdateOneWithoutChildrenNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
+    comments?: CommentUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUpsertWithWhereUniqueWithoutParentInput = {
+    where: ResourceWhereUniqueInput
+    update: XOR<ResourceUpdateWithoutParentInput, ResourceUncheckedUpdateWithoutParentInput>
+    create: XOR<ResourceCreateWithoutParentInput, ResourceUncheckedCreateWithoutParentInput>
+  }
+
+  export type ResourceUpdateWithWhereUniqueWithoutParentInput = {
+    where: ResourceWhereUniqueInput
+    data: XOR<ResourceUpdateWithoutParentInput, ResourceUncheckedUpdateWithoutParentInput>
+  }
+
+  export type ResourceUpdateManyWithWhereWithoutParentInput = {
+    where: ResourceScalarWhereInput
+    data: XOR<ResourceUpdateManyMutationInput, ResourceUncheckedUpdateManyWithoutParentInput>
+  }
+
+  export type TagUpsertWithWhereUniqueWithoutResourcesInput = {
+    where: TagWhereUniqueInput
+    update: XOR<TagUpdateWithoutResourcesInput, TagUncheckedUpdateWithoutResourcesInput>
+    create: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput>
+  }
+
+  export type TagUpdateWithWhereUniqueWithoutResourcesInput = {
+    where: TagWhereUniqueInput
+    data: XOR<TagUpdateWithoutResourcesInput, TagUncheckedUpdateWithoutResourcesInput>
+  }
+
+  export type TagUpdateManyWithWhereWithoutResourcesInput = {
+    where: TagScalarWhereInput
+    data: XOR<TagUpdateManyMutationInput, TagUncheckedUpdateManyWithoutResourcesInput>
+  }
+
+  export type TagScalarWhereInput = {
+    AND?: TagScalarWhereInput | TagScalarWhereInput[]
+    OR?: TagScalarWhereInput[]
+    NOT?: TagScalarWhereInput | TagScalarWhereInput[]
+    id?: StringFilter<"Tag"> | string
+    name?: StringFilter<"Tag"> | string
+    slug?: StringFilter<"Tag"> | string
+    createdAt?: DateTimeFilter<"Tag"> | Date | string
+  }
+
+  export type RelationUpsertWithWhereUniqueWithoutFromInput = {
+    where: RelationWhereUniqueInput
+    update: XOR<RelationUpdateWithoutFromInput, RelationUncheckedUpdateWithoutFromInput>
+    create: XOR<RelationCreateWithoutFromInput, RelationUncheckedCreateWithoutFromInput>
+  }
+
+  export type RelationUpdateWithWhereUniqueWithoutFromInput = {
+    where: RelationWhereUniqueInput
+    data: XOR<RelationUpdateWithoutFromInput, RelationUncheckedUpdateWithoutFromInput>
+  }
+
+  export type RelationUpdateManyWithWhereWithoutFromInput = {
+    where: RelationScalarWhereInput
+    data: XOR<RelationUpdateManyMutationInput, RelationUncheckedUpdateManyWithoutFromInput>
+  }
+
+  export type RelationScalarWhereInput = {
+    AND?: RelationScalarWhereInput | RelationScalarWhereInput[]
+    OR?: RelationScalarWhereInput[]
+    NOT?: RelationScalarWhereInput | RelationScalarWhereInput[]
+    id?: StringFilter<"Relation"> | string
+    type?: EnumRelationTypeFilter<"Relation"> | $Enums.RelationType
+    fromId?: StringFilter<"Relation"> | string
+    toId?: StringFilter<"Relation"> | string
+    metadata?: JsonNullableFilter<"Relation">
+    createdAt?: DateTimeFilter<"Relation"> | Date | string
+  }
+
+  export type RelationUpsertWithWhereUniqueWithoutToInput = {
+    where: RelationWhereUniqueInput
+    update: XOR<RelationUpdateWithoutToInput, RelationUncheckedUpdateWithoutToInput>
+    create: XOR<RelationCreateWithoutToInput, RelationUncheckedCreateWithoutToInput>
+  }
+
+  export type RelationUpdateWithWhereUniqueWithoutToInput = {
+    where: RelationWhereUniqueInput
+    data: XOR<RelationUpdateWithoutToInput, RelationUncheckedUpdateWithoutToInput>
+  }
+
+  export type RelationUpdateManyWithWhereWithoutToInput = {
+    where: RelationScalarWhereInput
+    data: XOR<RelationUpdateManyMutationInput, RelationUncheckedUpdateManyWithoutToInput>
+  }
+
+  export type CollectionResourceUpsertWithWhereUniqueWithoutResourceInput = {
+    where: CollectionResourceWhereUniqueInput
+    update: XOR<CollectionResourceUpdateWithoutResourceInput, CollectionResourceUncheckedUpdateWithoutResourceInput>
+    create: XOR<CollectionResourceCreateWithoutResourceInput, CollectionResourceUncheckedCreateWithoutResourceInput>
+  }
+
+  export type CollectionResourceUpdateWithWhereUniqueWithoutResourceInput = {
+    where: CollectionResourceWhereUniqueInput
+    data: XOR<CollectionResourceUpdateWithoutResourceInput, CollectionResourceUncheckedUpdateWithoutResourceInput>
+  }
+
+  export type CollectionResourceUpdateManyWithWhereWithoutResourceInput = {
+    where: CollectionResourceScalarWhereInput
+    data: XOR<CollectionResourceUpdateManyMutationInput, CollectionResourceUncheckedUpdateManyWithoutResourceInput>
+  }
+
+  export type CollectionResourceScalarWhereInput = {
+    AND?: CollectionResourceScalarWhereInput | CollectionResourceScalarWhereInput[]
+    OR?: CollectionResourceScalarWhereInput[]
+    NOT?: CollectionResourceScalarWhereInput | CollectionResourceScalarWhereInput[]
+    id?: StringFilter<"CollectionResource"> | string
+    collectionId?: StringFilter<"CollectionResource"> | string
+    resourceId?: StringFilter<"CollectionResource"> | string
+    orderIndex?: IntFilter<"CollectionResource"> | number
+    addedAt?: DateTimeFilter<"CollectionResource"> | Date | string
+  }
+
+  export type CommentUpsertWithWhereUniqueWithoutResourceInput = {
+    where: CommentWhereUniqueInput
+    update: XOR<CommentUpdateWithoutResourceInput, CommentUncheckedUpdateWithoutResourceInput>
+    create: XOR<CommentCreateWithoutResourceInput, CommentUncheckedCreateWithoutResourceInput>
+  }
+
+  export type CommentUpdateWithWhereUniqueWithoutResourceInput = {
+    where: CommentWhereUniqueInput
+    data: XOR<CommentUpdateWithoutResourceInput, CommentUncheckedUpdateWithoutResourceInput>
+  }
+
+  export type CommentUpdateManyWithWhereWithoutResourceInput = {
+    where: CommentScalarWhereInput
+    data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutResourceInput>
+  }
+
+  export type ResourceMetricsUpsertWithoutResourceInput = {
+    update: XOR<ResourceMetricsUpdateWithoutResourceInput, ResourceMetricsUncheckedUpdateWithoutResourceInput>
+    create: XOR<ResourceMetricsCreateWithoutResourceInput, ResourceMetricsUncheckedCreateWithoutResourceInput>
+    where?: ResourceMetricsWhereInput
+  }
+
+  export type ResourceMetricsUpdateToOneWithWhereWithoutResourceInput = {
+    where?: ResourceMetricsWhereInput
+    data: XOR<ResourceMetricsUpdateWithoutResourceInput, ResourceMetricsUncheckedUpdateWithoutResourceInput>
+  }
+
+  export type ResourceMetricsUpdateWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    views?: IntFieldUpdateOperationsInput | number
+    opens?: IntFieldUpdateOperationsInput | number
+    downloads?: IntFieldUpdateOperationsInput | number
+    shares?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    bookmarks?: IntFieldUpdateOperationsInput | number
+    engagementScore?: FloatFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceMetricsUncheckedUpdateWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    views?: IntFieldUpdateOperationsInput | number
+    opens?: IntFieldUpdateOperationsInput | number
+    downloads?: IntFieldUpdateOperationsInput | number
+    shares?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    bookmarks?: IntFieldUpdateOperationsInput | number
+    engagementScore?: FloatFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceVersionUpsertWithWhereUniqueWithoutResourceInput = {
+    where: ResourceVersionWhereUniqueInput
+    update: XOR<ResourceVersionUpdateWithoutResourceInput, ResourceVersionUncheckedUpdateWithoutResourceInput>
+    create: XOR<ResourceVersionCreateWithoutResourceInput, ResourceVersionUncheckedCreateWithoutResourceInput>
+  }
+
+  export type ResourceVersionUpdateWithWhereUniqueWithoutResourceInput = {
+    where: ResourceVersionWhereUniqueInput
+    data: XOR<ResourceVersionUpdateWithoutResourceInput, ResourceVersionUncheckedUpdateWithoutResourceInput>
+  }
+
+  export type ResourceVersionUpdateManyWithWhereWithoutResourceInput = {
+    where: ResourceVersionScalarWhereInput
+    data: XOR<ResourceVersionUpdateManyMutationInput, ResourceVersionUncheckedUpdateManyWithoutResourceInput>
+  }
+
+  export type ResourceUsageUpsertWithWhereUniqueWithoutResourceInput = {
+    where: ResourceUsageWhereUniqueInput
+    update: XOR<ResourceUsageUpdateWithoutResourceInput, ResourceUsageUncheckedUpdateWithoutResourceInput>
+    create: XOR<ResourceUsageCreateWithoutResourceInput, ResourceUsageUncheckedCreateWithoutResourceInput>
+  }
+
+  export type ResourceUsageUpdateWithWhereUniqueWithoutResourceInput = {
+    where: ResourceUsageWhereUniqueInput
+    data: XOR<ResourceUsageUpdateWithoutResourceInput, ResourceUsageUncheckedUpdateWithoutResourceInput>
+  }
+
+  export type ResourceUsageUpdateManyWithWhereWithoutResourceInput = {
+    where: ResourceUsageScalarWhereInput
+    data: XOR<ResourceUsageUpdateManyMutationInput, ResourceUsageUncheckedUpdateManyWithoutResourceInput>
+  }
+
+  export type SavedResourceUpsertWithWhereUniqueWithoutResourceInput = {
+    where: SavedResourceWhereUniqueInput
+    update: XOR<SavedResourceUpdateWithoutResourceInput, SavedResourceUncheckedUpdateWithoutResourceInput>
+    create: XOR<SavedResourceCreateWithoutResourceInput, SavedResourceUncheckedCreateWithoutResourceInput>
+  }
+
+  export type SavedResourceUpdateWithWhereUniqueWithoutResourceInput = {
+    where: SavedResourceWhereUniqueInput
+    data: XOR<SavedResourceUpdateWithoutResourceInput, SavedResourceUncheckedUpdateWithoutResourceInput>
+  }
+
+  export type SavedResourceUpdateManyWithWhereWithoutResourceInput = {
+    where: SavedResourceScalarWhereInput
+    data: XOR<SavedResourceUpdateManyMutationInput, SavedResourceUncheckedUpdateManyWithoutResourceInput>
+  }
+
+  export type ResourceCreateWithoutVersionsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutResourcesInput
+    parent?: ResourceCreateNestedOneWithoutChildrenInput
+    children?: ResourceCreateNestedManyWithoutParentInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationCreateNestedManyWithoutToInput
+    collections?: CollectionResourceCreateNestedManyWithoutResourceInput
+    comments?: CommentCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUncheckedCreateWithoutVersionsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+    children?: ResourceUncheckedCreateNestedManyWithoutParentInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
+    comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceCreateOrConnectWithoutVersionsInput = {
+    where: ResourceWhereUniqueInput
+    create: XOR<ResourceCreateWithoutVersionsInput, ResourceUncheckedCreateWithoutVersionsInput>
+  }
+
+  export type UserCreateWithoutResourceVersionsInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: ResourceCreateNestedManyWithoutAuthorInput
+    collections?: CollectionCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    savedResources?: SavedResourceCreateNestedManyWithoutUserInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutResourceVersionsInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: ResourceUncheckedCreateNestedManyWithoutAuthorInput
+    collections?: CollectionUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    savedResources?: SavedResourceUncheckedCreateNestedManyWithoutUserInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutResourceVersionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutResourceVersionsInput, UserUncheckedCreateWithoutResourceVersionsInput>
+  }
+
+  export type ResourceUpsertWithoutVersionsInput = {
+    update: XOR<ResourceUpdateWithoutVersionsInput, ResourceUncheckedUpdateWithoutVersionsInput>
+    create: XOR<ResourceCreateWithoutVersionsInput, ResourceUncheckedCreateWithoutVersionsInput>
+    where?: ResourceWhereInput
+  }
+
+  export type ResourceUpdateToOneWithWhereWithoutVersionsInput = {
+    where?: ResourceWhereInput
+    data: XOR<ResourceUpdateWithoutVersionsInput, ResourceUncheckedUpdateWithoutVersionsInput>
+  }
+
+  export type ResourceUpdateWithoutVersionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutResourcesNestedInput
+    parent?: ResourceUpdateOneWithoutChildrenNestedInput
+    children?: ResourceUpdateManyWithoutParentNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
+    comments?: CommentUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateWithoutVersionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type UserUpsertWithoutResourceVersionsInput = {
+    update: XOR<UserUpdateWithoutResourceVersionsInput, UserUncheckedUpdateWithoutResourceVersionsInput>
+    create: XOR<UserCreateWithoutResourceVersionsInput, UserUncheckedCreateWithoutResourceVersionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutResourceVersionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutResourceVersionsInput, UserUncheckedUpdateWithoutResourceVersionsInput>
+  }
+
+  export type UserUpdateWithoutResourceVersionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: ResourceUpdateManyWithoutAuthorNestedInput
+    collections?: CollectionUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    savedResources?: SavedResourceUpdateManyWithoutUserNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutResourceVersionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: ResourceUncheckedUpdateManyWithoutAuthorNestedInput
+    collections?: CollectionUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    savedResources?: SavedResourceUncheckedUpdateManyWithoutUserNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ResourceCreateWithoutOutgoingRelationsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutResourcesInput
+    parent?: ResourceCreateNestedOneWithoutChildrenInput
+    children?: ResourceCreateNestedManyWithoutParentInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
+    incomingRelations?: RelationCreateNestedManyWithoutToInput
+    collections?: CollectionResourceCreateNestedManyWithoutResourceInput
+    comments?: CommentCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUncheckedCreateWithoutOutgoingRelationsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+    children?: ResourceUncheckedCreateNestedManyWithoutParentInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
+    incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
+    comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceCreateOrConnectWithoutOutgoingRelationsInput = {
+    where: ResourceWhereUniqueInput
+    create: XOR<ResourceCreateWithoutOutgoingRelationsInput, ResourceUncheckedCreateWithoutOutgoingRelationsInput>
+  }
+
+  export type ResourceCreateWithoutIncomingRelationsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutResourcesInput
+    parent?: ResourceCreateNestedOneWithoutChildrenInput
+    children?: ResourceCreateNestedManyWithoutParentInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationCreateNestedManyWithoutFromInput
+    collections?: CollectionResourceCreateNestedManyWithoutResourceInput
+    comments?: CommentCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUncheckedCreateWithoutIncomingRelationsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+    children?: ResourceUncheckedCreateNestedManyWithoutParentInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
+    collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
+    comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceCreateOrConnectWithoutIncomingRelationsInput = {
+    where: ResourceWhereUniqueInput
+    create: XOR<ResourceCreateWithoutIncomingRelationsInput, ResourceUncheckedCreateWithoutIncomingRelationsInput>
+  }
+
+  export type ResourceUpsertWithoutOutgoingRelationsInput = {
+    update: XOR<ResourceUpdateWithoutOutgoingRelationsInput, ResourceUncheckedUpdateWithoutOutgoingRelationsInput>
+    create: XOR<ResourceCreateWithoutOutgoingRelationsInput, ResourceUncheckedCreateWithoutOutgoingRelationsInput>
+    where?: ResourceWhereInput
+  }
+
+  export type ResourceUpdateToOneWithWhereWithoutOutgoingRelationsInput = {
+    where?: ResourceWhereInput
+    data: XOR<ResourceUpdateWithoutOutgoingRelationsInput, ResourceUncheckedUpdateWithoutOutgoingRelationsInput>
+  }
+
+  export type ResourceUpdateWithoutOutgoingRelationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutResourcesNestedInput
+    parent?: ResourceUpdateOneWithoutChildrenNestedInput
+    children?: ResourceUpdateManyWithoutParentNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
+    incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
+    comments?: CommentUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateWithoutOutgoingRelationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
+    incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUpsertWithoutIncomingRelationsInput = {
+    update: XOR<ResourceUpdateWithoutIncomingRelationsInput, ResourceUncheckedUpdateWithoutIncomingRelationsInput>
+    create: XOR<ResourceCreateWithoutIncomingRelationsInput, ResourceUncheckedCreateWithoutIncomingRelationsInput>
+    where?: ResourceWhereInput
+  }
+
+  export type ResourceUpdateToOneWithWhereWithoutIncomingRelationsInput = {
+    where?: ResourceWhereInput
+    data: XOR<ResourceUpdateWithoutIncomingRelationsInput, ResourceUncheckedUpdateWithoutIncomingRelationsInput>
+  }
+
+  export type ResourceUpdateWithoutIncomingRelationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutResourcesNestedInput
+    parent?: ResourceUpdateOneWithoutChildrenNestedInput
+    children?: ResourceUpdateManyWithoutParentNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
+    collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
+    comments?: CommentUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateWithoutIncomingRelationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
+    collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type UserCreateWithoutCollectionsInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: ResourceCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    savedResources?: SavedResourceCreateNestedManyWithoutUserInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutUserInput
+    resourceVersions?: ResourceVersionCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutCollectionsInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: ResourceUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    savedResources?: SavedResourceUncheckedCreateNestedManyWithoutUserInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutUserInput
+    resourceVersions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutCollectionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCollectionsInput, UserUncheckedCreateWithoutCollectionsInput>
+  }
+
+  export type CollectionResourceCreateWithoutCollectionInput = {
+    id?: string
+    orderIndex: number
+    addedAt?: Date | string
+    resource: ResourceCreateNestedOneWithoutCollectionsInput
+  }
+
+  export type CollectionResourceUncheckedCreateWithoutCollectionInput = {
+    id?: string
+    resourceId: string
+    orderIndex: number
+    addedAt?: Date | string
+  }
+
+  export type CollectionResourceCreateOrConnectWithoutCollectionInput = {
+    where: CollectionResourceWhereUniqueInput
+    create: XOR<CollectionResourceCreateWithoutCollectionInput, CollectionResourceUncheckedCreateWithoutCollectionInput>
+  }
+
+  export type CollectionResourceCreateManyCollectionInputEnvelope = {
+    data: CollectionResourceCreateManyCollectionInput | CollectionResourceCreateManyCollectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutCollectionsInput = {
+    update: XOR<UserUpdateWithoutCollectionsInput, UserUncheckedUpdateWithoutCollectionsInput>
+    create: XOR<UserCreateWithoutCollectionsInput, UserUncheckedCreateWithoutCollectionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCollectionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCollectionsInput, UserUncheckedUpdateWithoutCollectionsInput>
+  }
+
+  export type UserUpdateWithoutCollectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: ResourceUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    savedResources?: SavedResourceUpdateManyWithoutUserNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutUserNestedInput
+    resourceVersions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCollectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: ResourceUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    savedResources?: SavedResourceUncheckedUpdateManyWithoutUserNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutUserNestedInput
+    resourceVersions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type CollectionResourceUpsertWithWhereUniqueWithoutCollectionInput = {
+    where: CollectionResourceWhereUniqueInput
+    update: XOR<CollectionResourceUpdateWithoutCollectionInput, CollectionResourceUncheckedUpdateWithoutCollectionInput>
+    create: XOR<CollectionResourceCreateWithoutCollectionInput, CollectionResourceUncheckedCreateWithoutCollectionInput>
+  }
+
+  export type CollectionResourceUpdateWithWhereUniqueWithoutCollectionInput = {
+    where: CollectionResourceWhereUniqueInput
+    data: XOR<CollectionResourceUpdateWithoutCollectionInput, CollectionResourceUncheckedUpdateWithoutCollectionInput>
+  }
+
+  export type CollectionResourceUpdateManyWithWhereWithoutCollectionInput = {
+    where: CollectionResourceScalarWhereInput
+    data: XOR<CollectionResourceUpdateManyMutationInput, CollectionResourceUncheckedUpdateManyWithoutCollectionInput>
+  }
+
+  export type CollectionCreateWithoutResourcesInput = {
+    id?: string
+    slug: string
+    title: string
+    description?: string | null
+    visibility?: $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutCollectionsInput
+  }
+
+  export type CollectionUncheckedCreateWithoutResourcesInput = {
+    id?: string
+    slug: string
+    title: string
+    description?: string | null
+    visibility?: $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+  }
+
+  export type CollectionCreateOrConnectWithoutResourcesInput = {
+    where: CollectionWhereUniqueInput
+    create: XOR<CollectionCreateWithoutResourcesInput, CollectionUncheckedCreateWithoutResourcesInput>
+  }
+
+  export type ResourceCreateWithoutCollectionsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutResourcesInput
+    parent?: ResourceCreateNestedOneWithoutChildrenInput
+    children?: ResourceCreateNestedManyWithoutParentInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationCreateNestedManyWithoutToInput
+    comments?: CommentCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUncheckedCreateWithoutCollectionsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+    children?: ResourceUncheckedCreateNestedManyWithoutParentInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceCreateOrConnectWithoutCollectionsInput = {
+    where: ResourceWhereUniqueInput
+    create: XOR<ResourceCreateWithoutCollectionsInput, ResourceUncheckedCreateWithoutCollectionsInput>
+  }
+
+  export type CollectionUpsertWithoutResourcesInput = {
+    update: XOR<CollectionUpdateWithoutResourcesInput, CollectionUncheckedUpdateWithoutResourcesInput>
+    create: XOR<CollectionCreateWithoutResourcesInput, CollectionUncheckedCreateWithoutResourcesInput>
+    where?: CollectionWhereInput
+  }
+
+  export type CollectionUpdateToOneWithWhereWithoutResourcesInput = {
+    where?: CollectionWhereInput
+    data: XOR<CollectionUpdateWithoutResourcesInput, CollectionUncheckedUpdateWithoutResourcesInput>
+  }
+
+  export type CollectionUpdateWithoutResourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutCollectionsNestedInput
+  }
+
+  export type CollectionUncheckedUpdateWithoutResourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ResourceUpsertWithoutCollectionsInput = {
+    update: XOR<ResourceUpdateWithoutCollectionsInput, ResourceUncheckedUpdateWithoutCollectionsInput>
+    create: XOR<ResourceCreateWithoutCollectionsInput, ResourceUncheckedCreateWithoutCollectionsInput>
+    where?: ResourceWhereInput
+  }
+
+  export type ResourceUpdateToOneWithWhereWithoutCollectionsInput = {
+    where?: ResourceWhereInput
+    data: XOR<ResourceUpdateWithoutCollectionsInput, ResourceUncheckedUpdateWithoutCollectionsInput>
+  }
+
+  export type ResourceUpdateWithoutCollectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutResourcesNestedInput
+    parent?: ResourceUpdateOneWithoutChildrenNestedInput
+    children?: ResourceUpdateManyWithoutParentNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    comments?: CommentUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateWithoutCollectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceCreateWithoutTagsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutResourcesInput
+    parent?: ResourceCreateNestedOneWithoutChildrenInput
+    children?: ResourceCreateNestedManyWithoutParentInput
+    outgoingRelations?: RelationCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationCreateNestedManyWithoutToInput
+    collections?: CollectionResourceCreateNestedManyWithoutResourceInput
+    comments?: CommentCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUncheckedCreateWithoutTagsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+    children?: ResourceUncheckedCreateNestedManyWithoutParentInput
+    outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
+    comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceCreateOrConnectWithoutTagsInput = {
+    where: ResourceWhereUniqueInput
+    create: XOR<ResourceCreateWithoutTagsInput, ResourceUncheckedCreateWithoutTagsInput>
+  }
+
+  export type ResourceUpsertWithWhereUniqueWithoutTagsInput = {
+    where: ResourceWhereUniqueInput
+    update: XOR<ResourceUpdateWithoutTagsInput, ResourceUncheckedUpdateWithoutTagsInput>
+    create: XOR<ResourceCreateWithoutTagsInput, ResourceUncheckedCreateWithoutTagsInput>
+  }
+
+  export type ResourceUpdateWithWhereUniqueWithoutTagsInput = {
+    where: ResourceWhereUniqueInput
+    data: XOR<ResourceUpdateWithoutTagsInput, ResourceUncheckedUpdateWithoutTagsInput>
+  }
+
+  export type ResourceUpdateManyWithWhereWithoutTagsInput = {
+    where: ResourceScalarWhereInput
+    data: XOR<ResourceUpdateManyMutationInput, ResourceUncheckedUpdateManyWithoutTagsInput>
+  }
+
+  export type UserCreateWithoutCommentsInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: ResourceCreateNestedManyWithoutAuthorInput
+    collections?: CollectionCreateNestedManyWithoutAuthorInput
+    savedResources?: SavedResourceCreateNestedManyWithoutUserInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutUserInput
+    resourceVersions?: ResourceVersionCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutCommentsInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: ResourceUncheckedCreateNestedManyWithoutAuthorInput
+    collections?: CollectionUncheckedCreateNestedManyWithoutAuthorInput
+    savedResources?: SavedResourceUncheckedCreateNestedManyWithoutUserInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutUserInput
+    resourceVersions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutCommentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCommentsInput, UserUncheckedCreateWithoutCommentsInput>
+  }
+
+  export type ResourceCreateWithoutCommentsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutResourcesInput
+    parent?: ResourceCreateNestedOneWithoutChildrenInput
+    children?: ResourceCreateNestedManyWithoutParentInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationCreateNestedManyWithoutToInput
+    collections?: CollectionResourceCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUncheckedCreateWithoutCommentsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+    children?: ResourceUncheckedCreateNestedManyWithoutParentInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceCreateOrConnectWithoutCommentsInput = {
+    where: ResourceWhereUniqueInput
+    create: XOR<ResourceCreateWithoutCommentsInput, ResourceUncheckedCreateWithoutCommentsInput>
+  }
+
+  export type CommentCreateWithoutRepliesInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutCommentsInput
+    resource: ResourceCreateNestedOneWithoutCommentsInput
+    parent?: CommentCreateNestedOneWithoutRepliesInput
+  }
+
+  export type CommentUncheckedCreateWithoutRepliesInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    authorId: string
+    resourceId: string
+    parentId?: string | null
+  }
+
+  export type CommentCreateOrConnectWithoutRepliesInput = {
+    where: CommentWhereUniqueInput
+    create: XOR<CommentCreateWithoutRepliesInput, CommentUncheckedCreateWithoutRepliesInput>
+  }
+
+  export type CommentCreateWithoutParentInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutCommentsInput
+    resource: ResourceCreateNestedOneWithoutCommentsInput
+    replies?: CommentCreateNestedManyWithoutParentInput
+  }
+
+  export type CommentUncheckedCreateWithoutParentInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    authorId: string
+    resourceId: string
+    replies?: CommentUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type CommentCreateOrConnectWithoutParentInput = {
+    where: CommentWhereUniqueInput
+    create: XOR<CommentCreateWithoutParentInput, CommentUncheckedCreateWithoutParentInput>
+  }
+
+  export type CommentCreateManyParentInputEnvelope = {
+    data: CommentCreateManyParentInput | CommentCreateManyParentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutCommentsInput = {
+    update: XOR<UserUpdateWithoutCommentsInput, UserUncheckedUpdateWithoutCommentsInput>
+    create: XOR<UserCreateWithoutCommentsInput, UserUncheckedCreateWithoutCommentsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCommentsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCommentsInput, UserUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type UserUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: ResourceUpdateManyWithoutAuthorNestedInput
+    collections?: CollectionUpdateManyWithoutAuthorNestedInput
+    savedResources?: SavedResourceUpdateManyWithoutUserNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutUserNestedInput
+    resourceVersions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: ResourceUncheckedUpdateManyWithoutAuthorNestedInput
+    collections?: CollectionUncheckedUpdateManyWithoutAuthorNestedInput
+    savedResources?: SavedResourceUncheckedUpdateManyWithoutUserNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutUserNestedInput
+    resourceVersions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type ResourceUpsertWithoutCommentsInput = {
+    update: XOR<ResourceUpdateWithoutCommentsInput, ResourceUncheckedUpdateWithoutCommentsInput>
+    create: XOR<ResourceCreateWithoutCommentsInput, ResourceUncheckedCreateWithoutCommentsInput>
+    where?: ResourceWhereInput
+  }
+
+  export type ResourceUpdateToOneWithWhereWithoutCommentsInput = {
+    where?: ResourceWhereInput
+    data: XOR<ResourceUpdateWithoutCommentsInput, ResourceUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type ResourceUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutResourcesNestedInput
+    parent?: ResourceUpdateOneWithoutChildrenNestedInput
+    children?: ResourceUpdateManyWithoutParentNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type CommentUpsertWithoutRepliesInput = {
+    update: XOR<CommentUpdateWithoutRepliesInput, CommentUncheckedUpdateWithoutRepliesInput>
+    create: XOR<CommentCreateWithoutRepliesInput, CommentUncheckedCreateWithoutRepliesInput>
+    where?: CommentWhereInput
+  }
+
+  export type CommentUpdateToOneWithWhereWithoutRepliesInput = {
+    where?: CommentWhereInput
+    data: XOR<CommentUpdateWithoutRepliesInput, CommentUncheckedUpdateWithoutRepliesInput>
+  }
+
+  export type CommentUpdateWithoutRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutCommentsNestedInput
+    resource?: ResourceUpdateOneRequiredWithoutCommentsNestedInput
+    parent?: CommentUpdateOneWithoutRepliesNestedInput
+  }
+
+  export type CommentUncheckedUpdateWithoutRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CommentUpsertWithWhereUniqueWithoutParentInput = {
+    where: CommentWhereUniqueInput
+    update: XOR<CommentUpdateWithoutParentInput, CommentUncheckedUpdateWithoutParentInput>
+    create: XOR<CommentCreateWithoutParentInput, CommentUncheckedCreateWithoutParentInput>
+  }
+
+  export type CommentUpdateWithWhereUniqueWithoutParentInput = {
+    where: CommentWhereUniqueInput
+    data: XOR<CommentUpdateWithoutParentInput, CommentUncheckedUpdateWithoutParentInput>
+  }
+
+  export type CommentUpdateManyWithWhereWithoutParentInput = {
+    where: CommentScalarWhereInput
+    data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutParentInput>
+  }
+
+  export type UserCreateWithoutSavedResourcesInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: ResourceCreateNestedManyWithoutAuthorInput
+    collections?: CollectionCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutUserInput
+    resourceVersions?: ResourceVersionCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutSavedResourcesInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: ResourceUncheckedCreateNestedManyWithoutAuthorInput
+    collections?: CollectionUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutUserInput
+    resourceVersions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutSavedResourcesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSavedResourcesInput, UserUncheckedCreateWithoutSavedResourcesInput>
+  }
+
+  export type ResourceCreateWithoutSavedByInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutResourcesInput
+    parent?: ResourceCreateNestedOneWithoutChildrenInput
+    children?: ResourceCreateNestedManyWithoutParentInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationCreateNestedManyWithoutToInput
+    collections?: CollectionResourceCreateNestedManyWithoutResourceInput
+    comments?: CommentCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUncheckedCreateWithoutSavedByInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+    children?: ResourceUncheckedCreateNestedManyWithoutParentInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
+    comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceCreateOrConnectWithoutSavedByInput = {
+    where: ResourceWhereUniqueInput
+    create: XOR<ResourceCreateWithoutSavedByInput, ResourceUncheckedCreateWithoutSavedByInput>
+  }
+
+  export type UserUpsertWithoutSavedResourcesInput = {
+    update: XOR<UserUpdateWithoutSavedResourcesInput, UserUncheckedUpdateWithoutSavedResourcesInput>
+    create: XOR<UserCreateWithoutSavedResourcesInput, UserUncheckedCreateWithoutSavedResourcesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSavedResourcesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSavedResourcesInput, UserUncheckedUpdateWithoutSavedResourcesInput>
+  }
+
+  export type UserUpdateWithoutSavedResourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: ResourceUpdateManyWithoutAuthorNestedInput
+    collections?: CollectionUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutUserNestedInput
+    resourceVersions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSavedResourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: ResourceUncheckedUpdateManyWithoutAuthorNestedInput
+    collections?: CollectionUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutUserNestedInput
+    resourceVersions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type ResourceUpsertWithoutSavedByInput = {
+    update: XOR<ResourceUpdateWithoutSavedByInput, ResourceUncheckedUpdateWithoutSavedByInput>
+    create: XOR<ResourceCreateWithoutSavedByInput, ResourceUncheckedCreateWithoutSavedByInput>
+    where?: ResourceWhereInput
+  }
+
+  export type ResourceUpdateToOneWithWhereWithoutSavedByInput = {
+    where?: ResourceWhereInput
+    data: XOR<ResourceUpdateWithoutSavedByInput, ResourceUncheckedUpdateWithoutSavedByInput>
+  }
+
+  export type ResourceUpdateWithoutSavedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutResourcesNestedInput
+    parent?: ResourceUpdateOneWithoutChildrenNestedInput
+    children?: ResourceUpdateManyWithoutParentNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
+    comments?: CommentUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateWithoutSavedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceCreateWithoutUsageEventsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutResourcesInput
+    parent?: ResourceCreateNestedOneWithoutChildrenInput
+    children?: ResourceCreateNestedManyWithoutParentInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationCreateNestedManyWithoutToInput
+    collections?: CollectionResourceCreateNestedManyWithoutResourceInput
+    comments?: CommentCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUncheckedCreateWithoutUsageEventsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+    children?: ResourceUncheckedCreateNestedManyWithoutParentInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
+    comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceCreateOrConnectWithoutUsageEventsInput = {
+    where: ResourceWhereUniqueInput
+    create: XOR<ResourceCreateWithoutUsageEventsInput, ResourceUncheckedCreateWithoutUsageEventsInput>
+  }
+
+  export type UserCreateWithoutUsageEventsInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: ResourceCreateNestedManyWithoutAuthorInput
+    collections?: CollectionCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    savedResources?: SavedResourceCreateNestedManyWithoutUserInput
+    resourceVersions?: ResourceVersionCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutUsageEventsInput = {
+    id?: string
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: ResourceUncheckedCreateNestedManyWithoutAuthorInput
+    collections?: CollectionUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    savedResources?: SavedResourceUncheckedCreateNestedManyWithoutUserInput
+    resourceVersions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutUsageEventsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUsageEventsInput, UserUncheckedCreateWithoutUsageEventsInput>
+  }
+
+  export type ResourceUpsertWithoutUsageEventsInput = {
+    update: XOR<ResourceUpdateWithoutUsageEventsInput, ResourceUncheckedUpdateWithoutUsageEventsInput>
+    create: XOR<ResourceCreateWithoutUsageEventsInput, ResourceUncheckedCreateWithoutUsageEventsInput>
+    where?: ResourceWhereInput
+  }
+
+  export type ResourceUpdateToOneWithWhereWithoutUsageEventsInput = {
+    where?: ResourceWhereInput
+    data: XOR<ResourceUpdateWithoutUsageEventsInput, ResourceUncheckedUpdateWithoutUsageEventsInput>
+  }
+
+  export type ResourceUpdateWithoutUsageEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutResourcesNestedInput
+    parent?: ResourceUpdateOneWithoutChildrenNestedInput
+    children?: ResourceUpdateManyWithoutParentNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
+    comments?: CommentUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateWithoutUsageEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type UserUpsertWithoutUsageEventsInput = {
+    update: XOR<UserUpdateWithoutUsageEventsInput, UserUncheckedUpdateWithoutUsageEventsInput>
+    create: XOR<UserCreateWithoutUsageEventsInput, UserUncheckedCreateWithoutUsageEventsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUsageEventsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUsageEventsInput, UserUncheckedUpdateWithoutUsageEventsInput>
+  }
+
+  export type UserUpdateWithoutUsageEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: ResourceUpdateManyWithoutAuthorNestedInput
+    collections?: CollectionUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    savedResources?: SavedResourceUpdateManyWithoutUserNestedInput
+    resourceVersions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUsageEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: ResourceUncheckedUpdateManyWithoutAuthorNestedInput
+    collections?: CollectionUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    savedResources?: SavedResourceUncheckedUpdateManyWithoutUserNestedInput
+    resourceVersions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type ResourceCreateWithoutMetricsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutResourcesInput
+    parent?: ResourceCreateNestedOneWithoutChildrenInput
+    children?: ResourceCreateNestedManyWithoutParentInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationCreateNestedManyWithoutToInput
+    collections?: CollectionResourceCreateNestedManyWithoutResourceInput
+    comments?: CommentCreateNestedManyWithoutResourceInput
+    versions?: ResourceVersionCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUncheckedCreateWithoutMetricsInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+    children?: ResourceUncheckedCreateNestedManyWithoutParentInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
+    outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
+    comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceCreateOrConnectWithoutMetricsInput = {
+    where: ResourceWhereUniqueInput
+    create: XOR<ResourceCreateWithoutMetricsInput, ResourceUncheckedCreateWithoutMetricsInput>
+  }
+
+  export type ResourceUpsertWithoutMetricsInput = {
+    update: XOR<ResourceUpdateWithoutMetricsInput, ResourceUncheckedUpdateWithoutMetricsInput>
+    create: XOR<ResourceCreateWithoutMetricsInput, ResourceUncheckedCreateWithoutMetricsInput>
+    where?: ResourceWhereInput
+  }
+
+  export type ResourceUpdateToOneWithWhereWithoutMetricsInput = {
+    where?: ResourceWhereInput
+    data: XOR<ResourceUpdateWithoutMetricsInput, ResourceUncheckedUpdateWithoutMetricsInput>
+  }
+
+  export type ResourceUpdateWithoutMetricsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutResourcesNestedInput
+    parent?: ResourceUpdateOneWithoutChildrenNestedInput
+    children?: ResourceUpdateManyWithoutParentNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
+    comments?: CommentUpdateManyWithoutResourceNestedInput
+    versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateWithoutMetricsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceCreateManyAuthorInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    parentId?: string | null
+  }
+
+  export type CollectionCreateManyAuthorInput = {
+    id?: string
+    slug: string
+    title: string
+    description?: string | null
+    visibility?: $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+  }
+
+  export type CommentCreateManyAuthorInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    resourceId: string
+    parentId?: string | null
+  }
+
+  export type SavedResourceCreateManyUserInput = {
+    id?: string
+    resourceId: string
+    createdAt?: Date | string
+  }
+
+  export type ResourceUsageCreateManyUserInput = {
+    id?: string
+    resourceId: string
+    event: $Enums.UsageEvent
+    sessionId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type ResourceVersionCreateManyAuthorInput = {
+    id?: string
+    resourceId: string
+    versionNumber: number
+    title: string
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ResourceUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parent?: ResourceUpdateOneWithoutChildrenNestedInput
+    children?: ResourceUpdateManyWithoutParentNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
+    comments?: CommentUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CollectionUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: CollectionResourceUpdateManyWithoutCollectionNestedInput
+  }
+
+  export type CollectionUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: CollectionResourceUncheckedUpdateManyWithoutCollectionNestedInput
+  }
+
+  export type CollectionUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CommentUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resource?: ResourceUpdateOneRequiredWithoutCommentsNestedInput
+    parent?: CommentUpdateOneWithoutRepliesNestedInput
+    replies?: CommentUpdateManyWithoutParentNestedInput
+  }
+
+  export type CommentUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resourceId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    replies?: CommentUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type CommentUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resourceId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SavedResourceUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resource?: ResourceUpdateOneRequiredWithoutSavedByNestedInput
+  }
+
+  export type SavedResourceUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedResourceUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceUsageUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    event?: EnumUsageEventFieldUpdateOperationsInput | $Enums.UsageEvent
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resource?: ResourceUpdateOneRequiredWithoutUsageEventsNestedInput
+  }
+
+  export type ResourceUsageUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    event?: EnumUsageEventFieldUpdateOperationsInput | $Enums.UsageEvent
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceUsageUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    event?: EnumUsageEventFieldUpdateOperationsInput | $Enums.UsageEvent
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceVersionUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resource?: ResourceUpdateOneRequiredWithoutVersionsNestedInput
+  }
+
+  export type ResourceVersionUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceVersionUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceCreateManyParentInput = {
+    id?: string
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+  }
+
+  export type RelationCreateManyFromInput = {
+    id?: string
+    type: $Enums.RelationType
+    toId: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type RelationCreateManyToInput = {
+    id?: string
+    type: $Enums.RelationType
+    fromId: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type CollectionResourceCreateManyResourceInput = {
+    id?: string
+    collectionId: string
+    orderIndex: number
+    addedAt?: Date | string
+  }
+
+  export type CommentCreateManyResourceInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+  }
+
+  export type ResourceVersionCreateManyResourceInput = {
+    id?: string
+    authorId: string
+    versionNumber: number
+    title: string
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ResourceUsageCreateManyResourceInput = {
+    id?: string
+    userId?: string | null
+    event: $Enums.UsageEvent
+    sessionId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type SavedResourceCreateManyResourceInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type ResourceUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutResourcesNestedInput
+    children?: ResourceUpdateManyWithoutParentNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
+    comments?: CommentUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
+    outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateManyWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TagUpdateWithoutResourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagUncheckedUpdateWithoutResourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagUncheckedUpdateManyWithoutResourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RelationUpdateWithoutFromInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    to?: ResourceUpdateOneRequiredWithoutIncomingRelationsNestedInput
+  }
+
+  export type RelationUncheckedUpdateWithoutFromInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
+    toId?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RelationUncheckedUpdateManyWithoutFromInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
+    toId?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RelationUpdateWithoutToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    from?: ResourceUpdateOneRequiredWithoutOutgoingRelationsNestedInput
+  }
+
+  export type RelationUncheckedUpdateWithoutToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
+    fromId?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RelationUncheckedUpdateManyWithoutToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
+    fromId?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectionResourceUpdateWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    addedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    collection?: CollectionUpdateOneRequiredWithoutResourcesNestedInput
+  }
+
+  export type CollectionResourceUncheckedUpdateWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectionId?: StringFieldUpdateOperationsInput | string
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    addedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectionResourceUncheckedUpdateManyWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectionId?: StringFieldUpdateOperationsInput | string
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    addedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommentUpdateWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutCommentsNestedInput
+    parent?: CommentUpdateOneWithoutRepliesNestedInput
+    replies?: CommentUpdateManyWithoutParentNestedInput
+  }
+
+  export type CommentUncheckedUpdateWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    replies?: CommentUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type CommentUncheckedUpdateManyWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ResourceVersionUpdateWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutResourceVersionsNestedInput
+  }
+
+  export type ResourceVersionUncheckedUpdateWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceVersionUncheckedUpdateManyWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceUsageUpdateWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    event?: EnumUsageEventFieldUpdateOperationsInput | $Enums.UsageEvent
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutUsageEventsNestedInput
+  }
+
+  export type ResourceUsageUncheckedUpdateWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    event?: EnumUsageEventFieldUpdateOperationsInput | $Enums.UsageEvent
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceUsageUncheckedUpdateManyWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    event?: EnumUsageEventFieldUpdateOperationsInput | $Enums.UsageEvent
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedResourceUpdateWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSavedResourcesNestedInput
+  }
+
+  export type SavedResourceUncheckedUpdateWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedResourceUncheckedUpdateManyWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectionResourceCreateManyCollectionInput = {
+    id?: string
+    resourceId: string
+    orderIndex: number
+    addedAt?: Date | string
+  }
+
+  export type CollectionResourceUpdateWithoutCollectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    addedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resource?: ResourceUpdateOneRequiredWithoutCollectionsNestedInput
+  }
+
+  export type CollectionResourceUncheckedUpdateWithoutCollectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    addedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollectionResourceUncheckedUpdateManyWithoutCollectionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    orderIndex?: IntFieldUpdateOperationsInput | number
+    addedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceUpdateWithoutTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutResourcesNestedInput
+    parent?: ResourceUpdateOneWithoutChildrenNestedInput
+    children?: ResourceUpdateManyWithoutParentNestedInput
+    outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
+    comments?: CommentUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateWithoutTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
+    outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateManyWithoutTagsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CommentCreateManyParentInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    authorId: string
+    resourceId: string
+  }
+
+  export type CommentUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutCommentsNestedInput
+    resource?: ResourceUpdateOneRequiredWithoutCommentsNestedInput
+    replies?: CommentUpdateManyWithoutParentNestedInput
+  }
+
+  export type CommentUncheckedUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    replies?: CommentUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type CommentUncheckedUpdateManyWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+  }
+
+
+
+  /**
+   * Batch Payload for updateMany & deleteMany & createMany
+   */
+
+  export type BatchPayload = {
+    count: number
+  }
+
+  /**
+   * DMMF
+   */
+  export const dmmf: runtime.BaseDMMF
+}

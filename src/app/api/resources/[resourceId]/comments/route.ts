@@ -11,29 +11,26 @@ interface RouteContext {
   params: Promise<{ resourceId: string }>;
 }
 
-// 1. GET /api/resources/[resourceId]/comments -> Pull threaded discussion feed
 export const GET = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
   const { resourceId } = await context.params;
 
   const resourceExists = await prisma.resource.count({ where: { id: resourceId, deletedAt: null } });
   if (!resourceExists) throw ApiError.notFound("The requested resource context does not exist");
 
-  // Only load root comments (parentId: null) so the frontend UI can manage sub-level reply threads cleanly
   const rootComments = await prisma.comment.findMany({
     where: {
       resourceId,
       parentId: null,
-      status: "ACTIVE", // Automatically filters out flagged or admin-moderated rows
+      status: "ACTIVE",
       deletedAt: null,
     },
-    orderBy: { createdAt: "desc" }, // Fresh discussions surface to the top of the section frame
+    orderBy: { createdAt: "desc" },
     include: commentWithAuthor,
   });
 
   return NextResponse.json(rootComments, { status: 200 });
 });
 
-// 2. POST /api/resources/[resourceId]/comments -> Post a comment or threaded response reply
 export const POST = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
   const { resourceId } = await context.params;
   const session = await requireAuth(req);
@@ -52,16 +49,15 @@ export const POST = handleApiRoute(async (req: NextRequest, context: RouteContex
   }
 
   const resourceExists = await prisma.resource.count({ where: { id: resourceId, deletedAt: null } });
-  if (!resourceExists) throw ApiError.notFound("The article or asset you are trying to comment on does not exist");
+  if (!resourceExists) throw ApiError.notFound("The asset you are trying to comment on does not exist");
 
-  // Strict Validation: Lock out infinite loops or cross-resource structural reply injection exploits
   if (parentId) {
-    const parentComment = await prisma.comment.findUnique({ where: { id: parentId } });
-    if (!parentComment || parentComment.deletedAt || parentComment.status !== "ACTIVE") {
+    const parentComment = await prisma.comment.findFirst({ where: { id: parentId, deletedAt: null } });
+    if (!parentComment || parentComment.status !== "ACTIVE") {
       throw ApiError.notFound("The comment thread you are replying to has been removed or hidden");
     }
     if (parentComment.resourceId !== resourceId) {
-      throw ApiError.badRequest("Mismatched data validation: Parent thread belongs to a different resource context");
+      throw ApiError.badRequest("Security verification failed: Parent thread belongs to an unlinked resource environment");
     }
   }
 
@@ -72,7 +68,7 @@ export const POST = handleApiRoute(async (req: NextRequest, context: RouteContex
       authorId: session.userId,
       resourceId,
       parentId: parentId || null,
-      metadata: metadata || undefined, // Safely matches database JSON parameters
+      metadata: metadata || undefined,
     },
     include: {
       author: {

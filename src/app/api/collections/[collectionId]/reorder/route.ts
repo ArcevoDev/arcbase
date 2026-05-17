@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import { handleApiRoute } from "@/lib/errors/handle-error";
 import { ApiError } from "@/lib/errors/api-error";
-import { requireAuth } from "@/modules/auth/require-auth"; // Fixed broken import path
+import { requireAuth } from "@/modules/auth/require-auth";
 import { prisma } from "@/lib/prisma/prisma";
 import { reorderCollectionSchema } from "@/modules/collections/collection.dto";
 
@@ -11,7 +11,6 @@ interface RouteContext {
   params: Promise<{ collectionId: string }>;
 }
 
-// POST /api/collections/[collectionId]/reorder -> Complete positional sequence rewrite
 export const POST = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
   const { collectionId } = await context.params;
   const session = await requireAuth(req);
@@ -39,19 +38,24 @@ export const POST = handleApiRoute(async (req: NextRequest, context: RouteContex
 
   const { resourceIds } = validation.data;
 
-  // Run updates sequentially within an atomic database transaction loop to prevent positional clashes
-  await prisma.$transaction(
-    resourceIds.map((resourceId, index) =>
-      prisma.collectionResource.update({
+  // The Two-Step Reorder Pattern safely avoids unique key violations during sequential updates
+  await prisma.$transaction(async (tx) => {
+    // Phase 1: Shift existing collection allocations to temporary negative positions
+    await tx.collectionResource.updateMany({
+      where: { collectionId, resourceId: { in: resourceIds } },
+      data: { orderIndex: -1 }
+    });
+
+    // Phase 2: Assign real sequence identifiers sequentially
+    for (let index = 0; index < resourceIds.length; index++) {
+      await tx.collectionResource.update({
         where: {
-          collectionId_resourceId: { collectionId, resourceId }
+          collectionId_resourceId: { collectionId, resourceId: resourceIds[index] }
         },
-        data: {
-          orderIndex: index // Fixed: Maps precisely to your schema column 'orderIndex'
-        }
-      })
-    )
-  );
+        data: { orderIndex: index }
+      });
+    }
+  });
 
   return NextResponse.json({ message: "Collection items reordered successfully" }, { status: 200 });
 });

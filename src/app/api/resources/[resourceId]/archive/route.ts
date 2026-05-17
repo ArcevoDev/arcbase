@@ -5,20 +5,19 @@ import { handleApiRoute } from "@/lib/errors/handle-error";
 import { ApiError } from "@/lib/errors/api-error";
 import { requireAuth } from "@/modules/auth/require-auth";
 import { prisma } from "@/lib/prisma/prisma";
-import { resourceWithRelations } from "@/lib/prisma/prisma-helpers"; // Imported global selector helper
+import { resourceWithRelations } from "@/lib/prisma/prisma-helpers";
 import { toSafeResourceDTO } from "@/modules/resources/resource.dto";
 
 interface RouteContext {
   params: Promise<{ resourceId: string }>;
 }
 
-// POST /api/resources/[resourceId]/archive -> Archive a published resource safely
 export const POST = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
   const { resourceId } = await context.params;
   const session = await requireAuth(req);
 
-  const resource = await prisma.resource.findUnique({ where: { id: resourceId } });
-  if (!resource || resource.deletedAt) throw ApiError.notFound("Resource not found");
+  const resource = await prisma.resource.findFirst({ where: { id: resourceId, deletedAt: null } });
+  if (!resource) throw ApiError.notFound("Resource not found");
 
   if (resource.authorId !== session.userId) {
     throw ApiError.forbidden("You do not have permission to archive this resource");
@@ -34,7 +33,7 @@ export const POST = handleApiRoute(async (req: NextRequest, context: RouteContex
       status: "ARCHIVED",
       archivedAt: new Date(),
     },
-    include: resourceWithRelations, // Full-proofed: Bundles author profile, tags, and metrics counters together
+    include: resourceWithRelations,
   });
 
   return NextResponse.json(

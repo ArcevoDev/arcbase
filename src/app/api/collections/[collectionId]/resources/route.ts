@@ -9,12 +9,11 @@ import { addResourceToCollectionSchema } from "@/modules/collections/collection.
 import { z } from "zod";
 
 interface RouteContext {
-  params: Promise<{ collectionId: string }>; // Fixed parameter alignment
+  params: Promise<{ collectionId: string }>;
 }
 
-// 1. POST /api/collections/[collectionId]/resources -> Link an asset to this collection
 export const POST = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
-  const { collectionId } = await context.params; // Extracts exact path token
+  const { collectionId } = await context.params;
   const session = await requireAuth(req);
 
   let rawBody;
@@ -45,7 +44,6 @@ export const POST = handleApiRoute(async (req: NextRequest, context: RouteContex
   return NextResponse.json(link, { status: 201 });
 });
 
-// 2. DELETE /api/collections/[collectionId]/resources -> Unlink an asset from this collection
 export const DELETE = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
   const { collectionId } = await context.params;
   const session = await requireAuth(req);

@@ -35,8 +35,8 @@ export const POST = handleApiRoute(async (req: NextRequest, context: RouteContex
   const { resourceId } = await context.params;
   const session = await requireAuth(req);
 
-  const resource = await prisma.resource.findUnique({ where: { id: resourceId } });
-  if (!resource || resource.deletedAt) throw ApiError.notFound("Origin resource not found");
+  const resource = await prisma.resource.findFirst({ where: { id: resourceId, deletedAt: null } });
+  if (!resource) throw ApiError.notFound("Origin resource not found");
   if (resource.authorId !== session.userId) {
     throw ApiError.forbidden("Only the resource author can modify relationship link networks");
   }

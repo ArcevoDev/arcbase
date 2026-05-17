@@ -1,29 +1,45 @@
 import { NextRequest, NextResponse } from "next/server";
-import { AuthService } from "@/modules/auth/auth.service";
 import { handleApiRoute } from "@/lib/errors/handle-error";
 import { ApiError } from "@/lib/errors/api-error";
-import { registerSchema, toSafeUserDTO } from "@/modules/auth/auth.dto";
+import { registerSchema } from "@/modules/auth/auth.dto";
+import { AuthService } from "@/modules/auth/auth.service";
+import { toSafeUserDTO } from "@/modules/auth/auth.dto";
+import { signToken } from "@/modules/auth/jwt";
 
 export const POST = handleApiRoute(async (req: NextRequest) => {
-  let rawBody;
-  try {
-    rawBody = await req.json();
-  } catch {
-    throw ApiError.badRequest("Malformed JSON payload configuration");
+  const body = await req.json();
+  
+  const parsedInput = registerSchema.safeParse(body);
+  if (!parsedInput.success) {
+    throw ApiError.badRequest(parsedInput.error.issues[0].message);
   }
 
-  const result = registerSchema.safeParse(rawBody);
-  if (!result.success) {
-    return NextResponse.json(
-      {
-        error: "Validation failed",
-        details: result.error.flatten().fieldErrors,
-      },
-      { status: 400 },
-    );
+  const newUser = await AuthService.register(parsedInput.data);
+  const safeUser = toSafeUserDTO(newUser);
+
+  if (!safeUser) {
+    throw ApiError.internal("Failed to map user profile sequence");
   }
 
-  // Pass the entire object (including confirmPassword) to satisfy the Zod input contract type
-  const user = await AuthService.register(result.data);
-  return NextResponse.json(toSafeUserDTO(user), { status: 201 });
+  const token = await signToken({
+    userId: safeUser.id,
+    email: safeUser.email,
+    hasCompletedOnboarding: safeUser.hasCompletedOnboarding,
+  });
+
+  const response = NextResponse.json({
+    success: true,
+    message: "Account created successfully",
+    data: safeUser,
+  });
+
+  response.cookies.set("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24, // 1 day
+  });
+
+  return response;
 });

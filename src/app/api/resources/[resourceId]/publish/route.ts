@@ -16,8 +16,8 @@ export const POST = handleApiRoute(async (req: NextRequest, context: RouteContex
   const { resourceId } = await context.params;
   const session = await requireAuth(req);
 
-  const resource = await prisma.resource.findUnique({ where: { id: resourceId } });
-  if (!resource || resource.deletedAt) throw ApiError.notFound("Resource not found");
+  const resource = await prisma.resource.findFirst({ where: { id: resourceId, deletedAt: null } });
+  if (!resource) throw ApiError.notFound("Resource not found");
   
   if (resource.authorId !== session.userId) {
     throw ApiError.forbidden("You do not have administrative permission to publish this resource");
@@ -33,7 +33,7 @@ export const POST = handleApiRoute(async (req: NextRequest, context: RouteContex
       status: "PUBLISHED",
       publishedAt: new Date(),
     },
-    include: resourceWithRelations, // Full-proofed inclusion array
+    include: resourceWithRelations,
   });
 
   return NextResponse.json(

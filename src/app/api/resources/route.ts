@@ -3,14 +3,14 @@ export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import { handleApiRoute } from "@/lib/errors/handle-error";
 import { ApiError } from "@/lib/errors/api-error";
-import { requireAuth } from "@/modules/auth/require-auth"; // Fixed broken utility path
+import { requireAuth } from "@/modules/auth/require-auth";
 import { ResourceService } from "@/modules/resources/resource.service";
-import { ResourceRepo } from "@/modules/resources/resource.repository";
+import { ResourceRepository } from "@/modules/resources/resource.repository";
 import { createResourceSchema, toSafeResourceDTO } from "@/modules/resources/resource.dto";
 
 // GET /api/resources -> View feed safely
 export const GET = handleApiRoute(async () => {
-  const resources = await ResourceRepo.findAll();
+  const resources = await ResourceRepository.findAll();
   return NextResponse.json(resources.map(toSafeResourceDTO), { status: 200 });
 });
 

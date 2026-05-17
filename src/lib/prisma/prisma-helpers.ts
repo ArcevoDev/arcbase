@@ -1,41 +1,42 @@
-// src/lib/prisma/prisma-helpers.ts
-export const resourceWithRelations = {
-  author: true,
+import { Prisma } from "../../../node_modules/.prisma/client";
 
-  outgoingRelations: {
-    include: {
-      to: true,
-    },
+// Core select configuration for single items
+export const resourceWithRelations = Prisma.validator<Prisma.ResourceInclude>()({
+  author: {
+    select: { id: true, username: true, displayName: true, avatarUrl: true }
   },
-
-  incomingRelations: {
-    include: {
-      from: true,
-    },
+  tags: {
+    select: { id: true, name: true, slug: true }
   },
+  metrics: true,
+  _count: {
+    select: { children: true, comments: true, versions: true }
+  }
+});
 
-  collectionLinks: {
-    include: {
-      collection: true,
-    },
+// Maps cleanly through Collection -> CollectionResource[] -> Resource
+export const collectionWithResources = Prisma.validator<Prisma.CollectionInclude>()({
+  author: {
+    select: { id: true, username: true, displayName: true, avatarUrl: true }
   },
-};
-
-export const collectionWithResources = {
-  author: true,
   resources: {
     include: {
-      resource: resourceWithRelations,
-    },
-  },
-};
+      resource: {
+        include: resourceWithRelations
+      }
+    }
+  }
+});
 
-export const commentWithAuthor = {
-  author: true,
+export const commentWithAuthor = Prisma.validator<Prisma.CommentInclude>()({
+  author: {
+    select: { id: true, username: true, displayName: true, avatarUrl: true }
+  },
   replies: {
     include: {
-      author: true,
-      replies: true, // optional, could limit depth
-    },
-  },
-};
+      author: {
+        select: { id: true, username: true, displayName: true, avatarUrl: true }
+      }
+    }
+  }
+});

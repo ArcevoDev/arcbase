@@ -22,28 +22,28 @@ export const POST = handleApiRoute(async (req: NextRequest, context: RouteContex
   const validEvents = ["VIEW", "OPEN", "DOWNLOAD", "SHARE", "LIKE", "BOOKMARK"];
   if (!validEvents.includes(event)) throw ApiError.badRequest(`Invalid telemetry variant signature: ${event}`);
 
-  const resource = await prisma.resource.findUnique({ where: { id: resourceId } });
-  if (!resource || resource.deletedAt) throw ApiError.notFound("Resource database node absent");
+  const resourceExists = await prisma.resource.count({ where: { id: resourceId, deletedAt: null } });
+  if (!resourceExists) throw ApiError.notFound("Resource database node absent");
 
   const metricFieldMap: Record<string, string> = {
     VIEW: "views", OPEN: "opens", DOWNLOAD: "downloads", SHARE: "shares", LIKE: "likes", BOOKMARK: "bookmarks"
   };
   const targetCounterField = metricFieldMap[event];
 
-  const [log, stats] = await prisma.$transaction([
-    prisma.resourceUsage.create({
-      data: { resourceId, userId: session?.userId || null, event, sessionId: sessionId || null, metadata: metadata || undefined }
-    }),
-    prisma.resourceMetrics.upsert({
-      where: { resourceId },
-      update: { [targetCounterField]: { increment: 1 } },
-      create: {
-        resourceId,
-        views: event === "VIEW" ? 1 : 0, opens: event === "OPEN" ? 1 : 0, downloads: event === "DOWNLOAD" ? 1 : 0,
-        shares: event === "SHARE" ? 1 : 0, likes: event === "LIKE" ? 1 : 0, bookmarks: event === "BOOKMARK" ? 1 : 0
-      }
-    })
-  ]);
+  // Atomic database logs run isolated from critical metrics modifications to avoid table-lock latency stalls
+  await prisma.resourceUsage.create({
+    data: { resourceId, userId: session?.userId || null, event, sessionId: sessionId || null, metadata: metadata || undefined }
+  });
+
+  const stats = await prisma.resourceMetrics.upsert({
+    where: { resourceId },
+    update: { [targetCounterField]: { increment: 1 } },
+    create: {
+      resourceId,
+      views: event === "VIEW" ? 1 : 0, opens: event === "OPEN" ? 1 : 0, downloads: event === "DOWNLOAD" ? 1 : 0,
+      shares: event === "SHARE" ? 1 : 0, likes: event === "LIKE" ? 1 : 0, bookmarks: event === "BOOKMARK" ? 1 : 0
+    }
+  });
 
   return NextResponse.json({ message: "Telemetry tracked", views: stats.views, likes: stats.likes }, { status: 201 });
 });

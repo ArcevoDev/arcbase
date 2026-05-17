@@ -29,28 +29,28 @@ export const POST = handleApiRoute(async (req: NextRequest, context: RouteContex
   const { resourceId } = await context.params;
   const session = await requireAuth(req);
 
-  const resource = await prisma.resource.findUnique({ where: { id: resourceId } });
-  if (!resource || resource.deletedAt) throw ApiError.notFound("Resource tracking target not found");
+  const resource = await prisma.resource.findFirst({ where: { id: resourceId, deletedAt: null } });
+  if (!resource) throw ApiError.notFound("Resource tracking target not found");
   if (resource.authorId !== session.userId) throw ApiError.forbidden("Access denied");
 
   let body = await req.json().catch(() => ({}));
   const changeSummary = body.changeSummary?.trim() || "Automated state snapshot update committed";
 
+  // Serialized atomic operations prevent unique index collisions on high concurrency writes
   const snapshot = await prisma.$transaction(async (tx) => {
-    const lastVersion = await tx.resourceVersion.findFirst({
+    const aggregateData = await tx.resourceVersion.aggregate({
       where: { resourceId },
-      orderBy: { versionNumber: "desc" },
-      select: { versionNumber: true }
+      _max: { versionNumber: true }
     });
 
-    const nextNumber = lastVersion ? lastVersion.versionNumber + 1 : 1;
+    const nextNumber = (aggregateData._max.versionNumber || 0) + 1;
 
     return await tx.resourceVersion.create({
       data: {
         resourceId,
         authorId: session.userId,
         versionNumber: nextNumber,
-        title: resource.title,
+        title: resource.title ?? "Untitled Version",
         content: resource.content,
         contentJson: resource.contentJson || undefined,
         changeSummary
