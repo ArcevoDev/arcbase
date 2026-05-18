@@ -17,6 +17,6 @@ export default defineConfig({
     url: databaseUrl,
   },
   migrations: {
-    seed: 'pnpm ts-node -r dotenv/config -r tsconfig-paths/register --compiler-options {"module":"NodeNext","target":"es2022"} src/prisma/seed.ts',
+    seed: 'pnpm ts-node -r dotenv/config -r tsconfig-paths/register --compiler-options {"module":"CommonJS"} src/prisma/seed.ts',
   },
 });

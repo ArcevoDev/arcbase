@@ -4,7 +4,7 @@
   "private": true,
   "prisma": {
     "schema": "src/prisma/schema.prisma",
-    "seed": "pnpm ts-node -r dotenv/config -r tsconfig-paths/register --compiler-options \"{\\\"module\\\":\\\"NodeNext\\\",\\\"target\\\":\\\"es2022\\\"}\" src/prisma/seed.ts"
+    "seed": "pnpm ts-node -r dotenv/config -r tsconfig-paths/register --compiler-options \"{\\\"module\\\":\\\"CommonJS\\\"}\" src/prisma/seed.ts"
   },
   "scripts": {
     "dev": "next dev --turbopack",
@@ -12,9 +12,9 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
+    "postinstall": "pnpm prisma:generate",
     "prisma:migrate": "pnpm prisma migrate dev --schema=src/prisma/schema.prisma",
-    "prisma:generate": "pnpm prisma generate --schema=src/prisma/schema.prisma",
-    "postinstall": "pnpm prisma generate --schema=src/prisma/schema.prisma"
+    "prisma:generate": "pnpm prisma generate --schema=src/prisma/schema.prisma"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1048.0",
@@ -60,6 +60,7 @@
     "prisma": "^7.5.0",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "tw-animate-css": "^1.3.4",
     "typescript": "^5"
   }

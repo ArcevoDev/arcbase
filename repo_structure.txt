@@ -1,0 +1,264 @@
+arcbase/
+├── .qodo/
+│   ├── agents/
+│   └── workflows/
+├── .sixth/
+│   └── skills/
+├── public/
+│   └── media/
+│       ├── avatars/
+│       ├── resources/
+│       └── thumbnails/
+├── src/
+│   ├── app/
+│   │   ├── (auth)/
+│   │   │   ├── login/
+│   │   │   │   └── page.tsx
+│   │   │   ├── onboarding/
+│   │   │   │   └── page.tsx
+│   │   │   ├── register/
+│   │   │   │   └── page.tsx
+│   │   │   └── layout.tsx
+│   │   ├── (public)/
+│   │   │   └── page.tsx
+│   │   ├── api/
+│   │   │   ├── auth/
+│   │   │   │   ├── login/
+│   │   │   │   │   └── route.ts
+│   │   │   │   ├── logout/
+│   │   │   │   │   └── route.ts
+│   │   │   │   ├── me/
+│   │   │   │   │   └── route.ts
+│   │   │   │   ├── onboarding/
+│   │   │   │   │   └── route.ts
+│   │   │   │   └── register/
+│   │   │   │       └── route.ts
+│   │   │   ├── collections/
+│   │   │   │   ├── [collectionId]/
+│   │   │   │   │   ├── reorder/
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   ├── resources/
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   └── route.ts
+│   │   │   │   └── route.ts
+│   │   │   ├── comments/
+│   │   │   │   └── [commentId]/
+│   │   │   │       ├── replies/
+│   │   │   │       │   └── route.ts
+│   │   │   │       └── route.ts
+│   │   │   ├── resources/
+│   │   │   │   ├── [resourceId]/
+│   │   │   │   │   ├── archive/
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   ├── children/
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   ├── comments/
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   ├── publish/
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   ├── relations/
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   ├── tags/
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   ├── usage/
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   ├── versions/
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   └── route.ts
+│   │   │   │   ├── bulk/
+│   │   │   │   │   └── route.ts
+│   │   │   │   └── route.ts
+│   │   │   ├── search/
+│   │   │   │   ├── global/
+│   │   │   │   ├── resources/
+│   │   │   │   ├── users/
+│   │   │   │   └── route.ts
+│   │   │   ├── tags/
+│   │   │   │   └── route.ts
+│   │   │   ├── uploads/
+│   │   │   │   └── presign/
+│   │   │   │       └── route.ts
+│   │   │   └── users/
+│   │   │       ├── [username]/
+│   │   │       │   ├── analytics/
+│   │   │       │   │   └── route.ts
+│   │   │       │   ├── collections/
+│   │   │       │   │   └── route.ts
+│   │   │       │   ├── graph/
+│   │   │       │   │   └── route.ts
+│   │   │       │   ├── resources/
+│   │   │       │   │   └── route.ts
+│   │   │       │   ├── saved/
+│   │   │       │   │   └── route.ts
+│   │   │       │   └── route.ts
+│   │   │       ├── profile/
+│   │   │       │   └── route.ts
+│   │   │       └── route.ts
+│   │   ├── api-docs/
+│   │   │   └── page.tsx
+│   │   ├── favicon.ico
+│   │   └── layout.tsx
+│   ├── components/
+│   │   ├── layout/
+│   │   ├── shared/
+│   │   └── ui/
+│   │       ├── accordion.tsx
+│   │       ├── alert-dialog.tsx
+│   │       ├── alert.tsx
+│   │       ├── aspect-ratio.tsx
+│   │       ├── avatar.tsx
+│   │       ├── badge.tsx
+│   │       ├── breadcrumb.tsx
+│   │       ├── button.tsx
+│   │       ├── calendar.tsx
+│   │       ├── card.tsx
+│   │       ├── carousel.tsx
+│   │       ├── checkbox.tsx
+│   │       ├── collapsible.tsx
+│   │       ├── command.tsx
+│   │       ├── context-menu.tsx
+│   │       ├── dialog.tsx
+│   │       ├── drawer.tsx
+│   │       ├── dropdown-menu.tsx
+│   │       ├── hover-card.tsx
+│   │       ├── input-group.tsx
+│   │       ├── input-otp.tsx
+│   │       ├── input.tsx
+│   │       ├── label.tsx
+│   │       ├── menubar.tsx
+│   │       ├── navigation-menu.tsx
+│   │       ├── pagination.tsx
+│   │       ├── popover.tsx
+│   │       ├── progress.tsx
+│   │       ├── radio-group.tsx
+│   │       ├── resizable.tsx
+│   │       ├── scroll-area.tsx
+│   │       ├── select.tsx
+│   │       ├── separator.tsx
+│   │       ├── sheet.tsx
+│   │       ├── sidebar.tsx
+│   │       ├── skeleton.tsx
+│   │       ├── slider.tsx
+│   │       ├── sonner.tsx
+│   │       ├── switch.tsx
+│   │       ├── table.tsx
+│   │       ├── tabs.tsx
+│   │       ├── textarea.tsx
+│   │       ├── toggle-group.tsx
+│   │       ├── toggle.tsx
+│   │       └── tooltip.tsx
+│   ├── config/
+│   ├── context/
+│   │   ├── auth-context.tsx
+│   │   └── theme-context.tsx
+│   ├── hooks/
+│   │   ├── use-auth.ts
+│   │   ├── use-debounce.ts
+│   │   ├── use-mobile.ts
+│   │   └── use-theme.ts
+│   ├── jobs/
+│   │   ├── definitions/
+│   │   │   ├── cleanup,job.ts
+│   │   │   └── metrics.job.ts
+│   │   └── worker.ts
+│   ├── lib/
+│   │   ├── cache/
+│   │   ├── errors/
+│   │   │   ├── api-error.ts
+│   │   │   └── handle-error.ts
+│   │   ├── prisma/
+│   │   │   ├── prisma-helpers.ts
+│   │   │   └── prisma.ts
+│   │   ├── search/
+│   │   ├── storage/
+│   │   │   └── s3.ts
+│   │   ├── api-client.ts
+│   │   ├── api-response.ts
+│   │   ├── metadata.ts
+│   │   ├── openapi.ts
+│   │   └── utils.ts
+│   ├── modules/
+│   │   ├── auth/
+│   │   │   ├── auth-cookie.ts
+│   │   │   ├── auth.dto.ts
+│   │   │   ├── auth.service.ts
+│   │   │   ├── get-session.ts
+│   │   │   ├── jwt.ts
+│   │   │   └── require-auth.ts
+│   │   ├── collections/
+│   │   │   ├── collection.dto.ts
+│   │   │   ├── collection.repository.ts
+│   │   │   └── collection.service.ts
+│   │   ├── comments/
+│   │   │   ├── comment.dto.ts
+│   │   │   ├── comment.repository.ts
+│   │   │   └── comment.service.ts
+│   │   ├── resources/
+│   │   │   ├── resource.dto.ts
+│   │   │   ├── resource.repository.ts
+│   │   │   └── resource.service.ts
+│   │   ├── search/
+│   │   │   ├── search.dto.ts
+│   │   │   ├── search.repository.ts
+│   │   │   └── search.service.ts
+│   │   ├── tags/
+│   │   │   ├── tag.dto.ts
+│   │   │   ├── tag.repository.ts
+│   │   │   └── tag.service.ts
+│   │   ├── uploads/
+│   │   │   ├── upload.dto.ts
+│   │   │   └── upload.service.ts
+│   │   └── users/
+│   │       ├── user.dto.ts
+│   │       ├── user.repository.ts
+│   │       └── user.service.ts
+│   ├── prisma/
+│   │   ├── generated/
+│   │   │   ├── runtime/
+│   │   │   │   ├── client.d.ts
+│   │   │   │   ├── client.js
+│   │   │   │   ├── index-browser.d.ts
+│   │   │   │   ├── index-browser.js
+│   │   │   │   └── wasm-compiler-edge.js
+│   │   │   ├── client.d.ts
+│   │   │   ├── client.js
+│   │   │   ├── default.d.ts
+│   │   │   ├── default.js
+│   │   │   ├── edge.d.ts
+│   │   │   ├── edge.js
+│   │   │   ├── index-browser.js
+│   │   │   ├── index.d.ts
+│   │   │   ├── index.js
+│   │   │   ├── package.json
+│   │   │   ├── query_compiler_fast_bg.js
+│   │   │   ├── query_compiler_fast_bg.wasm
+│   │   │   ├── query_compiler_fast_bg.wasm-base64.js
+│   │   │   ├── schema.prisma
+│   │   │   ├── wasm-edge-light-loader.mjs
+│   │   │   └── wasm-worker-loader.mjs
+│   │   ├── migrations/
+│   │   │   ├── 20260315135554_mvp_schema/
+│   │   │   │   └── migration.sql
+│   │   │   ├── 20260514132652_add_high_scale_indexes/
+│   │   │   │   └── migration.sql
+│   │   │   └── migration_lock.toml
+│   │   ├── schema.prisma
+│   │   └── seed.ts
+│   ├── styles/
+│   │   └── globals.css
+│   └── middleware.ts
+├── .env
+├── .gitignore
+├── components.json
+├── eslint.config.mjs
+├── gen-structure.js
+├── next-env.d.ts
+├── next.config.ts
+├── package.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── postcss.config.mjs
+├── prisma.config.ts
+├── README.md
+├── tsconfig.json
+└── tsconfig.tsbuildinfo

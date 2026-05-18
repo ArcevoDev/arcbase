@@ -7,7 +7,7 @@ import { useRouter, usePathname } from "next/navigation";
 
 interface AuthContextType {
   user: SafeUserDTO | null;
-  loading: boolean;
+  isLoading: boolean;
   isAuthenticated: boolean;
   refreshUser: () => Promise<void>;
   logout: () => Promise<void>;
@@ -19,7 +19,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<SafeUserDTO | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch {
       setUser(null);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -54,7 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, isAuthenticated: !!user, refreshUser, logout }}
+      value={{ user, isLoading, isAuthenticated: !!user, refreshUser, logout }}
     >
       {children}
     </AuthContext.Provider>
