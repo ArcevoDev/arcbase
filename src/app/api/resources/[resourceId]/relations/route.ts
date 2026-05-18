@@ -1,65 +1,131 @@
-export const dynamic = "force-dynamic";
-
 import { NextRequest, NextResponse } from "next/server";
 import { handleApiRoute } from "@/lib/errors/handle-error";
+import { requireOnboarded } from "@/modules/auth/require-auth";
+import { ResourceService } from "@/modules/resources/resource.service";
+import { createRelationSchema } from "@/modules/resources/resource.dto";
 import { ApiError } from "@/lib/errors/api-error";
-import { requireAuth } from "@/modules/auth/require-auth";
-import { prisma } from "@/lib/prisma/prisma";
+import { RelationType } from "@/prisma-client";
 
-interface RouteContext {
-  params: Promise<{ resourceId: string }>;
+interface RouteParams {
+  params: {
+    resourceId: string;
+  };
 }
 
-export const GET = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
-  const { resourceId } = await context.params;
+// 1. Fetch all outgoing dependencies for this node network
+export const GET = handleApiRoute(
+  async (req: NextRequest, { params }: RouteParams) => {
+    await requireOnboarded(req);
+    const tenantId = null; // Ghost Tenant placeholder for MVP
+    const { resourceId } = params;
 
-  const resourceExists = await prisma.resource.count({ where: { id: resourceId, deletedAt: null } });
-  if (!resourceExists) throw ApiError.notFound("Resource matrix origin target not found");
+    const resourceService = new ResourceService();
+    const connections = await resourceService.getResourceNetwork(
+      resourceId,
+      tenantId,
+    );
 
-  const links = await prisma.resource.findUnique({
-    where: { id: resourceId },
-    select: {
-      outgoingRelations: {
-        include: { to: { select: { id: true, title: true, slug: true, type: true } } }
+    // Serialize edge structures cleanly for graph renderers
+    const graphEdges = connections.map((edge) => ({
+      id: edge.id,
+      type: edge.type,
+      fromId: edge.fromId,
+      toId: edge.toId,
+      metadata: edge.metadata,
+      createdAt: edge.createdAt.toISOString(),
+      targetNode: {
+        id: edge.to.id,
+        title: edge.to.title,
+        type: edge.to.type,
+        status: edge.to.status,
       },
-      incomingRelations: {
-        include: { from: { select: { id: true, title: true, slug: true, type: true } } }
-      }
+    }));
+
+    return NextResponse.json({
+      success: true,
+      count: graphEdges.length,
+      data: graphEdges,
+    });
+  },
+);
+
+// 2. Insert a brand new edge into the DAG with DFS cycle protection checks
+export const POST = handleApiRoute(
+  async (req: NextRequest, { params }: RouteParams) => {
+    const session = await requireOnboarded(req);
+    const tenantId = null; // Ghost Tenant placeholder for MVP
+    const { resourceId } = params;
+
+    const body = await req.json();
+    const parsed = createRelationSchema.safeParse(body);
+
+    if (!parsed.success) {
+      throw ApiError.badRequest(parsed.error.issues[0].message);
     }
-  });
 
-  return NextResponse.json(links, { status: 200 });
-});
+    const resourceService = new ResourceService();
+    const createdEdge = await resourceService.connectResources(
+      resourceId,
+      session.userId,
+      parsed.data,
+      tenantId,
+    );
 
-export const POST = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
-  const { resourceId } = await context.params;
-  const session = await requireAuth(req);
+    return NextResponse.json(
+      {
+        success: true,
+        message:
+          "Directed edge written successfully. Node topology cleared DAG cycle check.",
+        data: {
+          id: createdEdge.id,
+          type: createdEdge.type,
+          fromId: createdEdge.fromId,
+          toId: createdEdge.toId,
+          metadata: createdEdge.metadata,
+          createdAt: createdEdge.createdAt.toISOString(),
+        },
+      },
+      { status: 201 },
+    );
+  },
+);
 
-  const resource = await prisma.resource.findFirst({ where: { id: resourceId, deletedAt: null } });
-  if (!resource) throw ApiError.notFound("Origin resource not found");
-  if (resource.authorId !== session.userId) {
-    throw ApiError.forbidden("Only the resource author can modify relationship link networks");
-  }
+// 3. Drop an edge line from the graph matrix
+export const DELETE = handleApiRoute(
+  async (req: NextRequest, { params }: RouteParams) => {
+    const session = await requireOnboarded(req);
+    const tenantId = null; // Ghost Tenant placeholder for MVP
+    const { resourceId } = params;
 
-  let body = await req.json();
-  const { targetResourceId, type, metadata } = body;
+    const { searchParams } = new URL(req.url);
+    const toId = searchParams.get("toId");
+    const type = searchParams.get("type") as RelationType | null;
 
-  if (!targetResourceId || !type) {
-    throw ApiError.badRequest("Parameters 'targetResourceId' and 'type' are strictly required");
-  }
+    if (!toId || !type) {
+      throw ApiError.badRequest(
+        "Missing required query target elements: 'toId' and 'type' parameters are vital.",
+      );
+    }
 
-  if (resourceId === targetResourceId) {
-    throw ApiError.badRequest("Graph loop error; items cannot declare relationship models with themselves");
-  }
+    // Validate relationship enum boundary safely
+    if (!Object.values(RelationType).includes(type)) {
+      throw ApiError.badRequest(
+        `Invalid relation edge variant value: [${type}]`,
+      );
+    }
 
-  const targetExists = await prisma.resource.count({ where: { id: targetResourceId, deletedAt: null } });
-  if (!targetExists) throw ApiError.notFound("The destination target node mapping does not exist");
+    const resourceService = new ResourceService();
+    await resourceService.disconnectResources(
+      resourceId,
+      toId,
+      type,
+      session.userId,
+      tenantId,
+    );
 
-  const graphLink = await prisma.relation.upsert({
-    where: { fromId_toId_type: { fromId: resourceId, toId: targetResourceId, type } },
-    update: { metadata: metadata || undefined },
-    create: { fromId: resourceId, toId: targetResourceId, type, metadata: metadata || undefined }
-  });
-
-  return NextResponse.json({ message: "Network edge linked successfully", relation: graphLink }, { status: 201 });
-});
+    return NextResponse.json({
+      success: true,
+      message: "Edge disconnected from graph topology grid.",
+    });
+  },
+);

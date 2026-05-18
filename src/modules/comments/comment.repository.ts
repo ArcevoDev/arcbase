@@ -1,58 +1,71 @@
 import { prisma } from "@/lib/prisma/prisma";
+import { commentWithAuthor } from "@/lib/prisma/prisma-helpers";
+import { CommentStatus } from "@/prisma-client";
 
-export const CommentRepository = {
+export class CommentRepository {
   async findById(id: string) {
-    return prisma.comment.findUnique({
-      where: { id },
-      include: {
-        resource: { select: { authorId: true } },
-        author: { select: { id: true, username: true } },
-        _count: { select: { replies: true } }
-      },
+    return prisma.comment.findFirst({
+      where: { id, status: { not: CommentStatus.DELETED } },
+      include: commentWithAuthor,
     });
-  },
+  }
 
-  async findRepliesForParent(parentId: string) {
+  async findRootCommentsByResource(resourceId: string) {
     return prisma.comment.findMany({
-      where: { parentId, deletedAt: null },
-      orderBy: { createdAt: "asc" },
-      include: {
-        author: { select: { id: true, username: true } },
-        _count: { select: { replies: true } }
-      }
+      where: {
+        resourceId,
+        parentId: null, // Only fetch root nodes
+        status: { not: CommentStatus.DELETED },
+      },
+      include: commentWithAuthor,
+      orderBy: { createdAt: "desc" },
     });
-  },
+  }
+
+  async findRepliesByParent(parentId: string) {
+    return prisma.comment.findMany({
+      where: {
+        parentId,
+        status: { not: CommentStatus.DELETED },
+      },
+      include: commentWithAuthor,
+      orderBy: { createdAt: "asc" }, // Replies read chronologically forward
+    });
+  }
 
   async create(data: {
     content: string;
-    resourceId: string;
     authorId: string;
-    parentId: string | null;
+    resourceId: string;
+    parentId?: string | null;
   }) {
     return prisma.comment.create({
-      data,
-      include: {
-        author: { select: { id: true, username: true } },
-        _count: { select: { replies: true } }
+      data: {
+        content: data.content,
+        authorId: data.authorId,
+        resourceId: data.resourceId,
+        parentId: data.parentId ?? null,
+        status: CommentStatus.ACTIVE,
       },
+      include: commentWithAuthor,
     });
-  },
+  }
 
-  async updateContent(id: string, content: string) {
+  async update(id: string, data: { content?: string; status?: CommentStatus }) {
     return prisma.comment.update({
       where: { id },
-      data: { content },
-      include: {
-        author: { select: { id: true, username: true } },
-        _count: { select: { replies: true } }
-      },
+      data,
+      include: commentWithAuthor,
     });
-  },
+  }
 
   async softDelete(id: string) {
     return prisma.comment.update({
       where: { id },
-      data: { deletedAt: new Date() },
+      data: {
+        status: CommentStatus.DELETED,
+        deletedAt: new Date(),
+      },
     });
   }
-};
+}

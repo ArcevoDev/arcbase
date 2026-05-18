@@ -2,17 +2,20 @@
 
 import { useState, useEffect } from "react";
 
-export function useMobile(breakpoint = 768) {
+export function useMobile(breakpointWidth = 768): boolean {
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
-    const mql = window.matchMedia(`(max-w: ${breakpoint - 1}px)`);
-    const onChange = () => setIsMobile(mql.matches);
-    
-    setIsMobile(mql.matches);
-    mql.addEventListener("change", onChange);
-    return () => mql.removeEventListener("change", onChange);
-  }, [breakpoint]);
+    const checkViewportWidth = () => {
+      setIsMobile(window.innerWidth < breakpointWidth);
+    };
+
+    // Initial runtime evaluation run
+    checkViewportWidth();
+
+    window.addEventListener("resize", checkViewportWidth, { passive: true });
+    return () => window.removeEventListener("resize", checkViewportWidth);
+  }, [breakpointWidth]);
 
   return isMobile;
 }

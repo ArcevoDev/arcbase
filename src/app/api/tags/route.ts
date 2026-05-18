@@ -1,24 +1,43 @@
-export const dynamic = "force-dynamic";
-
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { handleApiRoute } from "@/lib/errors/handle-error";
-import { prisma } from "@/lib/prisma/prisma";
+import { requireOnboarded } from "@/modules/auth/require-auth";
+import { TagService } from "@/modules/tags/tag.service";
+import { createTagSchema, toSafeTagDTO } from "@/modules/tags/tag.dto";
+import { ApiError } from "@/lib/errors/api-error";
 
-// GET /api/tags -> Fetch popular taxonomy clouds complete with use statistics (Public)
-export const GET = handleApiRoute(async () => {
-  const tags = await prisma.tag.findMany({
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      _count: {
-        select: { resources: { where: { deletedAt: null, status: "PUBLISHED" } } }
-      }
-    },
-    orderBy: {
-      resources: { _count: "desc" } // Automatically bubbles trending/popular tags to the top of sidebars
-    }
+export const GET = handleApiRoute(async (req: NextRequest) => {
+  await requireOnboarded(req);
+  const tenantId = null; // Ghost Tenant placeholder for MVP
+
+  const tagService = new TagService();
+  const allTags = await tagService.getAllTags(tenantId);
+
+  return NextResponse.json({
+    success: true,
+    count: allTags.length,
+    data: allTags.map((t) => toSafeTagDTO(t)),
   });
+});
 
-  return NextResponse.json(tags, { status: 200 });
+export const POST = handleApiRoute(async (req: NextRequest) => {
+  await requireOnboarded(req);
+  const tenantId = null; // Ghost Tenant placeholder for MVP
+
+  const body = await req.json();
+  const parsed = createTagSchema.safeParse(body);
+  if (!parsed.success) {
+    throw ApiError.badRequest(parsed.error.issues[0].message);
+  }
+
+  const tagService = new TagService();
+  const tag = await tagService.createTag(parsed.data, tenantId);
+
+  return NextResponse.json(
+    {
+      success: true,
+      message: "New taxonomy term indexed successfully into database.",
+      data: toSafeTagDTO(tag),
+    },
+    { status: 201 },
+  );
 });

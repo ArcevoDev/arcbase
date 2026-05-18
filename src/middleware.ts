@@ -1,58 +1,64 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyToken } from "@/modules/auth/jwt";
-import { getTokenFromCookies } from "@/modules/auth/auth-cookie";
+import { jwtVerify } from "jose";
 
-const protectedRoutes = ["/dashboard", "/resources", "/collections", "/profile"];
-const authRoutes = ["/login", "/register"];
+const JWT_SECRET = process.env.JWT_SECRET;
+const COOKIE_NAME = "token";
+
+// Define targeted routing route classes
+const AUTH_ROUTES = ["/login", "/register"];
+const PROTECTED_ROUTE_PREFIXES = [
+  "/dashboard",
+  "/resources",
+  "/collections",
+  "/profile",
+  "/onboarding",
+];
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const token = getTokenFromCookies(req);
+  const token = req.cookies.get(COOKIE_NAME)?.value;
 
-  const isProtected = protectedRoutes.some(route => pathname.startsWith(route));
-  const isAuthPage = authRoutes.some(route => pathname.startsWith(route));
-  const isOnboardingPage = pathname.startsWith("/onboarding");
-
-  if (isProtected || isOnboardingPage) {
-    if (!token) {
-      const loginUrl = new URL("/login", req.url);
-      loginUrl.searchParams.set("callbackUrl", pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-
-    const payload = await verifyToken(token);
-    if (!payload) {
+  // 1. Verify token authenticity
+  let isAuthenticated = false;
+  if (token && JWT_SECRET) {
+    try {
+      const secretBytes = new TextEncoder().encode(JWT_SECRET);
+      await jwtVerify(token, secretBytes);
+      isAuthenticated = true;
+    } catch {
+      // Clean up corrupt, tampered, or expired tokens immediately
       const response = NextResponse.redirect(new URL("/login", req.url));
-      response.cookies.delete("token"); // Clean up corrupt or expired tokens
+      response.cookies.delete(COOKIE_NAME);
       return response;
-    }
-
-    // Read onboarding status directly from the encrypted token payload
-    const hasOnboarded = !!payload.hasCompletedOnboarding;
-
-    // Force users to complete onboarding before accessing protected routes
-    if (isProtected && !hasOnboarded) {
-      return NextResponse.redirect(new URL("/onboarding", req.url));
-    }
-
-    // Route fully onboarded users away from the setup wizard and into the dashboard
-    if (isOnboardingPage && hasOnboarded) {
-      return NextResponse.redirect(new URL("/dashboard", req.url));
     }
   }
 
-  if (token && isAuthPage) {
-    const payload = await verifyToken(token);
-    if (payload) {
-      const hasOnboarded = !!payload.hasCompletedOnboarding;
-      return NextResponse.redirect(new URL(hasOnboarded ? "/dashboard" : "/onboarding", req.url));
-    }
+  // 2. Route Protection: Redirect unauthenticated users trying to hit secure spaces
+  const isProtectedRoute = PROTECTED_ROUTE_PREFIXES.some((prefix) =>
+    pathname.startsWith(prefix),
+  );
+  if (isProtectedRoute && !isAuthenticated) {
+    const loginUrl = new URL("/login", req.url);
+    // Track the intended destination for seamless post-login redirection
+    loginUrl.searchParams.set("callbackUrl", pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // 3. Guest Routes Protection: Route logged-in users away from auth views (login/register)
+  const isAuthRoute = AUTH_ROUTES.some((route) => pathname === route);
+  if (isAuthRoute && isAuthenticated) {
+    // We send them directly to a layout-aware router route like /dashboard.
+    // The dashboard layout will check the DB and route them to /onboarding if incomplete.
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
   return NextResponse.next();
 }
 
+/**
+ * Optimized path processing matcher engine.
+ * Completely ignores static system assets, images, and API tracks.
+ */
 export const config = {
-  // Use your original optimized path processing matcher strategy
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

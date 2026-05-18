@@ -4,7 +4,7 @@
   "private": true,
   "prisma": {
     "schema": "src/prisma/schema.prisma",
-    "seed": "pnpm ts-node --compiler-options {\"module\":\"CommonJS\"} src/prisma/seed.ts"
+    "seed": "pnpm ts-node -r dotenv/config -r tsconfig-paths/register --compiler-options \"{\\\"module\\\":\\\"NodeNext\\\",\\\"target\\\":\\\"es2022\\\"}\" src/prisma/seed.ts"
   },
   "scripts": {
     "dev": "next dev --turbopack",
@@ -41,6 +41,7 @@
     "react-dom": "^19.0.0",
     "react-resizable-panels": "^4.11.1",
     "sonner": "^2.0.7",
+    "swagger-ui-react": "^5.32.6",
     "tailwind-merge": "^3.3.0",
     "vaul": "^1.1.2",
     "zod": "^4.4.3"
@@ -52,6 +53,7 @@
     "@types/pg": "^8.18.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/swagger-ui-react": "^5.18.0",
     "dotenv": "^17.3.1",
     "eslint": "^9",
     "eslint-config-next": "15.4.8",

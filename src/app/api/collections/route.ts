@@ -1,55 +1,52 @@
-export const dynamic = "force-dynamic";
-
 import { NextRequest, NextResponse } from "next/server";
 import { handleApiRoute } from "@/lib/errors/handle-error";
-import { ApiError } from "@/lib/errors/api-error";
-import { requireAuth } from "@/modules/auth/require-auth";
+import { requireOnboarded } from "@/modules/auth/require-auth";
 import { CollectionService } from "@/modules/collections/collection.service";
-import { createCollectionSchema } from "@/modules/collections/collection.dto";
-import { prisma } from "@/lib/prisma/prisma";
-import { collectionWithResources } from "@/lib/prisma/prisma-helpers";
+import {
+  createCollectionSchema,
+  toSafeCollectionDTO,
+} from "@/modules/collections/collection.dto";
+import { ApiError } from "@/lib/errors/api-error";
 
-export const GET = handleApiRoute(async () => {
-  const publicCollections = await prisma.collection.findMany({
-    where: {
-      visibility: "PUBLIC",
-      deletedAt: null,
-      archivedAt: null,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: collectionWithResources,
+export const GET = handleApiRoute(async (req: NextRequest) => {
+  const session = await requireOnboarded(req);
+  const tenantId = null;
+
+  const collectionService = new CollectionService();
+  const collections = await collectionService.getUserCollections(
+    session.userId,
+    tenantId,
+  );
+
+  return NextResponse.json({
+    success: true,
+    count: collections.length,
+    data: collections.map((c) => toSafeCollectionDTO(c)),
   });
-
-  return NextResponse.json(publicCollections, { status: 200 });
 });
 
 export const POST = handleApiRoute(async (req: NextRequest) => {
-  const session = await requireAuth(req);
+  const session = await requireOnboarded(req);
+  const tenantId = null;
 
-  let rawBody;
-  try {
-    rawBody = await req.json();
-  } catch {
-    throw ApiError.badRequest("Malformed JSON collection payload configuration");
+  const body = await req.json();
+  const parsed = createCollectionSchema.safeParse(body);
+  if (!parsed.success) {
+    throw ApiError.badRequest(parsed.error.issues[0].message);
   }
 
-  const validationResult = createCollectionSchema.safeParse(rawBody);
-  if (!validationResult.success) {
-    return NextResponse.json(
-      {
-        error: "Validation failed",
-        details: validationResult.error.flatten().fieldErrors,
-      },
-      { status: 400 }
-    );
-  }
-
-  const newCollection = await CollectionService.createCollection(
+  const collectionService = new CollectionService();
+  const created = await collectionService.createCollection(
     session.userId,
-    validationResult.data
+    parsed.data,
+    tenantId,
   );
 
-  return NextResponse.json(newCollection, { status: 201 });
+  return NextResponse.json(
+    {
+      success: true,
+      data: toSafeCollectionDTO(created),
+    },
+    { status: 201 },
+  );
 });

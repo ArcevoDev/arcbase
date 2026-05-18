@@ -122,6 +122,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
+  tenantId: 'tenantId',
   identityId: 'identityId',
   username: 'username',
   email: 'email',
@@ -139,12 +140,14 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.ResourceScalarFieldEnum = {
   id: 'id',
+  tenantId: 'tenantId',
   slug: 'slug',
   title: 'title',
   description: 'description',
   excerpt: 'excerpt',
+  publishedContentJson: 'publishedContentJson',
+  draftContentJson: 'draftContentJson',
   content: 'content',
-  contentJson: 'contentJson',
   type: 'type',
   status: 'status',
   visibility: 'visibility',
@@ -154,6 +157,7 @@ exports.Prisma.ResourceScalarFieldEnum = {
   coverImageUrl: 'coverImageUrl',
   fileUrl: 'fileUrl',
   metadata: 'metadata',
+  aiMetadata: 'aiMetadata',
   wordCount: 'wordCount',
   estimatedTime: 'estimatedTime',
   createdAt: 'createdAt',
@@ -163,6 +167,15 @@ exports.Prisma.ResourceScalarFieldEnum = {
   deletedAt: 'deletedAt',
   authorId: 'authorId',
   parentId: 'parentId'
+};
+
+exports.Prisma.RelationScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  fromId: 'fromId',
+  toId: 'toId',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.ResourceVersionScalarFieldEnum = {
@@ -177,17 +190,9 @@ exports.Prisma.ResourceVersionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.RelationScalarFieldEnum = {
-  id: 'id',
-  type: 'type',
-  fromId: 'fromId',
-  toId: 'toId',
-  metadata: 'metadata',
-  createdAt: 'createdAt'
-};
-
 exports.Prisma.CollectionScalarFieldEnum = {
   id: 'id',
+  tenantId: 'tenantId',
   slug: 'slug',
   title: 'title',
   description: 'description',
@@ -195,7 +200,6 @@ exports.Prisma.CollectionScalarFieldEnum = {
   metadata: 'metadata',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  archivedAt: 'archivedAt',
   deletedAt: 'deletedAt',
   authorId: 'authorId'
 };
@@ -210,6 +214,7 @@ exports.Prisma.CollectionResourceScalarFieldEnum = {
 
 exports.Prisma.TagScalarFieldEnum = {
   id: 'id',
+  tenantId: 'tenantId',
   name: 'name',
   slug: 'slug',
   createdAt: 'createdAt'
@@ -333,8 +338,8 @@ exports.UsageEvent = exports.$Enums.UsageEvent = {
 exports.Prisma.ModelName = {
   User: 'User',
   Resource: 'Resource',
-  ResourceVersion: 'ResourceVersion',
   Relation: 'Relation',
+  ResourceVersion: 'ResourceVersion',
   Collection: 'Collection',
   CollectionResource: 'CollectionResource',
   Tag: 'Tag',

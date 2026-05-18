@@ -1,69 +1,55 @@
-export const dynamic = "force-dynamic";
-
 import { NextRequest, NextResponse } from "next/server";
 import { handleApiRoute } from "@/lib/errors/handle-error";
-import { ApiError } from "@/lib/errors/api-error";
-import { requireAuth } from "@/modules/auth/require-auth";
+import { requireOnboarded } from "@/modules/auth/require-auth";
 import { CommentService } from "@/modules/comments/comment.service";
-import { createCommentSchema, updateCommentSchema, toSafeCommentDTO } from "@/modules/comments/comment.dto";
+import {
+  updateCommentSchema,
+  toSafeCommentDTO,
+} from "@/modules/comments/comment.dto";
+import { ApiError } from "@/lib/errors/api-error";
 
-interface RouteContext {
-  params: Promise<{ commentId: string }>;
+interface RouteParams {
+  params: { commentId: string };
 }
 
-// POST /api/comments/[commentId] -> Reply directly to this comment thread
-export const POST = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
-  const { commentId } = await context.params;
-  const session = await requireAuth(req);
+// PATCH: Partially alter comment textual data bodies
+export const PATCH = handleApiRoute(
+  async (req: NextRequest, { params }: RouteParams) => {
+    const session = await requireOnboarded(req);
+    const { commentId } = params;
 
-  let rawBody;
-  try {
-    rawBody = await req.json();
-  } catch {
-    throw ApiError.badRequest("Invalid JSON structure");
-  }
+    const body = await req.json();
+    const parsed = updateCommentSchema.safeParse(body);
+    if (!parsed.success) {
+      throw ApiError.badRequest(parsed.error.issues[0].message);
+    }
 
-  const result = createCommentSchema.safeParse(rawBody);
-  if (!result.success) {
-    return NextResponse.json(
-      { error: "Validation failed", details: result.error.flatten().fieldErrors },
-      { status: 400 }
+    const commentService = new CommentService();
+    const updatedComment = await commentService.updateComment(
+      commentId,
+      session.userId,
+      parsed.data,
     );
-  }
 
-  const reply = await CommentService.createThreadedReply(session.userId, commentId, result.data);
-  return NextResponse.json(toSafeCommentDTO(reply), { status: 201 });
-});
+    return NextResponse.json({
+      success: true,
+      data: toSafeCommentDTO(updatedComment),
+    });
+  },
+);
 
-// PUT /api/comments/[commentId] -> Edit an existing comment text
-export const PUT = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
-  const { commentId } = await context.params;
-  const session = await requireAuth(req);
+// DELETE: Transition comment flag state structures to DELETED safely
+export const DELETE = handleApiRoute(
+  async (req: NextRequest, { params }: RouteParams) => {
+    const session = await requireOnboarded(req);
+    const { commentId } = params;
 
-  let rawBody;
-  try {
-    rawBody = await req.json();
-  } catch {
-    throw ApiError.badRequest("Invalid JSON structure");
-  }
+    const commentService = new CommentService();
+    await commentService.deleteComment(commentId, session.userId);
 
-  const result = updateCommentSchema.safeParse(rawBody);
-  if (!result.success) {
-    return NextResponse.json(
-      { error: "Validation failed", details: result.error.flatten().fieldErrors },
-      { status: 400 }
-    );
-  }
-
-  const updated = await CommentService.editComment(session.userId, commentId, result.data);
-  return NextResponse.json(toSafeCommentDTO(updated), { status: 200 });
-});
-
-// DELETE /api/comments/[commentId] -> Soft delete a comment safely
-export const DELETE = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
-  const { commentId } = await context.params;
-  const session = await requireAuth(req);
-
-  await CommentService.removeComment(session.userId, commentId);
-  return NextResponse.json({ message: "Comment successfully removed from thread" }, { status: 200 });
-});
+    return NextResponse.json({
+      success: true,
+      message: "Comment successfully removed from active thread visibility.",
+    });
+  },
+);

@@ -1,49 +1,93 @@
-export const dynamic = "force-dynamic";
-
 import { NextRequest, NextResponse } from "next/server";
 import { handleApiRoute } from "@/lib/errors/handle-error";
-import { ApiError } from "@/lib/errors/api-error";
 import { getSession } from "@/modules/auth/get-session";
 import { prisma } from "@/lib/prisma/prisma";
+import { ApiError } from "@/lib/errors/api-error";
+import { UsageEvent } from "@/prisma-client";
+import { z } from "zod";
 
-interface RouteContext {
-  params: Promise<{ resourceId: string }>;
+interface RouteParams {
+  params: {
+    resourceId: string;
+  };
 }
 
-export const POST = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
-  const { resourceId } = await context.params;
-  const session = await getSession(req);
+const trackUsageSchema = z
+  .object({
+    event: z.enum(Object.values(UsageEvent) as [string, ...string[]]),
+    sessionId: z.string().optional().nullable(),
+    metadata: z.record(z.string(), z.any()).optional().nullable(),
+  })
+  .strict();
 
-  let body = await req.json();
-  const { event, sessionId, metadata } = body;
+export const POST = handleApiRoute(
+  async (req: NextRequest, { params }: RouteParams) => {
+    const session = await getSession(req); // Optional auth: tracking views from unauthenticated visitors is allowed
+    const { resourceId } = params;
 
-  if (!event) throw ApiError.badRequest("Parameter 'event' is strictly required");
-
-  const validEvents = ["VIEW", "OPEN", "DOWNLOAD", "SHARE", "LIKE", "BOOKMARK"];
-  if (!validEvents.includes(event)) throw ApiError.badRequest(`Invalid telemetry variant signature: ${event}`);
-
-  const resourceExists = await prisma.resource.count({ where: { id: resourceId, deletedAt: null } });
-  if (!resourceExists) throw ApiError.notFound("Resource database node absent");
-
-  const metricFieldMap: Record<string, string> = {
-    VIEW: "views", OPEN: "opens", DOWNLOAD: "downloads", SHARE: "shares", LIKE: "likes", BOOKMARK: "bookmarks"
-  };
-  const targetCounterField = metricFieldMap[event];
-
-  // Atomic database logs run isolated from critical metrics modifications to avoid table-lock latency stalls
-  await prisma.resourceUsage.create({
-    data: { resourceId, userId: session?.userId || null, event, sessionId: sessionId || null, metadata: metadata || undefined }
-  });
-
-  const stats = await prisma.resourceMetrics.upsert({
-    where: { resourceId },
-    update: { [targetCounterField]: { increment: 1 } },
-    create: {
-      resourceId,
-      views: event === "VIEW" ? 1 : 0, opens: event === "OPEN" ? 1 : 0, downloads: event === "DOWNLOAD" ? 1 : 0,
-      shares: event === "SHARE" ? 1 : 0, likes: event === "LIKE" ? 1 : 0, bookmarks: event === "BOOKMARK" ? 1 : 0
+    const body = await req.json();
+    const parsed = trackUsageSchema.safeParse(body);
+    if (!parsed.success) {
+      throw ApiError.badRequest(parsed.error.issues[0].message);
     }
-  });
 
-  return NextResponse.json({ message: "Telemetry tracked", views: stats.views, likes: stats.likes }, { status: 201 });
-});
+    const { event, sessionId, metadata } = parsed.data;
+
+    // Verify target node exists before allocating analytical storage rows
+    const resourceExists = await prisma.resource.findFirst({
+      where: { id: resourceId, deletedAt: null },
+      select: { id: true },
+    });
+
+    if (!resourceExists) {
+      throw ApiError.notFound("Target resource asset not found");
+    }
+
+    // Map incoming events safely to their corresponding column target fields on the Metrics Cache Layer
+    const eventToMetricColumnMap: Record<UsageEvent, string | null> = {
+      [UsageEvent.VIEW]: "views",
+      [UsageEvent.OPEN]: "opens",
+      [UsageEvent.DOWNLOAD]: "downloads",
+      [UsageEvent.SHARE]: "shares",
+      [UsageEvent.LIKE]: "likes",
+      [UsageEvent.BOOKMARK]: "bookmarks",
+    };
+
+    const targetColumn = eventToMetricColumnMap[event as UsageEvent];
+
+    // ACID-safe atomic multi-table write transaction
+    await prisma.$transaction(async (tx) => {
+      // 1. Append raw data row to the long-form log ledger
+      await tx.resourceUsage.create({
+        data: {
+          resourceId,
+          userId: session?.userId || null,
+          event: event as UsageEvent,
+          sessionId: sessionId || null,
+          metadata: metadata || undefined,
+        },
+      });
+
+      // 2. Increment flat metric counters instantly if mapped
+      if (targetColumn) {
+        await tx.resourceMetrics.update({
+          where: { resourceId },
+          data: {
+            [targetColumn]: { increment: 1 },
+            // Simple algorithmic formula weighting engagement scores dynamically
+            engagementScore: { increment: event === "VIEW" ? 1 : 5 },
+          },
+        });
+      }
+    });
+
+    return NextResponse.json(
+      {
+        success: true,
+        message:
+          "Telemetry packet committed to analytical event ledger stream.",
+      },
+      { status: 201 },
+    );
+  },
+);

@@ -1,19 +1,33 @@
 import * as dotenv from "dotenv";
 import path from "path";
-
-// Hydrate environment variables before anything else loads
-dotenv.config({ path: path.resolve(process.cwd(), ".env") });
-
-import { prisma } from "../lib/prisma/prisma";
-import { ResourceType, ResourceStatus, Visibility, RelationType, CommentStatus, UsageEvent } from "../../node_modules/.prisma/client";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import { prisma } from "../lib/prisma/prisma";
+import {
+  CommentStatus,
+  RelationType,
+  ResourceStatus,
+  ResourceType,
+  UsageEvent,
+  Visibility,
+} from "./generated";
 
-async function main() {
-  console.log("🌱 Starting master database seeding routine...");
+dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
-  // 1. Wipe data sequentially to respect foreign key constraint cascades
+// 1. Declare the variable container at the top level
+let passwordHash: string;
+
+function slugify(value: string) {
+  return `${value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-_]/g, "")
+    .replace(/[\s_]+/g, "-")}-${crypto.randomUUID().slice(0, 8)}`;
+}
+
+async function resetDatabase() {
   await prisma.resourceUsage.deleteMany();
+  await prisma.savedResource.deleteMany();
   await prisma.comment.deleteMany();
   await prisma.relation.deleteMany();
   await prisma.collectionResource.deleteMany();
@@ -21,212 +35,419 @@ async function main() {
   await prisma.resourceMetrics.deleteMany();
   await prisma.resourceVersion.deleteMany();
   await prisma.resource.deleteMany();
-  await prisma.user.deleteMany();
   await prisma.tag.deleteMany();
+  await prisma.user.deleteMany();
+}
 
-  // 2. Seed Mock Users (Simulating diverse onboarding outputs)
-  const passwordHash = await bcrypt.hash("Password123!", 10);
+async function main() {
+  console.log("🌱 Seeding ArcBase with coherent domain data...");
+  
+  // 2. Safely resolve the async promise hash inside your async main function
+  passwordHash = await bcrypt.hash("Password123!", 10);
 
-  const admin = await prisma.user.create({
-    data: {
-      username: "arcbase_admin",
-      email: "admin@arcbase.dev",
-      passwordHash,
-      displayName: "Master Admin Node",
-      bio: "Core system validator testing system capabilities.",
-      onboardingStep: 4,
-      onboardingJson: { occupation: "DEVELOPER", intent: "STRUCTURE_RESOURCES", topics: ["Software Architecture"] }
-    },
+  await resetDatabase();
+
+  const users = await prisma.user.createManyAndReturn({
+    data: [
+      {
+        username: "arcbase_admin",
+        email: "admin@arcbase.dev",
+        passwordHash,
+        displayName: "ArcBase Admin",
+        bio: "System operator and content steward.",
+        onboardingStep: 4,
+        onboardingJson: {
+          role: "ADMIN",
+          interests: ["architecture", "platform"],
+          focus: "knowledge graph operations",
+        },
+      },
+      {
+        username: "maria_writer",
+        email: "maria@arcbase.dev",
+        passwordHash,
+        displayName: "Maria Writer",
+        bio: "Creates technical explainers and learning paths.",
+        onboardingStep: 4,
+        onboardingJson: {
+          role: "CREATOR",
+          interests: ["nextjs", "prisma", "documentation"],
+          focus: "resource publishing",
+        },
+      },
+      {
+        username: "daniel_learner",
+        email: "daniel@arcbase.dev",
+        passwordHash,
+        displayName: "Daniel Learner",
+        bio: "Explores structured knowledge collections.",
+        onboardingStep: 3,
+        onboardingJson: {
+          role: "LEARNER",
+          interests: ["search", "collections", "tags"],
+          focus: "resource discovery",
+        },
+      },
+    ],
   });
 
-  const educatorUser = await prisma.user.create({
-    data: {
-      username: "edu_creator",
-      email: "educator@arcbase.dev",
-      passwordHash,
-      displayName: "Professor Tech",
-      bio: "Structuring learning curricula and student documentation paths.",
-      onboardingStep: 4,
-      onboardingJson: { occupation: "EDUCATOR", intent: "CONDUCT_RESEARCH", topics: ["Database Design"] }
-    },
+  const [admin, creator, learner] = users;
+
+  const tags = await prisma.tag.createManyAndReturn({
+    data: [
+      { name: "Architecture", slug: "architecture", tenantId: null },
+      { name: "Next.js", slug: "nextjs", tenantId: null },
+      { name: "Prisma", slug: "prisma", tenantId: null },
+      { name: "Knowledge Graph", slug: "knowledge-graph", tenantId: null },
+      { name: "Collections", slug: "collections", tenantId: null },
+    ],
   });
 
-  const incompleteUser = await prisma.user.create({
+  const [architectureTag, nextTag, prismaTag, graphTag, collectionsTag] = tags;
+
+  const handbook = await prisma.resource.create({
     data: {
-      username: "survey_dropper",
-      email: "dropper@arcbase.dev",
-      passwordHash,
-      displayName: "Staged Explorer",
-      onboardingStep: 2, // Simulates a user dropping off on screen 2 of your onboarding wizard
-      onboardingJson: { occupation: "DESIGNER" }
-    },
-  });
-
-  console.log("👤 Users with structural onboarding survey parameters seeded.");
-
-  // 3. Seed Interactive Tags Cloud
-  const tagArch = await prisma.tag.create({ data: { name: "architecture", slug: "architecture" } });
-  const tagNext = await prisma.tag.create({ data: { name: "nextjs", slug: "nextjs" } });
-  const tagPrisma = await prisma.tag.create({ data: { name: "prisma", slug: "prisma" } });
-
-  console.log("🏷️ Taxonomy clouds initialized.");
-
-  // 4. Seed Hierarchical Parent Resource (The Document Folder)
-  const parentFolder = await prisma.resource.create({
-    data: {
-      title: "Enterprise Architecture Guidebook",
-      slug: `enterprise-architecture-guide-${crypto.randomBytes(3).toString("hex")}`,
-      description: "Root directory housing multi-page nextjs developer documentation assets.",
+      title: "ArcBase Platform Handbook",
+      slug: slugify("arcbase platform handbook"),
+      description: "Public system handbook for the ArcBase knowledge platform.",
+      excerpt: "A practical overview of resources, collections, search, and publishing.",
+      content: "ArcBase is a structured knowledge workspace for resources, collections, comments, and telemetry.",
       type: ResourceType.MODULE,
       status: ResourceStatus.PUBLISHED,
       visibility: Visibility.PUBLIC,
-      category: "Engineering",
+      category: "Platform",
       language: "en",
       authorId: admin.id,
-      tags: { connect: [{ id: tagArch.id }, { id: tagNext.id }] },
+      metadata: { audience: "internal", version: "1.0.0" },
+      publishedContentJson: { kind: "article", title: "ArcBase Platform Handbook" },
+      draftContentJson: { kind: "article", title: "ArcBase Platform Handbook" },
+      tags: {
+        connect: [{ id: architectureTag.id }, { id: graphTag.id }],
+      },
       metrics: {
-        create: { views: 240, opens: 110, downloads: 30, shares: 14, likes: 45, bookmarks: 22, engagementScore: 820.0 }
-      }
-    }
+        create: {
+          views: 320,
+          opens: 140,
+          downloads: 60,
+          shares: 18,
+          likes: 74,
+          bookmarks: 51,
+          engagementScore: 980,
+        },
+      },
+    },
   });
 
-  // 5. Seed Child Resources (Simulating a multi-step document wizard creation)
-  const childPage1 = await prisma.resource.create({
+  const resourceGuide = await prisma.resource.create({
     data: {
-      title: "01. Designing with Time-Ordered Keys",
-      slug: `01-designing-time-ordered-keys-${crypto.randomBytes(3).toString("hex")}`,
-      description: "Deep dive into layout indexing performance using database strings.",
-      excerpt: "Why UUIDv7 and CUID2 prevent performance degradation on scale.",
-      content: "# Core Architecture Guidelines \n Use monotonically increasing strings.",
-      contentJson: { type: "doc", content: [{ type: "paragraph", text: "Rich content rich editor state text blobs." }] },
+      title: "Building Resource Lifecycles",
+      slug: slugify("building resource lifecycles"),
+      description: "Draft-to-publish workflow for knowledge resources.",
+      excerpt: "Covers draft creation, publication, archiving, relations, and usage tracking.",
+      content: "Resources move through DRAFT, PUBLISHED, and ARCHIVED states.",
       type: ResourceType.ARTICLE,
       status: ResourceStatus.PUBLISHED,
       visibility: Visibility.PUBLIC,
-      category: "Database Design",
-      wordCount: 420,
-      estimatedTime: 3,
-      parentId: parentFolder.id, // Nested tree link
-      authorId: admin.id,
-      tags: { connect: [{ id: tagArch.id }, { id: tagPrisma.id }] },
+      category: "Resources",
+      language: "en",
+      authorId: creator.id,
+      parentId: handbook.id,
+      metadata: { readingTime: 6 },
+      draftContentJson: {
+        blocks: [
+          { type: "heading", text: "Resource lifecycle" },
+          { type: "paragraph", text: "Drafts are promoted into published documents." },
+        ],
+      },
+      publishedContentJson: {
+        blocks: [
+          { type: "heading", text: "Resource lifecycle" },
+          { type: "paragraph", text: "Drafts are promoted into published documents." },
+        ],
+      },
+      tags: {
+        connect: [{ id: nextTag.id }, { id: prismaTag.id }],
+      },
       metrics: {
-        create: { views: 180, opens: 90, downloads: 15, shares: 8, likes: 32, bookmarks: 14, engagementScore: 560.0 }
-      }
-    }
+        create: {
+          views: 210,
+          opens: 88,
+          downloads: 34,
+          shares: 9,
+          likes: 42,
+          bookmarks: 26,
+          engagementScore: 640,
+        },
+      },
+    },
   });
 
-  const childPage2 = await prisma.resource.create({
+  const graphGuide = await prisma.resource.create({
     data: {
-      title: "02. Graph Node Traversal Internals",
-      slug: `02-graph-node-traversal-${crypto.randomBytes(3).toString("hex")}`,
-      description: "How to fetch cross-referenced horizontal relations in parallel threads.",
+      title: "Knowledge Graph Relations",
+      slug: slugify("knowledge graph relations"),
+      description: "Explains explicit DAG edges and hierarchy in ArcBase.",
+      excerpt: "Resources can reference, depend on, or sequence one another.",
+      content: "Relations connect resources through typed edges like REFERENCES and PREREQUISITE.",
       type: ResourceType.ARTICLE,
       status: ResourceStatus.PUBLISHED,
       visibility: Visibility.PUBLIC,
-      category: "Backend Design",
-      parentId: parentFolder.id,
-      authorId: admin.id,
+      category: "Graph",
+      language: "en",
+      authorId: creator.id,
+      parentId: handbook.id,
+      metadata: { graphLayer: true },
+      draftContentJson: {
+        blocks: [{ type: "paragraph", text: "Relations form the knowledge graph." }],
+      },
+      publishedContentJson: {
+        blocks: [{ type: "paragraph", text: "Relations form the knowledge graph." }],
+      },
+      tags: {
+        connect: [{ id: graphTag.id }, { id: architectureTag.id }],
+      },
       metrics: {
-        create: { views: 110, opens: 45, downloads: 5, shares: 2, likes: 19, bookmarks: 7, engagementScore: 285.0 }
-      }
-    }
+        create: {
+          views: 180,
+          opens: 72,
+          downloads: 18,
+          shares: 11,
+          likes: 37,
+          bookmarks: 19,
+          engagementScore: 512,
+        },
+      },
+    },
   });
 
-  console.log("📁 Vertical folder and child page creation wizards seeded.");
+  const privateDraft = await prisma.resource.create({
+    data: {
+      title: "Internal Search Tuning Notes",
+      slug: slugify("internal search tuning notes"),
+      description: "Private work-in-progress note for search ranking experiments.",
+      excerpt: "Used to test draft editing and private visibility paths.",
+      content: "Search filters combine query, type, tag, pagination, and tenant scope.",
+      type: ResourceType.NOTE,
+      status: ResourceStatus.DRAFT,
+      visibility: Visibility.PRIVATE,
+      category: "Search",
+      language: "en",
+      authorId: creator.id,
+      metadata: { internal: true },
+      draftContentJson: {
+        blocks: [{ type: "paragraph", text: "Private draft note." }],
+      },
+      tags: {
+        connect: [{ id: collectionsTag.id }],
+      },
+      metrics: {
+        create: {
+          views: 14,
+          opens: 6,
+          downloads: 0,
+          shares: 0,
+          likes: 1,
+          bookmarks: 2,
+          engagementScore: 22,
+        },
+      },
+    },
+  });
 
-  // 6. Seed Immutable Version History snapshot audit logs
+  const unlistedModule = await prisma.resource.create({
+    data: {
+      title: "Onboarding Step Reference",
+      slug: slugify("onboarding step reference"),
+      description: "Unlisted reference page for onboarding state transitions.",
+      excerpt: "Useful for validating onboarding updates and session gating.",
+      content: "The onboarding flow stores step number and arbitrary step data.",
+      type: ResourceType.MODULE,
+      status: ResourceStatus.PUBLISHED,
+      visibility: Visibility.UNLISTED,
+      category: "Auth",
+      language: "en",
+      authorId: admin.id,
+      metadata: { onboarding: true },
+      draftContentJson: {
+        blocks: [{ type: "paragraph", text: "Onboarding reference." }],
+      },
+      publishedContentJson: {
+        blocks: [{ type: "paragraph", text: "Onboarding reference." }],
+      },
+      tags: {
+        connect: [{ id: architectureTag.id }],
+      },
+      metrics: {
+        create: {
+          views: 96,
+          opens: 40,
+          downloads: 7,
+          shares: 3,
+          likes: 18,
+          bookmarks: 9,
+          engagementScore: 228,
+        },
+      },
+    },
+  });
+
+  await prisma.relation.createMany({
+    data: [
+      {
+        fromId: resourceGuide.id,
+        toId: graphGuide.id,
+        type: RelationType.REFERENCES,
+        metadata: { label: "See graph relations" },
+      },
+      {
+        fromId: graphGuide.id,
+        toId: resourceGuide.id,
+        type: RelationType.PREREQUISITE,
+        metadata: { label: "Read resource lifecycle first" },
+      },
+      {
+        fromId: handbook.id,
+        toId: unlistedModule.id,
+        type: RelationType.RELATED,
+        metadata: { label: "Internal reference" },
+      },
+    ],
+  });
+
   await prisma.resourceVersion.createMany({
     data: [
       {
-        resourceId: childPage1.id,
-        authorId: admin.id,
+        resourceId: resourceGuide.id,
+        authorId: creator.id,
         versionNumber: 1,
-        title: "01. Baseline UUID Mappings",
-        content: "Draft baseline text content configurations.",
-        changeSummary: "Initial baseline creation commit."
+        title: resourceGuide.title!,
+        content: resourceGuide.content,
+        contentJson: resourceGuide.draftContentJson ?? undefined,
+        changeSummary: "Initial draft committed.",
       },
       {
-        resourceId: childPage1.id,
-        authorId: admin.id,
+        resourceId: resourceGuide.id,
+        authorId: creator.id,
         versionNumber: 2,
-        title: "01. Designing with Time-Ordered Keys",
-        content: "# Core Architecture Guidelines \n Use傲 monotonically increasing strings.",
-        changeSummary: "Upgraded definitions to track UUIDv7 structural indexes."
-      }
-    ]
+        title: resourceGuide.title!,
+        content: resourceGuide.content,
+        contentJson: {
+          blocks: [{ type: "paragraph", text: "Expanded lifecycle and publishing notes." }],
+        },
+        changeSummary: "Clarified publish and archive flow.",
+      },
+      {
+        resourceId: graphGuide.id,
+        authorId: creator.id,
+        versionNumber: 1,
+        title: graphGuide.title!,
+        content: graphGuide.content,
+        contentJson: graphGuide.draftContentJson ?? undefined,
+        changeSummary: "Initial graph architecture notes.",
+      },
+    ],
   });
 
-  console.log("📜 Git-style version timeline records committed.");
-
-  // 7. Seed Horizontal Graph Relations Map Edge Link
-  await prisma.relation.create({
-    data: {
-      fromId: childPage1.id,
-      toId: childPage2.id,
-      type: RelationType.PREREQUISITE,
-      metadata: { complexity: "ADVANCED" }
-    }
-  });
-
-  console.log("🔗 Horizontal graph network prerequisite boundaries linked.");
-
-  // 8. Seed Curated Binder Collections with explicit Order Indexes
   const collection = await prisma.collection.create({
     data: {
-      title: "Next.js 15 Backend Mastery Track",
-      slug: `nextjs-15-backend-mastery-${crypto.randomBytes(3).toString("hex")}`,
-      description: "A specialized developer curriculum tracking high-throughput data streams.",
+      title: "ArcBase Product Tour",
+      slug: slugify("arcbase product tour"),
+      description: "A public learning path that walks through the core system.",
       visibility: Visibility.PUBLIC,
-      authorId: educatorUser.id,
-    }
+      metadata: { track: "product-tour" },
+      authorId: creator.id,
+    },
   });
 
   await prisma.collectionResource.createMany({
     data: [
-      { collectionId: collection.id, resourceId: childPage1.id, orderIndex: 0 },
-      { collectionId: collection.id, resourceId: childPage2.id, orderIndex: 1 }
-    ]
+      { collectionId: collection.id, resourceId: handbook.id, orderIndex: 0 },
+      { collectionId: collection.id, resourceId: resourceGuide.id, orderIndex: 1 },
+      { collectionId: collection.id, resourceId: graphGuide.id, orderIndex: 2 },
+      { collectionId: collection.id, resourceId: unlistedModule.id, orderIndex: 3 },
+    ],
   });
 
-  console.log("📚 Drag-and-drop ordered collection binders seeded.");
+  await prisma.comment.createMany({
+    data: [
+      {
+        content: "This makes the publish/archive flow much easier to understand.",
+        status: CommentStatus.ACTIVE,
+        authorId: learner.id,
+        resourceId: resourceGuide.id,
+      },
+      {
+        content: "We should add more examples for saved resources and private visibility.",
+        status: CommentStatus.ACTIVE,
+        authorId: admin.id,
+        resourceId: resourceGuide.id,
+      },
+    ],
+  });
 
-  // 9. Seed Threaded Discussion Tree Nodes
   const rootComment = await prisma.comment.create({
     data: {
-      content: "This module configuration saved me days of troubleshooting pnpm architecture links!",
+      content: "The graph relation model is much clearer now.",
       status: CommentStatus.ACTIVE,
-      authorId: educatorUser.id,
-      resourceId: childPage1.id,
-    }
+      authorId: learner.id,
+      resourceId: graphGuide.id,
+    },
   });
 
   await prisma.comment.create({
     data: {
-      content: "Agreed. Moving the prisma client output folder prevents a lot of node_modules path resolution bugs.",
+      content: "Agreed. The route structure now mirrors the domain model directly.",
       status: CommentStatus.ACTIVE,
-      authorId: admin.id,
-      resourceId: childPage1.id,
-      parentId: rootComment.id // Threaded nested reply link
-    }
+      authorId: creator.id,
+      resourceId: graphGuide.id,
+      parentId: rootComment.id,
+    },
   });
 
-  console.log("💬 Threaded feedback comment modules seeded.");
+  await prisma.savedResource.createMany({
+    data: [
+      { userId: learner.id, resourceId: handbook.id },
+      { userId: learner.id, resourceId: resourceGuide.id },
+    ],
+  });
 
-  // 10. Seed Live Telemetry Event Usage Stream Log
   await prisma.resourceUsage.createMany({
     data: [
-      { resourceId: childPage1.id, userId: educatorUser.id, event: UsageEvent.VIEW, sessionId: "sess-abc" },
-      { resourceId: childPage1.id, userId: educatorUser.id, event: UsageEvent.BOOKMARK, sessionId: "sess-abc" },
-      { resourceId: childPage2.id, userId: null, event: UsageEvent.OPEN, sessionId: "sess-anonymous-visitor" }
-    ]
+      {
+        resourceId: handbook.id,
+        userId: learner.id,
+        event: UsageEvent.VIEW,
+        sessionId: "seed-session-learner-1",
+        metadata: { source: "homepage" },
+      },
+      {
+        resourceId: handbook.id,
+        userId: learner.id,
+        event: UsageEvent.BOOKMARK,
+        sessionId: "seed-session-learner-1",
+      },
+      {
+        resourceId: resourceGuide.id,
+        userId: creator.id,
+        event: UsageEvent.OPEN,
+        sessionId: "seed-session-creator-1",
+      },
+      {
+        resourceId: graphGuide.id,
+        userId: null,
+        event: UsageEvent.VIEW,
+        sessionId: "anonymous-session-1",
+        metadata: { referrer: "search" },
+      },
+    ],
   });
 
-  console.log("📊 Telemetry data event stream log records committed successfully.");
-  console.log("🎉 Seeding complete! Local development environment is 100% synchronized.");
+  console.log("✅ Seeded users, tags, resources, relations, collections, comments, versions, saved items, and usage events.");
 }
 
 main()
-  .catch((e) => {
-    console.error("❌ Master seed script runtime failure:", e);
+  .catch((error) => {
+    console.error("❌ Seed script failed:", error);
     process.exit(1);
   })
   .finally(async () => {

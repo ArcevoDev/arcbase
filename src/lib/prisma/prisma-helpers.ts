@@ -1,4 +1,4 @@
-import { Prisma } from "../../../node_modules/.prisma/client";
+import { Prisma } from "@/prisma-client";
 
 // Core select configuration for single items
 export const resourceWithRelations = Prisma.validator<Prisma.ResourceInclude>()({

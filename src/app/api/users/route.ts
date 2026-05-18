@@ -1,54 +1,44 @@
-export const dynamic = "force-dynamic";
-
 import { NextRequest, NextResponse } from "next/server";
 import { handleApiRoute } from "@/lib/errors/handle-error";
-import { ApiError } from "@/lib/errors/api-error";
-import { requireAuth } from "@/modules/auth/require-auth";
+import { requireOnboarded } from "@/modules/auth/require-auth";
 import { UserService } from "@/modules/users/user.service";
-import { updateProfileSchema } from "@/modules/users/user.dto";
-import { getSession } from "@/modules/auth/get-session";
-import { prisma } from "@/lib/prisma/prisma";
-import { toPublicUserDTO } from "@/modules/users/user.dto";
+import { adminUpdateUserSchema } from "@/modules/users/user.dto";
+import { ApiError } from "@/lib/errors/api-error";
 
-export const PUT = handleApiRoute(async (req: NextRequest) => {
-  const session = await requireAuth(req);
+const userService = new UserService();
 
-  let rawBody;
-  try {
-    rawBody = await req.json();
-  } catch {
-    throw ApiError.badRequest("Malformed JSON input payload configuration");
-  }
+export const GET = handleApiRoute(async (req: NextRequest) => {
+  await requireOnboarded(req);
+  const data = await userService.getUserDirectoryListing();
+  return NextResponse.json({ success: true, data });
+});
 
-  const validationResult = updateProfileSchema.safeParse(rawBody);
-  if (!validationResult.success) {
-    return NextResponse.json(
-      { error: "Validation failed", details: validationResult.error.flatten().fieldErrors },
-      { status: 400 }
+export const PATCH = handleApiRoute(async (req: NextRequest) => {
+  const session = await requireOnboarded(req);
+
+  // Hard identity check for administration overrides
+  // (Replace with your exact user role extraction logic from your JWT schema payload if different)
+  if ((session as any).role !== "ADMIN") {
+    throw ApiError.forbidden(
+      "Access Denied: Administrative security authorization clear level required",
     );
   }
 
-  const updatedUserDto = await UserService.updateProfile(session.userId, validationResult.data);
-  return NextResponse.json(
-    { message: "User onboarding configuration profile saved successfully", user: updatedUserDto },
-    { status: 200 }
-  );
-});
+  const body = await req.json();
+  const { targetUserId, ...actionPayload } = body;
 
-export const GET = handleApiRoute(async (req: NextRequest) => {
-  const session = await getSession(req);
-  
-  // Real world implementation should evaluate an explicit token role instead of simple presence checks
-  if (!session) {
-    const totalUsersCount = await prisma.user.count({ where: { deletedAt: null } });
-    return NextResponse.json({ success: true, totalCreators: totalUsersCount }, { status: 200 });
-  }
+  if (!targetUserId)
+    throw ApiError.badRequest(
+      "Missing parameters targetUserId string field reference",
+    );
 
-  const allUsers = await prisma.user.findMany({
-    where: { deletedAt: null },
-    orderBy: { createdAt: "desc" },
-    take: 50
+  const parsed = adminUpdateUserSchema.safeParse(actionPayload);
+  if (!parsed.success)
+    throw ApiError.badRequest(parsed.error.issues[0].message);
+
+  await userService.processAdminAction(targetUserId, parsed.data);
+  return NextResponse.json({
+    success: true,
+    message: "Administrative policy override completed successfully.",
   });
-
-  return NextResponse.json(allUsers.map(toPublicUserDTO).filter(Boolean), { status: 200 });
 });

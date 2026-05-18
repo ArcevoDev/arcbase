@@ -1,50 +1,93 @@
 import { CommentRepository } from "./comment.repository";
+import { CreateCommentInput, UpdateCommentInput } from "./comment.dto";
 import { ApiError } from "@/lib/errors/api-error";
+import { prisma } from "@/lib/prisma/prisma";
 
-export const CommentService = {
-  async getCommentReplies(commentId: string) {
-    const comment = await CommentRepository.findById(commentId);
-    if (!comment || comment.deletedAt) throw ApiError.notFound("Comment thread not found");
-    
-    return CommentRepository.findRepliesForParent(commentId);
-  },
+export class CommentService {
+  private repo: CommentRepository;
 
-  async createThreadedReply(userId: string, parentCommentId: string, input: { content: string }) {
-    const parentComment = await CommentRepository.findById(parentCommentId);
-    if (!parentComment || parentComment.deletedAt) {
-      throw ApiError.notFound("The comment thread you are replying to does not exist");
-    }
+  constructor() {
+    this.repo = new CommentRepository();
+  }
 
-    // Single-Tier Depth Flattening Strategy: Prevent recursive nested nesting structures
-    const targetParentId = parentComment.parentId ?? parentComment.id;
+  async getRootComments(resourceId: string) {
+    const comments = await this.repo.findRootCommentsByResource(resourceId);
+    return comments;
+  }
 
-    return CommentRepository.create({
-      content: input.content,
-      resourceId: parentComment.resourceId,
-      authorId: userId,
-      parentId: targetParentId,
+  async getReplies(commentId: string) {
+    const parent = await this.repo.findById(commentId);
+    if (!parent) throw ApiError.notFound("Parent comment not found");
+
+    return this.repo.findRepliesByParent(commentId);
+  }
+
+  async createTopLevelComment(
+    authorId: string,
+    resourceId: string,
+    input: CreateCommentInput,
+  ) {
+    const resourceExists = await prisma.resource.findFirst({
+      where: { id: resourceId, deletedAt: null },
+      select: { id: true },
     });
-  },
+    if (!resourceExists) throw ApiError.notFound("Resource asset untraceable");
 
-  async editComment(userId: string, commentId: string, input: { content: string }) {
-    const comment = await CommentRepository.findById(commentId);
-    if (!comment || comment.deletedAt) throw ApiError.notFound("Comment not found");
-    if (comment.authorId !== userId) throw ApiError.forbidden("Access denied: You do not own this comment");
+    return this.repo.create({
+      content: input.content,
+      authorId,
+      resourceId,
+      parentId: null,
+    });
+  }
 
-    return CommentRepository.updateContent(commentId, input.content);
-  },
+  async createReply(
+    authorId: string,
+    parentId: string,
+    input: CreateCommentInput,
+  ) {
+    const parent = await this.repo.findById(parentId);
+    if (!parent)
+      throw ApiError.notFound(
+        "The comment thread you are replying to does not exist",
+      );
 
-  async removeComment(userId: string, commentId: string) {
-    const comment = await CommentRepository.findById(commentId);
-    if (!comment || comment.deletedAt) throw ApiError.notFound("Comment not found");
+    return this.repo.create({
+      content: input.content,
+      authorId,
+      resourceId: parent.resourceId, // Inherit from parent node context completely
+      parentId,
+    });
+  }
 
-    const isCommentAuthor = comment.authorId === userId;
-    const isResourceOwner = comment.resource?.authorId === userId;
+  async updateComment(
+    commentId: string,
+    authorId: string,
+    input: UpdateCommentInput,
+  ) {
+    const comment = await this.repo.findById(commentId);
+    if (!comment) throw ApiError.notFound("Comment not found");
+    if (comment.authorId !== authorId)
+      throw ApiError.forbidden("Ownership verification failed");
 
-    if (!isCommentAuthor && !isResourceOwner) {
-      throw ApiError.forbidden("You do not have permission to delete this comment");
+    // Ensure status is correctly typed for the repository update
+    const updateData: Partial<UpdateCommentInput> & { status?: any } = {
+      ...input,
+    };
+
+    if (input.status !== undefined) {
+      updateData.status = input.status as any;
     }
 
-    return CommentRepository.softDelete(commentId);
-  },
-};
+    return this.repo.update(commentId, updateData as any);
+  }
+
+  async deleteComment(commentId: string, authorId: string) {
+    const comment = await this.repo.findById(commentId);
+    if (!comment) throw ApiError.notFound("Comment not found");
+    if (comment.authorId !== authorId)
+      throw ApiError.forbidden("Ownership verification failed");
+
+    return this.repo.softDelete(commentId);
+  }
+}

@@ -1,81 +1,60 @@
-export const dynamic = "force-dynamic";
-
 import { NextRequest, NextResponse } from "next/server";
 import { handleApiRoute } from "@/lib/errors/handle-error";
+import { requireOnboarded } from "@/modules/auth/require-auth";
+import { CommentService } from "@/modules/comments/comment.service";
+import {
+  createCommentSchema,
+  toSafeCommentDTO,
+} from "@/modules/comments/comment.dto";
 import { ApiError } from "@/lib/errors/api-error";
-import { requireAuth } from "@/modules/auth/require-auth";
-import { prisma } from "@/lib/prisma/prisma";
-import { commentWithAuthor } from "@/lib/prisma/prisma-helpers";
 
-interface RouteContext {
-  params: Promise<{ resourceId: string }>;
+interface RouteParams {
+  params: { resourceId: string };
 }
 
-export const GET = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
-  const { resourceId } = await context.params;
+// GET: Pull down top-level discussions related directly to the base asset
+export const GET = handleApiRoute(
+  async (req: NextRequest, { params }: RouteParams) => {
+    await requireOnboarded(req);
+    const { resourceId } = params;
 
-  const resourceExists = await prisma.resource.count({ where: { id: resourceId, deletedAt: null } });
-  if (!resourceExists) throw ApiError.notFound("The requested resource context does not exist");
+    const commentService = new CommentService();
+    const rootComments = await commentService.getRootComments(resourceId);
 
-  const rootComments = await prisma.comment.findMany({
-    where: {
-      resourceId,
-      parentId: null,
-      status: "ACTIVE",
-      deletedAt: null,
-    },
-    orderBy: { createdAt: "desc" },
-    include: commentWithAuthor,
-  });
+    return NextResponse.json({
+      success: true,
+      count: rootComments.length,
+      data: rootComments.map((comment) => toSafeCommentDTO(comment)),
+    });
+  },
+);
 
-  return NextResponse.json(rootComments, { status: 200 });
-});
+// POST: Initialize a fresh discussion stream thread directly targeting this asset
+export const POST = handleApiRoute(
+  async (req: NextRequest, { params }: RouteParams) => {
+    const session = await requireOnboarded(req);
+    const { resourceId } = params;
 
-export const POST = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
-  const { resourceId } = await context.params;
-  const session = await requireAuth(req);
-
-  let body;
-  try {
-    body = await req.json();
-  } catch {
-    throw ApiError.badRequest("Malformed JSON payload configuration");
-  }
-
-  const { content, parentId, metadata } = body;
-
-  if (!content || !content.trim()) {
-    throw ApiError.badRequest("Comment text content cannot be blank or empty strings");
-  }
-
-  const resourceExists = await prisma.resource.count({ where: { id: resourceId, deletedAt: null } });
-  if (!resourceExists) throw ApiError.notFound("The asset you are trying to comment on does not exist");
-
-  if (parentId) {
-    const parentComment = await prisma.comment.findFirst({ where: { id: parentId, deletedAt: null } });
-    if (!parentComment || parentComment.status !== "ACTIVE") {
-      throw ApiError.notFound("The comment thread you are replying to has been removed or hidden");
+    const body = await req.json();
+    const parsed = createCommentSchema.safeParse(body);
+    if (!parsed.success) {
+      throw ApiError.badRequest(parsed.error.issues[0].message);
     }
-    if (parentComment.resourceId !== resourceId) {
-      throw ApiError.badRequest("Security verification failed: Parent thread belongs to an unlinked resource environment");
-    }
-  }
 
-  const newComment = await prisma.comment.create({
-    data: {
-      content: content.trim(),
-      status: "ACTIVE",
-      authorId: session.userId,
+    const commentService = new CommentService();
+    const createdComment = await commentService.createTopLevelComment(
+      session.userId,
       resourceId,
-      parentId: parentId || null,
-      metadata: metadata || undefined,
-    },
-    include: {
-      author: {
-        select: { id: true, username: true, displayName: true, avatarUrl: true },
+      parsed.data,
+    );
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Top level discussion line logged successfully.",
+        data: toSafeCommentDTO(createdComment),
       },
-    },
-  });
-
-  return NextResponse.json(newComment, { status: 201 });
-});
+      { status: 201 },
+    );
+  },
+);

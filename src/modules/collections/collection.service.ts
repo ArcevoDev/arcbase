@@ -1,79 +1,114 @@
-import { CollectionRepository } from "@/modules/collections/collection.repository";
+import { CollectionRepository } from "./collection.repository";
+import { CreateCollectionInput } from "./collection.dto";
 import { ApiError } from "@/lib/errors/api-error";
-import { CreateCollectionInput } from "@/modules/collections/collection.dto";
 import { prisma } from "@/lib/prisma/prisma";
-import crypto from "crypto";
 
-export const CollectionService = {
-  async getUserCollections(userId: string) {
-    return CollectionRepository.findByAuthor(userId);
-  },
+export class CollectionService {
+  private repo: CollectionRepository;
 
-  async createCollection(userId: string, input: CreateCollectionInput) {
-    const baseSlug = input.title
-      .trim()
+  constructor() {
+    this.repo = new CollectionRepository();
+  }
+
+  private generateSlug(text: string): string {
+    return text
       .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, "")
-      .replace(/\s+/g, "-");
-    const shortId = crypto.randomBytes(4).toString("hex");
-    const uniqueSlug = `${baseSlug}-${shortId}`;
+      .trim()
+      .replace(/[^a-z0-9\s\-_.]/g, "")
+      .replace(/[\s_]+/g, "-");
+  }
 
-    return CollectionRepository.create({
-      title: input.title,
-      description: input.description,
-      visibility: input.visibility,
-      slug: uniqueSlug,
-      authorId: userId,
-    });
-  },
+  async getUserCollections(userId: string, tenantId: string | null = null) {
+    return this.repo.listUserCollections(userId, tenantId);
+  }
 
-  async addResourceToFolder(
-    userId: string,
-    collectionId: string,
-    resourceId: string,
-    order: number,
+  async getCollectionDetails(id: string) {
+    const collection = await this.repo.findById(id);
+    if (!collection)
+      throw ApiError.notFound("Requested learning collection not found");
+    return collection;
+  }
+
+  async createCollection(
+    authorId: string,
+    input: CreateCollectionInput,
+    tenantId: string | null = null,
   ) {
-    const collection = await CollectionRepository.findById(collectionId);
-    if (!collection || collection.deletedAt) {
-      throw ApiError.notFound("Target curation collection no longer exists");
-    }
-    if (collection.authorId !== userId) {
-      throw ApiError.forbidden("You do not have permission to modify this collection");
+    const slug = this.generateSlug(input.title);
+    const existing = await this.repo.findBySlug(authorId, slug, tenantId);
+    if (existing) {
+      throw ApiError.badRequest(
+        `You already have a collection with a variant of this name titled: [${input.title}]`,
+      );
     }
 
-    const resource = await prisma.resource.findUnique({
+    return this.repo.create({
+      title: input.title,
+      slug,
+      description: input.description,
+      visibility: input.visibility as any,
+      metadata: input.metadata,
+      authorId,
+      tenantId,
+    });
+  }
+
+  async addResource(
+    collectionId: string,
+    authorId: string,
+    resourceId: string,
+  ) {
+    const collection = await this.repo.findById(collectionId);
+    if (!collection) throw ApiError.notFound("Collection not found");
+    if (collection.authorId !== authorId)
+      throw ApiError.forbidden("Ownership mismatch protection triggered");
+
+    const resourceExists = await prisma.resource.findFirst({
       where: { id: resourceId, deletedAt: null },
     });
-    if (!resource) throw ApiError.notFound("Target resource could not be found or has been removed");
+    if (!resourceExists)
+      throw ApiError.notFound("Target resource missing or removed");
 
-    const existingLink = await prisma.collectionResource.findUnique({
+    const alreadyLinked = await prisma.collectionResource.findUnique({
       where: { collectionId_resourceId: { collectionId, resourceId } },
     });
-    if (existingLink) {
-      throw ApiError.badRequest("This resource is already linked inside this collection");
-    }
+    if (alreadyLinked) return alreadyLinked;
 
-    return CollectionRepository.linkResource(collectionId, resourceId, order);
-  },
+    return this.repo.appendResource(collectionId, resourceId);
+  }
 
-  async removeResourceFromFolder(
-    userId: string,
+  async removeResource(
     collectionId: string,
+    authorId: string,
     resourceId: string,
   ) {
-    const collection = await CollectionRepository.findById(collectionId);
-    if (!collection || collection.deletedAt) {
-      throw ApiError.notFound("Target collection not found");
-    }
-    if (collection.authorId !== userId) {
-      throw ApiError.forbidden("You do not have permission to modify this collection");
-    }
+    const collection = await this.repo.findById(collectionId);
+    if (!collection) throw ApiError.notFound("Collection not found");
+    if (collection.authorId !== authorId)
+      throw ApiError.forbidden("Ownership mismatch protection triggered");
 
-    // Direct error interception ensures handling missing item relationships cleanly
-    try {
-      return await CollectionRepository.unlinkResource(collectionId, resourceId);
-    } catch {
-      throw ApiError.badRequest("Target resource reference links do not exist inside this folder matching parameters");
-    }
-  },
-};
+    await this.repo.removeResource(collectionId, resourceId);
+  }
+
+  async reorderCollectionItems(
+    collectionId: string,
+    authorId: string,
+    orderedItemIds: string[],
+  ) {
+    const collection = await this.repo.findById(collectionId);
+    if (!collection) throw ApiError.notFound("Collection not found");
+    if (collection.authorId !== authorId)
+      throw ApiError.forbidden("Ownership mismatch protection triggered");
+
+    await this.repo.executeSequenceReorder(collectionId, orderedItemIds);
+  }
+
+  async deleteCollection(id: string, authorId: string) {
+    const collection = await this.repo.findById(id);
+    if (!collection) throw ApiError.notFound("Collection not found");
+    if (collection.authorId !== authorId)
+      throw ApiError.forbidden("Ownership mismatch protection triggered");
+
+    await this.repo.softDelete(id);
+  }
+}

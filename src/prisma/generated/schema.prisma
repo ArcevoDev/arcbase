@@ -1,19 +1,50 @@
-// GENERATOR
+datasource db {
+  provider = "postgresql"
+}
+
 generator client {
   provider = "prisma-client-js"
   output   = "./generated"
 }
 
-// DATASOURCE
-datasource db {
-  provider = "postgresql"
-}
+// ==========================================
+// SYSTEM ENUMS
+// ==========================================
 
-// ENUMS
 enum Visibility {
   PUBLIC
   PRIVATE
   UNLISTED
+}
+
+enum ResourceStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum CommentStatus {
+  ACTIVE
+  HIDDEN
+  DELETED
+}
+
+enum RelationType {
+  RELATED
+  REFERENCES
+  DEPENDS_ON
+  PREREQUISITE
+  NEXT
+  PREVIOUS
+}
+
+enum UsageEvent {
+  VIEW
+  OPEN
+  DOWNLOAD
+  SHARE
+  LIKE
+  BOOKMARK
 }
 
 enum ResourceType {
@@ -27,151 +58,134 @@ enum ResourceType {
   AI_OUTPUT
 }
 
-enum ResourceStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
+// ==========================================
+// CORE IDENTITY & ACCOUNT LAYERS
+// ==========================================
 
-enum RelationType {
-  RELATED
-  REFERENCES
-  DEPENDS_ON
-  PREREQUISITE
-  NEXT
-  PREVIOUS
-}
-
-enum CommentStatus {
-  ACTIVE
-  HIDDEN
-  DELETED
-}
-
-enum UsageEvent {
-  VIEW
-  OPEN
-  DOWNLOAD
-  SHARE
-  LIKE
-  BOOKMARK
-}
-
-// USER
 model User {
-  id         String  @id @default(uuid(7))
-  identityId String? @unique // Future ArcID bridge
-
-  username     String @unique
-  email        String @unique
+  id           String  @id @default(uuid(7))
+  tenantId     String? // Core tenant isolation discriminator
+  identityId   String? @unique
+  username     String  @unique
+  email        String  @unique
   passwordHash String
+  displayName  String?
+  avatarUrl    String?
+  bio          String?
 
-  displayName String?
-  avatarUrl   String?
-  bio         String?
-
-  // SCALE ADDITIONS: Multi-step survey pipeline trackers
-  onboardingStep Int   @default(0) // e.g., 0 = registered, 1 = survey page 1, 4 = complete
-  onboardingJson Json? // Saves step-by-step survey data natively with internal version tracking
+  // Onboarding Hard-Lock state machines
+  onboardingStep Int   @default(0)
+  onboardingJson Json?
 
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   archivedAt DateTime?
   deletedAt  DateTime?
 
-  // RELATIONS
-  resources        Resource[]
-  collections      Collection[]
-  comments         Comment[]
-  savedResources   SavedResource[]
-  usageEvents      ResourceUsage[]
-  resourceVersions ResourceVersion[]
+  // Graph Relationships
+  resources      Resource[]
+  collections    Collection[]
+  comments       Comment[]
+  savedResources SavedResource[]
+  usageEvents    ResourceUsage[]
+  versions       ResourceVersion[]
 
-  @@index([identityId])
   @@index([username])
   @@index([email])
-  @@index([createdAt(sort: Desc)])
+  @@index([tenantId])
   @@index([deletedAt])
 }
 
-// RESOURCE
-model Resource {
-  id    String  @id @default(uuid(7))
-  slug  String?
-  title String?
+// ==========================================
+// THE KNOWLEDGE GRAPH NODE CONTAINER
+// ==========================================
 
+model Resource {
+  id          String  @id @default(uuid(7))
+  tenantId    String? // Grouping partition boundary
+  slug        String?
+  title       String?
   description String?
   excerpt     String?
-  content     String?
-  contentJson Json?
 
-  type ResourceType
+  // Live Publishing Fork Strategy
+  publishedContentJson Json?
+  draftContentJson     Json?
+  content              String? // Fallback raw string for pg_trgm text search
 
-  status     ResourceStatus @default(DRAFT)
-  visibility Visibility     @default(PUBLIC)
-
-  category String?
-  language String? @default("en")
-
+  type          ResourceType
+  status        ResourceStatus @default(DRAFT)
+  visibility    Visibility     @default(PUBLIC)
+  category      String?
+  language      String?        @default("en")
   thumbnailUrl  String?
   coverImageUrl String?
   fileUrl       String?
   metadata      Json?
+  aiMetadata    Json? // Dedicated storage block for Vector embeddings & AI context
 
   wordCount     Int?
   estimatedTime Int?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  publishedAt   DateTime?
+  archivedAt    DateTime?
+  deletedAt     DateTime?
 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  publishedAt DateTime?
-  archivedAt  DateTime?
-  deletedAt   DateTime?
-
-  // AUTHOR
+  // Hierarchical Self-Reference Tree
   authorId String
-  author   User   @relation(fields: [authorId], references: [id])
-
-  // HIERARCHY
+  author   User       @relation(fields: [authorId], references: [id])
   parentId String?
   parent   Resource?  @relation("Hierarchy", fields: [parentId], references: [id])
   children Resource[] @relation("Hierarchy")
 
-  // RELATIONS
-  tags              Tag[]
-  outgoingRelations Relation[]           @relation("From")
-  incomingRelations Relation[]           @relation("To")
-  collections       CollectionResource[]
-  comments          Comment[]
-  metrics           ResourceMetrics?
-  versions          ResourceVersion[]
-  usageEvents       ResourceUsage[]
-  savedBy           SavedResource[]
+  // Explicit DAG Edge Graph Maps
+  outgoingRelations Relation[] @relation("From")
+  incomingRelations Relation[] @relation("To")
 
-  @@unique([authorId, slug]) // Guarded via software layer during initial blank creation states
-  @@index([slug])
-  @@index([authorId])
-  @@index([parentId])
+  // Auxiliary Relations
+  tags        Tag[]
+  collections CollectionResource[]
+  comments    Comment[]
+  metrics     ResourceMetrics?
+  versions    ResourceVersion[]
+  usageEvents ResourceUsage[]
+  savedBy     SavedResource[]
+
+  // Optimizations: Slugs are unique per author within a tenant organization boundary
+  @@unique([tenantId, authorId, slug])
   @@index([type, status])
-  @@index([visibility, status])
-  @@index([status, publishedAt(sort: Desc)])
-  @@index([category])
-  @@index([publishedAt])
-  @@index([createdAt(sort: Desc)])
+  @@index([tenantId])
   @@index([deletedAt])
 }
 
-// RESOURCE VERSIONS
-model ResourceVersion {
-  id         String @id @default(uuid(7))
-  resourceId String
-  authorId   String
+// ==========================================
+// GRAPH EDGES & HISTORY
+// ==========================================
 
+model Relation {
+  id        String       @id @default(uuid(7))
+  type      RelationType
+  fromId    String
+  toId      String
+  metadata  Json? // Weights, custom sequences, sequence priorities
+  createdAt DateTime     @default(now())
+
+  from Resource @relation("From", fields: [fromId], references: [id], onDelete: Cascade)
+  to   Resource @relation("To", fields: [toId], references: [id], onDelete: Cascade)
+
+  @@unique([fromId, toId, type])
+  @@index([toId]) // Accelerates backward-lookup dependency queries
+}
+
+model ResourceVersion {
+  id            String   @id @default(uuid(7))
+  resourceId    String
+  authorId      String
   versionNumber Int
   title         String
-
-  content     String?
-  contentJson Json?
-
+  content       String?
+  contentJson   Json?
   changeSummary String?
   createdAt     DateTime @default(now())
 
@@ -179,83 +193,65 @@ model ResourceVersion {
   author   User     @relation(fields: [authorId], references: [id])
 
   @@unique([resourceId, versionNumber])
-  @@index([resourceId, createdAt(sort: Desc)])
 }
 
-// RELATIONS GRAPH
-model Relation {
-  id     String       @id @default(uuid(7))
-  type   RelationType
-  fromId String
-  toId   String
+// ==========================================
+// CONTAINERS & TAXONOMY LAYERS
+// ==========================================
 
-  metadata  Json?
-  createdAt DateTime @default(now())
-
-  from Resource @relation("From", fields: [fromId], references: [id], onDelete: Cascade)
-  to   Resource @relation("To", fields: [toId], references: [id], onDelete: Cascade)
-
-  @@unique([fromId, toId, type])
-  @@index([fromId, type])
-  @@index([toId, type])
-}
-
-// COLLECTIONS
 model Collection {
-  id    String @id @default(uuid(7))
-  slug  String
-  title String
-
+  id          String     @id @default(uuid(7))
+  tenantId    String? // Isolated tenant filter field
+  slug        String
+  title       String
   description String?
   visibility  Visibility @default(PUBLIC)
   metadata    Json?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?
 
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  archivedAt DateTime?
-  deletedAt  DateTime?
-
-  authorId String
-  author   User   @relation(fields: [authorId], references: [id])
-
+  authorId  String
+  author    User                 @relation(fields: [authorId], references: [id])
   resources CollectionResource[]
 
-  @@unique([authorId, slug])
-  @@index([slug])
-  @@index([authorId])
-  @@index([visibility])
+  @@unique([tenantId, authorId, slug])
+  @@index([tenantId])
+  @@index([deletedAt])
 }
 
-// COLLECTION RESOURCE MAP
 model CollectionResource {
-  id           String @id @default(uuid(7))
+  id           String   @id @default(uuid(7))
   collectionId String
   resourceId   String
   orderIndex   Int
-
-  addedAt DateTime @default(now())
+  addedAt      DateTime @default(now())
 
   collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
   resource   Resource   @relation(fields: [resourceId], references: [id], onDelete: Cascade)
 
   @@unique([collectionId, resourceId])
-  @@index([collectionId, orderIndex])
-  @@index([resourceId])
+  @@index([collectionId, orderIndex]) // Optimized index for sequential ordered reads
 }
 
-// TAGS
 model Tag {
   id        String   @id @default(uuid(7))
-  name      String   @unique
-  slug      String   @unique
+  tenantId  String? // Enforces tenant separation for tag namespaces
+  name      String
+  slug      String
   createdAt DateTime @default(now())
 
   resources Resource[]
 
-  @@index([slug])
+  @@unique([tenantId, slug])
+  @@unique([tenantId, name])
+  @@index([tenantId])
 }
 
-// COMMENTS
+// ==========================================
+// TELEMETRY & ENGAGEMENT HOOKS
+// ==========================================
+
 model Comment {
   id        String        @id @default(uuid(7))
   content   String
@@ -269,17 +265,14 @@ model Comment {
   resourceId String
   parentId   String?
 
-  author   User     @relation(fields: [authorId], references: [id])
-  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  author   User      @relation(fields: [authorId], references: [id])
+  resource Resource  @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  parent   Comment?  @relation("Thread", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies  Comment[] @relation("Thread")
 
-  parent  Comment?  @relation("Thread", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  replies Comment[] @relation("Thread")
-
-  @@index([resourceId, createdAt])
-  @@index([parentId])
+  @@index([resourceId, createdAt]) // Instant chronological thread reads
 }
 
-// SAVED RESOURCES
 model SavedResource {
   id         String   @id @default(uuid(7))
   userId     String
@@ -290,10 +283,8 @@ model SavedResource {
   resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
 
   @@unique([userId, resourceId])
-  @@index([userId])
 }
 
-// EVENT STREAM
 model ResourceUsage {
   id         String     @id @default(uuid(7))
   resourceId String
@@ -306,26 +297,22 @@ model ResourceUsage {
   resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   user     User?    @relation(fields: [userId], references: [id])
 
-  @@index([resourceId, event])
+  @@index([resourceId, event]) // High-concurrency aggregate counter index
   @@index([userId])
-  @@index([createdAt])
+  @@index([createdAt]) // Essential performance index for background batch processors
 }
 
-// AGGREGATED METRICS
 model ResourceMetrics {
-  id         String @id @default(uuid(7))
-  resourceId String @unique
-
-  views     Int @default(0)
-  opens     Int @default(0)
-  downloads Int @default(0)
-  shares    Int @default(0)
-  likes     Int @default(0)
-  bookmarks Int @default(0)
-
-  engagementScore Float @default(0)
-
-  updatedAt DateTime @updatedAt
+  id              String   @id @default(uuid(7))
+  resourceId      String   @unique
+  views           Int      @default(0)
+  opens           Int      @default(0)
+  downloads       Int      @default(0)
+  shares          Int      @default(0)
+  likes           Int      @default(0)
+  bookmarks       Int      @default(0)
+  engagementScore Float    @default(0)
+  updatedAt       DateTime @updatedAt
 
   resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
 }

@@ -3,6 +3,11 @@ ignoredBuiltDependencies:
 
 onlyBuiltDependencies:
   - '@prisma/engines'
+  - '@scarf/scarf'
   - '@tailwindcss/oxide'
+  - '@tree-sitter-grammars/tree-sitter-yaml'
+  - core-js-pure
   - prisma
   - sharp
+  - tree-sitter
+  - tree-sitter-json

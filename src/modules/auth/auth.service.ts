@@ -1,38 +1,70 @@
 import bcrypt from "bcryptjs";
+import { UserRepository } from "../users/user.repository";
+import { RegisterInput, LoginInput, toSafeUserDTO, SafeUserDTO } from "./auth.dto";
 import { ApiError } from "@/lib/errors/api-error";
-import { UserRepository } from "@/modules/users/user.repository";
-import type { RegisterInput } from "./auth.dto";
+import { signToken } from "./jwt";
 
-export const AuthService = {
-  async register({ username, email, password }: RegisterInput) {
-    const sanitizedEmail = email.trim().toLowerCase();
-    const sanitizedUsername = username.trim();
+export class AuthService {
+  private userRepo: UserRepository;
 
-    const existingEmail = await UserRepository.findByEmail(sanitizedEmail);
-    if (existingEmail) throw ApiError.badRequest("Email already in use");
+  constructor() {
+    this.userRepo = new UserRepository();
+  }
 
-    const existingUsername = await UserRepository.findByUsername(sanitizedUsername);
-    if (existingUsername) throw ApiError.badRequest("Username already taken");
+  async register(input: RegisterInput): Promise<{ user: SafeUserDTO; token: string }> {
+    const standardizedEmail = input.email.toLowerCase().trim();
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const existingEmail = await this.userRepo.findByEmail(standardizedEmail);
+    if (existingEmail) {
+      throw ApiError.badRequest("An account with this email is already registered");
+    }
 
-    return UserRepository.create({
-      username: sanitizedUsername,
-      email: sanitizedEmail,
+    const existingUser = await this.userRepo.findByUsername(input.username);
+    if (existingUser) {
+      throw ApiError.badRequest("Username is already taken");
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(input.password, salt);
+
+    const user = await this.userRepo.create({
+      username: input.username,
+      email: standardizedEmail,
       passwordHash,
-      onboardingStep: 0, // Explicitly pin new users to the entry step!
+      onboardingStep: 0,
+      onboardingJson: {},
     });
-  },
 
-  async validateUser(email: string, password: string) {
-    const sanitizedEmail = email.trim().toLowerCase();
-    const user = await UserRepository.findByEmail(sanitizedEmail);
+    const token = await signToken({
+      userId: user.id,
+      email: user.email,
+    });
 
-    if (!user) throw ApiError.unauthorized("Invalid email or password");
+    return {
+      user: toSafeUserDTO(user)!,
+      token,
+    };
+  }
 
-    const isValid = await bcrypt.compare(password, user.passwordHash);
-    if (!isValid) throw ApiError.unauthorized("Invalid email or password");
+  async login(input: LoginInput): Promise<{ user: SafeUserDTO; token: string }> {
+    const user = await this.userRepo.findByEmail(input.email.trim());
+    if (!user) {
+      throw ApiError.unauthorized("Invalid email address or password combination");
+    }
 
-    return user;
-  },
-};
+    const isPasswordValid = await bcrypt.compare(input.password, user.passwordHash);
+    if (!isPasswordValid) {
+      throw ApiError.unauthorized("Invalid email address or password combination");
+    }
+
+    const token = await signToken({
+      userId: user.id,
+      email: user.email,
+    });
+
+    return {
+      user: toSafeUserDTO(user)!,
+      token,
+    };
+  }
+}

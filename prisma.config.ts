@@ -1,27 +1,22 @@
-import * as dotenv from "dotenv";
-import path from "path";
+import "dotenv/config";
+import { defineConfig, env } from "prisma/config";
 
-// 1. Resolve absolute physical root disk path to safeguard against shell navigation issues
-const rootEnvPath = path.resolve(process.cwd(), ".env");
-dotenv.config({ path: rootEnvPath });
+// Force load process env as an ultimate fallback if Prisma's native scanner chokes in MINGW64
+const databaseUrl = env("DATABASE_URL") || process.env.DATABASE_URL;
 
-import { defineConfig } from "prisma/config";
-
-// 2. Extracted with a reliable inline fallback to prevent parsing crashes
-const finalDatabaseUrl = process.env.DATABASE_URL;
-
-if (!finalDatabaseUrl) {
+if (!databaseUrl) {
   throw new Error(
-    `CRITICAL CONFIGURATION ERROR: DATABASE_URL could not be resolved.\nTarget Path Scanned: ${rootEnvPath}`
+    "CRITICAL: DATABASE_URL could not be resolved by Prisma engine or process environment.\n" +
+      "Please verify that your .env file exists at the root of your project and contains a valid connection string.",
   );
 }
 
 export default defineConfig({
   schema: "src/prisma/schema.prisma",
   datasource: {
-    url: finalDatabaseUrl,
+    url: databaseUrl,
   },
   migrations: {
-    seed: 'pnpm ts-node -r dotenv/config --compiler-options {"module":"CommonJS"} src/prisma/seed.ts',
+    seed: 'pnpm ts-node -r dotenv/config -r tsconfig-paths/register --compiler-options {"module":"NodeNext","target":"es2022"} src/prisma/seed.ts',
   },
 });

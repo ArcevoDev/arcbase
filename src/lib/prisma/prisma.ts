@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === "production") {
       idleTimeoutMillis: 15000,
     });
     const adapter = new PrismaPg(pool);
-    globalForPrisma.prisma = new ClientWithLogging(adapter);
+    globalForPrisma.prisma = ClientWithLogging(adapter);
   }
   prismaInstance = globalForPrisma.prisma;
 }

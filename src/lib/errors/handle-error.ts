@@ -1,32 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ApiError } from "./api-error";
+import { errorResponse } from "../api-response";
 
-type RouteHandler = (req: NextRequest, ...args: any[]) => Promise<NextResponse> | NextResponse;
+type ApiRouteHandler = (
+  req: NextRequest,
+  context: any,
+) => Promise<NextResponse>;
 
-export function handleApiRoute(handler: RouteHandler) {
-  return async (req: NextRequest, ...args: any[]) => {
+/**
+ * Universal Higher-Order Route Decorator.
+ * Catches all exceptions and normalizes them through the application error response matrix.
+ */
+export function handleApiRoute(handler: ApiRouteHandler) {
+  return async (req: NextRequest, context: any): Promise<NextResponse> => {
     try {
-      return await handler(req, ...args);
+      return await handler(req, context);
     } catch (error: any) {
+      // Handle known operational exceptions
       if (error instanceof ApiError) {
-        return NextResponse.json({ success: false, error: error.message }, { status: error.statusCode });
+        return errorResponse(error.message, error.statusCode);
       }
 
-      if (error instanceof SyntaxError && error.message.includes("JSON")) {
-        return NextResponse.json({ success: false, error: "Invalid or malformed JSON payload" }, { status: 400 });
-      }
+      // Log untracked engineering errors for diagnostic visibility
+      console.error(
+        `[CRITICAL API ROUTING CRASH] [${req.method}] ${req.nextUrl.pathname}:`,
+        error,
+      );
 
-      if (error.code && error.clientVersion) {
-        const lines = error.message.split("\n");
-        return NextResponse.json(
-          { success: false, error: `Database failure: ${lines[lines.length - 1] || "Query failed"}` },
-          { status: 400 }
-        );
-      }
-
-      return NextResponse.json(
-        { success: false, error: error.message || "An unexpected error occurred" },
-        { status: 500 }
+      // Return a safe, generalized payload to avoid leaking system internals
+      return errorResponse(
+        process.env.NODE_ENV === "production"
+          ? "A critical database or network system exception occurred."
+          : error.message || "Internal Server Error",
+        500,
       );
     }
   };

@@ -1,64 +1,68 @@
-export const dynamic = "force-dynamic";
-
 import { NextRequest, NextResponse } from "next/server";
 import { handleApiRoute } from "@/lib/errors/handle-error";
-import { ApiError } from "@/lib/errors/api-error";
-import { requireAuth } from "@/modules/auth/require-auth";
+import { requireOnboarded } from "@/modules/auth/require-auth";
 import { CollectionService } from "@/modules/collections/collection.service";
 import { addResourceToCollectionSchema } from "@/modules/collections/collection.dto";
-import { z } from "zod";
+import { ApiError } from "@/lib/errors/api-error";
 
-interface RouteContext {
-  params: Promise<{ collectionId: string }>;
+interface RouteParams {
+  params: { collectionId: string };
 }
 
-export const POST = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
-  const { collectionId } = await context.params;
-  const session = await requireAuth(req);
+// POST: Add an element asset into the learning collection sequence
+export const POST = handleApiRoute(
+  async (req: NextRequest, { params }: RouteParams) => {
+    const session = await requireOnboarded(req);
+    const { collectionId } = params;
 
-  let rawBody;
-  try {
-    rawBody = await req.json();
-  } catch {
-    throw ApiError.badRequest("Invalid JSON body payload structure");
-  }
+    const body = await req.json();
+    const parsed = addResourceToCollectionSchema.safeParse(body);
+    if (!parsed.success) {
+      throw ApiError.badRequest(parsed.error.issues[0].message);
+    }
 
-  const result = addResourceToCollectionSchema.safeParse(rawBody);
-  if (!result.success) {
+    const collectionService = new CollectionService();
+    await collectionService.addResource(
+      collectionId,
+      session.userId,
+      parsed.data.resourceId,
+    );
+
     return NextResponse.json(
       {
-        error: "Validation failed",
-        details: result.error.flatten().fieldErrors,
+        success: true,
+        message: "Resource pinned to collection stack sequence map.",
       },
-      { status: 400 },
+      { status: 201 },
     );
-  }
+  },
+);
 
-  const link = await CollectionService.addResourceToFolder(
-    session.userId,
-    collectionId,
-    result.data.resourceId,
-    result.data.order,
-  );
+// DELETE: Pull down a single resource item linkage mapping from this collection list
+export const DELETE = handleApiRoute(
+  async (req: NextRequest, { params }: RouteParams) => {
+    const session = await requireOnboarded(req);
+    const { collectionId } = params;
 
-  return NextResponse.json(link, { status: 201 });
-});
+    const { searchParams } = new URL(req.url);
+    const resourceId = searchParams.get("resourceId");
 
-export const DELETE = handleApiRoute(async (req: NextRequest, context: RouteContext) => {
-  const { collectionId } = await context.params;
-  const session = await requireAuth(req);
+    if (!resourceId) {
+      throw ApiError.badRequest(
+        "Missing required query argument payload field: 'resourceId'.",
+      );
+    }
 
-  const { searchParams } = new URL(req.url);
-  const resourceId = searchParams.get("resourceId");
+    const collectionService = new CollectionService();
+    await collectionService.removeResource(
+      collectionId,
+      session.userId,
+      resourceId,
+    );
 
-  if (!resourceId || !z.string().uuid().safeParse(resourceId).success) {
-    throw ApiError.badRequest("A valid 'resourceId' UUID parameter is required inside the request query parameters");
-  }
-
-  await CollectionService.removeResourceFromFolder(session.userId, collectionId, resourceId);
-
-  return NextResponse.json(
-    { message: "Resource unlinked from collection successfully" },
-    { status: 200 }
-  );
-});
+    return NextResponse.json({
+      success: true,
+      message: "Resource detached from learning collection sequence matrix.",
+    });
+  },
+);

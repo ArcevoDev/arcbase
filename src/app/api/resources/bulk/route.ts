@@ -1,77 +1,64 @@
-export const dynamic = "force-dynamic";
-
 import { NextRequest, NextResponse } from "next/server";
 import { handleApiRoute } from "@/lib/errors/handle-error";
+import { requireOnboarded } from "@/modules/auth/require-auth";
+import { ResourceService } from "@/modules/resources/resource.service";
 import { ApiError } from "@/lib/errors/api-error";
-import { requireAuth } from "@/modules/auth/require-auth";
-import { prisma } from "@/lib/prisma/prisma";
 import { z } from "zod";
 
-const bulkOperationSchema = z.object({
-  ids: z
-    .array(z.string().uuid("Each identifier must be a valid time-sorted UUIDv7"))
-    .min(1, "Bulk actions require at least one target record asset"),
-  action: z.enum(["PUBLISH", "ARCHIVE", "DELETE"])
-}).strict();
+const bulkOperationSchema = z
+  .object({
+    ids: z
+      .array(z.string().uuid("Each resource ID must be a valid UUID"))
+      .min(1, "Provide at least one resource ID"),
+    action: z.enum(["DELETE", "ARCHIVE"]),
+  })
+  .strict();
 
 export const POST = handleApiRoute(async (req: NextRequest) => {
-  const session = await requireAuth(req);
+  const session = await requireOnboarded(req);
+  const tenantId = null; // Ghost Tenant placeholder for MVP
 
-  let body;
-  try {
-    body = await req.json();
-  } catch {
-    throw ApiError.badRequest("Malformed JSON configuration payload");
+  const body = await req.json();
+  const parsed = bulkOperationSchema.safeParse(body);
+
+  if (!parsed.success) {
+    throw ApiError.badRequest(parsed.error.issues[0].message);
   }
 
-  const validation = bulkOperationSchema.safeParse(body);
-  if (!validation.success) {
-    return NextResponse.json(
-      { error: "Validation failed", details: validation.error.flatten().fieldErrors },
-      { status: 400 }
-    );
-  }
+  const { ids, action } = parsed.data;
+  const resourceService = new ResourceService();
 
-  const { ids: rawIds, action } = validation.data;
+  const results = {
+    successful: [] as string[],
+    failed: [] as { id: string; error: string }[],
+  };
 
-  // Deduplicate array elements instantly to eliminate collection spoofing and execution overflows
-  const uniqueIds = Array.from(new Set(rawIds));
-
-  // Authorize ownership over unique target items safely
-  const ownedCount = await prisma.resource.count({
-    where: {
-      id: { in: uniqueIds },
-      authorId: session.userId,
-      deletedAt: null
+  // Execute sequentially to respect ownership validation and lifecycle guards on each node
+  for (const id of ids) {
+    try {
+      if (action === "DELETE") {
+        await resourceService.deleteResource(id, session.userId, tenantId);
+      } else if (action === "ARCHIVE") {
+        await resourceService.archiveResource(id, session.userId, tenantId);
+      }
+      results.successful.push(id);
+    } catch (err: any) {
+      results.failed.push({
+        id,
+        error: err.message || "Operation failed",
+      });
     }
-  });
-
-  if (ownedCount !== uniqueIds.length) {
-    throw ApiError.forbidden("Access denied: One or more selected assets do not exist or belong to another author");
   }
 
-  const timestamp = new Date();
-  
-  // Single database operations are atomic by default; dropping explicit transaction locks prevents row-lock contention
-  if (action === "PUBLISH") {
-    await prisma.resource.updateMany({
-      where: { id: { in: uniqueIds } },
-      data: { status: "PUBLISHED", publishedAt: timestamp }
-    });
-  } else if (action === "ARCHIVE") {
-    await prisma.resource.updateMany({
-      where: { id: { in: uniqueIds } },
-      data: { status: "ARCHIVED", archivedAt: timestamp }
-    });
-  } else if (action === "DELETE") {
-    await prisma.resource.updateMany({
-      where: { id: { in: uniqueIds } },
-      data: { deletedAt: timestamp }
-    });
-  }
+  const successCount = results.successful.length;
+  const failCount = results.failed.length;
 
   return NextResponse.json(
-    { message: `Bulk operation '${action}' completed successfully on ${uniqueIds.length} entries` },
-    { status: 200 }
-  );
+    {
+      success: failCount === 0,
+      message: `Bulk processing complete. Successfully processed ${successCount} assets. Failed on ${failCount} assets.`,
+      data: results,
+    },
+    { status: failCount > 0 ? 270 : 200 },
+  ); // 270 Multi-Status fallback for partial completions
 });

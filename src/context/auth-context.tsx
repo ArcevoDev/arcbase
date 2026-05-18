@@ -1,63 +1,60 @@
 "use client";
 
-import React, { createContext, useState, useEffect, useCallback } from "react";
+import React, { createContext, useState, useEffect } from "react";
+import { apiClient } from "@/lib/api-client";
+import { SafeUserDTO } from "@/modules/auth/auth.dto";
+import { useRouter, usePathname } from "next/navigation";
 
-export interface UserProfile {
-  id: string;
-  email: string;
-  username: string;
-  role: string | null;
-  hasCompletedOnboarding: boolean;
-}
-
-export interface AuthContextType {
-  user: UserProfile | null;
+interface AuthContextType {
+  user: SafeUserDTO | null;
+  loading: boolean;
   isAuthenticated: boolean;
-  isLoading: boolean;
-  refreshSession: () => Promise<void>;
-  clearSessionState: () => void;
+  refreshUser: () => Promise<void>;
+  logout: () => Promise<void>;
 }
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined,
+);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<UserProfile | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<SafeUserDTO | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const refreshSession = useCallback(async () => {
+  const refreshUser = async () => {
     try {
-      const response = await fetch("/api/auth/me", { cache: "no-store" });
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data.user);
+      const response = await apiClient("/api/auth/me");
+      if (response.success && response.data) {
+        setUser(response.data);
       } else {
         setUser(null);
       }
-    } catch (error) {
-      console.error("Critical authentication sync runtime failure:", error);
+    } catch {
       setUser(null);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
-    refreshSession();
-  }, [refreshSession]);
+    refreshUser();
+  }, [pathname]);
 
-  const clearSessionState = useCallback(() => {
-    setUser(null);
-  }, []);
+  const logout = async () => {
+    try {
+      await apiClient("/api/auth/logout", { method: "POST" });
+      setUser(null);
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout execution exception caught:", error);
+    }
+  };
 
   return (
     <AuthContext.Provider
-      value={{
-        user,
-        isAuthenticated: !!user,
-        isLoading,
-        refreshSession,
-        clearSessionState,
-      }}
+      value={{ user, loading, isAuthenticated: !!user, refreshUser, logout }}
     >
       {children}
     </AuthContext.Provider>

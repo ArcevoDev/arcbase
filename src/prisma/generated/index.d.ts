@@ -24,15 +24,15 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Resource = $Result.DefaultSelection<Prisma.$ResourcePayload>
 /**
- * Model ResourceVersion
- * 
- */
-export type ResourceVersion = $Result.DefaultSelection<Prisma.$ResourceVersionPayload>
-/**
  * Model Relation
  * 
  */
 export type Relation = $Result.DefaultSelection<Prisma.$RelationPayload>
+/**
+ * Model ResourceVersion
+ * 
+ */
+export type ResourceVersion = $Result.DefaultSelection<Prisma.$ResourceVersionPayload>
 /**
  * Model Collection
  * 
@@ -82,20 +82,6 @@ export namespace $Enums {
 export type Visibility = (typeof Visibility)[keyof typeof Visibility]
 
 
-export const ResourceType: {
-  ARTICLE: 'ARTICLE',
-  NOTE: 'NOTE',
-  MODULE: 'MODULE',
-  VIDEO: 'VIDEO',
-  IMAGE: 'IMAGE',
-  FILE: 'FILE',
-  LINK: 'LINK',
-  AI_OUTPUT: 'AI_OUTPUT'
-};
-
-export type ResourceType = (typeof ResourceType)[keyof typeof ResourceType]
-
-
 export const ResourceStatus: {
   DRAFT: 'DRAFT',
   PUBLISHED: 'PUBLISHED',
@@ -103,6 +89,15 @@ export const ResourceStatus: {
 };
 
 export type ResourceStatus = (typeof ResourceStatus)[keyof typeof ResourceStatus]
+
+
+export const CommentStatus: {
+  ACTIVE: 'ACTIVE',
+  HIDDEN: 'HIDDEN',
+  DELETED: 'DELETED'
+};
+
+export type CommentStatus = (typeof CommentStatus)[keyof typeof CommentStatus]
 
 
 export const RelationType: {
@@ -117,15 +112,6 @@ export const RelationType: {
 export type RelationType = (typeof RelationType)[keyof typeof RelationType]
 
 
-export const CommentStatus: {
-  ACTIVE: 'ACTIVE',
-  HIDDEN: 'HIDDEN',
-  DELETED: 'DELETED'
-};
-
-export type CommentStatus = (typeof CommentStatus)[keyof typeof CommentStatus]
-
-
 export const UsageEvent: {
   VIEW: 'VIEW',
   OPEN: 'OPEN',
@@ -137,31 +123,45 @@ export const UsageEvent: {
 
 export type UsageEvent = (typeof UsageEvent)[keyof typeof UsageEvent]
 
+
+export const ResourceType: {
+  ARTICLE: 'ARTICLE',
+  NOTE: 'NOTE',
+  MODULE: 'MODULE',
+  VIDEO: 'VIDEO',
+  IMAGE: 'IMAGE',
+  FILE: 'FILE',
+  LINK: 'LINK',
+  AI_OUTPUT: 'AI_OUTPUT'
+};
+
+export type ResourceType = (typeof ResourceType)[keyof typeof ResourceType]
+
 }
 
 export type Visibility = $Enums.Visibility
 
 export const Visibility: typeof $Enums.Visibility
 
-export type ResourceType = $Enums.ResourceType
-
-export const ResourceType: typeof $Enums.ResourceType
-
 export type ResourceStatus = $Enums.ResourceStatus
 
 export const ResourceStatus: typeof $Enums.ResourceStatus
-
-export type RelationType = $Enums.RelationType
-
-export const RelationType: typeof $Enums.RelationType
 
 export type CommentStatus = $Enums.CommentStatus
 
 export const CommentStatus: typeof $Enums.CommentStatus
 
+export type RelationType = $Enums.RelationType
+
+export const RelationType: typeof $Enums.RelationType
+
 export type UsageEvent = $Enums.UsageEvent
 
 export const UsageEvent: typeof $Enums.UsageEvent
+
+export type ResourceType = $Enums.ResourceType
+
+export const ResourceType: typeof $Enums.ResourceType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -305,16 +305,6 @@ export class PrismaClient<
   get resource(): Prisma.ResourceDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.resourceVersion`: Exposes CRUD operations for the **ResourceVersion** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more ResourceVersions
-    * const resourceVersions = await prisma.resourceVersion.findMany()
-    * ```
-    */
-  get resourceVersion(): Prisma.ResourceVersionDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.relation`: Exposes CRUD operations for the **Relation** model.
     * Example usage:
     * ```ts
@@ -323,6 +313,16 @@ export class PrismaClient<
     * ```
     */
   get relation(): Prisma.RelationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.resourceVersion`: Exposes CRUD operations for the **ResourceVersion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ResourceVersions
+    * const resourceVersions = await prisma.resourceVersion.findMany()
+    * ```
+    */
+  get resourceVersion(): Prisma.ResourceVersionDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.collection`: Exposes CRUD operations for the **Collection** model.
@@ -829,8 +829,8 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Resource: 'Resource',
-    ResourceVersion: 'ResourceVersion',
     Relation: 'Relation',
+    ResourceVersion: 'ResourceVersion',
     Collection: 'Collection',
     CollectionResource: 'CollectionResource',
     Tag: 'Tag',
@@ -853,7 +853,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "resource" | "resourceVersion" | "relation" | "collection" | "collectionResource" | "tag" | "comment" | "savedResource" | "resourceUsage" | "resourceMetrics"
+      modelProps: "user" | "resource" | "relation" | "resourceVersion" | "collection" | "collectionResource" | "tag" | "comment" | "savedResource" | "resourceUsage" | "resourceMetrics"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1005,80 +1005,6 @@ export namespace Prisma {
           }
         }
       }
-      ResourceVersion: {
-        payload: Prisma.$ResourceVersionPayload<ExtArgs>
-        fields: Prisma.ResourceVersionFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.ResourceVersionFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.ResourceVersionFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
-          }
-          findFirst: {
-            args: Prisma.ResourceVersionFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.ResourceVersionFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
-          }
-          findMany: {
-            args: Prisma.ResourceVersionFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>[]
-          }
-          create: {
-            args: Prisma.ResourceVersionCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
-          }
-          createMany: {
-            args: Prisma.ResourceVersionCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.ResourceVersionCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>[]
-          }
-          delete: {
-            args: Prisma.ResourceVersionDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
-          }
-          update: {
-            args: Prisma.ResourceVersionUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
-          }
-          deleteMany: {
-            args: Prisma.ResourceVersionDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.ResourceVersionUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.ResourceVersionUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>[]
-          }
-          upsert: {
-            args: Prisma.ResourceVersionUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
-          }
-          aggregate: {
-            args: Prisma.ResourceVersionAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateResourceVersion>
-          }
-          groupBy: {
-            args: Prisma.ResourceVersionGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ResourceVersionGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.ResourceVersionCountArgs<ExtArgs>
-            result: $Utils.Optional<ResourceVersionCountAggregateOutputType> | number
-          }
-        }
-      }
       Relation: {
         payload: Prisma.$RelationPayload<ExtArgs>
         fields: Prisma.RelationFieldRefs
@@ -1150,6 +1076,80 @@ export namespace Prisma {
           count: {
             args: Prisma.RelationCountArgs<ExtArgs>
             result: $Utils.Optional<RelationCountAggregateOutputType> | number
+          }
+        }
+      }
+      ResourceVersion: {
+        payload: Prisma.$ResourceVersionPayload<ExtArgs>
+        fields: Prisma.ResourceVersionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ResourceVersionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ResourceVersionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
+          }
+          findFirst: {
+            args: Prisma.ResourceVersionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ResourceVersionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
+          }
+          findMany: {
+            args: Prisma.ResourceVersionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>[]
+          }
+          create: {
+            args: Prisma.ResourceVersionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
+          }
+          createMany: {
+            args: Prisma.ResourceVersionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ResourceVersionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>[]
+          }
+          delete: {
+            args: Prisma.ResourceVersionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
+          }
+          update: {
+            args: Prisma.ResourceVersionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
+          }
+          deleteMany: {
+            args: Prisma.ResourceVersionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ResourceVersionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ResourceVersionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>[]
+          }
+          upsert: {
+            args: Prisma.ResourceVersionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResourceVersionPayload>
+          }
+          aggregate: {
+            args: Prisma.ResourceVersionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateResourceVersion>
+          }
+          groupBy: {
+            args: Prisma.ResourceVersionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ResourceVersionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ResourceVersionCountArgs<ExtArgs>
+            result: $Utils.Optional<ResourceVersionCountAggregateOutputType> | number
           }
         }
       }
@@ -1781,8 +1781,8 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     resource?: ResourceOmit
-    resourceVersion?: ResourceVersionOmit
     relation?: RelationOmit
+    resourceVersion?: ResourceVersionOmit
     collection?: CollectionOmit
     collectionResource?: CollectionResourceOmit
     tag?: TagOmit
@@ -1875,7 +1875,7 @@ export namespace Prisma {
     comments: number
     savedResources: number
     usageEvents: number
-    resourceVersions: number
+    versions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1884,7 +1884,7 @@ export namespace Prisma {
     comments?: boolean | UserCountOutputTypeCountCommentsArgs
     savedResources?: boolean | UserCountOutputTypeCountSavedResourcesArgs
     usageEvents?: boolean | UserCountOutputTypeCountUsageEventsArgs
-    resourceVersions?: boolean | UserCountOutputTypeCountResourceVersionsArgs
+    versions?: boolean | UserCountOutputTypeCountVersionsArgs
   }
 
   // Custom InputTypes
@@ -1936,7 +1936,7 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountResourceVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ResourceVersionWhereInput
   }
 
@@ -1947,9 +1947,9 @@ export namespace Prisma {
 
   export type ResourceCountOutputType = {
     children: number
-    tags: number
     outgoingRelations: number
     incomingRelations: number
+    tags: number
     collections: number
     comments: number
     versions: number
@@ -1959,9 +1959,9 @@ export namespace Prisma {
 
   export type ResourceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     children?: boolean | ResourceCountOutputTypeCountChildrenArgs
-    tags?: boolean | ResourceCountOutputTypeCountTagsArgs
     outgoingRelations?: boolean | ResourceCountOutputTypeCountOutgoingRelationsArgs
     incomingRelations?: boolean | ResourceCountOutputTypeCountIncomingRelationsArgs
+    tags?: boolean | ResourceCountOutputTypeCountTagsArgs
     collections?: boolean | ResourceCountOutputTypeCountCollectionsArgs
     comments?: boolean | ResourceCountOutputTypeCountCommentsArgs
     versions?: boolean | ResourceCountOutputTypeCountVersionsArgs
@@ -1990,13 +1990,6 @@ export namespace Prisma {
   /**
    * ResourceCountOutputType without action
    */
-  export type ResourceCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TagWhereInput
-  }
-
-  /**
-   * ResourceCountOutputType without action
-   */
   export type ResourceCountOutputTypeCountOutgoingRelationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RelationWhereInput
   }
@@ -2006,6 +1999,13 @@ export namespace Prisma {
    */
   export type ResourceCountOutputTypeCountIncomingRelationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RelationWhereInput
+  }
+
+  /**
+   * ResourceCountOutputType without action
+   */
+  export type ResourceCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TagWhereInput
   }
 
   /**
@@ -2163,6 +2163,7 @@ export namespace Prisma {
 
   export type UserMinAggregateOutputType = {
     id: string | null
+    tenantId: string | null
     identityId: string | null
     username: string | null
     email: string | null
@@ -2179,6 +2180,7 @@ export namespace Prisma {
 
   export type UserMaxAggregateOutputType = {
     id: string | null
+    tenantId: string | null
     identityId: string | null
     username: string | null
     email: string | null
@@ -2195,6 +2197,7 @@ export namespace Prisma {
 
   export type UserCountAggregateOutputType = {
     id: number
+    tenantId: number
     identityId: number
     username: number
     email: number
@@ -2222,6 +2225,7 @@ export namespace Prisma {
 
   export type UserMinAggregateInputType = {
     id?: true
+    tenantId?: true
     identityId?: true
     username?: true
     email?: true
@@ -2238,6 +2242,7 @@ export namespace Prisma {
 
   export type UserMaxAggregateInputType = {
     id?: true
+    tenantId?: true
     identityId?: true
     username?: true
     email?: true
@@ -2254,6 +2259,7 @@ export namespace Prisma {
 
   export type UserCountAggregateInputType = {
     id?: true
+    tenantId?: true
     identityId?: true
     username?: true
     email?: true
@@ -2358,6 +2364,7 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: string
+    tenantId: string | null
     identityId: string | null
     username: string
     email: string
@@ -2394,6 +2401,7 @@ export namespace Prisma {
 
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantId?: boolean
     identityId?: boolean
     username?: boolean
     email?: boolean
@@ -2412,12 +2420,13 @@ export namespace Prisma {
     comments?: boolean | User$commentsArgs<ExtArgs>
     savedResources?: boolean | User$savedResourcesArgs<ExtArgs>
     usageEvents?: boolean | User$usageEventsArgs<ExtArgs>
-    resourceVersions?: boolean | User$resourceVersionsArgs<ExtArgs>
+    versions?: boolean | User$versionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantId?: boolean
     identityId?: boolean
     username?: boolean
     email?: boolean
@@ -2435,6 +2444,7 @@ export namespace Prisma {
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantId?: boolean
     identityId?: boolean
     username?: boolean
     email?: boolean
@@ -2452,6 +2462,7 @@ export namespace Prisma {
 
   export type UserSelectScalar = {
     id?: boolean
+    tenantId?: boolean
     identityId?: boolean
     username?: boolean
     email?: boolean
@@ -2467,14 +2478,14 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "identityId" | "username" | "email" | "passwordHash" | "displayName" | "avatarUrl" | "bio" | "onboardingStep" | "onboardingJson" | "createdAt" | "updatedAt" | "archivedAt" | "deletedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "identityId" | "username" | "email" | "passwordHash" | "displayName" | "avatarUrl" | "bio" | "onboardingStep" | "onboardingJson" | "createdAt" | "updatedAt" | "archivedAt" | "deletedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     resources?: boolean | User$resourcesArgs<ExtArgs>
     collections?: boolean | User$collectionsArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
     savedResources?: boolean | User$savedResourcesArgs<ExtArgs>
     usageEvents?: boolean | User$usageEventsArgs<ExtArgs>
-    resourceVersions?: boolean | User$resourceVersionsArgs<ExtArgs>
+    versions?: boolean | User$versionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2488,10 +2499,11 @@ export namespace Prisma {
       comments: Prisma.$CommentPayload<ExtArgs>[]
       savedResources: Prisma.$SavedResourcePayload<ExtArgs>[]
       usageEvents: Prisma.$ResourceUsagePayload<ExtArgs>[]
-      resourceVersions: Prisma.$ResourceVersionPayload<ExtArgs>[]
+      versions: Prisma.$ResourceVersionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      tenantId: string | null
       identityId: string | null
       username: string
       email: string
@@ -2904,7 +2916,7 @@ export namespace Prisma {
     comments<T extends User$commentsArgs<ExtArgs> = {}>(args?: Subset<T, User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     savedResources<T extends User$savedResourcesArgs<ExtArgs> = {}>(args?: Subset<T, User$savedResourcesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     usageEvents<T extends User$usageEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$usageEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    resourceVersions<T extends User$resourceVersionsArgs<ExtArgs> = {}>(args?: Subset<T, User$resourceVersionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    versions<T extends User$versionsArgs<ExtArgs> = {}>(args?: Subset<T, User$versionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2935,6 +2947,7 @@ export namespace Prisma {
    */
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
+    readonly tenantId: FieldRef<"User", 'String'>
     readonly identityId: FieldRef<"User", 'String'>
     readonly username: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
@@ -3461,9 +3474,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.resourceVersions
+   * User.versions
    */
-  export type User$resourceVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$versionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ResourceVersion
      */
@@ -3527,6 +3540,7 @@ export namespace Prisma {
 
   export type ResourceMinAggregateOutputType = {
     id: string | null
+    tenantId: string | null
     slug: string | null
     title: string | null
     description: string | null
@@ -3553,6 +3567,7 @@ export namespace Prisma {
 
   export type ResourceMaxAggregateOutputType = {
     id: string | null
+    tenantId: string | null
     slug: string | null
     title: string | null
     description: string | null
@@ -3579,12 +3594,14 @@ export namespace Prisma {
 
   export type ResourceCountAggregateOutputType = {
     id: number
+    tenantId: number
     slug: number
     title: number
     description: number
     excerpt: number
+    publishedContentJson: number
+    draftContentJson: number
     content: number
-    contentJson: number
     type: number
     status: number
     visibility: number
@@ -3594,6 +3611,7 @@ export namespace Prisma {
     coverImageUrl: number
     fileUrl: number
     metadata: number
+    aiMetadata: number
     wordCount: number
     estimatedTime: number
     createdAt: number
@@ -3619,6 +3637,7 @@ export namespace Prisma {
 
   export type ResourceMinAggregateInputType = {
     id?: true
+    tenantId?: true
     slug?: true
     title?: true
     description?: true
@@ -3645,6 +3664,7 @@ export namespace Prisma {
 
   export type ResourceMaxAggregateInputType = {
     id?: true
+    tenantId?: true
     slug?: true
     title?: true
     description?: true
@@ -3671,12 +3691,14 @@ export namespace Prisma {
 
   export type ResourceCountAggregateInputType = {
     id?: true
+    tenantId?: true
     slug?: true
     title?: true
     description?: true
     excerpt?: true
+    publishedContentJson?: true
+    draftContentJson?: true
     content?: true
-    contentJson?: true
     type?: true
     status?: true
     visibility?: true
@@ -3686,6 +3708,7 @@ export namespace Prisma {
     coverImageUrl?: true
     fileUrl?: true
     metadata?: true
+    aiMetadata?: true
     wordCount?: true
     estimatedTime?: true
     createdAt?: true
@@ -3786,12 +3809,14 @@ export namespace Prisma {
 
   export type ResourceGroupByOutputType = {
     id: string
+    tenantId: string | null
     slug: string | null
     title: string | null
     description: string | null
     excerpt: string | null
+    publishedContentJson: JsonValue | null
+    draftContentJson: JsonValue | null
     content: string | null
-    contentJson: JsonValue | null
     type: $Enums.ResourceType
     status: $Enums.ResourceStatus
     visibility: $Enums.Visibility
@@ -3801,6 +3826,7 @@ export namespace Prisma {
     coverImageUrl: string | null
     fileUrl: string | null
     metadata: JsonValue | null
+    aiMetadata: JsonValue | null
     wordCount: number | null
     estimatedTime: number | null
     createdAt: Date
@@ -3833,12 +3859,14 @@ export namespace Prisma {
 
   export type ResourceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantId?: boolean
     slug?: boolean
     title?: boolean
     description?: boolean
     excerpt?: boolean
+    publishedContentJson?: boolean
+    draftContentJson?: boolean
     content?: boolean
-    contentJson?: boolean
     type?: boolean
     status?: boolean
     visibility?: boolean
@@ -3848,6 +3876,7 @@ export namespace Prisma {
     coverImageUrl?: boolean
     fileUrl?: boolean
     metadata?: boolean
+    aiMetadata?: boolean
     wordCount?: boolean
     estimatedTime?: boolean
     createdAt?: boolean
@@ -3860,9 +3889,9 @@ export namespace Prisma {
     author?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Resource$parentArgs<ExtArgs>
     children?: boolean | Resource$childrenArgs<ExtArgs>
-    tags?: boolean | Resource$tagsArgs<ExtArgs>
     outgoingRelations?: boolean | Resource$outgoingRelationsArgs<ExtArgs>
     incomingRelations?: boolean | Resource$incomingRelationsArgs<ExtArgs>
+    tags?: boolean | Resource$tagsArgs<ExtArgs>
     collections?: boolean | Resource$collectionsArgs<ExtArgs>
     comments?: boolean | Resource$commentsArgs<ExtArgs>
     metrics?: boolean | Resource$metricsArgs<ExtArgs>
@@ -3874,12 +3903,14 @@ export namespace Prisma {
 
   export type ResourceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantId?: boolean
     slug?: boolean
     title?: boolean
     description?: boolean
     excerpt?: boolean
+    publishedContentJson?: boolean
+    draftContentJson?: boolean
     content?: boolean
-    contentJson?: boolean
     type?: boolean
     status?: boolean
     visibility?: boolean
@@ -3889,6 +3920,7 @@ export namespace Prisma {
     coverImageUrl?: boolean
     fileUrl?: boolean
     metadata?: boolean
+    aiMetadata?: boolean
     wordCount?: boolean
     estimatedTime?: boolean
     createdAt?: boolean
@@ -3904,12 +3936,14 @@ export namespace Prisma {
 
   export type ResourceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantId?: boolean
     slug?: boolean
     title?: boolean
     description?: boolean
     excerpt?: boolean
+    publishedContentJson?: boolean
+    draftContentJson?: boolean
     content?: boolean
-    contentJson?: boolean
     type?: boolean
     status?: boolean
     visibility?: boolean
@@ -3919,6 +3953,7 @@ export namespace Prisma {
     coverImageUrl?: boolean
     fileUrl?: boolean
     metadata?: boolean
+    aiMetadata?: boolean
     wordCount?: boolean
     estimatedTime?: boolean
     createdAt?: boolean
@@ -3934,12 +3969,14 @@ export namespace Prisma {
 
   export type ResourceSelectScalar = {
     id?: boolean
+    tenantId?: boolean
     slug?: boolean
     title?: boolean
     description?: boolean
     excerpt?: boolean
+    publishedContentJson?: boolean
+    draftContentJson?: boolean
     content?: boolean
-    contentJson?: boolean
     type?: boolean
     status?: boolean
     visibility?: boolean
@@ -3949,6 +3986,7 @@ export namespace Prisma {
     coverImageUrl?: boolean
     fileUrl?: boolean
     metadata?: boolean
+    aiMetadata?: boolean
     wordCount?: boolean
     estimatedTime?: boolean
     createdAt?: boolean
@@ -3960,14 +3998,14 @@ export namespace Prisma {
     parentId?: boolean
   }
 
-  export type ResourceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "excerpt" | "content" | "contentJson" | "type" | "status" | "visibility" | "category" | "language" | "thumbnailUrl" | "coverImageUrl" | "fileUrl" | "metadata" | "wordCount" | "estimatedTime" | "createdAt" | "updatedAt" | "publishedAt" | "archivedAt" | "deletedAt" | "authorId" | "parentId", ExtArgs["result"]["resource"]>
+  export type ResourceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "slug" | "title" | "description" | "excerpt" | "publishedContentJson" | "draftContentJson" | "content" | "type" | "status" | "visibility" | "category" | "language" | "thumbnailUrl" | "coverImageUrl" | "fileUrl" | "metadata" | "aiMetadata" | "wordCount" | "estimatedTime" | "createdAt" | "updatedAt" | "publishedAt" | "archivedAt" | "deletedAt" | "authorId" | "parentId", ExtArgs["result"]["resource"]>
   export type ResourceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Resource$parentArgs<ExtArgs>
     children?: boolean | Resource$childrenArgs<ExtArgs>
-    tags?: boolean | Resource$tagsArgs<ExtArgs>
     outgoingRelations?: boolean | Resource$outgoingRelationsArgs<ExtArgs>
     incomingRelations?: boolean | Resource$incomingRelationsArgs<ExtArgs>
+    tags?: boolean | Resource$tagsArgs<ExtArgs>
     collections?: boolean | Resource$collectionsArgs<ExtArgs>
     comments?: boolean | Resource$commentsArgs<ExtArgs>
     metrics?: boolean | Resource$metricsArgs<ExtArgs>
@@ -3991,9 +4029,9 @@ export namespace Prisma {
       author: Prisma.$UserPayload<ExtArgs>
       parent: Prisma.$ResourcePayload<ExtArgs> | null
       children: Prisma.$ResourcePayload<ExtArgs>[]
-      tags: Prisma.$TagPayload<ExtArgs>[]
       outgoingRelations: Prisma.$RelationPayload<ExtArgs>[]
       incomingRelations: Prisma.$RelationPayload<ExtArgs>[]
+      tags: Prisma.$TagPayload<ExtArgs>[]
       collections: Prisma.$CollectionResourcePayload<ExtArgs>[]
       comments: Prisma.$CommentPayload<ExtArgs>[]
       metrics: Prisma.$ResourceMetricsPayload<ExtArgs> | null
@@ -4003,12 +4041,14 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      tenantId: string | null
       slug: string | null
       title: string | null
       description: string | null
       excerpt: string | null
+      publishedContentJson: Prisma.JsonValue | null
+      draftContentJson: Prisma.JsonValue | null
       content: string | null
-      contentJson: Prisma.JsonValue | null
       type: $Enums.ResourceType
       status: $Enums.ResourceStatus
       visibility: $Enums.Visibility
@@ -4018,6 +4058,7 @@ export namespace Prisma {
       coverImageUrl: string | null
       fileUrl: string | null
       metadata: Prisma.JsonValue | null
+      aiMetadata: Prisma.JsonValue | null
       wordCount: number | null
       estimatedTime: number | null
       createdAt: Date
@@ -4424,9 +4465,9 @@ export namespace Prisma {
     author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     parent<T extends Resource$parentArgs<ExtArgs> = {}>(args?: Subset<T, Resource$parentArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     children<T extends Resource$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Resource$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    tags<T extends Resource$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     outgoingRelations<T extends Resource$outgoingRelationsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$outgoingRelationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     incomingRelations<T extends Resource$incomingRelationsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$incomingRelationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tags<T extends Resource$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     collections<T extends Resource$collectionsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$collectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectionResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     comments<T extends Resource$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     metrics<T extends Resource$metricsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$metricsArgs<ExtArgs>>): Prisma__ResourceMetricsClient<$Result.GetResult<Prisma.$ResourceMetricsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -4463,12 +4504,14 @@ export namespace Prisma {
    */
   interface ResourceFieldRefs {
     readonly id: FieldRef<"Resource", 'String'>
+    readonly tenantId: FieldRef<"Resource", 'String'>
     readonly slug: FieldRef<"Resource", 'String'>
     readonly title: FieldRef<"Resource", 'String'>
     readonly description: FieldRef<"Resource", 'String'>
     readonly excerpt: FieldRef<"Resource", 'String'>
+    readonly publishedContentJson: FieldRef<"Resource", 'Json'>
+    readonly draftContentJson: FieldRef<"Resource", 'Json'>
     readonly content: FieldRef<"Resource", 'String'>
-    readonly contentJson: FieldRef<"Resource", 'Json'>
     readonly type: FieldRef<"Resource", 'ResourceType'>
     readonly status: FieldRef<"Resource", 'ResourceStatus'>
     readonly visibility: FieldRef<"Resource", 'Visibility'>
@@ -4478,6 +4521,7 @@ export namespace Prisma {
     readonly coverImageUrl: FieldRef<"Resource", 'String'>
     readonly fileUrl: FieldRef<"Resource", 'String'>
     readonly metadata: FieldRef<"Resource", 'Json'>
+    readonly aiMetadata: FieldRef<"Resource", 'Json'>
     readonly wordCount: FieldRef<"Resource", 'Int'>
     readonly estimatedTime: FieldRef<"Resource", 'Int'>
     readonly createdAt: FieldRef<"Resource", 'DateTime'>
@@ -4931,30 +4975,6 @@ export namespace Prisma {
   }
 
   /**
-   * Resource.tags
-   */
-  export type Resource$tagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Tag
-     */
-    select?: TagSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Tag
-     */
-    omit?: TagOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TagInclude<ExtArgs> | null
-    where?: TagWhereInput
-    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
-    cursor?: TagWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
-  }
-
-  /**
    * Resource.outgoingRelations
    */
   export type Resource$outgoingRelationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5000,6 +5020,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RelationScalarFieldEnum | RelationScalarFieldEnum[]
+  }
+
+  /**
+   * Resource.tags
+   */
+  export type Resource$tagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tag
+     */
+    select?: TagSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tag
+     */
+    omit?: TagOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TagInclude<ExtArgs> | null
+    where?: TagWhereInput
+    orderBy?: TagOrderByWithRelationInput | TagOrderByWithRelationInput[]
+    cursor?: TagWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
   }
 
   /**
@@ -5157,6 +5201,1086 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ResourceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Relation
+   */
+
+  export type AggregateRelation = {
+    _count: RelationCountAggregateOutputType | null
+    _min: RelationMinAggregateOutputType | null
+    _max: RelationMaxAggregateOutputType | null
+  }
+
+  export type RelationMinAggregateOutputType = {
+    id: string | null
+    type: $Enums.RelationType | null
+    fromId: string | null
+    toId: string | null
+    createdAt: Date | null
+  }
+
+  export type RelationMaxAggregateOutputType = {
+    id: string | null
+    type: $Enums.RelationType | null
+    fromId: string | null
+    toId: string | null
+    createdAt: Date | null
+  }
+
+  export type RelationCountAggregateOutputType = {
+    id: number
+    type: number
+    fromId: number
+    toId: number
+    metadata: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RelationMinAggregateInputType = {
+    id?: true
+    type?: true
+    fromId?: true
+    toId?: true
+    createdAt?: true
+  }
+
+  export type RelationMaxAggregateInputType = {
+    id?: true
+    type?: true
+    fromId?: true
+    toId?: true
+    createdAt?: true
+  }
+
+  export type RelationCountAggregateInputType = {
+    id?: true
+    type?: true
+    fromId?: true
+    toId?: true
+    metadata?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RelationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Relation to aggregate.
+     */
+    where?: RelationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Relations to fetch.
+     */
+    orderBy?: RelationOrderByWithRelationInput | RelationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RelationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Relations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Relations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Relations
+    **/
+    _count?: true | RelationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RelationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RelationMaxAggregateInputType
+  }
+
+  export type GetRelationAggregateType<T extends RelationAggregateArgs> = {
+        [P in keyof T & keyof AggregateRelation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRelation[P]>
+      : GetScalarType<T[P], AggregateRelation[P]>
+  }
+
+
+
+
+  export type RelationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RelationWhereInput
+    orderBy?: RelationOrderByWithAggregationInput | RelationOrderByWithAggregationInput[]
+    by: RelationScalarFieldEnum[] | RelationScalarFieldEnum
+    having?: RelationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RelationCountAggregateInputType | true
+    _min?: RelationMinAggregateInputType
+    _max?: RelationMaxAggregateInputType
+  }
+
+  export type RelationGroupByOutputType = {
+    id: string
+    type: $Enums.RelationType
+    fromId: string
+    toId: string
+    metadata: JsonValue | null
+    createdAt: Date
+    _count: RelationCountAggregateOutputType | null
+    _min: RelationMinAggregateOutputType | null
+    _max: RelationMaxAggregateOutputType | null
+  }
+
+  type GetRelationGroupByPayload<T extends RelationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RelationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RelationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RelationGroupByOutputType[P]>
+            : GetScalarType<T[P], RelationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RelationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    fromId?: boolean
+    toId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    from?: boolean | ResourceDefaultArgs<ExtArgs>
+    to?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["relation"]>
+
+  export type RelationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    fromId?: boolean
+    toId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    from?: boolean | ResourceDefaultArgs<ExtArgs>
+    to?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["relation"]>
+
+  export type RelationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    fromId?: boolean
+    toId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    from?: boolean | ResourceDefaultArgs<ExtArgs>
+    to?: boolean | ResourceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["relation"]>
+
+  export type RelationSelectScalar = {
+    id?: boolean
+    type?: boolean
+    fromId?: boolean
+    toId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+  }
+
+  export type RelationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "fromId" | "toId" | "metadata" | "createdAt", ExtArgs["result"]["relation"]>
+  export type RelationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    from?: boolean | ResourceDefaultArgs<ExtArgs>
+    to?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+  export type RelationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    from?: boolean | ResourceDefaultArgs<ExtArgs>
+    to?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+  export type RelationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    from?: boolean | ResourceDefaultArgs<ExtArgs>
+    to?: boolean | ResourceDefaultArgs<ExtArgs>
+  }
+
+  export type $RelationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Relation"
+    objects: {
+      from: Prisma.$ResourcePayload<ExtArgs>
+      to: Prisma.$ResourcePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      type: $Enums.RelationType
+      fromId: string
+      toId: string
+      metadata: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["relation"]>
+    composites: {}
+  }
+
+  type RelationGetPayload<S extends boolean | null | undefined | RelationDefaultArgs> = $Result.GetResult<Prisma.$RelationPayload, S>
+
+  type RelationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RelationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RelationCountAggregateInputType | true
+    }
+
+  export interface RelationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Relation'], meta: { name: 'Relation' } }
+    /**
+     * Find zero or one Relation that matches the filter.
+     * @param {RelationFindUniqueArgs} args - Arguments to find a Relation
+     * @example
+     * // Get one Relation
+     * const relation = await prisma.relation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RelationFindUniqueArgs>(args: SelectSubset<T, RelationFindUniqueArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Relation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RelationFindUniqueOrThrowArgs} args - Arguments to find a Relation
+     * @example
+     * // Get one Relation
+     * const relation = await prisma.relation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RelationFindUniqueOrThrowArgs>(args: SelectSubset<T, RelationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Relation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationFindFirstArgs} args - Arguments to find a Relation
+     * @example
+     * // Get one Relation
+     * const relation = await prisma.relation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RelationFindFirstArgs>(args?: SelectSubset<T, RelationFindFirstArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Relation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationFindFirstOrThrowArgs} args - Arguments to find a Relation
+     * @example
+     * // Get one Relation
+     * const relation = await prisma.relation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RelationFindFirstOrThrowArgs>(args?: SelectSubset<T, RelationFindFirstOrThrowArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Relations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Relations
+     * const relations = await prisma.relation.findMany()
+     * 
+     * // Get first 10 Relations
+     * const relations = await prisma.relation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const relationWithIdOnly = await prisma.relation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RelationFindManyArgs>(args?: SelectSubset<T, RelationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Relation.
+     * @param {RelationCreateArgs} args - Arguments to create a Relation.
+     * @example
+     * // Create one Relation
+     * const Relation = await prisma.relation.create({
+     *   data: {
+     *     // ... data to create a Relation
+     *   }
+     * })
+     * 
+     */
+    create<T extends RelationCreateArgs>(args: SelectSubset<T, RelationCreateArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Relations.
+     * @param {RelationCreateManyArgs} args - Arguments to create many Relations.
+     * @example
+     * // Create many Relations
+     * const relation = await prisma.relation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RelationCreateManyArgs>(args?: SelectSubset<T, RelationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Relations and returns the data saved in the database.
+     * @param {RelationCreateManyAndReturnArgs} args - Arguments to create many Relations.
+     * @example
+     * // Create many Relations
+     * const relation = await prisma.relation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Relations and only return the `id`
+     * const relationWithIdOnly = await prisma.relation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RelationCreateManyAndReturnArgs>(args?: SelectSubset<T, RelationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Relation.
+     * @param {RelationDeleteArgs} args - Arguments to delete one Relation.
+     * @example
+     * // Delete one Relation
+     * const Relation = await prisma.relation.delete({
+     *   where: {
+     *     // ... filter to delete one Relation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RelationDeleteArgs>(args: SelectSubset<T, RelationDeleteArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Relation.
+     * @param {RelationUpdateArgs} args - Arguments to update one Relation.
+     * @example
+     * // Update one Relation
+     * const relation = await prisma.relation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RelationUpdateArgs>(args: SelectSubset<T, RelationUpdateArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Relations.
+     * @param {RelationDeleteManyArgs} args - Arguments to filter Relations to delete.
+     * @example
+     * // Delete a few Relations
+     * const { count } = await prisma.relation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RelationDeleteManyArgs>(args?: SelectSubset<T, RelationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Relations
+     * const relation = await prisma.relation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RelationUpdateManyArgs>(args: SelectSubset<T, RelationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Relations and returns the data updated in the database.
+     * @param {RelationUpdateManyAndReturnArgs} args - Arguments to update many Relations.
+     * @example
+     * // Update many Relations
+     * const relation = await prisma.relation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Relations and only return the `id`
+     * const relationWithIdOnly = await prisma.relation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RelationUpdateManyAndReturnArgs>(args: SelectSubset<T, RelationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Relation.
+     * @param {RelationUpsertArgs} args - Arguments to update or create a Relation.
+     * @example
+     * // Update or create a Relation
+     * const relation = await prisma.relation.upsert({
+     *   create: {
+     *     // ... data to create a Relation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Relation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RelationUpsertArgs>(args: SelectSubset<T, RelationUpsertArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationCountArgs} args - Arguments to filter Relations to count.
+     * @example
+     * // Count the number of Relations
+     * const count = await prisma.relation.count({
+     *   where: {
+     *     // ... the filter for the Relations we want to count
+     *   }
+     * })
+    **/
+    count<T extends RelationCountArgs>(
+      args?: Subset<T, RelationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RelationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Relation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RelationAggregateArgs>(args: Subset<T, RelationAggregateArgs>): Prisma.PrismaPromise<GetRelationAggregateType<T>>
+
+    /**
+     * Group by Relation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RelationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RelationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RelationGroupByArgs['orderBy'] }
+        : { orderBy?: RelationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RelationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRelationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Relation model
+   */
+  readonly fields: RelationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Relation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RelationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    from<T extends ResourceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResourceDefaultArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    to<T extends ResourceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResourceDefaultArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Relation model
+   */
+  interface RelationFieldRefs {
+    readonly id: FieldRef<"Relation", 'String'>
+    readonly type: FieldRef<"Relation", 'RelationType'>
+    readonly fromId: FieldRef<"Relation", 'String'>
+    readonly toId: FieldRef<"Relation", 'String'>
+    readonly metadata: FieldRef<"Relation", 'Json'>
+    readonly createdAt: FieldRef<"Relation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Relation findUnique
+   */
+  export type RelationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * Filter, which Relation to fetch.
+     */
+    where: RelationWhereUniqueInput
+  }
+
+  /**
+   * Relation findUniqueOrThrow
+   */
+  export type RelationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * Filter, which Relation to fetch.
+     */
+    where: RelationWhereUniqueInput
+  }
+
+  /**
+   * Relation findFirst
+   */
+  export type RelationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * Filter, which Relation to fetch.
+     */
+    where?: RelationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Relations to fetch.
+     */
+    orderBy?: RelationOrderByWithRelationInput | RelationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Relations.
+     */
+    cursor?: RelationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Relations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Relations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Relations.
+     */
+    distinct?: RelationScalarFieldEnum | RelationScalarFieldEnum[]
+  }
+
+  /**
+   * Relation findFirstOrThrow
+   */
+  export type RelationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * Filter, which Relation to fetch.
+     */
+    where?: RelationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Relations to fetch.
+     */
+    orderBy?: RelationOrderByWithRelationInput | RelationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Relations.
+     */
+    cursor?: RelationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Relations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Relations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Relations.
+     */
+    distinct?: RelationScalarFieldEnum | RelationScalarFieldEnum[]
+  }
+
+  /**
+   * Relation findMany
+   */
+  export type RelationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * Filter, which Relations to fetch.
+     */
+    where?: RelationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Relations to fetch.
+     */
+    orderBy?: RelationOrderByWithRelationInput | RelationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Relations.
+     */
+    cursor?: RelationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Relations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Relations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Relations.
+     */
+    distinct?: RelationScalarFieldEnum | RelationScalarFieldEnum[]
+  }
+
+  /**
+   * Relation create
+   */
+  export type RelationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Relation.
+     */
+    data: XOR<RelationCreateInput, RelationUncheckedCreateInput>
+  }
+
+  /**
+   * Relation createMany
+   */
+  export type RelationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Relations.
+     */
+    data: RelationCreateManyInput | RelationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Relation createManyAndReturn
+   */
+  export type RelationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Relations.
+     */
+    data: RelationCreateManyInput | RelationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Relation update
+   */
+  export type RelationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Relation.
+     */
+    data: XOR<RelationUpdateInput, RelationUncheckedUpdateInput>
+    /**
+     * Choose, which Relation to update.
+     */
+    where: RelationWhereUniqueInput
+  }
+
+  /**
+   * Relation updateMany
+   */
+  export type RelationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Relations.
+     */
+    data: XOR<RelationUpdateManyMutationInput, RelationUncheckedUpdateManyInput>
+    /**
+     * Filter which Relations to update
+     */
+    where?: RelationWhereInput
+    /**
+     * Limit how many Relations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Relation updateManyAndReturn
+   */
+  export type RelationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * The data used to update Relations.
+     */
+    data: XOR<RelationUpdateManyMutationInput, RelationUncheckedUpdateManyInput>
+    /**
+     * Filter which Relations to update
+     */
+    where?: RelationWhereInput
+    /**
+     * Limit how many Relations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Relation upsert
+   */
+  export type RelationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Relation to update in case it exists.
+     */
+    where: RelationWhereUniqueInput
+    /**
+     * In case the Relation found by the `where` argument doesn't exist, create a new Relation with this data.
+     */
+    create: XOR<RelationCreateInput, RelationUncheckedCreateInput>
+    /**
+     * In case the Relation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RelationUpdateInput, RelationUncheckedUpdateInput>
+  }
+
+  /**
+   * Relation delete
+   */
+  export type RelationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
+    /**
+     * Filter which Relation to delete.
+     */
+    where: RelationWhereUniqueInput
+  }
+
+  /**
+   * Relation deleteMany
+   */
+  export type RelationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Relations to delete
+     */
+    where?: RelationWhereInput
+    /**
+     * Limit how many Relations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Relation without action
+   */
+  export type RelationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Relation
+     */
+    select?: RelationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Relation
+     */
+    omit?: RelationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RelationInclude<ExtArgs> | null
   }
 
 
@@ -6314,1086 +7438,6 @@ export namespace Prisma {
 
 
   /**
-   * Model Relation
-   */
-
-  export type AggregateRelation = {
-    _count: RelationCountAggregateOutputType | null
-    _min: RelationMinAggregateOutputType | null
-    _max: RelationMaxAggregateOutputType | null
-  }
-
-  export type RelationMinAggregateOutputType = {
-    id: string | null
-    type: $Enums.RelationType | null
-    fromId: string | null
-    toId: string | null
-    createdAt: Date | null
-  }
-
-  export type RelationMaxAggregateOutputType = {
-    id: string | null
-    type: $Enums.RelationType | null
-    fromId: string | null
-    toId: string | null
-    createdAt: Date | null
-  }
-
-  export type RelationCountAggregateOutputType = {
-    id: number
-    type: number
-    fromId: number
-    toId: number
-    metadata: number
-    createdAt: number
-    _all: number
-  }
-
-
-  export type RelationMinAggregateInputType = {
-    id?: true
-    type?: true
-    fromId?: true
-    toId?: true
-    createdAt?: true
-  }
-
-  export type RelationMaxAggregateInputType = {
-    id?: true
-    type?: true
-    fromId?: true
-    toId?: true
-    createdAt?: true
-  }
-
-  export type RelationCountAggregateInputType = {
-    id?: true
-    type?: true
-    fromId?: true
-    toId?: true
-    metadata?: true
-    createdAt?: true
-    _all?: true
-  }
-
-  export type RelationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Relation to aggregate.
-     */
-    where?: RelationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Relations to fetch.
-     */
-    orderBy?: RelationOrderByWithRelationInput | RelationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: RelationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Relations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Relations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Relations
-    **/
-    _count?: true | RelationCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: RelationMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: RelationMaxAggregateInputType
-  }
-
-  export type GetRelationAggregateType<T extends RelationAggregateArgs> = {
-        [P in keyof T & keyof AggregateRelation]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateRelation[P]>
-      : GetScalarType<T[P], AggregateRelation[P]>
-  }
-
-
-
-
-  export type RelationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RelationWhereInput
-    orderBy?: RelationOrderByWithAggregationInput | RelationOrderByWithAggregationInput[]
-    by: RelationScalarFieldEnum[] | RelationScalarFieldEnum
-    having?: RelationScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: RelationCountAggregateInputType | true
-    _min?: RelationMinAggregateInputType
-    _max?: RelationMaxAggregateInputType
-  }
-
-  export type RelationGroupByOutputType = {
-    id: string
-    type: $Enums.RelationType
-    fromId: string
-    toId: string
-    metadata: JsonValue | null
-    createdAt: Date
-    _count: RelationCountAggregateOutputType | null
-    _min: RelationMinAggregateOutputType | null
-    _max: RelationMaxAggregateOutputType | null
-  }
-
-  type GetRelationGroupByPayload<T extends RelationGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<RelationGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof RelationGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], RelationGroupByOutputType[P]>
-            : GetScalarType<T[P], RelationGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type RelationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    type?: boolean
-    fromId?: boolean
-    toId?: boolean
-    metadata?: boolean
-    createdAt?: boolean
-    from?: boolean | ResourceDefaultArgs<ExtArgs>
-    to?: boolean | ResourceDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["relation"]>
-
-  export type RelationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    type?: boolean
-    fromId?: boolean
-    toId?: boolean
-    metadata?: boolean
-    createdAt?: boolean
-    from?: boolean | ResourceDefaultArgs<ExtArgs>
-    to?: boolean | ResourceDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["relation"]>
-
-  export type RelationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    type?: boolean
-    fromId?: boolean
-    toId?: boolean
-    metadata?: boolean
-    createdAt?: boolean
-    from?: boolean | ResourceDefaultArgs<ExtArgs>
-    to?: boolean | ResourceDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["relation"]>
-
-  export type RelationSelectScalar = {
-    id?: boolean
-    type?: boolean
-    fromId?: boolean
-    toId?: boolean
-    metadata?: boolean
-    createdAt?: boolean
-  }
-
-  export type RelationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "fromId" | "toId" | "metadata" | "createdAt", ExtArgs["result"]["relation"]>
-  export type RelationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    from?: boolean | ResourceDefaultArgs<ExtArgs>
-    to?: boolean | ResourceDefaultArgs<ExtArgs>
-  }
-  export type RelationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    from?: boolean | ResourceDefaultArgs<ExtArgs>
-    to?: boolean | ResourceDefaultArgs<ExtArgs>
-  }
-  export type RelationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    from?: boolean | ResourceDefaultArgs<ExtArgs>
-    to?: boolean | ResourceDefaultArgs<ExtArgs>
-  }
-
-  export type $RelationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Relation"
-    objects: {
-      from: Prisma.$ResourcePayload<ExtArgs>
-      to: Prisma.$ResourcePayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      type: $Enums.RelationType
-      fromId: string
-      toId: string
-      metadata: Prisma.JsonValue | null
-      createdAt: Date
-    }, ExtArgs["result"]["relation"]>
-    composites: {}
-  }
-
-  type RelationGetPayload<S extends boolean | null | undefined | RelationDefaultArgs> = $Result.GetResult<Prisma.$RelationPayload, S>
-
-  type RelationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<RelationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: RelationCountAggregateInputType | true
-    }
-
-  export interface RelationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Relation'], meta: { name: 'Relation' } }
-    /**
-     * Find zero or one Relation that matches the filter.
-     * @param {RelationFindUniqueArgs} args - Arguments to find a Relation
-     * @example
-     * // Get one Relation
-     * const relation = await prisma.relation.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends RelationFindUniqueArgs>(args: SelectSubset<T, RelationFindUniqueArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Relation that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {RelationFindUniqueOrThrowArgs} args - Arguments to find a Relation
-     * @example
-     * // Get one Relation
-     * const relation = await prisma.relation.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends RelationFindUniqueOrThrowArgs>(args: SelectSubset<T, RelationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Relation that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RelationFindFirstArgs} args - Arguments to find a Relation
-     * @example
-     * // Get one Relation
-     * const relation = await prisma.relation.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends RelationFindFirstArgs>(args?: SelectSubset<T, RelationFindFirstArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Relation that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RelationFindFirstOrThrowArgs} args - Arguments to find a Relation
-     * @example
-     * // Get one Relation
-     * const relation = await prisma.relation.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends RelationFindFirstOrThrowArgs>(args?: SelectSubset<T, RelationFindFirstOrThrowArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Relations that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RelationFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Relations
-     * const relations = await prisma.relation.findMany()
-     * 
-     * // Get first 10 Relations
-     * const relations = await prisma.relation.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const relationWithIdOnly = await prisma.relation.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends RelationFindManyArgs>(args?: SelectSubset<T, RelationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Relation.
-     * @param {RelationCreateArgs} args - Arguments to create a Relation.
-     * @example
-     * // Create one Relation
-     * const Relation = await prisma.relation.create({
-     *   data: {
-     *     // ... data to create a Relation
-     *   }
-     * })
-     * 
-     */
-    create<T extends RelationCreateArgs>(args: SelectSubset<T, RelationCreateArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Relations.
-     * @param {RelationCreateManyArgs} args - Arguments to create many Relations.
-     * @example
-     * // Create many Relations
-     * const relation = await prisma.relation.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends RelationCreateManyArgs>(args?: SelectSubset<T, RelationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Relations and returns the data saved in the database.
-     * @param {RelationCreateManyAndReturnArgs} args - Arguments to create many Relations.
-     * @example
-     * // Create many Relations
-     * const relation = await prisma.relation.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Relations and only return the `id`
-     * const relationWithIdOnly = await prisma.relation.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends RelationCreateManyAndReturnArgs>(args?: SelectSubset<T, RelationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Relation.
-     * @param {RelationDeleteArgs} args - Arguments to delete one Relation.
-     * @example
-     * // Delete one Relation
-     * const Relation = await prisma.relation.delete({
-     *   where: {
-     *     // ... filter to delete one Relation
-     *   }
-     * })
-     * 
-     */
-    delete<T extends RelationDeleteArgs>(args: SelectSubset<T, RelationDeleteArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Relation.
-     * @param {RelationUpdateArgs} args - Arguments to update one Relation.
-     * @example
-     * // Update one Relation
-     * const relation = await prisma.relation.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends RelationUpdateArgs>(args: SelectSubset<T, RelationUpdateArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Relations.
-     * @param {RelationDeleteManyArgs} args - Arguments to filter Relations to delete.
-     * @example
-     * // Delete a few Relations
-     * const { count } = await prisma.relation.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends RelationDeleteManyArgs>(args?: SelectSubset<T, RelationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Relations.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RelationUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Relations
-     * const relation = await prisma.relation.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends RelationUpdateManyArgs>(args: SelectSubset<T, RelationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Relations and returns the data updated in the database.
-     * @param {RelationUpdateManyAndReturnArgs} args - Arguments to update many Relations.
-     * @example
-     * // Update many Relations
-     * const relation = await prisma.relation.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Relations and only return the `id`
-     * const relationWithIdOnly = await prisma.relation.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends RelationUpdateManyAndReturnArgs>(args: SelectSubset<T, RelationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Relation.
-     * @param {RelationUpsertArgs} args - Arguments to update or create a Relation.
-     * @example
-     * // Update or create a Relation
-     * const relation = await prisma.relation.upsert({
-     *   create: {
-     *     // ... data to create a Relation
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Relation we want to update
-     *   }
-     * })
-     */
-    upsert<T extends RelationUpsertArgs>(args: SelectSubset<T, RelationUpsertArgs<ExtArgs>>): Prisma__RelationClient<$Result.GetResult<Prisma.$RelationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Relations.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RelationCountArgs} args - Arguments to filter Relations to count.
-     * @example
-     * // Count the number of Relations
-     * const count = await prisma.relation.count({
-     *   where: {
-     *     // ... the filter for the Relations we want to count
-     *   }
-     * })
-    **/
-    count<T extends RelationCountArgs>(
-      args?: Subset<T, RelationCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], RelationCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Relation.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RelationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends RelationAggregateArgs>(args: Subset<T, RelationAggregateArgs>): Prisma.PrismaPromise<GetRelationAggregateType<T>>
-
-    /**
-     * Group by Relation.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RelationGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends RelationGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: RelationGroupByArgs['orderBy'] }
-        : { orderBy?: RelationGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, RelationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRelationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Relation model
-   */
-  readonly fields: RelationFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Relation.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__RelationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    from<T extends ResourceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResourceDefaultArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    to<T extends ResourceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResourceDefaultArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Relation model
-   */
-  interface RelationFieldRefs {
-    readonly id: FieldRef<"Relation", 'String'>
-    readonly type: FieldRef<"Relation", 'RelationType'>
-    readonly fromId: FieldRef<"Relation", 'String'>
-    readonly toId: FieldRef<"Relation", 'String'>
-    readonly metadata: FieldRef<"Relation", 'Json'>
-    readonly createdAt: FieldRef<"Relation", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Relation findUnique
-   */
-  export type RelationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Relation
-     */
-    select?: RelationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Relation
-     */
-    omit?: RelationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RelationInclude<ExtArgs> | null
-    /**
-     * Filter, which Relation to fetch.
-     */
-    where: RelationWhereUniqueInput
-  }
-
-  /**
-   * Relation findUniqueOrThrow
-   */
-  export type RelationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Relation
-     */
-    select?: RelationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Relation
-     */
-    omit?: RelationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RelationInclude<ExtArgs> | null
-    /**
-     * Filter, which Relation to fetch.
-     */
-    where: RelationWhereUniqueInput
-  }
-
-  /**
-   * Relation findFirst
-   */
-  export type RelationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Relation
-     */
-    select?: RelationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Relation
-     */
-    omit?: RelationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RelationInclude<ExtArgs> | null
-    /**
-     * Filter, which Relation to fetch.
-     */
-    where?: RelationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Relations to fetch.
-     */
-    orderBy?: RelationOrderByWithRelationInput | RelationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Relations.
-     */
-    cursor?: RelationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Relations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Relations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Relations.
-     */
-    distinct?: RelationScalarFieldEnum | RelationScalarFieldEnum[]
-  }
-
-  /**
-   * Relation findFirstOrThrow
-   */
-  export type RelationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Relation
-     */
-    select?: RelationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Relation
-     */
-    omit?: RelationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RelationInclude<ExtArgs> | null
-    /**
-     * Filter, which Relation to fetch.
-     */
-    where?: RelationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Relations to fetch.
-     */
-    orderBy?: RelationOrderByWithRelationInput | RelationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Relations.
-     */
-    cursor?: RelationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Relations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Relations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Relations.
-     */
-    distinct?: RelationScalarFieldEnum | RelationScalarFieldEnum[]
-  }
-
-  /**
-   * Relation findMany
-   */
-  export type RelationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Relation
-     */
-    select?: RelationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Relation
-     */
-    omit?: RelationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RelationInclude<ExtArgs> | null
-    /**
-     * Filter, which Relations to fetch.
-     */
-    where?: RelationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Relations to fetch.
-     */
-    orderBy?: RelationOrderByWithRelationInput | RelationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Relations.
-     */
-    cursor?: RelationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Relations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Relations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Relations.
-     */
-    distinct?: RelationScalarFieldEnum | RelationScalarFieldEnum[]
-  }
-
-  /**
-   * Relation create
-   */
-  export type RelationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Relation
-     */
-    select?: RelationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Relation
-     */
-    omit?: RelationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RelationInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Relation.
-     */
-    data: XOR<RelationCreateInput, RelationUncheckedCreateInput>
-  }
-
-  /**
-   * Relation createMany
-   */
-  export type RelationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Relations.
-     */
-    data: RelationCreateManyInput | RelationCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Relation createManyAndReturn
-   */
-  export type RelationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Relation
-     */
-    select?: RelationSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Relation
-     */
-    omit?: RelationOmit<ExtArgs> | null
-    /**
-     * The data used to create many Relations.
-     */
-    data: RelationCreateManyInput | RelationCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RelationIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Relation update
-   */
-  export type RelationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Relation
-     */
-    select?: RelationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Relation
-     */
-    omit?: RelationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RelationInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Relation.
-     */
-    data: XOR<RelationUpdateInput, RelationUncheckedUpdateInput>
-    /**
-     * Choose, which Relation to update.
-     */
-    where: RelationWhereUniqueInput
-  }
-
-  /**
-   * Relation updateMany
-   */
-  export type RelationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Relations.
-     */
-    data: XOR<RelationUpdateManyMutationInput, RelationUncheckedUpdateManyInput>
-    /**
-     * Filter which Relations to update
-     */
-    where?: RelationWhereInput
-    /**
-     * Limit how many Relations to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Relation updateManyAndReturn
-   */
-  export type RelationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Relation
-     */
-    select?: RelationSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Relation
-     */
-    omit?: RelationOmit<ExtArgs> | null
-    /**
-     * The data used to update Relations.
-     */
-    data: XOR<RelationUpdateManyMutationInput, RelationUncheckedUpdateManyInput>
-    /**
-     * Filter which Relations to update
-     */
-    where?: RelationWhereInput
-    /**
-     * Limit how many Relations to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RelationIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Relation upsert
-   */
-  export type RelationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Relation
-     */
-    select?: RelationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Relation
-     */
-    omit?: RelationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RelationInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Relation to update in case it exists.
-     */
-    where: RelationWhereUniqueInput
-    /**
-     * In case the Relation found by the `where` argument doesn't exist, create a new Relation with this data.
-     */
-    create: XOR<RelationCreateInput, RelationUncheckedCreateInput>
-    /**
-     * In case the Relation was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<RelationUpdateInput, RelationUncheckedUpdateInput>
-  }
-
-  /**
-   * Relation delete
-   */
-  export type RelationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Relation
-     */
-    select?: RelationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Relation
-     */
-    omit?: RelationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RelationInclude<ExtArgs> | null
-    /**
-     * Filter which Relation to delete.
-     */
-    where: RelationWhereUniqueInput
-  }
-
-  /**
-   * Relation deleteMany
-   */
-  export type RelationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Relations to delete
-     */
-    where?: RelationWhereInput
-    /**
-     * Limit how many Relations to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Relation without action
-   */
-  export type RelationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Relation
-     */
-    select?: RelationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Relation
-     */
-    omit?: RelationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RelationInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model Collection
    */
 
@@ -7405,32 +7449,33 @@ export namespace Prisma {
 
   export type CollectionMinAggregateOutputType = {
     id: string | null
+    tenantId: string | null
     slug: string | null
     title: string | null
     description: string | null
     visibility: $Enums.Visibility | null
     createdAt: Date | null
     updatedAt: Date | null
-    archivedAt: Date | null
     deletedAt: Date | null
     authorId: string | null
   }
 
   export type CollectionMaxAggregateOutputType = {
     id: string | null
+    tenantId: string | null
     slug: string | null
     title: string | null
     description: string | null
     visibility: $Enums.Visibility | null
     createdAt: Date | null
     updatedAt: Date | null
-    archivedAt: Date | null
     deletedAt: Date | null
     authorId: string | null
   }
 
   export type CollectionCountAggregateOutputType = {
     id: number
+    tenantId: number
     slug: number
     title: number
     description: number
@@ -7438,7 +7483,6 @@ export namespace Prisma {
     metadata: number
     createdAt: number
     updatedAt: number
-    archivedAt: number
     deletedAt: number
     authorId: number
     _all: number
@@ -7447,32 +7491,33 @@ export namespace Prisma {
 
   export type CollectionMinAggregateInputType = {
     id?: true
+    tenantId?: true
     slug?: true
     title?: true
     description?: true
     visibility?: true
     createdAt?: true
     updatedAt?: true
-    archivedAt?: true
     deletedAt?: true
     authorId?: true
   }
 
   export type CollectionMaxAggregateInputType = {
     id?: true
+    tenantId?: true
     slug?: true
     title?: true
     description?: true
     visibility?: true
     createdAt?: true
     updatedAt?: true
-    archivedAt?: true
     deletedAt?: true
     authorId?: true
   }
 
   export type CollectionCountAggregateInputType = {
     id?: true
+    tenantId?: true
     slug?: true
     title?: true
     description?: true
@@ -7480,7 +7525,6 @@ export namespace Prisma {
     metadata?: true
     createdAt?: true
     updatedAt?: true
-    archivedAt?: true
     deletedAt?: true
     authorId?: true
     _all?: true
@@ -7560,6 +7604,7 @@ export namespace Prisma {
 
   export type CollectionGroupByOutputType = {
     id: string
+    tenantId: string | null
     slug: string
     title: string
     description: string | null
@@ -7567,7 +7612,6 @@ export namespace Prisma {
     metadata: JsonValue | null
     createdAt: Date
     updatedAt: Date
-    archivedAt: Date | null
     deletedAt: Date | null
     authorId: string
     _count: CollectionCountAggregateOutputType | null
@@ -7591,6 +7635,7 @@ export namespace Prisma {
 
   export type CollectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantId?: boolean
     slug?: boolean
     title?: boolean
     description?: boolean
@@ -7598,7 +7643,6 @@ export namespace Prisma {
     metadata?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    archivedAt?: boolean
     deletedAt?: boolean
     authorId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
@@ -7608,6 +7652,7 @@ export namespace Prisma {
 
   export type CollectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantId?: boolean
     slug?: boolean
     title?: boolean
     description?: boolean
@@ -7615,7 +7660,6 @@ export namespace Prisma {
     metadata?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    archivedAt?: boolean
     deletedAt?: boolean
     authorId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
@@ -7623,6 +7667,7 @@ export namespace Prisma {
 
   export type CollectionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantId?: boolean
     slug?: boolean
     title?: boolean
     description?: boolean
@@ -7630,7 +7675,6 @@ export namespace Prisma {
     metadata?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    archivedAt?: boolean
     deletedAt?: boolean
     authorId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
@@ -7638,6 +7682,7 @@ export namespace Prisma {
 
   export type CollectionSelectScalar = {
     id?: boolean
+    tenantId?: boolean
     slug?: boolean
     title?: boolean
     description?: boolean
@@ -7645,12 +7690,11 @@ export namespace Prisma {
     metadata?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    archivedAt?: boolean
     deletedAt?: boolean
     authorId?: boolean
   }
 
-  export type CollectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "visibility" | "metadata" | "createdAt" | "updatedAt" | "archivedAt" | "deletedAt" | "authorId", ExtArgs["result"]["collection"]>
+  export type CollectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "slug" | "title" | "description" | "visibility" | "metadata" | "createdAt" | "updatedAt" | "deletedAt" | "authorId", ExtArgs["result"]["collection"]>
   export type CollectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
     resources?: boolean | Collection$resourcesArgs<ExtArgs>
@@ -7671,6 +7715,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      tenantId: string | null
       slug: string
       title: string
       description: string | null
@@ -7678,7 +7723,6 @@ export namespace Prisma {
       metadata: Prisma.JsonValue | null
       createdAt: Date
       updatedAt: Date
-      archivedAt: Date | null
       deletedAt: Date | null
       authorId: string
     }, ExtArgs["result"]["collection"]>
@@ -8107,6 +8151,7 @@ export namespace Prisma {
    */
   interface CollectionFieldRefs {
     readonly id: FieldRef<"Collection", 'String'>
+    readonly tenantId: FieldRef<"Collection", 'String'>
     readonly slug: FieldRef<"Collection", 'String'>
     readonly title: FieldRef<"Collection", 'String'>
     readonly description: FieldRef<"Collection", 'String'>
@@ -8114,7 +8159,6 @@ export namespace Prisma {
     readonly metadata: FieldRef<"Collection", 'Json'>
     readonly createdAt: FieldRef<"Collection", 'DateTime'>
     readonly updatedAt: FieldRef<"Collection", 'DateTime'>
-    readonly archivedAt: FieldRef<"Collection", 'DateTime'>
     readonly deletedAt: FieldRef<"Collection", 'DateTime'>
     readonly authorId: FieldRef<"Collection", 'String'>
   }
@@ -9677,6 +9721,7 @@ export namespace Prisma {
 
   export type TagMinAggregateOutputType = {
     id: string | null
+    tenantId: string | null
     name: string | null
     slug: string | null
     createdAt: Date | null
@@ -9684,6 +9729,7 @@ export namespace Prisma {
 
   export type TagMaxAggregateOutputType = {
     id: string | null
+    tenantId: string | null
     name: string | null
     slug: string | null
     createdAt: Date | null
@@ -9691,6 +9737,7 @@ export namespace Prisma {
 
   export type TagCountAggregateOutputType = {
     id: number
+    tenantId: number
     name: number
     slug: number
     createdAt: number
@@ -9700,6 +9747,7 @@ export namespace Prisma {
 
   export type TagMinAggregateInputType = {
     id?: true
+    tenantId?: true
     name?: true
     slug?: true
     createdAt?: true
@@ -9707,6 +9755,7 @@ export namespace Prisma {
 
   export type TagMaxAggregateInputType = {
     id?: true
+    tenantId?: true
     name?: true
     slug?: true
     createdAt?: true
@@ -9714,6 +9763,7 @@ export namespace Prisma {
 
   export type TagCountAggregateInputType = {
     id?: true
+    tenantId?: true
     name?: true
     slug?: true
     createdAt?: true
@@ -9794,6 +9844,7 @@ export namespace Prisma {
 
   export type TagGroupByOutputType = {
     id: string
+    tenantId: string | null
     name: string
     slug: string
     createdAt: Date
@@ -9818,6 +9869,7 @@ export namespace Prisma {
 
   export type TagSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantId?: boolean
     name?: boolean
     slug?: boolean
     createdAt?: boolean
@@ -9827,6 +9879,7 @@ export namespace Prisma {
 
   export type TagSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantId?: boolean
     name?: boolean
     slug?: boolean
     createdAt?: boolean
@@ -9834,6 +9887,7 @@ export namespace Prisma {
 
   export type TagSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    tenantId?: boolean
     name?: boolean
     slug?: boolean
     createdAt?: boolean
@@ -9841,12 +9895,13 @@ export namespace Prisma {
 
   export type TagSelectScalar = {
     id?: boolean
+    tenantId?: boolean
     name?: boolean
     slug?: boolean
     createdAt?: boolean
   }
 
-  export type TagOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "createdAt", ExtArgs["result"]["tag"]>
+  export type TagOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "name" | "slug" | "createdAt", ExtArgs["result"]["tag"]>
   export type TagInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     resources?: boolean | Tag$resourcesArgs<ExtArgs>
     _count?: boolean | TagCountOutputTypeDefaultArgs<ExtArgs>
@@ -9861,6 +9916,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      tenantId: string | null
       name: string
       slug: string
       createdAt: Date
@@ -10289,6 +10345,7 @@ export namespace Prisma {
    */
   interface TagFieldRefs {
     readonly id: FieldRef<"Tag", 'String'>
+    readonly tenantId: FieldRef<"Tag", 'String'>
     readonly name: FieldRef<"Tag", 'String'>
     readonly slug: FieldRef<"Tag", 'String'>
     readonly createdAt: FieldRef<"Tag", 'DateTime'>
@@ -15288,6 +15345,7 @@ export namespace Prisma {
 
   export const UserScalarFieldEnum: {
     id: 'id',
+    tenantId: 'tenantId',
     identityId: 'identityId',
     username: 'username',
     email: 'email',
@@ -15308,12 +15366,14 @@ export namespace Prisma {
 
   export const ResourceScalarFieldEnum: {
     id: 'id',
+    tenantId: 'tenantId',
     slug: 'slug',
     title: 'title',
     description: 'description',
     excerpt: 'excerpt',
+    publishedContentJson: 'publishedContentJson',
+    draftContentJson: 'draftContentJson',
     content: 'content',
-    contentJson: 'contentJson',
     type: 'type',
     status: 'status',
     visibility: 'visibility',
@@ -15323,6 +15383,7 @@ export namespace Prisma {
     coverImageUrl: 'coverImageUrl',
     fileUrl: 'fileUrl',
     metadata: 'metadata',
+    aiMetadata: 'aiMetadata',
     wordCount: 'wordCount',
     estimatedTime: 'estimatedTime',
     createdAt: 'createdAt',
@@ -15335,6 +15396,18 @@ export namespace Prisma {
   };
 
   export type ResourceScalarFieldEnum = (typeof ResourceScalarFieldEnum)[keyof typeof ResourceScalarFieldEnum]
+
+
+  export const RelationScalarFieldEnum: {
+    id: 'id',
+    type: 'type',
+    fromId: 'fromId',
+    toId: 'toId',
+    metadata: 'metadata',
+    createdAt: 'createdAt'
+  };
+
+  export type RelationScalarFieldEnum = (typeof RelationScalarFieldEnum)[keyof typeof RelationScalarFieldEnum]
 
 
   export const ResourceVersionScalarFieldEnum: {
@@ -15352,20 +15425,9 @@ export namespace Prisma {
   export type ResourceVersionScalarFieldEnum = (typeof ResourceVersionScalarFieldEnum)[keyof typeof ResourceVersionScalarFieldEnum]
 
 
-  export const RelationScalarFieldEnum: {
-    id: 'id',
-    type: 'type',
-    fromId: 'fromId',
-    toId: 'toId',
-    metadata: 'metadata',
-    createdAt: 'createdAt'
-  };
-
-  export type RelationScalarFieldEnum = (typeof RelationScalarFieldEnum)[keyof typeof RelationScalarFieldEnum]
-
-
   export const CollectionScalarFieldEnum: {
     id: 'id',
+    tenantId: 'tenantId',
     slug: 'slug',
     title: 'title',
     description: 'description',
@@ -15373,7 +15435,6 @@ export namespace Prisma {
     metadata: 'metadata',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    archivedAt: 'archivedAt',
     deletedAt: 'deletedAt',
     authorId: 'authorId'
   };
@@ -15394,6 +15455,7 @@ export namespace Prisma {
 
   export const TagScalarFieldEnum: {
     id: 'id',
+    tenantId: 'tenantId',
     name: 'name',
     slug: 'slug',
     createdAt: 'createdAt'
@@ -15665,6 +15727,7 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
+    tenantId?: StringNullableFilter<"User"> | string | null
     identityId?: StringNullableFilter<"User"> | string | null
     username?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
@@ -15683,11 +15746,12 @@ export namespace Prisma {
     comments?: CommentListRelationFilter
     savedResources?: SavedResourceListRelationFilter
     usageEvents?: ResourceUsageListRelationFilter
-    resourceVersions?: ResourceVersionListRelationFilter
+    versions?: ResourceVersionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
+    tenantId?: SortOrderInput | SortOrder
     identityId?: SortOrderInput | SortOrder
     username?: SortOrder
     email?: SortOrder
@@ -15706,7 +15770,7 @@ export namespace Prisma {
     comments?: CommentOrderByRelationAggregateInput
     savedResources?: SavedResourceOrderByRelationAggregateInput
     usageEvents?: ResourceUsageOrderByRelationAggregateInput
-    resourceVersions?: ResourceVersionOrderByRelationAggregateInput
+    versions?: ResourceVersionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -15717,6 +15781,7 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
+    tenantId?: StringNullableFilter<"User"> | string | null
     passwordHash?: StringFilter<"User"> | string
     displayName?: StringNullableFilter<"User"> | string | null
     avatarUrl?: StringNullableFilter<"User"> | string | null
@@ -15732,11 +15797,12 @@ export namespace Prisma {
     comments?: CommentListRelationFilter
     savedResources?: SavedResourceListRelationFilter
     usageEvents?: ResourceUsageListRelationFilter
-    resourceVersions?: ResourceVersionListRelationFilter
+    versions?: ResourceVersionListRelationFilter
   }, "id" | "identityId" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
+    tenantId?: SortOrderInput | SortOrder
     identityId?: SortOrderInput | SortOrder
     username?: SortOrder
     email?: SortOrder
@@ -15762,6 +15828,7 @@ export namespace Prisma {
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
+    tenantId?: StringNullableWithAggregatesFilter<"User"> | string | null
     identityId?: StringNullableWithAggregatesFilter<"User"> | string | null
     username?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
@@ -15782,12 +15849,14 @@ export namespace Prisma {
     OR?: ResourceWhereInput[]
     NOT?: ResourceWhereInput | ResourceWhereInput[]
     id?: StringFilter<"Resource"> | string
+    tenantId?: StringNullableFilter<"Resource"> | string | null
     slug?: StringNullableFilter<"Resource"> | string | null
     title?: StringNullableFilter<"Resource"> | string | null
     description?: StringNullableFilter<"Resource"> | string | null
     excerpt?: StringNullableFilter<"Resource"> | string | null
+    publishedContentJson?: JsonNullableFilter<"Resource">
+    draftContentJson?: JsonNullableFilter<"Resource">
     content?: StringNullableFilter<"Resource"> | string | null
-    contentJson?: JsonNullableFilter<"Resource">
     type?: EnumResourceTypeFilter<"Resource"> | $Enums.ResourceType
     status?: EnumResourceStatusFilter<"Resource"> | $Enums.ResourceStatus
     visibility?: EnumVisibilityFilter<"Resource"> | $Enums.Visibility
@@ -15797,6 +15866,7 @@ export namespace Prisma {
     coverImageUrl?: StringNullableFilter<"Resource"> | string | null
     fileUrl?: StringNullableFilter<"Resource"> | string | null
     metadata?: JsonNullableFilter<"Resource">
+    aiMetadata?: JsonNullableFilter<"Resource">
     wordCount?: IntNullableFilter<"Resource"> | number | null
     estimatedTime?: IntNullableFilter<"Resource"> | number | null
     createdAt?: DateTimeFilter<"Resource"> | Date | string
@@ -15809,9 +15879,9 @@ export namespace Prisma {
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     parent?: XOR<ResourceNullableScalarRelationFilter, ResourceWhereInput> | null
     children?: ResourceListRelationFilter
-    tags?: TagListRelationFilter
     outgoingRelations?: RelationListRelationFilter
     incomingRelations?: RelationListRelationFilter
+    tags?: TagListRelationFilter
     collections?: CollectionResourceListRelationFilter
     comments?: CommentListRelationFilter
     metrics?: XOR<ResourceMetricsNullableScalarRelationFilter, ResourceMetricsWhereInput> | null
@@ -15822,12 +15892,14 @@ export namespace Prisma {
 
   export type ResourceOrderByWithRelationInput = {
     id?: SortOrder
+    tenantId?: SortOrderInput | SortOrder
     slug?: SortOrderInput | SortOrder
     title?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     excerpt?: SortOrderInput | SortOrder
+    publishedContentJson?: SortOrderInput | SortOrder
+    draftContentJson?: SortOrderInput | SortOrder
     content?: SortOrderInput | SortOrder
-    contentJson?: SortOrderInput | SortOrder
     type?: SortOrder
     status?: SortOrder
     visibility?: SortOrder
@@ -15837,6 +15909,7 @@ export namespace Prisma {
     coverImageUrl?: SortOrderInput | SortOrder
     fileUrl?: SortOrderInput | SortOrder
     metadata?: SortOrderInput | SortOrder
+    aiMetadata?: SortOrderInput | SortOrder
     wordCount?: SortOrderInput | SortOrder
     estimatedTime?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -15849,9 +15922,9 @@ export namespace Prisma {
     author?: UserOrderByWithRelationInput
     parent?: ResourceOrderByWithRelationInput
     children?: ResourceOrderByRelationAggregateInput
-    tags?: TagOrderByRelationAggregateInput
     outgoingRelations?: RelationOrderByRelationAggregateInput
     incomingRelations?: RelationOrderByRelationAggregateInput
+    tags?: TagOrderByRelationAggregateInput
     collections?: CollectionResourceOrderByRelationAggregateInput
     comments?: CommentOrderByRelationAggregateInput
     metrics?: ResourceMetricsOrderByWithRelationInput
@@ -15862,16 +15935,18 @@ export namespace Prisma {
 
   export type ResourceWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    authorId_slug?: ResourceAuthorIdSlugCompoundUniqueInput
+    tenantId_authorId_slug?: ResourceTenantIdAuthorIdSlugCompoundUniqueInput
     AND?: ResourceWhereInput | ResourceWhereInput[]
     OR?: ResourceWhereInput[]
     NOT?: ResourceWhereInput | ResourceWhereInput[]
+    tenantId?: StringNullableFilter<"Resource"> | string | null
     slug?: StringNullableFilter<"Resource"> | string | null
     title?: StringNullableFilter<"Resource"> | string | null
     description?: StringNullableFilter<"Resource"> | string | null
     excerpt?: StringNullableFilter<"Resource"> | string | null
+    publishedContentJson?: JsonNullableFilter<"Resource">
+    draftContentJson?: JsonNullableFilter<"Resource">
     content?: StringNullableFilter<"Resource"> | string | null
-    contentJson?: JsonNullableFilter<"Resource">
     type?: EnumResourceTypeFilter<"Resource"> | $Enums.ResourceType
     status?: EnumResourceStatusFilter<"Resource"> | $Enums.ResourceStatus
     visibility?: EnumVisibilityFilter<"Resource"> | $Enums.Visibility
@@ -15881,6 +15956,7 @@ export namespace Prisma {
     coverImageUrl?: StringNullableFilter<"Resource"> | string | null
     fileUrl?: StringNullableFilter<"Resource"> | string | null
     metadata?: JsonNullableFilter<"Resource">
+    aiMetadata?: JsonNullableFilter<"Resource">
     wordCount?: IntNullableFilter<"Resource"> | number | null
     estimatedTime?: IntNullableFilter<"Resource"> | number | null
     createdAt?: DateTimeFilter<"Resource"> | Date | string
@@ -15893,25 +15969,27 @@ export namespace Prisma {
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     parent?: XOR<ResourceNullableScalarRelationFilter, ResourceWhereInput> | null
     children?: ResourceListRelationFilter
-    tags?: TagListRelationFilter
     outgoingRelations?: RelationListRelationFilter
     incomingRelations?: RelationListRelationFilter
+    tags?: TagListRelationFilter
     collections?: CollectionResourceListRelationFilter
     comments?: CommentListRelationFilter
     metrics?: XOR<ResourceMetricsNullableScalarRelationFilter, ResourceMetricsWhereInput> | null
     versions?: ResourceVersionListRelationFilter
     usageEvents?: ResourceUsageListRelationFilter
     savedBy?: SavedResourceListRelationFilter
-  }, "id" | "authorId_slug">
+  }, "id" | "tenantId_authorId_slug">
 
   export type ResourceOrderByWithAggregationInput = {
     id?: SortOrder
+    tenantId?: SortOrderInput | SortOrder
     slug?: SortOrderInput | SortOrder
     title?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     excerpt?: SortOrderInput | SortOrder
+    publishedContentJson?: SortOrderInput | SortOrder
+    draftContentJson?: SortOrderInput | SortOrder
     content?: SortOrderInput | SortOrder
-    contentJson?: SortOrderInput | SortOrder
     type?: SortOrder
     status?: SortOrder
     visibility?: SortOrder
@@ -15921,6 +15999,7 @@ export namespace Prisma {
     coverImageUrl?: SortOrderInput | SortOrder
     fileUrl?: SortOrderInput | SortOrder
     metadata?: SortOrderInput | SortOrder
+    aiMetadata?: SortOrderInput | SortOrder
     wordCount?: SortOrderInput | SortOrder
     estimatedTime?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -15942,12 +16021,14 @@ export namespace Prisma {
     OR?: ResourceScalarWhereWithAggregatesInput[]
     NOT?: ResourceScalarWhereWithAggregatesInput | ResourceScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Resource"> | string
+    tenantId?: StringNullableWithAggregatesFilter<"Resource"> | string | null
     slug?: StringNullableWithAggregatesFilter<"Resource"> | string | null
     title?: StringNullableWithAggregatesFilter<"Resource"> | string | null
     description?: StringNullableWithAggregatesFilter<"Resource"> | string | null
     excerpt?: StringNullableWithAggregatesFilter<"Resource"> | string | null
+    publishedContentJson?: JsonNullableWithAggregatesFilter<"Resource">
+    draftContentJson?: JsonNullableWithAggregatesFilter<"Resource">
     content?: StringNullableWithAggregatesFilter<"Resource"> | string | null
-    contentJson?: JsonNullableWithAggregatesFilter<"Resource">
     type?: EnumResourceTypeWithAggregatesFilter<"Resource"> | $Enums.ResourceType
     status?: EnumResourceStatusWithAggregatesFilter<"Resource"> | $Enums.ResourceStatus
     visibility?: EnumVisibilityWithAggregatesFilter<"Resource"> | $Enums.Visibility
@@ -15957,6 +16038,7 @@ export namespace Prisma {
     coverImageUrl?: StringNullableWithAggregatesFilter<"Resource"> | string | null
     fileUrl?: StringNullableWithAggregatesFilter<"Resource"> | string | null
     metadata?: JsonNullableWithAggregatesFilter<"Resource">
+    aiMetadata?: JsonNullableWithAggregatesFilter<"Resource">
     wordCount?: IntNullableWithAggregatesFilter<"Resource"> | number | null
     estimatedTime?: IntNullableWithAggregatesFilter<"Resource"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Resource"> | Date | string
@@ -15966,6 +16048,70 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Resource"> | Date | string | null
     authorId?: StringWithAggregatesFilter<"Resource"> | string
     parentId?: StringNullableWithAggregatesFilter<"Resource"> | string | null
+  }
+
+  export type RelationWhereInput = {
+    AND?: RelationWhereInput | RelationWhereInput[]
+    OR?: RelationWhereInput[]
+    NOT?: RelationWhereInput | RelationWhereInput[]
+    id?: StringFilter<"Relation"> | string
+    type?: EnumRelationTypeFilter<"Relation"> | $Enums.RelationType
+    fromId?: StringFilter<"Relation"> | string
+    toId?: StringFilter<"Relation"> | string
+    metadata?: JsonNullableFilter<"Relation">
+    createdAt?: DateTimeFilter<"Relation"> | Date | string
+    from?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+    to?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+  }
+
+  export type RelationOrderByWithRelationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    fromId?: SortOrder
+    toId?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    from?: ResourceOrderByWithRelationInput
+    to?: ResourceOrderByWithRelationInput
+  }
+
+  export type RelationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    fromId_toId_type?: RelationFromIdToIdTypeCompoundUniqueInput
+    AND?: RelationWhereInput | RelationWhereInput[]
+    OR?: RelationWhereInput[]
+    NOT?: RelationWhereInput | RelationWhereInput[]
+    type?: EnumRelationTypeFilter<"Relation"> | $Enums.RelationType
+    fromId?: StringFilter<"Relation"> | string
+    toId?: StringFilter<"Relation"> | string
+    metadata?: JsonNullableFilter<"Relation">
+    createdAt?: DateTimeFilter<"Relation"> | Date | string
+    from?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+    to?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
+  }, "id" | "fromId_toId_type">
+
+  export type RelationOrderByWithAggregationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    fromId?: SortOrder
+    toId?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: RelationCountOrderByAggregateInput
+    _max?: RelationMaxOrderByAggregateInput
+    _min?: RelationMinOrderByAggregateInput
+  }
+
+  export type RelationScalarWhereWithAggregatesInput = {
+    AND?: RelationScalarWhereWithAggregatesInput | RelationScalarWhereWithAggregatesInput[]
+    OR?: RelationScalarWhereWithAggregatesInput[]
+    NOT?: RelationScalarWhereWithAggregatesInput | RelationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Relation"> | string
+    type?: EnumRelationTypeWithAggregatesFilter<"Relation"> | $Enums.RelationType
+    fromId?: StringWithAggregatesFilter<"Relation"> | string
+    toId?: StringWithAggregatesFilter<"Relation"> | string
+    metadata?: JsonNullableWithAggregatesFilter<"Relation">
+    createdAt?: DateTimeWithAggregatesFilter<"Relation"> | Date | string
   }
 
   export type ResourceVersionWhereInput = {
@@ -16049,75 +16195,12 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"ResourceVersion"> | Date | string
   }
 
-  export type RelationWhereInput = {
-    AND?: RelationWhereInput | RelationWhereInput[]
-    OR?: RelationWhereInput[]
-    NOT?: RelationWhereInput | RelationWhereInput[]
-    id?: StringFilter<"Relation"> | string
-    type?: EnumRelationTypeFilter<"Relation"> | $Enums.RelationType
-    fromId?: StringFilter<"Relation"> | string
-    toId?: StringFilter<"Relation"> | string
-    metadata?: JsonNullableFilter<"Relation">
-    createdAt?: DateTimeFilter<"Relation"> | Date | string
-    from?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
-    to?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
-  }
-
-  export type RelationOrderByWithRelationInput = {
-    id?: SortOrder
-    type?: SortOrder
-    fromId?: SortOrder
-    toId?: SortOrder
-    metadata?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    from?: ResourceOrderByWithRelationInput
-    to?: ResourceOrderByWithRelationInput
-  }
-
-  export type RelationWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    fromId_toId_type?: RelationFromIdToIdTypeCompoundUniqueInput
-    AND?: RelationWhereInput | RelationWhereInput[]
-    OR?: RelationWhereInput[]
-    NOT?: RelationWhereInput | RelationWhereInput[]
-    type?: EnumRelationTypeFilter<"Relation"> | $Enums.RelationType
-    fromId?: StringFilter<"Relation"> | string
-    toId?: StringFilter<"Relation"> | string
-    metadata?: JsonNullableFilter<"Relation">
-    createdAt?: DateTimeFilter<"Relation"> | Date | string
-    from?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
-    to?: XOR<ResourceScalarRelationFilter, ResourceWhereInput>
-  }, "id" | "fromId_toId_type">
-
-  export type RelationOrderByWithAggregationInput = {
-    id?: SortOrder
-    type?: SortOrder
-    fromId?: SortOrder
-    toId?: SortOrder
-    metadata?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    _count?: RelationCountOrderByAggregateInput
-    _max?: RelationMaxOrderByAggregateInput
-    _min?: RelationMinOrderByAggregateInput
-  }
-
-  export type RelationScalarWhereWithAggregatesInput = {
-    AND?: RelationScalarWhereWithAggregatesInput | RelationScalarWhereWithAggregatesInput[]
-    OR?: RelationScalarWhereWithAggregatesInput[]
-    NOT?: RelationScalarWhereWithAggregatesInput | RelationScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Relation"> | string
-    type?: EnumRelationTypeWithAggregatesFilter<"Relation"> | $Enums.RelationType
-    fromId?: StringWithAggregatesFilter<"Relation"> | string
-    toId?: StringWithAggregatesFilter<"Relation"> | string
-    metadata?: JsonNullableWithAggregatesFilter<"Relation">
-    createdAt?: DateTimeWithAggregatesFilter<"Relation"> | Date | string
-  }
-
   export type CollectionWhereInput = {
     AND?: CollectionWhereInput | CollectionWhereInput[]
     OR?: CollectionWhereInput[]
     NOT?: CollectionWhereInput | CollectionWhereInput[]
     id?: StringFilter<"Collection"> | string
+    tenantId?: StringNullableFilter<"Collection"> | string | null
     slug?: StringFilter<"Collection"> | string
     title?: StringFilter<"Collection"> | string
     description?: StringNullableFilter<"Collection"> | string | null
@@ -16125,7 +16208,6 @@ export namespace Prisma {
     metadata?: JsonNullableFilter<"Collection">
     createdAt?: DateTimeFilter<"Collection"> | Date | string
     updatedAt?: DateTimeFilter<"Collection"> | Date | string
-    archivedAt?: DateTimeNullableFilter<"Collection"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Collection"> | Date | string | null
     authorId?: StringFilter<"Collection"> | string
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -16134,6 +16216,7 @@ export namespace Prisma {
 
   export type CollectionOrderByWithRelationInput = {
     id?: SortOrder
+    tenantId?: SortOrderInput | SortOrder
     slug?: SortOrder
     title?: SortOrder
     description?: SortOrderInput | SortOrder
@@ -16141,7 +16224,6 @@ export namespace Prisma {
     metadata?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    archivedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     authorId?: SortOrder
     author?: UserOrderByWithRelationInput
@@ -16150,10 +16232,11 @@ export namespace Prisma {
 
   export type CollectionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    authorId_slug?: CollectionAuthorIdSlugCompoundUniqueInput
+    tenantId_authorId_slug?: CollectionTenantIdAuthorIdSlugCompoundUniqueInput
     AND?: CollectionWhereInput | CollectionWhereInput[]
     OR?: CollectionWhereInput[]
     NOT?: CollectionWhereInput | CollectionWhereInput[]
+    tenantId?: StringNullableFilter<"Collection"> | string | null
     slug?: StringFilter<"Collection"> | string
     title?: StringFilter<"Collection"> | string
     description?: StringNullableFilter<"Collection"> | string | null
@@ -16161,15 +16244,15 @@ export namespace Prisma {
     metadata?: JsonNullableFilter<"Collection">
     createdAt?: DateTimeFilter<"Collection"> | Date | string
     updatedAt?: DateTimeFilter<"Collection"> | Date | string
-    archivedAt?: DateTimeNullableFilter<"Collection"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Collection"> | Date | string | null
     authorId?: StringFilter<"Collection"> | string
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     resources?: CollectionResourceListRelationFilter
-  }, "id" | "authorId_slug">
+  }, "id" | "tenantId_authorId_slug">
 
   export type CollectionOrderByWithAggregationInput = {
     id?: SortOrder
+    tenantId?: SortOrderInput | SortOrder
     slug?: SortOrder
     title?: SortOrder
     description?: SortOrderInput | SortOrder
@@ -16177,7 +16260,6 @@ export namespace Prisma {
     metadata?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    archivedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     authorId?: SortOrder
     _count?: CollectionCountOrderByAggregateInput
@@ -16190,6 +16272,7 @@ export namespace Prisma {
     OR?: CollectionScalarWhereWithAggregatesInput[]
     NOT?: CollectionScalarWhereWithAggregatesInput | CollectionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Collection"> | string
+    tenantId?: StringNullableWithAggregatesFilter<"Collection"> | string | null
     slug?: StringWithAggregatesFilter<"Collection"> | string
     title?: StringWithAggregatesFilter<"Collection"> | string
     description?: StringNullableWithAggregatesFilter<"Collection"> | string | null
@@ -16197,7 +16280,6 @@ export namespace Prisma {
     metadata?: JsonNullableWithAggregatesFilter<"Collection">
     createdAt?: DateTimeWithAggregatesFilter<"Collection"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Collection"> | Date | string
-    archivedAt?: DateTimeNullableWithAggregatesFilter<"Collection"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Collection"> | Date | string | null
     authorId?: StringWithAggregatesFilter<"Collection"> | string
   }
@@ -16268,6 +16350,7 @@ export namespace Prisma {
     OR?: TagWhereInput[]
     NOT?: TagWhereInput | TagWhereInput[]
     id?: StringFilter<"Tag"> | string
+    tenantId?: StringNullableFilter<"Tag"> | string | null
     name?: StringFilter<"Tag"> | string
     slug?: StringFilter<"Tag"> | string
     createdAt?: DateTimeFilter<"Tag"> | Date | string
@@ -16276,6 +16359,7 @@ export namespace Prisma {
 
   export type TagOrderByWithRelationInput = {
     id?: SortOrder
+    tenantId?: SortOrderInput | SortOrder
     name?: SortOrder
     slug?: SortOrder
     createdAt?: SortOrder
@@ -16284,17 +16368,21 @@ export namespace Prisma {
 
   export type TagWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    name?: string
-    slug?: string
+    tenantId_slug?: TagTenantIdSlugCompoundUniqueInput
+    tenantId_name?: TagTenantIdNameCompoundUniqueInput
     AND?: TagWhereInput | TagWhereInput[]
     OR?: TagWhereInput[]
     NOT?: TagWhereInput | TagWhereInput[]
+    tenantId?: StringNullableFilter<"Tag"> | string | null
+    name?: StringFilter<"Tag"> | string
+    slug?: StringFilter<"Tag"> | string
     createdAt?: DateTimeFilter<"Tag"> | Date | string
     resources?: ResourceListRelationFilter
-  }, "id" | "name" | "slug">
+  }, "id" | "tenantId_slug" | "tenantId_name">
 
   export type TagOrderByWithAggregationInput = {
     id?: SortOrder
+    tenantId?: SortOrderInput | SortOrder
     name?: SortOrder
     slug?: SortOrder
     createdAt?: SortOrder
@@ -16308,6 +16396,7 @@ export namespace Prisma {
     OR?: TagScalarWhereWithAggregatesInput[]
     NOT?: TagScalarWhereWithAggregatesInput | TagScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Tag"> | string
+    tenantId?: StringNullableWithAggregatesFilter<"Tag"> | string | null
     name?: StringWithAggregatesFilter<"Tag"> | string
     slug?: StringWithAggregatesFilter<"Tag"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Tag"> | Date | string
@@ -16608,6 +16697,7 @@ export namespace Prisma {
 
   export type UserCreateInput = {
     id?: string
+    tenantId?: string | null
     identityId?: string | null
     username: string
     email: string
@@ -16626,11 +16716,12 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutAuthorInput
     savedResources?: SavedResourceCreateNestedManyWithoutUserInput
     usageEvents?: ResourceUsageCreateNestedManyWithoutUserInput
-    resourceVersions?: ResourceVersionCreateNestedManyWithoutAuthorInput
+    versions?: ResourceVersionCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateInput = {
     id?: string
+    tenantId?: string | null
     identityId?: string | null
     username: string
     email: string
@@ -16649,11 +16740,12 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     savedResources?: SavedResourceUncheckedCreateNestedManyWithoutUserInput
     usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutUserInput
-    resourceVersions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     identityId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -16672,11 +16764,12 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     savedResources?: SavedResourceUpdateManyWithoutUserNestedInput
     usageEvents?: ResourceUsageUpdateManyWithoutUserNestedInput
-    resourceVersions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
+    versions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     identityId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -16695,11 +16788,12 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     savedResources?: SavedResourceUncheckedUpdateManyWithoutUserNestedInput
     usageEvents?: ResourceUsageUncheckedUpdateManyWithoutUserNestedInput
-    resourceVersions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateManyInput = {
     id?: string
+    tenantId?: string | null
     identityId?: string | null
     username: string
     email: string
@@ -16717,6 +16811,7 @@ export namespace Prisma {
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     identityId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -16734,6 +16829,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     identityId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -16751,12 +16847,14 @@ export namespace Prisma {
 
   export type ResourceCreateInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -16766,6 +16864,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -16776,9 +16875,9 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutResourcesInput
     parent?: ResourceCreateNestedOneWithoutChildrenInput
     children?: ResourceCreateNestedManyWithoutParentInput
-    tags?: TagCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationCreateNestedManyWithoutFromInput
     incomingRelations?: RelationCreateNestedManyWithoutToInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceCreateNestedManyWithoutResourceInput
     comments?: CommentCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
@@ -16789,12 +16888,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedCreateInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -16804,6 +16905,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -16814,9 +16916,9 @@ export namespace Prisma {
     authorId: string
     parentId?: string | null
     children?: ResourceUncheckedCreateNestedManyWithoutParentInput
-    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
     incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
     comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
@@ -16827,12 +16929,14 @@ export namespace Prisma {
 
   export type ResourceUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -16842,6 +16946,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16852,9 +16957,9 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutResourcesNestedInput
     parent?: ResourceUpdateOneWithoutChildrenNestedInput
     children?: ResourceUpdateManyWithoutParentNestedInput
-    tags?: TagUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
     comments?: CommentUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
@@ -16865,12 +16970,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -16880,6 +16987,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16890,9 +16998,9 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
-    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
     comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
@@ -16903,12 +17011,14 @@ export namespace Prisma {
 
   export type ResourceCreateManyInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -16918,6 +17028,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -16931,12 +17042,14 @@ export namespace Prisma {
 
   export type ResourceUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -16946,6 +17059,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16957,12 +17071,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -16972,6 +17088,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16981,88 +17098,6 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type ResourceVersionCreateInput = {
-    id?: string
-    versionNumber: number
-    title: string
-    content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
-    changeSummary?: string | null
-    createdAt?: Date | string
-    resource: ResourceCreateNestedOneWithoutVersionsInput
-    author: UserCreateNestedOneWithoutResourceVersionsInput
-  }
-
-  export type ResourceVersionUncheckedCreateInput = {
-    id?: string
-    resourceId: string
-    authorId: string
-    versionNumber: number
-    title: string
-    content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
-    changeSummary?: string | null
-    createdAt?: Date | string
-  }
-
-  export type ResourceVersionUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
-    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    resource?: ResourceUpdateOneRequiredWithoutVersionsNestedInput
-    author?: UserUpdateOneRequiredWithoutResourceVersionsNestedInput
-  }
-
-  export type ResourceVersionUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    resourceId?: StringFieldUpdateOperationsInput | string
-    authorId?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
-    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ResourceVersionCreateManyInput = {
-    id?: string
-    resourceId: string
-    authorId: string
-    versionNumber: number
-    title: string
-    content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
-    changeSummary?: string | null
-    createdAt?: Date | string
-  }
-
-  export type ResourceVersionUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
-    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ResourceVersionUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    resourceId?: StringFieldUpdateOperationsInput | string
-    authorId?: StringFieldUpdateOperationsInput | string
-    versionNumber?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
-    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RelationCreateInput = {
@@ -17126,8 +17161,91 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ResourceVersionCreateInput = {
+    id?: string
+    versionNumber: number
+    title: string
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: string | null
+    createdAt?: Date | string
+    resource: ResourceCreateNestedOneWithoutVersionsInput
+    author: UserCreateNestedOneWithoutVersionsInput
+  }
+
+  export type ResourceVersionUncheckedCreateInput = {
+    id?: string
+    resourceId: string
+    authorId: string
+    versionNumber: number
+    title: string
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ResourceVersionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resource?: ResourceUpdateOneRequiredWithoutVersionsNestedInput
+    author?: UserUpdateOneRequiredWithoutVersionsNestedInput
+  }
+
+  export type ResourceVersionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceVersionCreateManyInput = {
+    id?: string
+    resourceId: string
+    authorId: string
+    versionNumber: number
+    title: string
+    content?: string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ResourceVersionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResourceVersionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    versionNumber?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    contentJson?: NullableJsonNullValueInput | InputJsonValue
+    changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CollectionCreateInput = {
     id?: string
+    tenantId?: string | null
     slug: string
     title: string
     description?: string | null
@@ -17135,7 +17253,6 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    archivedAt?: Date | string | null
     deletedAt?: Date | string | null
     author: UserCreateNestedOneWithoutCollectionsInput
     resources?: CollectionResourceCreateNestedManyWithoutCollectionInput
@@ -17143,6 +17260,7 @@ export namespace Prisma {
 
   export type CollectionUncheckedCreateInput = {
     id?: string
+    tenantId?: string | null
     slug: string
     title: string
     description?: string | null
@@ -17150,7 +17268,6 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    archivedAt?: Date | string | null
     deletedAt?: Date | string | null
     authorId: string
     resources?: CollectionResourceUncheckedCreateNestedManyWithoutCollectionInput
@@ -17158,6 +17275,7 @@ export namespace Prisma {
 
   export type CollectionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17165,7 +17283,6 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     author?: UserUpdateOneRequiredWithoutCollectionsNestedInput
     resources?: CollectionResourceUpdateManyWithoutCollectionNestedInput
@@ -17173,6 +17290,7 @@ export namespace Prisma {
 
   export type CollectionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17180,7 +17298,6 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     resources?: CollectionResourceUncheckedUpdateManyWithoutCollectionNestedInput
@@ -17188,6 +17305,7 @@ export namespace Prisma {
 
   export type CollectionCreateManyInput = {
     id?: string
+    tenantId?: string | null
     slug: string
     title: string
     description?: string | null
@@ -17195,13 +17313,13 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    archivedAt?: Date | string | null
     deletedAt?: Date | string | null
     authorId: string
   }
 
   export type CollectionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17209,12 +17327,12 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CollectionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17222,7 +17340,6 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     authorId?: StringFieldUpdateOperationsInput | string
   }
@@ -17283,6 +17400,7 @@ export namespace Prisma {
 
   export type TagCreateInput = {
     id?: string
+    tenantId?: string | null
     name: string
     slug: string
     createdAt?: Date | string
@@ -17291,6 +17409,7 @@ export namespace Prisma {
 
   export type TagUncheckedCreateInput = {
     id?: string
+    tenantId?: string | null
     name: string
     slug: string
     createdAt?: Date | string
@@ -17299,6 +17418,7 @@ export namespace Prisma {
 
   export type TagUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17307,6 +17427,7 @@ export namespace Prisma {
 
   export type TagUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17315,6 +17436,7 @@ export namespace Prisma {
 
   export type TagCreateManyInput = {
     id?: string
+    tenantId?: string | null
     name: string
     slug: string
     createdAt?: Date | string
@@ -17322,6 +17444,7 @@ export namespace Prisma {
 
   export type TagUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17329,6 +17452,7 @@ export namespace Prisma {
 
   export type TagUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17784,6 +17908,7 @@ export namespace Prisma {
 
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
+    tenantId?: SortOrder
     identityId?: SortOrder
     username?: SortOrder
     email?: SortOrder
@@ -17805,6 +17930,7 @@ export namespace Prisma {
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
+    tenantId?: SortOrder
     identityId?: SortOrder
     username?: SortOrder
     email?: SortOrder
@@ -17821,6 +17947,7 @@ export namespace Prisma {
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
+    tenantId?: SortOrder
     identityId?: SortOrder
     username?: SortOrder
     email?: SortOrder
@@ -17987,16 +18114,16 @@ export namespace Prisma {
     isNot?: ResourceWhereInput | null
   }
 
-  export type TagListRelationFilter = {
-    every?: TagWhereInput
-    some?: TagWhereInput
-    none?: TagWhereInput
-  }
-
   export type RelationListRelationFilter = {
     every?: RelationWhereInput
     some?: RelationWhereInput
     none?: RelationWhereInput
+  }
+
+  export type TagListRelationFilter = {
+    every?: TagWhereInput
+    some?: TagWhereInput
+    none?: TagWhereInput
   }
 
   export type CollectionResourceListRelationFilter = {
@@ -18010,11 +18137,11 @@ export namespace Prisma {
     isNot?: ResourceMetricsWhereInput | null
   }
 
-  export type TagOrderByRelationAggregateInput = {
+  export type RelationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type RelationOrderByRelationAggregateInput = {
+  export type TagOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18022,19 +18149,22 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type ResourceAuthorIdSlugCompoundUniqueInput = {
+  export type ResourceTenantIdAuthorIdSlugCompoundUniqueInput = {
+    tenantId: string
     authorId: string
     slug: string
   }
 
   export type ResourceCountOrderByAggregateInput = {
     id?: SortOrder
+    tenantId?: SortOrder
     slug?: SortOrder
     title?: SortOrder
     description?: SortOrder
     excerpt?: SortOrder
+    publishedContentJson?: SortOrder
+    draftContentJson?: SortOrder
     content?: SortOrder
-    contentJson?: SortOrder
     type?: SortOrder
     status?: SortOrder
     visibility?: SortOrder
@@ -18044,6 +18174,7 @@ export namespace Prisma {
     coverImageUrl?: SortOrder
     fileUrl?: SortOrder
     metadata?: SortOrder
+    aiMetadata?: SortOrder
     wordCount?: SortOrder
     estimatedTime?: SortOrder
     createdAt?: SortOrder
@@ -18062,6 +18193,7 @@ export namespace Prisma {
 
   export type ResourceMaxOrderByAggregateInput = {
     id?: SortOrder
+    tenantId?: SortOrder
     slug?: SortOrder
     title?: SortOrder
     description?: SortOrder
@@ -18088,6 +18220,7 @@ export namespace Prisma {
 
   export type ResourceMinOrderByAggregateInput = {
     id?: SortOrder
+    tenantId?: SortOrder
     slug?: SortOrder
     title?: SortOrder
     description?: SortOrder
@@ -18163,9 +18296,57 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type EnumRelationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RelationType | EnumRelationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRelationTypeFilter<$PrismaModel> | $Enums.RelationType
+  }
+
   export type ResourceScalarRelationFilter = {
     is?: ResourceWhereInput
     isNot?: ResourceWhereInput
+  }
+
+  export type RelationFromIdToIdTypeCompoundUniqueInput = {
+    fromId: string
+    toId: string
+    type: $Enums.RelationType
+  }
+
+  export type RelationCountOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    fromId?: SortOrder
+    toId?: SortOrder
+    metadata?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RelationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    fromId?: SortOrder
+    toId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RelationMinOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    fromId?: SortOrder
+    toId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumRelationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RelationType | EnumRelationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRelationTypeWithAggregatesFilter<$PrismaModel> | $Enums.RelationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRelationTypeFilter<$PrismaModel>
+    _max?: NestedEnumRelationTypeFilter<$PrismaModel>
   }
 
   export type ResourceVersionResourceIdVersionNumberCompoundUniqueInput = {
@@ -18215,61 +18396,15 @@ export namespace Prisma {
     versionNumber?: SortOrder
   }
 
-  export type EnumRelationTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.RelationType | EnumRelationTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumRelationTypeFilter<$PrismaModel> | $Enums.RelationType
-  }
-
-  export type RelationFromIdToIdTypeCompoundUniqueInput = {
-    fromId: string
-    toId: string
-    type: $Enums.RelationType
-  }
-
-  export type RelationCountOrderByAggregateInput = {
-    id?: SortOrder
-    type?: SortOrder
-    fromId?: SortOrder
-    toId?: SortOrder
-    metadata?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type RelationMaxOrderByAggregateInput = {
-    id?: SortOrder
-    type?: SortOrder
-    fromId?: SortOrder
-    toId?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type RelationMinOrderByAggregateInput = {
-    id?: SortOrder
-    type?: SortOrder
-    fromId?: SortOrder
-    toId?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type EnumRelationTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.RelationType | EnumRelationTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.RelationType[] | ListEnumRelationTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumRelationTypeWithAggregatesFilter<$PrismaModel> | $Enums.RelationType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRelationTypeFilter<$PrismaModel>
-    _max?: NestedEnumRelationTypeFilter<$PrismaModel>
-  }
-
-  export type CollectionAuthorIdSlugCompoundUniqueInput = {
+  export type CollectionTenantIdAuthorIdSlugCompoundUniqueInput = {
+    tenantId: string
     authorId: string
     slug: string
   }
 
   export type CollectionCountOrderByAggregateInput = {
     id?: SortOrder
+    tenantId?: SortOrder
     slug?: SortOrder
     title?: SortOrder
     description?: SortOrder
@@ -18277,33 +18412,32 @@ export namespace Prisma {
     metadata?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    archivedAt?: SortOrder
     deletedAt?: SortOrder
     authorId?: SortOrder
   }
 
   export type CollectionMaxOrderByAggregateInput = {
     id?: SortOrder
+    tenantId?: SortOrder
     slug?: SortOrder
     title?: SortOrder
     description?: SortOrder
     visibility?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    archivedAt?: SortOrder
     deletedAt?: SortOrder
     authorId?: SortOrder
   }
 
   export type CollectionMinOrderByAggregateInput = {
     id?: SortOrder
+    tenantId?: SortOrder
     slug?: SortOrder
     title?: SortOrder
     description?: SortOrder
     visibility?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    archivedAt?: SortOrder
     deletedAt?: SortOrder
     authorId?: SortOrder
   }
@@ -18350,8 +18484,19 @@ export namespace Prisma {
     orderIndex?: SortOrder
   }
 
+  export type TagTenantIdSlugCompoundUniqueInput = {
+    tenantId: string
+    slug: string
+  }
+
+  export type TagTenantIdNameCompoundUniqueInput = {
+    tenantId: string
+    name: string
+  }
+
   export type TagCountOrderByAggregateInput = {
     id?: SortOrder
+    tenantId?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     createdAt?: SortOrder
@@ -18359,6 +18504,7 @@ export namespace Prisma {
 
   export type TagMaxOrderByAggregateInput = {
     id?: SortOrder
+    tenantId?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     createdAt?: SortOrder
@@ -18366,6 +18512,7 @@ export namespace Prisma {
 
   export type TagMinOrderByAggregateInput = {
     id?: SortOrder
+    tenantId?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     createdAt?: SortOrder
@@ -18887,12 +19034,6 @@ export namespace Prisma {
     connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
   }
 
-  export type TagCreateNestedManyWithoutResourcesInput = {
-    create?: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput> | TagCreateWithoutResourcesInput[] | TagUncheckedCreateWithoutResourcesInput[]
-    connectOrCreate?: TagCreateOrConnectWithoutResourcesInput | TagCreateOrConnectWithoutResourcesInput[]
-    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
-  }
-
   export type RelationCreateNestedManyWithoutFromInput = {
     create?: XOR<RelationCreateWithoutFromInput, RelationUncheckedCreateWithoutFromInput> | RelationCreateWithoutFromInput[] | RelationUncheckedCreateWithoutFromInput[]
     connectOrCreate?: RelationCreateOrConnectWithoutFromInput | RelationCreateOrConnectWithoutFromInput[]
@@ -18905,6 +19046,12 @@ export namespace Prisma {
     connectOrCreate?: RelationCreateOrConnectWithoutToInput | RelationCreateOrConnectWithoutToInput[]
     createMany?: RelationCreateManyToInputEnvelope
     connect?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+  }
+
+  export type TagCreateNestedManyWithoutResourcesInput = {
+    create?: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput> | TagCreateWithoutResourcesInput[] | TagUncheckedCreateWithoutResourcesInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutResourcesInput | TagCreateOrConnectWithoutResourcesInput[]
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
   }
 
   export type CollectionResourceCreateNestedManyWithoutResourceInput = {
@@ -18955,12 +19102,6 @@ export namespace Prisma {
     connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
   }
 
-  export type TagUncheckedCreateNestedManyWithoutResourcesInput = {
-    create?: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput> | TagCreateWithoutResourcesInput[] | TagUncheckedCreateWithoutResourcesInput[]
-    connectOrCreate?: TagCreateOrConnectWithoutResourcesInput | TagCreateOrConnectWithoutResourcesInput[]
-    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
-  }
-
   export type RelationUncheckedCreateNestedManyWithoutFromInput = {
     create?: XOR<RelationCreateWithoutFromInput, RelationUncheckedCreateWithoutFromInput> | RelationCreateWithoutFromInput[] | RelationUncheckedCreateWithoutFromInput[]
     connectOrCreate?: RelationCreateOrConnectWithoutFromInput | RelationCreateOrConnectWithoutFromInput[]
@@ -18973,6 +19114,12 @@ export namespace Prisma {
     connectOrCreate?: RelationCreateOrConnectWithoutToInput | RelationCreateOrConnectWithoutToInput[]
     createMany?: RelationCreateManyToInputEnvelope
     connect?: RelationWhereUniqueInput | RelationWhereUniqueInput[]
+  }
+
+  export type TagUncheckedCreateNestedManyWithoutResourcesInput = {
+    create?: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput> | TagCreateWithoutResourcesInput[] | TagUncheckedCreateWithoutResourcesInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutResourcesInput | TagCreateOrConnectWithoutResourcesInput[]
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
   }
 
   export type CollectionResourceUncheckedCreateNestedManyWithoutResourceInput = {
@@ -19068,19 +19215,6 @@ export namespace Prisma {
     deleteMany?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
   }
 
-  export type TagUpdateManyWithoutResourcesNestedInput = {
-    create?: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput> | TagCreateWithoutResourcesInput[] | TagUncheckedCreateWithoutResourcesInput[]
-    connectOrCreate?: TagCreateOrConnectWithoutResourcesInput | TagCreateOrConnectWithoutResourcesInput[]
-    upsert?: TagUpsertWithWhereUniqueWithoutResourcesInput | TagUpsertWithWhereUniqueWithoutResourcesInput[]
-    set?: TagWhereUniqueInput | TagWhereUniqueInput[]
-    disconnect?: TagWhereUniqueInput | TagWhereUniqueInput[]
-    delete?: TagWhereUniqueInput | TagWhereUniqueInput[]
-    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
-    update?: TagUpdateWithWhereUniqueWithoutResourcesInput | TagUpdateWithWhereUniqueWithoutResourcesInput[]
-    updateMany?: TagUpdateManyWithWhereWithoutResourcesInput | TagUpdateManyWithWhereWithoutResourcesInput[]
-    deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
-  }
-
   export type RelationUpdateManyWithoutFromNestedInput = {
     create?: XOR<RelationCreateWithoutFromInput, RelationUncheckedCreateWithoutFromInput> | RelationCreateWithoutFromInput[] | RelationUncheckedCreateWithoutFromInput[]
     connectOrCreate?: RelationCreateOrConnectWithoutFromInput | RelationCreateOrConnectWithoutFromInput[]
@@ -19107,6 +19241,19 @@ export namespace Prisma {
     update?: RelationUpdateWithWhereUniqueWithoutToInput | RelationUpdateWithWhereUniqueWithoutToInput[]
     updateMany?: RelationUpdateManyWithWhereWithoutToInput | RelationUpdateManyWithWhereWithoutToInput[]
     deleteMany?: RelationScalarWhereInput | RelationScalarWhereInput[]
+  }
+
+  export type TagUpdateManyWithoutResourcesNestedInput = {
+    create?: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput> | TagCreateWithoutResourcesInput[] | TagUncheckedCreateWithoutResourcesInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutResourcesInput | TagCreateOrConnectWithoutResourcesInput[]
+    upsert?: TagUpsertWithWhereUniqueWithoutResourcesInput | TagUpsertWithWhereUniqueWithoutResourcesInput[]
+    set?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    disconnect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    delete?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    update?: TagUpdateWithWhereUniqueWithoutResourcesInput | TagUpdateWithWhereUniqueWithoutResourcesInput[]
+    updateMany?: TagUpdateManyWithWhereWithoutResourcesInput | TagUpdateManyWithWhereWithoutResourcesInput[]
+    deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
   }
 
   export type CollectionResourceUpdateManyWithoutResourceNestedInput = {
@@ -19203,19 +19350,6 @@ export namespace Prisma {
     deleteMany?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
   }
 
-  export type TagUncheckedUpdateManyWithoutResourcesNestedInput = {
-    create?: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput> | TagCreateWithoutResourcesInput[] | TagUncheckedCreateWithoutResourcesInput[]
-    connectOrCreate?: TagCreateOrConnectWithoutResourcesInput | TagCreateOrConnectWithoutResourcesInput[]
-    upsert?: TagUpsertWithWhereUniqueWithoutResourcesInput | TagUpsertWithWhereUniqueWithoutResourcesInput[]
-    set?: TagWhereUniqueInput | TagWhereUniqueInput[]
-    disconnect?: TagWhereUniqueInput | TagWhereUniqueInput[]
-    delete?: TagWhereUniqueInput | TagWhereUniqueInput[]
-    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
-    update?: TagUpdateWithWhereUniqueWithoutResourcesInput | TagUpdateWithWhereUniqueWithoutResourcesInput[]
-    updateMany?: TagUpdateManyWithWhereWithoutResourcesInput | TagUpdateManyWithWhereWithoutResourcesInput[]
-    deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
-  }
-
   export type RelationUncheckedUpdateManyWithoutFromNestedInput = {
     create?: XOR<RelationCreateWithoutFromInput, RelationUncheckedCreateWithoutFromInput> | RelationCreateWithoutFromInput[] | RelationUncheckedCreateWithoutFromInput[]
     connectOrCreate?: RelationCreateOrConnectWithoutFromInput | RelationCreateOrConnectWithoutFromInput[]
@@ -19242,6 +19376,19 @@ export namespace Prisma {
     update?: RelationUpdateWithWhereUniqueWithoutToInput | RelationUpdateWithWhereUniqueWithoutToInput[]
     updateMany?: RelationUpdateManyWithWhereWithoutToInput | RelationUpdateManyWithWhereWithoutToInput[]
     deleteMany?: RelationScalarWhereInput | RelationScalarWhereInput[]
+  }
+
+  export type TagUncheckedUpdateManyWithoutResourcesNestedInput = {
+    create?: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput> | TagCreateWithoutResourcesInput[] | TagUncheckedCreateWithoutResourcesInput[]
+    connectOrCreate?: TagCreateOrConnectWithoutResourcesInput | TagCreateOrConnectWithoutResourcesInput[]
+    upsert?: TagUpsertWithWhereUniqueWithoutResourcesInput | TagUpsertWithWhereUniqueWithoutResourcesInput[]
+    set?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    disconnect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    delete?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+    update?: TagUpdateWithWhereUniqueWithoutResourcesInput | TagUpdateWithWhereUniqueWithoutResourcesInput[]
+    updateMany?: TagUpdateManyWithWhereWithoutResourcesInput | TagUpdateManyWithWhereWithoutResourcesInput[]
+    deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
   }
 
   export type CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput = {
@@ -19324,34 +19471,6 @@ export namespace Prisma {
     deleteMany?: SavedResourceScalarWhereInput | SavedResourceScalarWhereInput[]
   }
 
-  export type ResourceCreateNestedOneWithoutVersionsInput = {
-    create?: XOR<ResourceCreateWithoutVersionsInput, ResourceUncheckedCreateWithoutVersionsInput>
-    connectOrCreate?: ResourceCreateOrConnectWithoutVersionsInput
-    connect?: ResourceWhereUniqueInput
-  }
-
-  export type UserCreateNestedOneWithoutResourceVersionsInput = {
-    create?: XOR<UserCreateWithoutResourceVersionsInput, UserUncheckedCreateWithoutResourceVersionsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutResourceVersionsInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type ResourceUpdateOneRequiredWithoutVersionsNestedInput = {
-    create?: XOR<ResourceCreateWithoutVersionsInput, ResourceUncheckedCreateWithoutVersionsInput>
-    connectOrCreate?: ResourceCreateOrConnectWithoutVersionsInput
-    upsert?: ResourceUpsertWithoutVersionsInput
-    connect?: ResourceWhereUniqueInput
-    update?: XOR<XOR<ResourceUpdateToOneWithWhereWithoutVersionsInput, ResourceUpdateWithoutVersionsInput>, ResourceUncheckedUpdateWithoutVersionsInput>
-  }
-
-  export type UserUpdateOneRequiredWithoutResourceVersionsNestedInput = {
-    create?: XOR<UserCreateWithoutResourceVersionsInput, UserUncheckedCreateWithoutResourceVersionsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutResourceVersionsInput
-    upsert?: UserUpsertWithoutResourceVersionsInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutResourceVersionsInput, UserUpdateWithoutResourceVersionsInput>, UserUncheckedUpdateWithoutResourceVersionsInput>
-  }
-
   export type ResourceCreateNestedOneWithoutOutgoingRelationsInput = {
     create?: XOR<ResourceCreateWithoutOutgoingRelationsInput, ResourceUncheckedCreateWithoutOutgoingRelationsInput>
     connectOrCreate?: ResourceCreateOrConnectWithoutOutgoingRelationsInput
@@ -19382,6 +19501,34 @@ export namespace Prisma {
     upsert?: ResourceUpsertWithoutIncomingRelationsInput
     connect?: ResourceWhereUniqueInput
     update?: XOR<XOR<ResourceUpdateToOneWithWhereWithoutIncomingRelationsInput, ResourceUpdateWithoutIncomingRelationsInput>, ResourceUncheckedUpdateWithoutIncomingRelationsInput>
+  }
+
+  export type ResourceCreateNestedOneWithoutVersionsInput = {
+    create?: XOR<ResourceCreateWithoutVersionsInput, ResourceUncheckedCreateWithoutVersionsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutVersionsInput
+    connect?: ResourceWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutVersionsInput = {
+    create?: XOR<UserCreateWithoutVersionsInput, UserUncheckedCreateWithoutVersionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVersionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ResourceUpdateOneRequiredWithoutVersionsNestedInput = {
+    create?: XOR<ResourceCreateWithoutVersionsInput, ResourceUncheckedCreateWithoutVersionsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutVersionsInput
+    upsert?: ResourceUpsertWithoutVersionsInput
+    connect?: ResourceWhereUniqueInput
+    update?: XOR<XOR<ResourceUpdateToOneWithWhereWithoutVersionsInput, ResourceUpdateWithoutVersionsInput>, ResourceUncheckedUpdateWithoutVersionsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutVersionsNestedInput = {
+    create?: XOR<UserCreateWithoutVersionsInput, UserUncheckedCreateWithoutVersionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVersionsInput
+    upsert?: UserUpsertWithoutVersionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVersionsInput, UserUpdateWithoutVersionsInput>, UserUncheckedUpdateWithoutVersionsInput>
   }
 
   export type UserCreateNestedOneWithoutCollectionsInput = {
@@ -20011,12 +20158,14 @@ export namespace Prisma {
 
   export type ResourceCreateWithoutAuthorInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -20026,6 +20175,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -20035,9 +20185,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     parent?: ResourceCreateNestedOneWithoutChildrenInput
     children?: ResourceCreateNestedManyWithoutParentInput
-    tags?: TagCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationCreateNestedManyWithoutFromInput
     incomingRelations?: RelationCreateNestedManyWithoutToInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceCreateNestedManyWithoutResourceInput
     comments?: CommentCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
@@ -20048,12 +20198,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedCreateWithoutAuthorInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -20063,6 +20215,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -20072,9 +20225,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     parentId?: string | null
     children?: ResourceUncheckedCreateNestedManyWithoutParentInput
-    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
     incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
     comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
@@ -20095,6 +20248,7 @@ export namespace Prisma {
 
   export type CollectionCreateWithoutAuthorInput = {
     id?: string
+    tenantId?: string | null
     slug: string
     title: string
     description?: string | null
@@ -20102,13 +20256,13 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    archivedAt?: Date | string | null
     deletedAt?: Date | string | null
     resources?: CollectionResourceCreateNestedManyWithoutCollectionInput
   }
 
   export type CollectionUncheckedCreateWithoutAuthorInput = {
     id?: string
+    tenantId?: string | null
     slug: string
     title: string
     description?: string | null
@@ -20116,7 +20270,6 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    archivedAt?: Date | string | null
     deletedAt?: Date | string | null
     resources?: CollectionResourceUncheckedCreateNestedManyWithoutCollectionInput
   }
@@ -20270,12 +20423,14 @@ export namespace Prisma {
     OR?: ResourceScalarWhereInput[]
     NOT?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
     id?: StringFilter<"Resource"> | string
+    tenantId?: StringNullableFilter<"Resource"> | string | null
     slug?: StringNullableFilter<"Resource"> | string | null
     title?: StringNullableFilter<"Resource"> | string | null
     description?: StringNullableFilter<"Resource"> | string | null
     excerpt?: StringNullableFilter<"Resource"> | string | null
+    publishedContentJson?: JsonNullableFilter<"Resource">
+    draftContentJson?: JsonNullableFilter<"Resource">
     content?: StringNullableFilter<"Resource"> | string | null
-    contentJson?: JsonNullableFilter<"Resource">
     type?: EnumResourceTypeFilter<"Resource"> | $Enums.ResourceType
     status?: EnumResourceStatusFilter<"Resource"> | $Enums.ResourceStatus
     visibility?: EnumVisibilityFilter<"Resource"> | $Enums.Visibility
@@ -20285,6 +20440,7 @@ export namespace Prisma {
     coverImageUrl?: StringNullableFilter<"Resource"> | string | null
     fileUrl?: StringNullableFilter<"Resource"> | string | null
     metadata?: JsonNullableFilter<"Resource">
+    aiMetadata?: JsonNullableFilter<"Resource">
     wordCount?: IntNullableFilter<"Resource"> | number | null
     estimatedTime?: IntNullableFilter<"Resource"> | number | null
     createdAt?: DateTimeFilter<"Resource"> | Date | string
@@ -20317,6 +20473,7 @@ export namespace Prisma {
     OR?: CollectionScalarWhereInput[]
     NOT?: CollectionScalarWhereInput | CollectionScalarWhereInput[]
     id?: StringFilter<"Collection"> | string
+    tenantId?: StringNullableFilter<"Collection"> | string | null
     slug?: StringFilter<"Collection"> | string
     title?: StringFilter<"Collection"> | string
     description?: StringNullableFilter<"Collection"> | string | null
@@ -20324,7 +20481,6 @@ export namespace Prisma {
     metadata?: JsonNullableFilter<"Collection">
     createdAt?: DateTimeFilter<"Collection"> | Date | string
     updatedAt?: DateTimeFilter<"Collection"> | Date | string
-    archivedAt?: DateTimeNullableFilter<"Collection"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Collection"> | Date | string | null
     authorId?: StringFilter<"Collection"> | string
   }
@@ -20449,6 +20605,7 @@ export namespace Prisma {
 
   export type UserCreateWithoutResourcesInput = {
     id?: string
+    tenantId?: string | null
     identityId?: string | null
     username: string
     email: string
@@ -20466,11 +20623,12 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutAuthorInput
     savedResources?: SavedResourceCreateNestedManyWithoutUserInput
     usageEvents?: ResourceUsageCreateNestedManyWithoutUserInput
-    resourceVersions?: ResourceVersionCreateNestedManyWithoutAuthorInput
+    versions?: ResourceVersionCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutResourcesInput = {
     id?: string
+    tenantId?: string | null
     identityId?: string | null
     username: string
     email: string
@@ -20488,7 +20646,7 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     savedResources?: SavedResourceUncheckedCreateNestedManyWithoutUserInput
     usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutUserInput
-    resourceVersions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutResourcesInput = {
@@ -20498,12 +20656,14 @@ export namespace Prisma {
 
   export type ResourceCreateWithoutChildrenInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -20513,6 +20673,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -20522,9 +20683,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     author: UserCreateNestedOneWithoutResourcesInput
     parent?: ResourceCreateNestedOneWithoutChildrenInput
-    tags?: TagCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationCreateNestedManyWithoutFromInput
     incomingRelations?: RelationCreateNestedManyWithoutToInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceCreateNestedManyWithoutResourceInput
     comments?: CommentCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
@@ -20535,12 +20696,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedCreateWithoutChildrenInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -20550,6 +20713,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -20559,9 +20723,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     authorId: string
     parentId?: string | null
-    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
     incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
     comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
@@ -20577,12 +20741,14 @@ export namespace Prisma {
 
   export type ResourceCreateWithoutParentInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -20592,6 +20758,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -20601,9 +20768,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     author: UserCreateNestedOneWithoutResourcesInput
     children?: ResourceCreateNestedManyWithoutParentInput
-    tags?: TagCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationCreateNestedManyWithoutFromInput
     incomingRelations?: RelationCreateNestedManyWithoutToInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceCreateNestedManyWithoutResourceInput
     comments?: CommentCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
@@ -20614,12 +20781,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedCreateWithoutParentInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -20629,6 +20798,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -20638,9 +20808,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     authorId: string
     children?: ResourceUncheckedCreateNestedManyWithoutParentInput
-    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
     incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
     comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
@@ -20657,25 +20827,6 @@ export namespace Prisma {
   export type ResourceCreateManyParentInputEnvelope = {
     data: ResourceCreateManyParentInput | ResourceCreateManyParentInput[]
     skipDuplicates?: boolean
-  }
-
-  export type TagCreateWithoutResourcesInput = {
-    id?: string
-    name: string
-    slug: string
-    createdAt?: Date | string
-  }
-
-  export type TagUncheckedCreateWithoutResourcesInput = {
-    id?: string
-    name: string
-    slug: string
-    createdAt?: Date | string
-  }
-
-  export type TagCreateOrConnectWithoutResourcesInput = {
-    where: TagWhereUniqueInput
-    create: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput>
   }
 
   export type RelationCreateWithoutFromInput = {
@@ -20728,6 +20879,27 @@ export namespace Prisma {
   export type RelationCreateManyToInputEnvelope = {
     data: RelationCreateManyToInput | RelationCreateManyToInput[]
     skipDuplicates?: boolean
+  }
+
+  export type TagCreateWithoutResourcesInput = {
+    id?: string
+    tenantId?: string | null
+    name: string
+    slug: string
+    createdAt?: Date | string
+  }
+
+  export type TagUncheckedCreateWithoutResourcesInput = {
+    id?: string
+    tenantId?: string | null
+    name: string
+    slug: string
+    createdAt?: Date | string
+  }
+
+  export type TagCreateOrConnectWithoutResourcesInput = {
+    where: TagWhereUniqueInput
+    create: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput>
   }
 
   export type CollectionResourceCreateWithoutResourceInput = {
@@ -20827,7 +20999,7 @@ export namespace Prisma {
     contentJson?: NullableJsonNullValueInput | InputJsonValue
     changeSummary?: string | null
     createdAt?: Date | string
-    author: UserCreateNestedOneWithoutResourceVersionsInput
+    author: UserCreateNestedOneWithoutVersionsInput
   }
 
   export type ResourceVersionUncheckedCreateWithoutResourceInput = {
@@ -20914,6 +21086,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutResourcesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     identityId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -20931,11 +21104,12 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     savedResources?: SavedResourceUpdateManyWithoutUserNestedInput
     usageEvents?: ResourceUsageUpdateManyWithoutUserNestedInput
-    resourceVersions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
+    versions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutResourcesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     identityId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -20953,7 +21127,7 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     savedResources?: SavedResourceUncheckedUpdateManyWithoutUserNestedInput
     usageEvents?: ResourceUsageUncheckedUpdateManyWithoutUserNestedInput
-    resourceVersions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type ResourceUpsertWithoutChildrenInput = {
@@ -20969,12 +21143,14 @@ export namespace Prisma {
 
   export type ResourceUpdateWithoutChildrenInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -20984,6 +21160,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20993,9 +21170,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     author?: UserUpdateOneRequiredWithoutResourcesNestedInput
     parent?: ResourceUpdateOneWithoutChildrenNestedInput
-    tags?: TagUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
     comments?: CommentUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
@@ -21006,12 +21183,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateWithoutChildrenInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -21021,6 +21200,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21030,9 +21210,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
     comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
@@ -21055,32 +21235,6 @@ export namespace Prisma {
   export type ResourceUpdateManyWithWhereWithoutParentInput = {
     where: ResourceScalarWhereInput
     data: XOR<ResourceUpdateManyMutationInput, ResourceUncheckedUpdateManyWithoutParentInput>
-  }
-
-  export type TagUpsertWithWhereUniqueWithoutResourcesInput = {
-    where: TagWhereUniqueInput
-    update: XOR<TagUpdateWithoutResourcesInput, TagUncheckedUpdateWithoutResourcesInput>
-    create: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput>
-  }
-
-  export type TagUpdateWithWhereUniqueWithoutResourcesInput = {
-    where: TagWhereUniqueInput
-    data: XOR<TagUpdateWithoutResourcesInput, TagUncheckedUpdateWithoutResourcesInput>
-  }
-
-  export type TagUpdateManyWithWhereWithoutResourcesInput = {
-    where: TagScalarWhereInput
-    data: XOR<TagUpdateManyMutationInput, TagUncheckedUpdateManyWithoutResourcesInput>
-  }
-
-  export type TagScalarWhereInput = {
-    AND?: TagScalarWhereInput | TagScalarWhereInput[]
-    OR?: TagScalarWhereInput[]
-    NOT?: TagScalarWhereInput | TagScalarWhereInput[]
-    id?: StringFilter<"Tag"> | string
-    name?: StringFilter<"Tag"> | string
-    slug?: StringFilter<"Tag"> | string
-    createdAt?: DateTimeFilter<"Tag"> | Date | string
   }
 
   export type RelationUpsertWithWhereUniqueWithoutFromInput = {
@@ -21125,6 +21279,33 @@ export namespace Prisma {
   export type RelationUpdateManyWithWhereWithoutToInput = {
     where: RelationScalarWhereInput
     data: XOR<RelationUpdateManyMutationInput, RelationUncheckedUpdateManyWithoutToInput>
+  }
+
+  export type TagUpsertWithWhereUniqueWithoutResourcesInput = {
+    where: TagWhereUniqueInput
+    update: XOR<TagUpdateWithoutResourcesInput, TagUncheckedUpdateWithoutResourcesInput>
+    create: XOR<TagCreateWithoutResourcesInput, TagUncheckedCreateWithoutResourcesInput>
+  }
+
+  export type TagUpdateWithWhereUniqueWithoutResourcesInput = {
+    where: TagWhereUniqueInput
+    data: XOR<TagUpdateWithoutResourcesInput, TagUncheckedUpdateWithoutResourcesInput>
+  }
+
+  export type TagUpdateManyWithWhereWithoutResourcesInput = {
+    where: TagScalarWhereInput
+    data: XOR<TagUpdateManyMutationInput, TagUncheckedUpdateManyWithoutResourcesInput>
+  }
+
+  export type TagScalarWhereInput = {
+    AND?: TagScalarWhereInput | TagScalarWhereInput[]
+    OR?: TagScalarWhereInput[]
+    NOT?: TagScalarWhereInput | TagScalarWhereInput[]
+    id?: StringFilter<"Tag"> | string
+    tenantId?: StringNullableFilter<"Tag"> | string | null
+    name?: StringFilter<"Tag"> | string
+    slug?: StringFilter<"Tag"> | string
+    createdAt?: DateTimeFilter<"Tag"> | Date | string
   }
 
   export type CollectionResourceUpsertWithWhereUniqueWithoutResourceInput = {
@@ -21253,282 +21434,16 @@ export namespace Prisma {
     data: XOR<SavedResourceUpdateManyMutationInput, SavedResourceUncheckedUpdateManyWithoutResourceInput>
   }
 
-  export type ResourceCreateWithoutVersionsInput = {
-    id?: string
-    slug?: string | null
-    title?: string | null
-    description?: string | null
-    excerpt?: string | null
-    content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
-    type: $Enums.ResourceType
-    status?: $Enums.ResourceStatus
-    visibility?: $Enums.Visibility
-    category?: string | null
-    language?: string | null
-    thumbnailUrl?: string | null
-    coverImageUrl?: string | null
-    fileUrl?: string | null
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    wordCount?: number | null
-    estimatedTime?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    publishedAt?: Date | string | null
-    archivedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    author: UserCreateNestedOneWithoutResourcesInput
-    parent?: ResourceCreateNestedOneWithoutChildrenInput
-    children?: ResourceCreateNestedManyWithoutParentInput
-    tags?: TagCreateNestedManyWithoutResourcesInput
-    outgoingRelations?: RelationCreateNestedManyWithoutFromInput
-    incomingRelations?: RelationCreateNestedManyWithoutToInput
-    collections?: CollectionResourceCreateNestedManyWithoutResourceInput
-    comments?: CommentCreateNestedManyWithoutResourceInput
-    metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
-    usageEvents?: ResourceUsageCreateNestedManyWithoutResourceInput
-    savedBy?: SavedResourceCreateNestedManyWithoutResourceInput
-  }
-
-  export type ResourceUncheckedCreateWithoutVersionsInput = {
-    id?: string
-    slug?: string | null
-    title?: string | null
-    description?: string | null
-    excerpt?: string | null
-    content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
-    type: $Enums.ResourceType
-    status?: $Enums.ResourceStatus
-    visibility?: $Enums.Visibility
-    category?: string | null
-    language?: string | null
-    thumbnailUrl?: string | null
-    coverImageUrl?: string | null
-    fileUrl?: string | null
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    wordCount?: number | null
-    estimatedTime?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    publishedAt?: Date | string | null
-    archivedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    authorId: string
-    parentId?: string | null
-    children?: ResourceUncheckedCreateNestedManyWithoutParentInput
-    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
-    outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
-    incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
-    collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
-    comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
-    metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
-    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutResourceInput
-    savedBy?: SavedResourceUncheckedCreateNestedManyWithoutResourceInput
-  }
-
-  export type ResourceCreateOrConnectWithoutVersionsInput = {
-    where: ResourceWhereUniqueInput
-    create: XOR<ResourceCreateWithoutVersionsInput, ResourceUncheckedCreateWithoutVersionsInput>
-  }
-
-  export type UserCreateWithoutResourceVersionsInput = {
-    id?: string
-    identityId?: string | null
-    username: string
-    email: string
-    passwordHash: string
-    displayName?: string | null
-    avatarUrl?: string | null
-    bio?: string | null
-    onboardingStep?: number
-    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    archivedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    resources?: ResourceCreateNestedManyWithoutAuthorInput
-    collections?: CollectionCreateNestedManyWithoutAuthorInput
-    comments?: CommentCreateNestedManyWithoutAuthorInput
-    savedResources?: SavedResourceCreateNestedManyWithoutUserInput
-    usageEvents?: ResourceUsageCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutResourceVersionsInput = {
-    id?: string
-    identityId?: string | null
-    username: string
-    email: string
-    passwordHash: string
-    displayName?: string | null
-    avatarUrl?: string | null
-    bio?: string | null
-    onboardingStep?: number
-    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    archivedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    resources?: ResourceUncheckedCreateNestedManyWithoutAuthorInput
-    collections?: CollectionUncheckedCreateNestedManyWithoutAuthorInput
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
-    savedResources?: SavedResourceUncheckedCreateNestedManyWithoutUserInput
-    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutResourceVersionsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutResourceVersionsInput, UserUncheckedCreateWithoutResourceVersionsInput>
-  }
-
-  export type ResourceUpsertWithoutVersionsInput = {
-    update: XOR<ResourceUpdateWithoutVersionsInput, ResourceUncheckedUpdateWithoutVersionsInput>
-    create: XOR<ResourceCreateWithoutVersionsInput, ResourceUncheckedCreateWithoutVersionsInput>
-    where?: ResourceWhereInput
-  }
-
-  export type ResourceUpdateToOneWithWhereWithoutVersionsInput = {
-    where?: ResourceWhereInput
-    data: XOR<ResourceUpdateWithoutVersionsInput, ResourceUncheckedUpdateWithoutVersionsInput>
-  }
-
-  export type ResourceUpdateWithoutVersionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    slug?: NullableStringFieldUpdateOperationsInput | string | null
-    title?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
-    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
-    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
-    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    author?: UserUpdateOneRequiredWithoutResourcesNestedInput
-    parent?: ResourceUpdateOneWithoutChildrenNestedInput
-    children?: ResourceUpdateManyWithoutParentNestedInput
-    tags?: TagUpdateManyWithoutResourcesNestedInput
-    outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
-    incomingRelations?: RelationUpdateManyWithoutToNestedInput
-    collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
-    comments?: CommentUpdateManyWithoutResourceNestedInput
-    metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
-    usageEvents?: ResourceUsageUpdateManyWithoutResourceNestedInput
-    savedBy?: SavedResourceUpdateManyWithoutResourceNestedInput
-  }
-
-  export type ResourceUncheckedUpdateWithoutVersionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    slug?: NullableStringFieldUpdateOperationsInput | string | null
-    title?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
-    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
-    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
-    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    authorId?: StringFieldUpdateOperationsInput | string
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
-    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
-    outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
-    incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
-    collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
-    metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
-    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput
-    savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
-  }
-
-  export type UserUpsertWithoutResourceVersionsInput = {
-    update: XOR<UserUpdateWithoutResourceVersionsInput, UserUncheckedUpdateWithoutResourceVersionsInput>
-    create: XOR<UserCreateWithoutResourceVersionsInput, UserUncheckedCreateWithoutResourceVersionsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutResourceVersionsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutResourceVersionsInput, UserUncheckedUpdateWithoutResourceVersionsInput>
-  }
-
-  export type UserUpdateWithoutResourceVersionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    identityId?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    passwordHash?: StringFieldUpdateOperationsInput | string
-    displayName?: NullableStringFieldUpdateOperationsInput | string | null
-    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingStep?: IntFieldUpdateOperationsInput | number
-    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    resources?: ResourceUpdateManyWithoutAuthorNestedInput
-    collections?: CollectionUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUpdateManyWithoutAuthorNestedInput
-    savedResources?: SavedResourceUpdateManyWithoutUserNestedInput
-    usageEvents?: ResourceUsageUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutResourceVersionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    identityId?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    passwordHash?: StringFieldUpdateOperationsInput | string
-    displayName?: NullableStringFieldUpdateOperationsInput | string | null
-    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    onboardingStep?: IntFieldUpdateOperationsInput | number
-    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    resources?: ResourceUncheckedUpdateManyWithoutAuthorNestedInput
-    collections?: CollectionUncheckedUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
-    savedResources?: SavedResourceUncheckedUpdateManyWithoutUserNestedInput
-    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutUserNestedInput
-  }
-
   export type ResourceCreateWithoutOutgoingRelationsInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -21538,6 +21453,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -21548,8 +21464,8 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutResourcesInput
     parent?: ResourceCreateNestedOneWithoutChildrenInput
     children?: ResourceCreateNestedManyWithoutParentInput
-    tags?: TagCreateNestedManyWithoutResourcesInput
     incomingRelations?: RelationCreateNestedManyWithoutToInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceCreateNestedManyWithoutResourceInput
     comments?: CommentCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
@@ -21560,12 +21476,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedCreateWithoutOutgoingRelationsInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -21575,6 +21493,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -21585,8 +21504,8 @@ export namespace Prisma {
     authorId: string
     parentId?: string | null
     children?: ResourceUncheckedCreateNestedManyWithoutParentInput
-    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
     comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
@@ -21602,12 +21521,14 @@ export namespace Prisma {
 
   export type ResourceCreateWithoutIncomingRelationsInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -21617,6 +21538,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -21627,8 +21549,8 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutResourcesInput
     parent?: ResourceCreateNestedOneWithoutChildrenInput
     children?: ResourceCreateNestedManyWithoutParentInput
-    tags?: TagCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationCreateNestedManyWithoutFromInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceCreateNestedManyWithoutResourceInput
     comments?: CommentCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
@@ -21639,12 +21561,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedCreateWithoutIncomingRelationsInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -21654,6 +21578,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -21664,8 +21589,8 @@ export namespace Prisma {
     authorId: string
     parentId?: string | null
     children?: ResourceUncheckedCreateNestedManyWithoutParentInput
-    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
     comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
@@ -21692,12 +21617,14 @@ export namespace Prisma {
 
   export type ResourceUpdateWithoutOutgoingRelationsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -21707,6 +21634,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21717,8 +21645,8 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutResourcesNestedInput
     parent?: ResourceUpdateOneWithoutChildrenNestedInput
     children?: ResourceUpdateManyWithoutParentNestedInput
-    tags?: TagUpdateManyWithoutResourcesNestedInput
     incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
     comments?: CommentUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
@@ -21729,12 +21657,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateWithoutOutgoingRelationsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -21744,6 +21674,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21754,8 +21685,8 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
-    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
     comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
@@ -21777,12 +21708,14 @@ export namespace Prisma {
 
   export type ResourceUpdateWithoutIncomingRelationsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -21792,6 +21725,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21802,8 +21736,8 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutResourcesNestedInput
     parent?: ResourceUpdateOneWithoutChildrenNestedInput
     children?: ResourceUpdateManyWithoutParentNestedInput
-    tags?: TagUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
     comments?: CommentUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
@@ -21814,12 +21748,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateWithoutIncomingRelationsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -21829,6 +21765,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21839,8 +21776,8 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
-    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
     comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
@@ -21849,8 +21786,293 @@ export namespace Prisma {
     savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
   }
 
+  export type ResourceCreateWithoutVersionsInput = {
+    id?: string
+    tenantId?: string | null
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
+    content?: string | null
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    author: UserCreateNestedOneWithoutResourcesInput
+    parent?: ResourceCreateNestedOneWithoutChildrenInput
+    children?: ResourceCreateNestedManyWithoutParentInput
+    outgoingRelations?: RelationCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationCreateNestedManyWithoutToInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
+    collections?: CollectionResourceCreateNestedManyWithoutResourceInput
+    comments?: CommentCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceUncheckedCreateWithoutVersionsInput = {
+    id?: string
+    tenantId?: string | null
+    slug?: string | null
+    title?: string | null
+    description?: string | null
+    excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
+    content?: string | null
+    type: $Enums.ResourceType
+    status?: $Enums.ResourceStatus
+    visibility?: $Enums.Visibility
+    category?: string | null
+    language?: string | null
+    thumbnailUrl?: string | null
+    coverImageUrl?: string | null
+    fileUrl?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: number | null
+    estimatedTime?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    authorId: string
+    parentId?: string | null
+    children?: ResourceUncheckedCreateNestedManyWithoutParentInput
+    outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
+    incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
+    collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
+    comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
+    metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutResourceInput
+    savedBy?: SavedResourceUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceCreateOrConnectWithoutVersionsInput = {
+    where: ResourceWhereUniqueInput
+    create: XOR<ResourceCreateWithoutVersionsInput, ResourceUncheckedCreateWithoutVersionsInput>
+  }
+
+  export type UserCreateWithoutVersionsInput = {
+    id?: string
+    tenantId?: string | null
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: ResourceCreateNestedManyWithoutAuthorInput
+    collections?: CollectionCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    savedResources?: SavedResourceCreateNestedManyWithoutUserInput
+    usageEvents?: ResourceUsageCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutVersionsInput = {
+    id?: string
+    tenantId?: string | null
+    identityId?: string | null
+    username: string
+    email: string
+    passwordHash: string
+    displayName?: string | null
+    avatarUrl?: string | null
+    bio?: string | null
+    onboardingStep?: number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    archivedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    resources?: ResourceUncheckedCreateNestedManyWithoutAuthorInput
+    collections?: CollectionUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    savedResources?: SavedResourceUncheckedCreateNestedManyWithoutUserInput
+    usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutVersionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutVersionsInput, UserUncheckedCreateWithoutVersionsInput>
+  }
+
+  export type ResourceUpsertWithoutVersionsInput = {
+    update: XOR<ResourceUpdateWithoutVersionsInput, ResourceUncheckedUpdateWithoutVersionsInput>
+    create: XOR<ResourceCreateWithoutVersionsInput, ResourceUncheckedCreateWithoutVersionsInput>
+    where?: ResourceWhereInput
+  }
+
+  export type ResourceUpdateToOneWithWhereWithoutVersionsInput = {
+    where?: ResourceWhereInput
+    data: XOR<ResourceUpdateWithoutVersionsInput, ResourceUncheckedUpdateWithoutVersionsInput>
+  }
+
+  export type ResourceUpdateWithoutVersionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneRequiredWithoutResourcesNestedInput
+    parent?: ResourceUpdateOneWithoutChildrenNestedInput
+    children?: ResourceUpdateManyWithoutParentNestedInput
+    outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
+    collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
+    comments?: CommentUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUpdateManyWithoutResourceNestedInput
+  }
+
+  export type ResourceUncheckedUpdateWithoutVersionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
+    status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
+    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
+    estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
+    outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
+    incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
+    collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
+    metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutResourceNestedInput
+    savedBy?: SavedResourceUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type UserUpsertWithoutVersionsInput = {
+    update: XOR<UserUpdateWithoutVersionsInput, UserUncheckedUpdateWithoutVersionsInput>
+    create: XOR<UserCreateWithoutVersionsInput, UserUncheckedCreateWithoutVersionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutVersionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutVersionsInput, UserUncheckedUpdateWithoutVersionsInput>
+  }
+
+  export type UserUpdateWithoutVersionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: ResourceUpdateManyWithoutAuthorNestedInput
+    collections?: CollectionUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    savedResources?: SavedResourceUpdateManyWithoutUserNestedInput
+    usageEvents?: ResourceUsageUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutVersionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
+    identityId?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingStep?: IntFieldUpdateOperationsInput | number
+    onboardingJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resources?: ResourceUncheckedUpdateManyWithoutAuthorNestedInput
+    collections?: CollectionUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    savedResources?: SavedResourceUncheckedUpdateManyWithoutUserNestedInput
+    usageEvents?: ResourceUsageUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutCollectionsInput = {
     id?: string
+    tenantId?: string | null
     identityId?: string | null
     username: string
     email: string
@@ -21868,11 +22090,12 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutAuthorInput
     savedResources?: SavedResourceCreateNestedManyWithoutUserInput
     usageEvents?: ResourceUsageCreateNestedManyWithoutUserInput
-    resourceVersions?: ResourceVersionCreateNestedManyWithoutAuthorInput
+    versions?: ResourceVersionCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutCollectionsInput = {
     id?: string
+    tenantId?: string | null
     identityId?: string | null
     username: string
     email: string
@@ -21890,7 +22113,7 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     savedResources?: SavedResourceUncheckedCreateNestedManyWithoutUserInput
     usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutUserInput
-    resourceVersions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutCollectionsInput = {
@@ -21935,6 +22158,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutCollectionsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     identityId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -21952,11 +22176,12 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     savedResources?: SavedResourceUpdateManyWithoutUserNestedInput
     usageEvents?: ResourceUsageUpdateManyWithoutUserNestedInput
-    resourceVersions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
+    versions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCollectionsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     identityId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -21974,7 +22199,7 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     savedResources?: SavedResourceUncheckedUpdateManyWithoutUserNestedInput
     usageEvents?: ResourceUsageUncheckedUpdateManyWithoutUserNestedInput
-    resourceVersions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type CollectionResourceUpsertWithWhereUniqueWithoutCollectionInput = {
@@ -21995,6 +22220,7 @@ export namespace Prisma {
 
   export type CollectionCreateWithoutResourcesInput = {
     id?: string
+    tenantId?: string | null
     slug: string
     title: string
     description?: string | null
@@ -22002,13 +22228,13 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    archivedAt?: Date | string | null
     deletedAt?: Date | string | null
     author: UserCreateNestedOneWithoutCollectionsInput
   }
 
   export type CollectionUncheckedCreateWithoutResourcesInput = {
     id?: string
+    tenantId?: string | null
     slug: string
     title: string
     description?: string | null
@@ -22016,7 +22242,6 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    archivedAt?: Date | string | null
     deletedAt?: Date | string | null
     authorId: string
   }
@@ -22028,12 +22253,14 @@ export namespace Prisma {
 
   export type ResourceCreateWithoutCollectionsInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -22043,6 +22270,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -22053,9 +22281,9 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutResourcesInput
     parent?: ResourceCreateNestedOneWithoutChildrenInput
     children?: ResourceCreateNestedManyWithoutParentInput
-    tags?: TagCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationCreateNestedManyWithoutFromInput
     incomingRelations?: RelationCreateNestedManyWithoutToInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
     comments?: CommentCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
     versions?: ResourceVersionCreateNestedManyWithoutResourceInput
@@ -22065,12 +22293,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedCreateWithoutCollectionsInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -22080,6 +22310,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -22090,9 +22321,9 @@ export namespace Prisma {
     authorId: string
     parentId?: string | null
     children?: ResourceUncheckedCreateNestedManyWithoutParentInput
-    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
     incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
     versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
@@ -22118,6 +22349,7 @@ export namespace Prisma {
 
   export type CollectionUpdateWithoutResourcesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22125,13 +22357,13 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     author?: UserUpdateOneRequiredWithoutCollectionsNestedInput
   }
 
   export type CollectionUncheckedUpdateWithoutResourcesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22139,7 +22371,6 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     authorId?: StringFieldUpdateOperationsInput | string
   }
@@ -22157,12 +22388,14 @@ export namespace Prisma {
 
   export type ResourceUpdateWithoutCollectionsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -22172,6 +22405,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22182,9 +22416,9 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutResourcesNestedInput
     parent?: ResourceUpdateOneWithoutChildrenNestedInput
     children?: ResourceUpdateManyWithoutParentNestedInput
-    tags?: TagUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
     comments?: CommentUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
     versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
@@ -22194,12 +22428,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateWithoutCollectionsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -22209,6 +22445,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22219,9 +22456,9 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
-    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
     versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
@@ -22231,12 +22468,14 @@ export namespace Prisma {
 
   export type ResourceCreateWithoutTagsInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -22246,6 +22485,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -22268,12 +22508,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedCreateWithoutTagsInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -22283,6 +22525,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -22326,6 +22569,7 @@ export namespace Prisma {
 
   export type UserCreateWithoutCommentsInput = {
     id?: string
+    tenantId?: string | null
     identityId?: string | null
     username: string
     email: string
@@ -22343,11 +22587,12 @@ export namespace Prisma {
     collections?: CollectionCreateNestedManyWithoutAuthorInput
     savedResources?: SavedResourceCreateNestedManyWithoutUserInput
     usageEvents?: ResourceUsageCreateNestedManyWithoutUserInput
-    resourceVersions?: ResourceVersionCreateNestedManyWithoutAuthorInput
+    versions?: ResourceVersionCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
     id?: string
+    tenantId?: string | null
     identityId?: string | null
     username: string
     email: string
@@ -22365,7 +22610,7 @@ export namespace Prisma {
     collections?: CollectionUncheckedCreateNestedManyWithoutAuthorInput
     savedResources?: SavedResourceUncheckedCreateNestedManyWithoutUserInput
     usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutUserInput
-    resourceVersions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -22375,12 +22620,14 @@ export namespace Prisma {
 
   export type ResourceCreateWithoutCommentsInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -22390,6 +22637,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -22400,9 +22648,9 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutResourcesInput
     parent?: ResourceCreateNestedOneWithoutChildrenInput
     children?: ResourceCreateNestedManyWithoutParentInput
-    tags?: TagCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationCreateNestedManyWithoutFromInput
     incomingRelations?: RelationCreateNestedManyWithoutToInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
     versions?: ResourceVersionCreateNestedManyWithoutResourceInput
@@ -22412,12 +22660,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedCreateWithoutCommentsInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -22427,6 +22677,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -22437,9 +22688,9 @@ export namespace Prisma {
     authorId: string
     parentId?: string | null
     children?: ResourceUncheckedCreateNestedManyWithoutParentInput
-    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
     incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
     versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
@@ -22532,6 +22783,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutCommentsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     identityId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -22549,11 +22801,12 @@ export namespace Prisma {
     collections?: CollectionUpdateManyWithoutAuthorNestedInput
     savedResources?: SavedResourceUpdateManyWithoutUserNestedInput
     usageEvents?: ResourceUsageUpdateManyWithoutUserNestedInput
-    resourceVersions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
+    versions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     identityId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -22571,7 +22824,7 @@ export namespace Prisma {
     collections?: CollectionUncheckedUpdateManyWithoutAuthorNestedInput
     savedResources?: SavedResourceUncheckedUpdateManyWithoutUserNestedInput
     usageEvents?: ResourceUsageUncheckedUpdateManyWithoutUserNestedInput
-    resourceVersions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type ResourceUpsertWithoutCommentsInput = {
@@ -22587,12 +22840,14 @@ export namespace Prisma {
 
   export type ResourceUpdateWithoutCommentsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -22602,6 +22857,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22612,9 +22868,9 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutResourcesNestedInput
     parent?: ResourceUpdateOneWithoutChildrenNestedInput
     children?: ResourceUpdateManyWithoutParentNestedInput
-    tags?: TagUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
     versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
@@ -22624,12 +22880,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateWithoutCommentsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -22639,6 +22897,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22649,9 +22908,9 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
-    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
     versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
@@ -22714,6 +22973,7 @@ export namespace Prisma {
 
   export type UserCreateWithoutSavedResourcesInput = {
     id?: string
+    tenantId?: string | null
     identityId?: string | null
     username: string
     email: string
@@ -22731,11 +22991,12 @@ export namespace Prisma {
     collections?: CollectionCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
     usageEvents?: ResourceUsageCreateNestedManyWithoutUserInput
-    resourceVersions?: ResourceVersionCreateNestedManyWithoutAuthorInput
+    versions?: ResourceVersionCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutSavedResourcesInput = {
     id?: string
+    tenantId?: string | null
     identityId?: string | null
     username: string
     email: string
@@ -22753,7 +23014,7 @@ export namespace Prisma {
     collections?: CollectionUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     usageEvents?: ResourceUsageUncheckedCreateNestedManyWithoutUserInput
-    resourceVersions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutSavedResourcesInput = {
@@ -22763,12 +23024,14 @@ export namespace Prisma {
 
   export type ResourceCreateWithoutSavedByInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -22778,6 +23041,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -22788,9 +23052,9 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutResourcesInput
     parent?: ResourceCreateNestedOneWithoutChildrenInput
     children?: ResourceCreateNestedManyWithoutParentInput
-    tags?: TagCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationCreateNestedManyWithoutFromInput
     incomingRelations?: RelationCreateNestedManyWithoutToInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceCreateNestedManyWithoutResourceInput
     comments?: CommentCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
@@ -22800,12 +23064,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedCreateWithoutSavedByInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -22815,6 +23081,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -22825,9 +23092,9 @@ export namespace Prisma {
     authorId: string
     parentId?: string | null
     children?: ResourceUncheckedCreateNestedManyWithoutParentInput
-    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
     incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
     comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
@@ -22853,6 +23120,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutSavedResourcesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     identityId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -22870,11 +23138,12 @@ export namespace Prisma {
     collections?: CollectionUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     usageEvents?: ResourceUsageUpdateManyWithoutUserNestedInput
-    resourceVersions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
+    versions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSavedResourcesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     identityId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -22892,7 +23161,7 @@ export namespace Prisma {
     collections?: CollectionUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     usageEvents?: ResourceUsageUncheckedUpdateManyWithoutUserNestedInput
-    resourceVersions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type ResourceUpsertWithoutSavedByInput = {
@@ -22908,12 +23177,14 @@ export namespace Prisma {
 
   export type ResourceUpdateWithoutSavedByInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -22923,6 +23194,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22933,9 +23205,9 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutResourcesNestedInput
     parent?: ResourceUpdateOneWithoutChildrenNestedInput
     children?: ResourceUpdateManyWithoutParentNestedInput
-    tags?: TagUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
     comments?: CommentUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
@@ -22945,12 +23217,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateWithoutSavedByInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -22960,6 +23234,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22970,9 +23245,9 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
-    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
     comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
@@ -22982,12 +23257,14 @@ export namespace Prisma {
 
   export type ResourceCreateWithoutUsageEventsInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -22997,6 +23274,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -23007,9 +23285,9 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutResourcesInput
     parent?: ResourceCreateNestedOneWithoutChildrenInput
     children?: ResourceCreateNestedManyWithoutParentInput
-    tags?: TagCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationCreateNestedManyWithoutFromInput
     incomingRelations?: RelationCreateNestedManyWithoutToInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceCreateNestedManyWithoutResourceInput
     comments?: CommentCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsCreateNestedOneWithoutResourceInput
@@ -23019,12 +23297,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedCreateWithoutUsageEventsInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -23034,6 +23314,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -23044,9 +23325,9 @@ export namespace Prisma {
     authorId: string
     parentId?: string | null
     children?: ResourceUncheckedCreateNestedManyWithoutParentInput
-    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
     incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
     comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
     metrics?: ResourceMetricsUncheckedCreateNestedOneWithoutResourceInput
@@ -23061,6 +23342,7 @@ export namespace Prisma {
 
   export type UserCreateWithoutUsageEventsInput = {
     id?: string
+    tenantId?: string | null
     identityId?: string | null
     username: string
     email: string
@@ -23078,11 +23360,12 @@ export namespace Prisma {
     collections?: CollectionCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
     savedResources?: SavedResourceCreateNestedManyWithoutUserInput
-    resourceVersions?: ResourceVersionCreateNestedManyWithoutAuthorInput
+    versions?: ResourceVersionCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutUsageEventsInput = {
     id?: string
+    tenantId?: string | null
     identityId?: string | null
     username: string
     email: string
@@ -23100,7 +23383,7 @@ export namespace Prisma {
     collections?: CollectionUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     savedResources?: SavedResourceUncheckedCreateNestedManyWithoutUserInput
-    resourceVersions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
+    versions?: ResourceVersionUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutUsageEventsInput = {
@@ -23121,12 +23404,14 @@ export namespace Prisma {
 
   export type ResourceUpdateWithoutUsageEventsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -23136,6 +23421,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23146,9 +23432,9 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutResourcesNestedInput
     parent?: ResourceUpdateOneWithoutChildrenNestedInput
     children?: ResourceUpdateManyWithoutParentNestedInput
-    tags?: TagUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
     comments?: CommentUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
@@ -23158,12 +23444,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateWithoutUsageEventsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -23173,6 +23461,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23183,9 +23472,9 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
-    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
     comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
@@ -23206,6 +23495,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutUsageEventsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     identityId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -23223,11 +23513,12 @@ export namespace Prisma {
     collections?: CollectionUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     savedResources?: SavedResourceUpdateManyWithoutUserNestedInput
-    resourceVersions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
+    versions?: ResourceVersionUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUsageEventsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     identityId?: NullableStringFieldUpdateOperationsInput | string | null
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -23245,17 +23536,19 @@ export namespace Prisma {
     collections?: CollectionUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     savedResources?: SavedResourceUncheckedUpdateManyWithoutUserNestedInput
-    resourceVersions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
+    versions?: ResourceVersionUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type ResourceCreateWithoutMetricsInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -23265,6 +23558,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -23275,9 +23569,9 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutResourcesInput
     parent?: ResourceCreateNestedOneWithoutChildrenInput
     children?: ResourceCreateNestedManyWithoutParentInput
-    tags?: TagCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationCreateNestedManyWithoutFromInput
     incomingRelations?: RelationCreateNestedManyWithoutToInput
+    tags?: TagCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceCreateNestedManyWithoutResourceInput
     comments?: CommentCreateNestedManyWithoutResourceInput
     versions?: ResourceVersionCreateNestedManyWithoutResourceInput
@@ -23287,12 +23581,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedCreateWithoutMetricsInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -23302,6 +23598,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -23312,9 +23609,9 @@ export namespace Prisma {
     authorId: string
     parentId?: string | null
     children?: ResourceUncheckedCreateNestedManyWithoutParentInput
-    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     outgoingRelations?: RelationUncheckedCreateNestedManyWithoutFromInput
     incomingRelations?: RelationUncheckedCreateNestedManyWithoutToInput
+    tags?: TagUncheckedCreateNestedManyWithoutResourcesInput
     collections?: CollectionResourceUncheckedCreateNestedManyWithoutResourceInput
     comments?: CommentUncheckedCreateNestedManyWithoutResourceInput
     versions?: ResourceVersionUncheckedCreateNestedManyWithoutResourceInput
@@ -23340,12 +23637,14 @@ export namespace Prisma {
 
   export type ResourceUpdateWithoutMetricsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -23355,6 +23654,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23365,9 +23665,9 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutResourcesNestedInput
     parent?: ResourceUpdateOneWithoutChildrenNestedInput
     children?: ResourceUpdateManyWithoutParentNestedInput
-    tags?: TagUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
     comments?: CommentUpdateManyWithoutResourceNestedInput
     versions?: ResourceVersionUpdateManyWithoutResourceNestedInput
@@ -23377,12 +23677,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateWithoutMetricsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -23392,6 +23694,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23402,9 +23705,9 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
-    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
     comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
     versions?: ResourceVersionUncheckedUpdateManyWithoutResourceNestedInput
@@ -23414,12 +23717,14 @@ export namespace Prisma {
 
   export type ResourceCreateManyAuthorInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -23429,6 +23734,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -23441,6 +23747,7 @@ export namespace Prisma {
 
   export type CollectionCreateManyAuthorInput = {
     id?: string
+    tenantId?: string | null
     slug: string
     title: string
     description?: string | null
@@ -23448,7 +23755,6 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    archivedAt?: Date | string | null
     deletedAt?: Date | string | null
   }
 
@@ -23492,12 +23798,14 @@ export namespace Prisma {
 
   export type ResourceUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -23507,6 +23815,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23516,9 +23825,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parent?: ResourceUpdateOneWithoutChildrenNestedInput
     children?: ResourceUpdateManyWithoutParentNestedInput
-    tags?: TagUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
     comments?: CommentUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
@@ -23529,12 +23838,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -23544,6 +23855,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23553,9 +23865,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
-    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
     comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
@@ -23566,12 +23878,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateManyWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -23581,6 +23895,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23593,6 +23908,7 @@ export namespace Prisma {
 
   export type CollectionUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23600,13 +23916,13 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resources?: CollectionResourceUpdateManyWithoutCollectionNestedInput
   }
 
   export type CollectionUncheckedUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23614,13 +23930,13 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resources?: CollectionResourceUncheckedUpdateManyWithoutCollectionNestedInput
   }
 
   export type CollectionUncheckedUpdateManyWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23628,7 +23944,6 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -23750,12 +24065,14 @@ export namespace Prisma {
 
   export type ResourceCreateManyParentInput = {
     id?: string
+    tenantId?: string | null
     slug?: string | null
     title?: string | null
     description?: string | null
     excerpt?: string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type: $Enums.ResourceType
     status?: $Enums.ResourceStatus
     visibility?: $Enums.Visibility
@@ -23765,6 +24082,7 @@ export namespace Prisma {
     coverImageUrl?: string | null
     fileUrl?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: number | null
     estimatedTime?: number | null
     createdAt?: Date | string
@@ -23838,12 +24156,14 @@ export namespace Prisma {
 
   export type ResourceUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -23853,6 +24173,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23862,9 +24183,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     author?: UserUpdateOneRequiredWithoutResourcesNestedInput
     children?: ResourceUpdateManyWithoutParentNestedInput
-    tags?: TagUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUpdateManyWithoutToNestedInput
+    tags?: TagUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUpdateManyWithoutResourceNestedInput
     comments?: CommentUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUpdateOneWithoutResourceNestedInput
@@ -23875,12 +24196,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -23890,6 +24213,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23899,9 +24223,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     authorId?: StringFieldUpdateOperationsInput | string
     children?: ResourceUncheckedUpdateManyWithoutParentNestedInput
-    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     outgoingRelations?: RelationUncheckedUpdateManyWithoutFromNestedInput
     incomingRelations?: RelationUncheckedUpdateManyWithoutToNestedInput
+    tags?: TagUncheckedUpdateManyWithoutResourcesNestedInput
     collections?: CollectionResourceUncheckedUpdateManyWithoutResourceNestedInput
     comments?: CommentUncheckedUpdateManyWithoutResourceNestedInput
     metrics?: ResourceMetricsUncheckedUpdateOneWithoutResourceNestedInput
@@ -23912,12 +24236,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateManyWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -23927,6 +24253,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23935,27 +24262,6 @@ export namespace Prisma {
     archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     authorId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type TagUpdateWithoutResourcesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type TagUncheckedUpdateWithoutResourcesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type TagUncheckedUpdateManyWithoutResourcesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RelationUpdateWithoutFromInput = {
@@ -24003,6 +24309,30 @@ export namespace Prisma {
     type?: EnumRelationTypeFieldUpdateOperationsInput | $Enums.RelationType
     fromId?: StringFieldUpdateOperationsInput | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagUpdateWithoutResourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagUncheckedUpdateWithoutResourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TagUncheckedUpdateManyWithoutResourcesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -24073,7 +24403,7 @@ export namespace Prisma {
     contentJson?: NullableJsonNullValueInput | InputJsonValue
     changeSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    author?: UserUpdateOneRequiredWithoutResourceVersionsNestedInput
+    author?: UserUpdateOneRequiredWithoutVersionsNestedInput
   }
 
   export type ResourceVersionUncheckedUpdateWithoutResourceInput = {
@@ -24173,12 +24503,14 @@ export namespace Prisma {
 
   export type ResourceUpdateWithoutTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -24188,6 +24520,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24210,12 +24543,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateWithoutTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -24225,6 +24560,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24247,12 +24583,14 @@ export namespace Prisma {
 
   export type ResourceUncheckedUpdateManyWithoutTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedContentJson?: NullableJsonNullValueInput | InputJsonValue
+    draftContentJson?: NullableJsonNullValueInput | InputJsonValue
     content?: NullableStringFieldUpdateOperationsInput | string | null
-    contentJson?: NullableJsonNullValueInput | InputJsonValue
     type?: EnumResourceTypeFieldUpdateOperationsInput | $Enums.ResourceType
     status?: EnumResourceStatusFieldUpdateOperationsInput | $Enums.ResourceStatus
     visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
@@ -24262,6 +24600,7 @@ export namespace Prisma {
     coverImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    aiMetadata?: NullableJsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
     estimatedTime?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
