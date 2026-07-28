@@ -1,0 +1,13 @@
+{
+  "editor.formatOnSave": true,
+  "files.autoSave": "afterDelay",
+  "editor.mouseWheelZoom": true,
+  "editor.formatOnPaste": true,
+  "Codegeex.SidebarUI.LanguagePreference": "English",
+  "Codegeex.GenerationPreference": "automatic",
+  "Codegeex.Chat.fontSize": 12,
+  "Codegeex.Chat.LanguagePreference": "English",
+  "Codegeex.Comment.LanguagePreference": "English",
+  "Codegeex.CommitMessage.LanguagePreference": "English",
+  "Codegeex.CommitMessageStyle": "Default"
+}

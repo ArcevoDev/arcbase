@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { handleApiRoute } from "@/lib/errors/handle-error";
-import { requireOnboarded } from "@/modules/auth/require-auth";
-import { CollectionService } from "@/modules/collections/collection.service";
+import { handleApiRoute } from "@/lib/errors";
+import { requireOnboarded } from "@/core/auth";
+import { CollectionService } from "@/domains/collections/collection.service";
 import {
   createCollectionSchema,
   toSafeCollectionDTO,
-} from "@/modules/collections/collection.dto";
-import { ApiError } from "@/lib/errors/api-error";
+} from "@/domains/collections/collection.dto";
+import { ApiError } from "@/lib/errors";
 
 export const GET = handleApiRoute(async (req: NextRequest) => {
   const session = await requireOnboarded(req);

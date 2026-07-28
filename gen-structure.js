@@ -1,21 +1,22 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 const IGNORED_ITEMS = new Set([
-  '.next',
-  'node_modules',
-  '.git',
-  'out',
-  '.vercel',
-  'coverage',
-  '.DS_Store',
-  'repo_structure.txt'
+  ".next",
+  "node_modules",
+  ".git",
+  "out",
+  ".vercel",
+  "coverage",
+  ".DS_Store",
+  "repo_structure.txt",
 ]);
 
 function generateTree(dir, indent = "", isLast = true) {
   try {
-    const items = fs.readdirSync(dir)
-      .filter(item => !IGNORED_ITEMS.has(item))
+    const items = fs
+      .readdirSync(dir)
+      .filter((item) => !IGNORED_ITEMS.has(item))
       .sort((a, b) => {
         const aIsDir = fs.statSync(path.join(dir, a)).isDirectory();
         const bIsDir = fs.statSync(path.join(dir, b)).isDirectory();
@@ -49,5 +50,5 @@ const repoName = path.basename(rootDir);
 console.log("Parsing Next.js repository structure...");
 const finalTree = `${repoName}/\n${generateTree(rootDir)}`;
 
-fs.writeFileSync('repo_structure.txt', finalTree, 'utf-8');
+fs.writeFileSync("repo_structure.txt", finalTree, "utf-8");
 console.log("✨ Success! Structure saved to repo_structure.txt");

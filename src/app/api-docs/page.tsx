@@ -3,9 +3,8 @@
 import React, { useMemo } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-// @ts-expect-error - swagger-ui-react ships CSS without a bundled TS declaration
 import "swagger-ui-react/swagger-ui.css";
-import { openApiSpec } from "@/lib/openapi";
+import { openApiSpec } from "@/lib/useful/openapi";
 
 const SwaggerUI = dynamic(() => import("swagger-ui-react"), {
   ssr: false,
@@ -65,7 +64,8 @@ const PATH_GROUPS = [
   {
     label: "Collections",
     prefix: "/api/collections",
-    summary: "Collection management, ordering, and collection-resource linking.",
+    summary:
+      "Collection management, ordering, and collection-resource linking.",
   },
   {
     label: "Comments",
@@ -142,11 +142,13 @@ function getOperationSummary(pathname: string) {
   const operations = paths[pathname];
   if (!operations) return [];
 
-  return METHODS.filter((method) => Boolean(operations[method])).map((method) => ({
-    method,
-    summary: operations[method]?.summary ?? "",
-    description: operations[method]?.description ?? "",
-  }));
+  return METHODS.filter((method) => Boolean(operations[method])).map(
+    (method) => ({
+      method,
+      summary: operations[method]?.summary ?? "",
+      description: operations[method]?.description ?? "",
+    }),
+  );
 }
 
 function ApiDocBadge({ label }: { label: string }) {
@@ -169,8 +171,12 @@ function SectionCard({
   return (
     <section className="rounded-3xl border border-slate-800 bg-slate-950 p-6 shadow-[0_20px_0_0_#000]">
       <div className="mb-5">
-        <h2 className="text-xl font-black tracking-tight text-white">{title}</h2>
-        <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-400">{description}</p>
+        <h2 className="text-xl font-black tracking-tight text-white">
+          {title}
+        </h2>
+        <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-400">
+          {description}
+        </p>
       </div>
       {children}
     </section>
@@ -182,7 +188,10 @@ export default function ApiDocsPage() {
   const routeGroups = useMemo(() => getRouteGroups(), []);
   const endpointCount = useMemo(() => getEndpointCount(), []);
   const pathCount = useMemo(() => getPathCount(), []);
-  const authOperations = useMemo(() => getOperationSummary("/api/auth/register"), []);
+  const authOperations = useMemo(
+    () => getOperationSummary("/api/auth/register"),
+    [],
+  );
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
@@ -199,9 +208,9 @@ export default function ApiDocsPage() {
                 ArcBase API Console
               </h1>
               <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-400 sm:text-base">
-                This console documents the real application surface: auth, users,
-                resources, collections, comments, tags, search, uploads, and nested
-                route actions.
+                This console documents the real application surface: auth,
+                users, resources, collections, comments, tags, search, uploads,
+                and nested route actions.
               </p>
             </div>
 
@@ -232,7 +241,9 @@ export default function ApiDocsPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                 Operations
               </p>
-              <p className="mt-3 text-3xl font-black text-white">{endpointCount}</p>
+              <p className="mt-3 text-3xl font-black text-white">
+                {endpointCount}
+              </p>
             </div>
             <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5 shadow-[0_14px_0_0_#000]">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
@@ -253,7 +264,9 @@ export default function ApiDocsPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                 Primary auth route
               </p>
-              <p className="mt-3 text-lg font-bold text-white">/api/auth/register</p>
+              <p className="mt-3 text-lg font-bold text-white">
+                /api/auth/register
+              </p>
               <p className="mt-2 text-sm text-slate-400">
                 {authOperations[0]?.summary || "Register a new user account."}
               </p>
@@ -275,7 +288,9 @@ export default function ApiDocsPage() {
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h3 className="text-lg font-black text-white">{group.label}</h3>
+                    <h3 className="text-lg font-black text-white">
+                      {group.label}
+                    </h3>
                     <p className="mt-2 text-sm leading-6 text-slate-400">
                       {group.summary}
                     </p>
@@ -322,8 +337,12 @@ export default function ApiDocsPage() {
                 key={item.title}
                 className="rounded-2xl border border-slate-800 bg-slate-900 p-5"
               >
-                <h3 className="text-base font-black text-white">{item.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-400">{item.text}</p>
+                <h3 className="text-base font-black text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-400">
+                  {item.text}
+                </p>
               </div>
             ))}
           </div>
@@ -338,8 +357,8 @@ export default function ApiDocsPage() {
               Interactive OpenAPI reference
             </h2>
             <p className="mt-1 text-sm leading-6 text-slate-600">
-              Expand operations, inspect schemas, and use the live request explorer
-              against the current spec.
+              Expand operations, inspect schemas, and use the live request
+              explorer against the current spec.
             </p>
           </div>
 

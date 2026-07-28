@@ -20,9 +20,17 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@/prisma-client": ["./src/prisma/generated"],
+      "@prisma-client": ["./prisma/generated", "./prisma/generated/index"],
+      "@styles/*": ["./src/styles/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/types/**/*.d.ts",
+    "prisma/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }

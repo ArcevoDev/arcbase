@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { handleApiRoute } from "@/lib/errors/handle-error";
-import { requireOnboarded } from "@/modules/auth/require-auth";
-import { CollectionService } from "@/modules/collections/collection.service";
-import { addResourceToCollectionSchema } from "@/modules/collections/collection.dto";
-import { ApiError } from "@/lib/errors/api-error";
+import { handleApiRoute } from "@/lib/errors";
+import { requireOnboarded } from "@/core/auth";
+import { CollectionService } from "@/domains/collections/collection.service";
+import { addResourceToCollectionSchema } from "@/domains/collections/collection.dto";
+import { ApiError } from "@/lib/errors";
 
 interface RouteParams {
   params: { collectionId: string };

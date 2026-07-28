@@ -1,64 +1,51 @@
 import { NextRequest, NextResponse } from "next/server";
-import { jwtVerify } from "jose";
+import { verifyArcIDToken }          from "@/core/auth/jwt";
 
-const JWT_SECRET = process.env.JWT_SECRET;
-const COOKIE_NAME = "token";
-
-// Define targeted routing route classes
-const AUTH_ROUTES = ["/login", "/register"];
-const PROTECTED_ROUTE_PREFIXES = [
-  "/dashboard",
-  "/resources",
-  "/collections",
-  "/profile",
-  "/onboarding",
+const PROTECTED_PREFIXES = [
+  "/dashboard", "/settings", "/editor", "/profile",
 ];
+
+const PUBLIC_API = [
+  "/api/auth/login", "/api/auth/register", "/api/auth/logout",
+  "/api/auth/password", "/api/auth/email", "/api/webhooks",
+  "/api/search", "/api/tags",
+];
+
+function isPublicApi(pathname: string) {
+  return PUBLIC_API.some((p) => pathname.startsWith(p));
+}
+
+function isProtectedPage(pathname: string) {
+  return PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
+}
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const token = req.cookies.get(COOKIE_NAME)?.value;
 
-  // 1. Verify token authenticity
-  let isAuthenticated = false;
-  if (token && JWT_SECRET) {
-    try {
-      const secretBytes = new TextEncoder().encode(JWT_SECRET);
-      await jwtVerify(token, secretBytes);
-      isAuthenticated = true;
-    } catch {
-      // Clean up corrupt, tampered, or expired tokens immediately
-      const response = NextResponse.redirect(new URL("/login", req.url));
-      response.cookies.delete(COOKIE_NAME);
-      return response;
+  // Pass through public API routes
+  if (isPublicApi(pathname)) return NextResponse.next();
+
+  // Protected pages — redirect to login if unauthenticated
+  if (isProtectedPage(pathname)) {
+    const token = req.cookies.get("arcid_at")?.value;
+    if (!token) {
+      const url = req.nextUrl.clone();
+      url.pathname = "/login";
+      url.searchParams.set("next", pathname);
+      return NextResponse.redirect(url);
     }
-  }
-
-  // 2. Route Protection: Redirect unauthenticated users trying to hit secure spaces
-  const isProtectedRoute = PROTECTED_ROUTE_PREFIXES.some((prefix) =>
-    pathname.startsWith(prefix),
-  );
-  if (isProtectedRoute && !isAuthenticated) {
-    const loginUrl = new URL("/login", req.url);
-    // Track the intended destination for seamless post-login redirection
-    loginUrl.searchParams.set("callbackUrl", pathname);
-    return NextResponse.redirect(loginUrl);
-  }
-
-  // 3. Guest Routes Protection: Route logged-in users away from auth views (login/register)
-  const isAuthRoute = AUTH_ROUTES.some((route) => pathname === route);
-  if (isAuthRoute && isAuthenticated) {
-    // We send them directly to a layout-aware router route like /dashboard.
-    // The dashboard layout will check the DB and route them to /onboarding if incomplete.
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+    try {
+      await verifyArcIDToken(token);
+    } catch {
+      const url = req.nextUrl.clone();
+      url.pathname = "/login";
+      return NextResponse.redirect(url);
+    }
   }
 
   return NextResponse.next();
 }
 
-/**
- * Optimized path processing matcher engine.
- * Completely ignores static system assets, images, and API tracks.
- */
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|public/).*)"],
 };

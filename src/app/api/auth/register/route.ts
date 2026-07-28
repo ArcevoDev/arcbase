@@ -1,23 +1,47 @@
-import { NextRequest, NextResponse } from "next/server";
-import { handleApiRoute } from "@/lib/errors/handle-error";
-import { AuthService } from "@/modules/auth/auth.service";
-import { registerSchema } from "@/modules/auth/auth.dto";
-import { setAuthCookie } from "@/modules/auth/auth-cookie";
-import { ApiError } from "@/lib/errors/api-error";
+/**
+ * Example: arcbase register flow updated to use arc-id
+ * src/app/api/auth/register/route.ts
+ *
+ * Before: created LocalAccount, hashed password, stored in arcbase DB
+ * After:  delegates to arc-id, gets identityId back, creates arcbase User
+ */
 
-const authService = new AuthService();
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { handleApiRoute } from "@/lib/errors";
+import { prisma } from "@/core/db";
+import { arcid } from "@/lib/arcid/client";
+
+const RegisterSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(12),
+  username: z.string().min(3).max(30).regex(/^[a-z0-9_]+$/),
+  displayName: z.string().optional(),
+});
 
 export const POST = handleApiRoute(async (req: NextRequest) => {
   const body = await req.json();
-  
-  const parsed = registerSchema.safeParse(body);
-  if (!parsed.success) {
-    throw ApiError.badRequest(parsed.error.issues[0].message);
+  const input = RegisterSchema.parse(body);
+
+  const { identity } = await arcid.register(input.email, input.password, input.displayName);
+
+  const usernameTaken = await prisma.user.findUnique({
+    where: { username: input.username },
+  });
+  if (usernameTaken) {
+    return NextResponse.json(
+      { success: false, error: "CONFLICT", message: "Username is already taken" },
+      { status: 409 }
+    );
   }
 
-  const { user, token } = await authService.register(parsed.data);
-  
-  const response = NextResponse.json({ success: true, data: user }, { status: 201 });
-  setAuthCookie(response, token);
-  return response;
+  const user = await prisma.user.create({
+    data: {
+      identityId: identity.id,
+      username: input.username,
+      displayName: input.displayName,
+    },
+  });
+
+  return NextResponse.json({ success: true, data: { userId: user.id } }, { status: 201 });
 });

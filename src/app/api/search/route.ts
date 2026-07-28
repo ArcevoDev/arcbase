@@ -1,38 +1,33 @@
+// src/app/api/search/route.ts — unified search across resources, users, collections
+//
+// Examples:
+//   GET /api/search?q=typescript           → all three entities
+//   GET /api/search?q=typescript&entity=resource&type=ARTICLE
+//   GET /api/search?q=john&entity=user
+//   GET /api/search?q=design&entity=collection
+//   GET /api/search?q=react&entity=resource&tagId=<uuid>&page=2&limit=20
+//
+// No auth required — results are scoped to tenant and only surface
+// PUBLISHED resources + PUBLIC collections.
+
 import { NextRequest, NextResponse } from "next/server";
-import { handleApiRoute } from "@/lib/errors/handle-error";
-import { requireOnboarded } from "@/modules/auth/require-auth";
-import { SearchService } from "@/modules/search/search.service";
-import {
-  searchFiltersSchema,
-  toSearchResultDTO,
-} from "@/modules/search/search.dto";
-import { ApiError } from "@/lib/errors/api-error";
+import { handleApiRoute, ApiError } from "@/lib/errors";
+import { SearchService } from "@/domains/search/search.service";
+import { unifiedSearchSchema } from "@/domains/search/search.dto";
+
+const searchService = new SearchService();
 
 export const GET = handleApiRoute(async (req: NextRequest) => {
-  await requireOnboarded(req);
-  const tenantId = null; // Ghost tenant mapping matrix sandbox for initial launch
-
-  // Extract query parameters cleanly from URL object instance
+  const tenantId = req.headers.get("x-tenant-id") ?? null;
   const { searchParams } = new URL(req.url);
-  const queryPayload = {
-    q: searchParams.get("q") ?? "",
-    type: searchParams.get("type") || undefined,
-    tagId: searchParams.get("tagId") || undefined,
-    limit: searchParams.get("limit") ?? "20",
-    page: searchParams.get("page") ?? "1",
-  };
+  const rawParams = Object.fromEntries(searchParams.entries());
 
-  const parsed = searchFiltersSchema.safeParse(queryPayload);
+  const parsed = unifiedSearchSchema.safeParse(rawParams);
   if (!parsed.success) {
     throw ApiError.badRequest(parsed.error.issues[0].message);
   }
 
-  const searchService = new SearchService();
-  const result = await searchService.executeQuery(parsed.data, tenantId);
+  const result = await searchService.executeUnifiedQuery(parsed.data, tenantId);
 
-  return NextResponse.json({
-    success: true,
-    meta: result.pagination,
-    data: result.items.map((resource) => toSearchResultDTO(resource)),
-  });
+  return NextResponse.json({ success: true, data: result });
 });

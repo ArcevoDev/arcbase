@@ -12,11 +12,11 @@ if (!databaseUrl) {
 }
 
 export default defineConfig({
-  schema: "src/prisma/schema.prisma",
+  schema: "prisma/schema.prisma",
   datasource: {
     url: databaseUrl,
   },
   migrations: {
-    seed: 'pnpm ts-node -r dotenv/config -r tsconfig-paths/register --compiler-options {"module":"CommonJS"} src/prisma/seed.ts',
+    seed: 'pnpm ts-node -r dotenv/config -r tsconfig-paths/register --compiler-options {"module":"CommonJS"} prisma/seed.ts',
   },
 });

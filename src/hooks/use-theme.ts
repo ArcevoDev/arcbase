@@ -1,25 +1,26 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useTheme as useNextTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export function useTheme() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const { theme, setTheme, resolvedTheme } = useNextTheme();
+  const [mounted, setMounted] = useState(false);
 
+  // Avoid hydration mismatch bugs by ensuring execution happens client-side
   useEffect(() => {
-    const saved = localStorage.getItem("arcbase-theme") as "light" | "dark";
-    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    
-    const initialTheme = saved || (systemPrefersDark ? "dark" : "light");
-    setTheme(initialTheme);
-    document.documentElement.classList.toggle("dark", initialTheme === "dark");
+    setMounted(true);
   }, []);
 
   const toggleTheme = () => {
-    const next = theme === "light" ? "dark" : "light";
-    setTheme(next);
-    localStorage.setItem("arcbase-theme", next);
-    document.documentElement.classList.toggle("dark", next === "dark");
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
-  return { theme, isDark: theme === "dark", toggleTheme };
+  return {
+    theme: mounted ? theme : "system",
+    resolvedTheme: mounted ? (resolvedTheme as "light" | "dark") : "light",
+    isDark: mounted ? resolvedTheme === "dark" : false,
+    toggleTheme,
+    setTheme,
+  };
 }
