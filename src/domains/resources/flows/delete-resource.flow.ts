@@ -1,35 +1,22 @@
-import { z } from "zod";
-import { Flow } from "@/core/flows/flow";
-import { FlowContext } from "@/core/flows/flow-context";
-import { ResourceService } from "../resource.service";
-import { ApiError } from "@/lib/errors/api-error";
+import { z }             from "zod";
+import type { Flow }     from "@/core/flows/flow";
+import type { FlowContext } from "@/core/flows/flow-context";
+import { ResourceService }   from "../resource.service";
+import { ResourceRepository } from "../resource.repository";
 
-export const deleteResourceFlowSchema = z.object({
-  id: z.string().uuid("Invalid target resource identifier"),
-});
+const Input = z.object({ resourceId: z.string() });
 
-export class DeleteResourceFlow implements Flow {
-  name = "resources.delete";
-  inputSchema = deleteResourceFlowSchema;
-  private resourceService = new ResourceService();
+export const deleteResourceFlow: Flow<z.infer<typeof Input>> = {
+  name:        "resource:delete",
+  inputSchema: Input,
 
-  async execute(
-    input: z.infer<typeof deleteResourceFlowSchema>,
-    ctx: FlowContext,
-  ) {
-    if (!ctx.userId) {
-      throw ApiError.unauthorized(
-        "Authentication required to remove resources",
-      );
-    }
+  async execute(input, ctx: FlowContext) {
+    const service = new ResourceService(ctx.db);
+    await service.assertOwnership(input.resourceId, ctx.userId, ctx.tenantId);
 
-    await this.resourceService.deleteResource(
-      input.id,
-      ctx.userId,
-      ctx.tenantId,
-      ctx.tx,
-    );
+    const repo = new ResourceRepository(ctx.db);
+    await repo.softDelete(input.resourceId);
 
-    return { success: true, id: input.id };
-  }
-}
+    return {};
+  },
+};

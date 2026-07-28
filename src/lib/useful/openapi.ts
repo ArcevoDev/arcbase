@@ -321,7 +321,8 @@ export const openApiSpec = {
     "/api/auth/logout": {
       post: {
         summary: "End the current session",
-        description: "Clears the auth cookie and terminates the current browser session.",
+        description:
+          "Clears the auth cookie and terminates the current browser session.",
         tags: ["Auth"],
         responses: {
           200: {
@@ -333,68 +334,6 @@ export const openApiSpec = {
                   properties: {
                     success: { type: "boolean" },
                     message: { type: "string" },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    "/api/auth/me": {
-      get: {
-        summary: "Fetch the current authenticated user",
-        description: "Returns the safe profile payload for the active session user.",
-        tags: ["Auth"],
-        responses: {
-          200: {
-            description: "Current user fetched successfully",
-            content: {
-              "application/json": {
-                schema: {
-                  type: "object",
-                  properties: {
-                    success: { type: "boolean" },
-                    data: userSchema,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    "/api/auth/onboarding": {
-      put: {
-        summary: "Advance onboarding state",
-        description:
-          "Stores onboarding progress for the active user and merges step-specific payload data.",
-        tags: ["Auth"],
-        requestBody: {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                type: "object",
-                required: ["step", "data"],
-                properties: {
-                  step: { type: "number" },
-                  data: { type: "object", additionalProperties: true },
-                },
-              },
-            },
-          },
-        },
-        responses: {
-          200: {
-            description: "Onboarding step updated successfully",
-            content: {
-              "application/json": {
-                schema: {
-                  type: "object",
-                  properties: {
-                    success: { type: "boolean" },
-                    data: userSchema,
                   },
                 },
               },
@@ -470,6 +409,69 @@ export const openApiSpec = {
         },
       },
     },
+    "/api/auth/me": {
+      get: {
+        summary: "Fetch the current authenticated user",
+        description:
+          "Returns the safe profile payload for the active session user.",
+        tags: ["Auth"],
+        responses: {
+          200: {
+            description: "Current user fetched successfully",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    success: { type: "boolean" },
+                    data: userSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    "/api/auth/onboarding": {
+      put: {
+        summary: "Advance onboarding state",
+        description:
+          "Stores onboarding progress for the active user and merges step-specific payload data.",
+        tags: ["Auth"],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["step", "data"],
+                properties: {
+                  step: { type: "number" },
+                  data: { type: "object", additionalProperties: true },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "Onboarding step updated successfully",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    success: { type: "boolean" },
+                    data: userSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     "/api/users/profile": {
       patch: {
         summary: "Update the active user's profile",
@@ -513,8 +515,7 @@ export const openApiSpec = {
     "/api/users/{username}": {
       get: {
         summary: "Fetch a public user profile",
-        description:
-          "Returns the public profile for a user by username.",
+        description: "Returns the public profile for a user by username.",
         tags: ["Users"],
         parameters: [
           {
@@ -693,8 +694,7 @@ export const openApiSpec = {
     "/api/users/{username}/resources": {
       get: {
         summary: "Fetch a user's nested resources",
-        description:
-          "Returns the resource list nested under a user profile.",
+        description: "Returns the resource list nested under a user profile.",
         tags: ["Users"],
         parameters: [
           {
@@ -728,8 +728,7 @@ export const openApiSpec = {
     "/api/users/{username}/saved": {
       get: {
         summary: "Fetch a user's saved resources",
-        description:
-          "Returns saved resources for the profile owner only.",
+        description: "Returns saved resources for the profile owner only.",
         tags: ["Users"],
         parameters: [
           {
@@ -930,8 +929,7 @@ export const openApiSpec = {
       },
       patch: {
         summary: "Update a resource",
-        description:
-          "Applies partial updates to an existing resource.",
+        description: "Applies partial updates to an existing resource.",
         tags: ["Resources"],
         parameters: [
           {
@@ -1167,8 +1165,7 @@ export const openApiSpec = {
     "/api/resources/{resourceId}/publish": {
       post: {
         summary: "Publish a resource",
-        description:
-          "Transitions the resource into the published state.",
+        description: "Transitions the resource into the published state.",
         tags: ["Resources"],
         parameters: [
           {
@@ -1200,8 +1197,7 @@ export const openApiSpec = {
     "/api/resources/{resourceId}/relations": {
       get: {
         summary: "Fetch resource relations",
-        description:
-          "Returns outgoing relation edges for a resource.",
+        description: "Returns outgoing relation edges for a resource.",
         tags: ["Resources"],
         parameters: [
           {
@@ -1639,8 +1635,7 @@ export const openApiSpec = {
     "/api/collections": {
       get: {
         summary: "List the current user's collections",
-        description:
-          "Returns all collections owned by the authenticated user.",
+        description: "Returns all collections owned by the authenticated user.",
         tags: ["Collections"],
         responses: {
           200: {
@@ -1665,8 +1660,7 @@ export const openApiSpec = {
       },
       post: {
         summary: "Create a collection",
-        description:
-          "Creates a new collection for the authenticated user.",
+        description: "Creates a new collection for the authenticated user.",
         tags: ["Collections"],
         requestBody: {
           required: true,
@@ -1815,8 +1809,7 @@ export const openApiSpec = {
     "/api/collections/{collectionId}/resources": {
       post: {
         summary: "Attach a resource to a collection",
-        description:
-          "Adds a resource to the collection sequence.",
+        description: "Adds a resource to the collection sequence.",
         tags: ["Collections", "Resources"],
         parameters: [
           {

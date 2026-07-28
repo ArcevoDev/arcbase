@@ -1,29 +1,54 @@
-import { z } from "zod";
-import { Flow } from "@/core/flows/flow";
-import { FlowContext } from "@/core/flows/flow-context";
-import { ResourceService } from "../resource.service";
-import { createResourceSchema } from "../resource.dto";
+import { z }             from "zod";
+import type { Flow }     from "@/core/flows/flow";
+import type { FlowContext } from "@/core/flows/flow-context";
+import { CreateResourceDto } from "../resource.dto";
+import { ResourceRepository } from "../resource.repository";
 import { ApiError } from "@/lib/errors/api-error";
 
-export class CreateResourceFlow implements Flow {
-  name = "resources.create";
-  inputSchema = createResourceSchema;
-  private resourceService = new ResourceService();
+export const createResourceFlow: Flow<z.infer<typeof CreateResourceDto>> = {
+  name:        "resource:create",
+  inputSchema: CreateResourceDto,
 
-  async execute(input: z.infer<typeof createResourceSchema>, ctx: FlowContext) {
-    if (!ctx.userId) {
-      throw ApiError.unauthorized(
-        "Authentication required to create a resource",
-      );
+  async execute(input, ctx: FlowContext) {
+    const repo = new ResourceRepository(ctx.db);
+
+    // Check slug uniqueness if provided
+    if (input.slug) {
+      const existing = await repo.findBySlug(input.slug, ctx.userId, ctx.tenantId);
+      if (existing) throw ApiError.conflict("A resource with this slug already exists");
     }
 
-    const resource = await this.resourceService.createResource(
-      ctx.userId,
-      ctx.tenantId,
-      input,
-      ctx.tx,
-    );
+    const resource = await repo.create({
+      title:            input.title,
+      description:      input.description,
+      excerpt:          input.excerpt,
+      type:             input.type,
+      visibility:       input.visibility,
+      category:         input.category,
+      language:         input.language,
+      slug:             input.slug,
+      draftContentJson: input.draftContentJson,
+      metadata:         input.metadata,
+      thumbnailUrl:     input.thumbnailUrl,
+      coverImageUrl:    input.coverImageUrl,
+      fileUrl:          input.fileUrl,
+      tenantId:         ctx.tenantId,
+      author:           { connect: { id: ctx.userId } },
+      ...(input.parentId ? { parent: { connect: { id: input.parentId } } } : {}),
+      ...(input.tags?.length ? {
+        resourceTags: {
+          create: input.tags.map((name) => ({
+            tag: {
+              connectOrCreate: {
+                where:  { "tenantId_slug": { tenantId: ctx.tenantId, slug: name.toLowerCase().replace(/s+/g, "-") } },
+                create: { tenantId: ctx.tenantId, name, slug: name.toLowerCase().replace(/s+/g, "-") },
+              },
+            },
+          })),
+        },
+      } : {}),
+    });
 
     return { resource };
-  }
-}
+  },
+};

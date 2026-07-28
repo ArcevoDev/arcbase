@@ -1,53 +1,53 @@
-// src/domains/auth/auth.service.ts
-import bcrypt from "bcryptjs";
-import { UserRepository } from "../users/user.repository";
-import { RegisterInput, LoginInput, toSafeUserDTO } from "./auth.dto";
-import { ApiError } from "@/lib/errors/api-error";
+import { arcid }  from "@/lib/arcid/client";
+import { prisma } from "@/core/db/prisma";
+import type { RegisterInput, LoginInput } from "./auth.dto";
 
-export class AuthService {
-  private userRepo = new UserRepository();
+export const authService = {
+  async register(input: RegisterInput) {
+    // 1. Create Identity in arc-id
+    const { identity } = await arcid.register(input.email, input.password, input.displayName);
 
-  async register(tx: any, input: RegisterInput) {
-    const standardizedEmail = input.email.toLowerCase().trim();
+    // 2. Check username availability in arcbase
+    const existing = await prisma.user.findUnique({ where: { username: input.username } });
+    if (existing) {
+      // arc-id Identity already created — this is a conflict only in arcbase
+      // The user will need to choose a different username
+      throw Object.assign(new Error("Username is already taken"), { code: "CONFLICT", status: 409 });
+    }
 
-    const existingEmail = await this.userRepo.findByEmail(
-      tx,
-      standardizedEmail,
-    );
-    if (existingEmail) throw ApiError.badRequest("Email already registered");
-
-    const hash = await bcrypt.hash(input.password, 10);
-    const user = await this.userRepo.create(tx, {
-      username: input.username,
-      email: standardizedEmail,
-      passwordHash: hash,
+    // 3. Provision arcbase User
+    const user = await prisma.user.create({
+      data: {
+        identityId:  identity.id,
+        username:    input.username,
+        displayName: input.displayName,
+      },
     });
 
-    // Returns ONLY the SafeUserDTO
-    return toSafeUserDTO(user)!;
-  }
+    return { identity, user };
+  },
 
-  async login(tx: any, input: LoginInput) {
-    const standardizedEmail = input.email.toLowerCase().trim();
+  async login(input: LoginInput) {
+    return arcid.login(input.email, input.password);
+  },
 
-    const user = await this.userRepo.findByEmail(tx, standardizedEmail);
-    if (!user) {
-      throw ApiError.unauthorized("Invalid email or password");
-    }
+  async verifyMfa(sessionId: string, code: string) {
+    return arcid.verifyMfa(sessionId, code);
+  },
 
-    const isMatch = await bcrypt.compare(input.password, user.passwordHash);
-    if (!isMatch) {
-      throw ApiError.unauthorized("Invalid email or password");
-    }
+  async logout(sessionId: string, accessToken: string) {
+    return arcid.logout(sessionId, accessToken);
+  },
 
-    // Returns ONLY the SafeUserDTO
-    return toSafeUserDTO(user)!;
-  }
+  async refreshToken(refreshToken: string) {
+    return arcid.refreshToken(refreshToken);
+  },
 
-  async getProfile(client: any, userId: string) {
-    const user = await this.userRepo.findById(client, userId);
-    if (!user) throw ApiError.unauthorized("User profile not found");
+  async requestPasswordReset(email: string) {
+    return arcid.requestPasswordReset(email);
+  },
 
-    return toSafeUserDTO(user)!;
-  }
-}
+  async confirmPasswordReset(token: string, newPassword: string) {
+    return arcid.confirmPasswordReset(token, newPassword);
+  },
+};

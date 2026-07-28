@@ -1,52 +1,26 @@
-import { z } from "zod";
-import { Flow } from "@/core/flows/flow";
-import { FlowContext } from "@/core/flows/flow-context";
+import { z }             from "zod";
+import type { Flow }     from "@/core/flows/flow";
+import type { FlowContext } from "@/core/flows/flow-context";
 import { ResourceService } from "../resource.service";
-import { relationTypeZod } from "../resource.dto";
-import { ApiError } from "@/lib/errors/api-error";
 
-export const disconnectResourcesSchema = z.object({
-  fromId: z.string().uuid("Valid source graph node identifier required"),
-  toId: z.string().uuid("Valid target graph node identifier required"),
-  // FIX: type is required so we delete a specific edge, not all edges between two nodes.
-  // The Prisma unique constraint is @@unique([fromId, toId, type]) — multiple relation
-  // types can exist between the same pair of resources. Without type, deleteMany would
-  // silently remove all of them, which is rarely the intended behavior.
-  type: relationTypeZod,
+const Input = z.object({
+  resourceId: z.string(),
+  targetId:   z.string(),
+  type:       z.enum(["RELATED","REFERENCES","DEPENDS_ON","PREREQUISITE","NEXT","PREVIOUS"]),
 });
 
-export class DisconnectResourcesFlow implements Flow {
-  name = "resources.topology.disconnect";
-  inputSchema = disconnectResourcesSchema;
-  private resourceService = new ResourceService();
+export const disconnectResourcesFlow: Flow<z.infer<typeof Input>> = {
+  name:        "resource:disconnect",
+  inputSchema: Input,
 
-  async execute(
-    input: z.infer<typeof disconnectResourcesSchema>,
-    ctx: FlowContext,
-  ) {
-    if (!ctx.userId) {
-      throw ApiError.unauthorized(
-        "Authentication required to modify graph topology",
-      );
-    }
+  async execute(input, ctx: FlowContext) {
+    const service = new ResourceService(ctx.db);
+    await service.assertOwnership(input.resourceId, ctx.userId, ctx.tenantId);
 
-    await this.resourceService.disconnectResources(
-      input.fromId,
-      input.toId,
-      input.type,
-      ctx.userId, // ownership check: requester must be source resource author
-      ctx.tenantId,
-      ctx.tx,
-    );
+    await ctx.db.relation.deleteMany({
+      where: { fromId: input.resourceId, toId: input.targetId, type: input.type },
+    });
 
-    return {
-      success: true,
-      edge: {
-        fromId: input.fromId,
-        toId: input.toId,
-        type: input.type,
-        status: "SEVERED",
-      },
-    };
-  }
-}
+    return {};
+  },
+};

@@ -1,5 +1,5 @@
-// src/lib/metadata.ts
 import { Metadata } from "next";
+import { siteConfig } from "@/config/site";
 
 interface MetadataProps {
   title: string;
@@ -8,23 +8,28 @@ interface MetadataProps {
   image?: string;
 }
 
-export function generateSiteMetadata({ title, description, path, image }: MetadataProps): Metadata {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://arcbase.io";
+export function generateSiteMetadata({
+  title,
+  description,
+  path,
+  image,
+}: MetadataProps): Metadata {
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
-  const fullUrl = `${baseUrl}${cleanPath}`;
-  const metaImage = image ?? `${baseUrl}/media/thumbnails/og-default.png`;
+  const fullUrl = `${siteConfig.url}${cleanPath}`;
+  const metaImage =
+    image ?? `${siteConfig.url}/media/thumbnails/og-default.png`;
 
   return {
-    title: `${title} | Arcbase`,
+    title: `${title} | ${siteConfig.name}`,
     description,
     alternates: {
       canonical: fullUrl,
     },
     openGraph: {
-      title: `${title} | Arcbase`,
+      title: `${title} | ${siteConfig.name}`,
       description,
       url: fullUrl,
-      siteName: "Arcbase",
+      siteName: siteConfig.name,
       images: [
         {
           url: metaImage,
@@ -37,7 +42,7 @@ export function generateSiteMetadata({ title, description, path, image }: Metada
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} | Arcbase`,
+      title: `${title} | ${siteConfig.name}`,
       description,
       images: [metaImage],
     },

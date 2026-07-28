@@ -1,34 +1,17 @@
-import { z } from "zod";
-import { Flow } from "@/core/flows/flow";
-import { FlowContext } from "@/core/flows/flow-context";
-import { ResourceService } from "../resource.service";
-import { ApiError } from "@/lib/errors/api-error";
+import { z }             from "zod";
+import type { Flow }     from "@/core/flows/flow";
+import type { FlowContext } from "@/core/flows/flow-context";
 
-export const unsaveResourceFlowSchema = z.object({
-  resourceId: z.string().uuid(),
-});
+const Input = z.object({ resourceId: z.string() });
 
-export class UnsaveResourceFlow implements Flow {
-  name = "resources.unsave";
-  inputSchema = unsaveResourceFlowSchema;
-  private resourceService = new ResourceService();
+export const unsaveResourceFlow: Flow<z.infer<typeof Input>> = {
+  name:        "resource:unsave",
+  inputSchema: Input,
 
-  async execute(
-    input: z.infer<typeof unsaveResourceFlowSchema>,
-    ctx: FlowContext,
-  ) {
-    if (!ctx.userId) {
-      throw ApiError.unauthorized(
-        "Authentication required to unsave resources",
-      );
-    }
-
-    await this.resourceService.unsaveResource(
-      input.resourceId,
-      ctx.userId,
-      ctx.tx,
-    );
-
-    return { saved: false, resourceId: input.resourceId };
-  }
-}
+  async execute(input, ctx: FlowContext) {
+    await ctx.db.savedResource.deleteMany({
+      where: { userId: ctx.userId, resourceId: input.resourceId },
+    });
+    return {};
+  },
+};

@@ -1,47 +1,31 @@
-import { z } from "zod";
-import { Flow } from "@/core/flows/flow";
-import { FlowContext } from "@/core/flows/flow-context";
-import { ResourceService } from "../resource.service";
-import { createRelationSchema } from "../resource.dto";
-import { ApiError } from "@/lib/errors/api-error";
+import { z }             from "zod";
+import type { Flow }     from "@/core/flows/flow";
+import type { FlowContext } from "@/core/flows/flow-context";
+import { ConnectResourcesDto } from "../resource.dto";
+import { ResourceService }     from "../resource.service";
+import { ApiError }            from "@/lib/errors/api-error";
 
-export const connectResourcesFlowSchema = z.object({
-  fromId: z.string().uuid(),
-  relation: createRelationSchema,
-});
+const Input = ConnectResourcesDto.extend({ resourceId: z.string() });
 
-export class ConnectResourcesFlow implements Flow {
-  name = "resources.connect";
-  inputSchema = connectResourcesFlowSchema;
-  private resourceService = new ResourceService();
+export const connectResourcesFlow: Flow<z.infer<typeof Input>> = {
+  name:        "resource:connect",
+  inputSchema: Input,
 
-  async execute(
-    input: z.infer<typeof connectResourcesFlowSchema>,
-    ctx: FlowContext,
-  ) {
-    if (!ctx.userId) {
-      throw ApiError.unauthorized(
-        "Authentication required to alter graph topology",
-      );
+  async execute(input, ctx: FlowContext) {
+    const service = new ResourceService(ctx.db);
+    await service.assertOwnership(input.resourceId, ctx.userId, ctx.tenantId);
+    await service.assertExists(input.targetId, ctx.tenantId);
+
+    if (input.resourceId === input.targetId) {
+      throw ApiError.badRequest("Cannot connect a resource to itself");
     }
 
-    // tenantId is always normalized to string | null by FlowExecutor — no ?? null needed
-    const edge = await this.resourceService.connectResources(
-      input.fromId,
-      ctx.tenantId,
-      input.relation,
-      ctx.tx,
-    );
+    const relation = await ctx.db.relation.upsert({
+      where:  { fromId_toId_type: { fromId: input.resourceId, toId: input.targetId, type: input.type } },
+      create: { fromId: input.resourceId, toId: input.targetId, type: input.type, metadata: input.metadata, tenantId: ctx.tenantId },
+      update: { metadata: input.metadata },
+    });
 
-    return {
-      edge: {
-        id: edge.id,
-        type: edge.type,
-        fromId: edge.fromId,
-        toId: edge.toId,
-        metadata: edge.metadata,
-        createdAt: edge.createdAt.toISOString(),
-      },
-    };
-  }
-}
+    return { relation };
+  },
+};

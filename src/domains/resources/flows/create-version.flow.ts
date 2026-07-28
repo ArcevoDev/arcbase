@@ -1,40 +1,42 @@
-import { z } from "zod";
-import { Flow } from "@/core/flows/flow";
-import { FlowContext } from "@/core/flows/flow-context";
+import { z }             from "zod";
+import type { Flow }     from "@/core/flows/flow";
+import type { FlowContext } from "@/core/flows/flow-context";
 import { ResourceService } from "../resource.service";
-import { ApiError } from "@/lib/errors/api-error";
+import { ApiError }        from "@/lib/errors/api-error";
 
-export const createVersionFlowSchema = z.object({
-  resourceId: z.string().uuid(),
-  changeSummary: z.string().min(3).max(250),
+const Input = z.object({
+  resourceId:    z.string(),
+  changeSummary: z.string().optional(),
 });
 
-export class CreateVersionFlow implements Flow {
-  name = "resources.version.create";
-  inputSchema = createVersionFlowSchema;
-  private resourceService = new ResourceService();
+export const createVersionFlow: Flow<z.infer<typeof Input>> = {
+  name:        "resource:create-version",
+  inputSchema: Input,
 
-  async execute(
-    input: z.infer<typeof createVersionFlowSchema>,
-    ctx: FlowContext,
-  ) {
-    if (!ctx.userId) {
-      throw ApiError.unauthorized("Authentication required to version assets");
-    }
+  async execute(input, ctx: FlowContext) {
+    const service  = new ResourceService(ctx.db);
+    const resource = await service.assertOwnership(input.resourceId, ctx.userId, ctx.tenantId);
 
-    const newVersion = await this.resourceService.createVersion(
-      input.resourceId,
-      ctx.userId,
-      input.changeSummary,
-      ctx.tenantId,
-      ctx.tx,
-    );
+    const latest = await ctx.db.resourceVersion.findFirst({
+      where:   { resourceId: input.resourceId },
+      orderBy: { versionNumber: "desc" },
+    });
 
-    return {
-      id: newVersion.id,
-      versionNumber: newVersion.versionNumber,
-      title: newVersion.titleSnapshot,
-      createdAt: newVersion.createdAt.toISOString(),
-    };
-  }
-}
+    const versionNumber = (latest?.versionNumber ?? 0) + 1;
+
+    const version = await ctx.db.resourceVersion.create({
+      data: {
+        resourceId:      input.resourceId,
+        authorId:        ctx.userId,
+        versionNumber,
+        titleSnapshot:   resource.title ?? "Untitled",
+        contentSnapshot: (resource.publishedContentJson ?? resource.draftContentJson) as any,
+        metadataSnapshot: resource.metadata as any,
+        changeSummary:   input.changeSummary,
+        tenantId:        ctx.tenantId,
+      },
+    });
+
+    return { version };
+  },
+};

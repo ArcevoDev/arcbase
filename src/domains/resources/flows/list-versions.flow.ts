@@ -1,31 +1,24 @@
-// src/domains/resources/flows/list-versions.flow.ts
-import { z } from "zod";
-import { Flow } from "@/core/flows/flow";
-import { FlowContext } from "@/core/flows/flow-context";
+import { z }             from "zod";
+import type { Flow }     from "@/core/flows/flow";
+import type { FlowContext } from "@/core/flows/flow-context";
 import { ResourceService } from "../resource.service";
 
-export const listVersionsFlowSchema = z.object({
-  resourceId: z.string().uuid("Valid resource identifier context required"),
-});
+const Input = z.object({ resourceId: z.string() });
 
-export class ListVersionsFlow implements Flow {
-  name = "resources.version.list";
-  inputSchema = listVersionsFlowSchema;
-  private resourceService = new ResourceService();
+export const listVersionsFlow: Flow<z.infer<typeof Input>> = {
+  name:        "resource:list-versions",
+  inputSchema: Input,
 
-  async execute(
-    input: z.infer<typeof listVersionsFlowSchema>,
-    ctx: FlowContext,
-  ) {
-    // Open visibility permissions can be set based on your specific access control rules.
-    // If private validation is required, use: if (!ctx.userId) throw ApiError.unauthorized();
+  async execute(input, ctx: FlowContext) {
+    const service = new ResourceService(ctx.db);
+    await service.assertExists(input.resourceId, ctx.tenantId);
 
-    const history = await this.resourceService.listVersions(
-      input.resourceId,
-      ctx.tenantId,
-      ctx.tx,
-    );
+    const versions = await ctx.db.resourceVersion.findMany({
+      where:   { resourceId: input.resourceId },
+      orderBy: { versionNumber: "desc" },
+      include: { author: { select: { id: true, username: true, displayName: true } } },
+    });
 
-    return { versions: history };
-  }
-}
+    return { versions };
+  },
+};

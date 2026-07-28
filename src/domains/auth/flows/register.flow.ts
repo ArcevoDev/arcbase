@@ -1,25 +1,18 @@
-// src/domains/auth/flows/register.flow.ts
-import { z } from "zod";
-import { Flow } from "@/core/flows/flow";
-import { FlowContext } from "@/core/flows/flow-context";
-import { AuthService } from "../auth.service";
-import { registerSchema } from "../auth.dto";
-import { signToken } from "@/lib/auth/jwt";
+import { z }           from "zod";
+import type { Flow }   from "@/core/flows/flow";
+import { RegisterDto } from "../auth.dto";
+import { authService } from "../auth.service";
 
-export class RegisterFlow implements Flow {
-  name = "auth.register";
-  inputSchema = registerSchema;
+export const registerFlow: Flow<z.infer<typeof RegisterDto>> = {
+  name:        "auth:register",
+  inputSchema: RegisterDto,
 
-  private authService = new AuthService();
-
-  async execute(input: z.infer<typeof this.inputSchema>, ctx: FlowContext) {
-    // 1. Get the SafeUserDTO from the service
-    const user = await this.authService.register(ctx.tx, input);
-
-    // 2. Generate token using the strictly typed user object
-    const token = await signToken({ userId: user.id, email: user.email });
-
-    // 3. Return the combined payload
-    return { user, token };
-  }
-}
+  async execute(input) {
+    const { identity, user } = await authService.register(input);
+    return {
+      userId:     user.id,
+      identityId: identity.id,
+      username:   user.username,
+    };
+  },
+};

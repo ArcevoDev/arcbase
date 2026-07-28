@@ -1,36 +1,36 @@
-import { z } from "zod";
-import { Flow } from "@/core/flows/flow";
-import { FlowContext } from "@/core/flows/flow-context";
-import { ResourceService } from "../resource.service";
-import { ApiError } from "@/lib/errors/api-error";
+import { z }             from "zod";
+import type { Flow }     from "@/core/flows/flow";
+import type { FlowContext } from "@/core/flows/flow-context";
+import { ResourceService }  from "../resource.service";
+import { ResourceRepository } from "../resource.repository";
 
-export const addCommentFlowSchema = z.object({
-  resourceId: z.string().uuid(),
-  data: z.object({
-    content: z.string().min(1).max(2000),
-    parentId: z.string().uuid().optional(),
-    metadata: z.record(z.string(), z.unknown()).optional(),
-  }),
+const Input = z.object({
+  resourceId: z.string(),
+  content:    z.string().min(1).max(5000),
+  parentId:   z.string().optional(),
 });
 
-export class AddCommentFlow implements Flow {
-  name = "resources.comments.add";
-  inputSchema = addCommentFlowSchema;
-  private resourceService = new ResourceService();
+export const addCommentFlow: Flow<z.infer<typeof Input>> = {
+  name:        "resource:add-comment",
+  inputSchema: Input,
 
-  async execute(input: z.infer<typeof addCommentFlowSchema>, ctx: FlowContext) {
-    if (!ctx.userId) {
-      throw ApiError.unauthorized("Authentication required to comment");
-    }
+  async execute(input, ctx: FlowContext) {
+    const service = new ResourceService(ctx.db);
+    await service.assertExists(input.resourceId, ctx.tenantId);
 
-    const comment = await this.resourceService.addComment(
-      input.resourceId,
-      ctx.userId,
-      ctx.tenantId,
-      input.data,
-      ctx.tx,
-    );
+    const comment = await ctx.db.comment.create({
+      data: {
+        content:    input.content,
+        authorId:   ctx.userId,
+        resourceId: input.resourceId,
+        parentId:   input.parentId,
+        tenantId:   ctx.tenantId,
+      },
+    });
+
+    const repo = new ResourceRepository(ctx.db);
+    await repo.incrementMetric(input.resourceId, "comments");
 
     return { comment };
-  }
-}
+  },
+};

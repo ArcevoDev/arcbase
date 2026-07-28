@@ -1,33 +1,33 @@
-import { z } from "zod";
-import { Flow } from "@/core/flows/flow";
-import { FlowContext } from "@/core/flows/flow-context";
+import { z }             from "zod";
+import type { Flow }     from "@/core/flows/flow";
+import type { FlowContext } from "@/core/flows/flow-context";
 import { ResourceService } from "../resource.service";
 
-export const getChildrenFlowSchema = z.object({
-  parentId: z.string().uuid("Invalid parent ID format"),
-  limit: z.coerce.number().int().positive().max(100).default(50),
-  cursor: z.string().uuid().optional(), // ID-based cursor for stable pagination
+const Input = z.object({
+  resourceId: z.string(),
+  page:       z.number().default(1),
+  limit:      z.number().default(20),
 });
 
-// Public flow — no userId guard by design; children are scoped by tenantId only.
-// If you require auth here, add: if (!ctx.userId) throw ApiError.unauthorized(...)
-export class GetResourceChildrenFlow implements Flow {
-  name = "resources.children.get";
-  inputSchema = getChildrenFlowSchema;
-  private resourceService = new ResourceService();
+export const getChildrenFlow: Flow<z.infer<typeof Input>> = {
+  name:        "resource:get-children",
+  inputSchema: Input,
 
-  async execute(
-    input: z.infer<typeof getChildrenFlowSchema>,
-    ctx: FlowContext,
-  ) {
-    const { children, nextCursor } =
-      await this.resourceService.getResourceChildren(
-        input.parentId,
-        ctx.tenantId,
-        { limit: input.limit, cursor: input.cursor },
-        ctx.tx,
-      );
+  async execute(input, ctx: FlowContext) {
+    const service = new ResourceService(ctx.db);
+    await service.assertExists(input.resourceId, ctx.tenantId);
 
-    return { children, nextCursor };
-  }
-}
+    const [children, total] = await Promise.all([
+      ctx.db.resource.findMany({
+        where:   { parentId: input.resourceId, deletedAt: null },
+        include: { author: true, metrics: true },
+        orderBy: { createdAt: "asc" },
+        skip:    (input.page - 1) * input.limit,
+        take:    input.limit,
+      }),
+      ctx.db.resource.count({ where: { parentId: input.resourceId, deletedAt: null } }),
+    ]);
+
+    return { children, total, page: input.page, limit: input.limit };
+  },
+};

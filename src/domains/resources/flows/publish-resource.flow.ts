@@ -1,35 +1,32 @@
-import { z } from "zod";
-import { Flow } from "@/core/flows/flow";
-import { FlowContext } from "@/core/flows/flow-context";
-import { ResourceService } from "../resource.service";
+import { z }             from "zod";
+import type { Flow }     from "@/core/flows/flow";
+import type { FlowContext } from "@/core/flows/flow-context";
+import { ResourceService }   from "../resource.service";
+import { ResourceRepository } from "../resource.repository";
 import { ApiError } from "@/lib/errors/api-error";
 
-export const publishResourceFlowSchema = z.object({
-  id: z.string().uuid("Invalid target resource identifier"),
+const Input = z.object({
+  resourceId:           z.string(),
+  publishedContentJson: z.record(z.unknown()).optional(),
 });
 
-export class PublishResourceFlow implements Flow {
-  name = "resources.publish";
-  inputSchema = publishResourceFlowSchema;
-  private resourceService = new ResourceService();
+export const publishResourceFlow: Flow<z.infer<typeof Input>> = {
+  name:        "resource:publish",
+  inputSchema: Input,
 
-  async execute(
-    input: z.infer<typeof publishResourceFlowSchema>,
-    ctx: FlowContext,
-  ) {
-    if (!ctx.userId) {
-      throw ApiError.unauthorized(
-        "Authentication required to change publishing state",
-      );
-    }
+  async execute(input, ctx: FlowContext) {
+    const service = new ResourceService(ctx.db);
+    const resource = await service.assertOwnership(input.resourceId, ctx.userId, ctx.tenantId);
 
-    const resource = await this.resourceService.publishResource(
-      input.id,
-      ctx.userId,
-      ctx.tenantId,
-      ctx.tx,
-    );
+    if (resource.status === "DELETED") throw ApiError.badRequest("Cannot publish a deleted resource");
 
-    return { resource };
-  }
-}
+    const repo = new ResourceRepository(ctx.db);
+    const updated = await repo.update(input.resourceId, {
+      status:               "PUBLISHED",
+      publishedAt:          new Date(),
+      publishedContentJson: input.publishedContentJson ?? resource.draftContentJson,
+    });
+
+    return { resource: updated };
+  },
+};

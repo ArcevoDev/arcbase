@@ -1,45 +1,34 @@
-import { z } from "zod";
-import { Flow } from "@/core/flows/flow";
-import { FlowContext } from "@/core/flows/flow-context";
-import { ResourceService } from "../resource.service";
-import { updateResourceSchema } from "../resource.dto";
-import { ApiError } from "@/lib/errors/api-error";
+import { z }             from "zod";
+import type { Flow }     from "@/core/flows/flow";
+import type { FlowContext } from "@/core/flows/flow-context";
+import { UpdateResourceDto } from "../resource.dto";
+import { ResourceService }   from "../resource.service";
+import { ResourceRepository } from "../resource.repository";
 
-export const updateResourceFlowSchema = z.object({
-  id: z.string().uuid(),
-  data: updateResourceSchema,
-});
+const Input = UpdateResourceDto.extend({ resourceId: z.string() });
 
-export class UpdateResourceFlow implements Flow {
-  name = "resources.update";
-  inputSchema = updateResourceFlowSchema;
-  private resourceService = new ResourceService();
+export const updateResourceFlow: Flow<z.infer<typeof Input>> = {
+  name:        "resource:update",
+  inputSchema: Input,
 
-  // FIX 1: z.infer instead of typeof this.inputSchema._output (private Zod API)
-  async execute(
-    input: z.infer<typeof updateResourceFlowSchema>,
-    ctx: FlowContext,
-  ) {
-    if (!ctx.userId) {
-      throw ApiError.unauthorized(
-        "Authentication required to modify resources",
-      );
-    }
+  async execute(input, ctx: FlowContext) {
+    const { resourceId, ...data } = input;
+    const service = new ResourceService(ctx.db);
+    await service.assertOwnership(resourceId, ctx.userId, ctx.tenantId);
 
-    const { userId } = ctx;
-
-    // FIX 2: removed the wrong `if (tenantId === null) throw` guard.
-    // tenantId === null is perfectly valid — it means global / unscoped tenant.
-    // FIX 3: corrected parameter order. Service signature is (id, tenantId, userId, ...)
-    // The original had ctx.userId and ctx.tenantId swapped at the call site.
-    const resource = await this.resourceService.updateResource(
-      input.id,
-      ctx.tenantId, // FIX: was ctx.userId (transposed)
-      userId, // FIX: was ctx.tenantId (transposed)
-      input.data,
-      ctx.tx,
-    );
+    const repo     = new ResourceRepository(ctx.db);
+    const resource = await repo.update(resourceId, {
+      ...(data.title            !== undefined ? { title: data.title }                         : {}),
+      ...(data.description      !== undefined ? { description: data.description }             : {}),
+      ...(data.excerpt          !== undefined ? { excerpt: data.excerpt }                     : {}),
+      ...(data.draftContentJson !== undefined ? { draftContentJson: data.draftContentJson }   : {}),
+      ...(data.metadata         !== undefined ? { metadata: data.metadata }                   : {}),
+      ...(data.visibility       !== undefined ? { visibility: data.visibility }               : {}),
+      ...(data.category         !== undefined ? { category: data.category }                   : {}),
+      ...(data.thumbnailUrl     !== undefined ? { thumbnailUrl: data.thumbnailUrl }           : {}),
+      ...(data.coverImageUrl    !== undefined ? { coverImageUrl: data.coverImageUrl }         : {}),
+    });
 
     return { resource };
-  }
-}
+  },
+};
