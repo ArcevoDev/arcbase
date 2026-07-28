@@ -1,32 +1,33 @@
-import { z } from "zod";
-import { Flow } from "@/core/flows/flow";
-import { FlowContext } from "@/core/flows/flow-context";
-import { ResourceService } from "../resource.service";
-import { ApiError } from "@/lib/errors/api-error";
+import { z }             from "zod";
+import type { Flow }     from "@/core/flows/flow";
+import type { FlowContext } from "@/core/flows/flow-context";
+import { ResourceService }   from "../resource.service";
 
-export const saveResourceFlowSchema = z.object({
-  resourceId: z.string().uuid(),
-});
+const Input = z.object({ resourceId: z.string() });
 
-export class SaveResourceFlow implements Flow {
-  name = "resources.save";
-  inputSchema = saveResourceFlowSchema;
-  private resourceService = new ResourceService();
+export const saveResourceFlow: Flow<z.infer<typeof Input>> = {
+  name:        "resource:save",
+  inputSchema: Input,
 
-  async execute(
-    input: z.infer<typeof saveResourceFlowSchema>,
-    ctx: FlowContext,
-  ) {
-    if (!ctx.userId) {
-      throw ApiError.unauthorized("Authentication required to save resources");
-    }
+  async execute(input, ctx: FlowContext) {
+    const service = new ResourceService(ctx.db);
+    await service.assertExists(input.resourceId, ctx.tenantId);
 
-    await this.resourceService.saveResource(
-      input.resourceId,
-      ctx.userId,
-      ctx.tx,
-    );
+    await ctx.db.savedResource.upsert({
+      where:  { userId_resourceId: { userId: ctx.userId, resourceId: input.resourceId } },
+      create: { userId: ctx.userId, resourceId: input.resourceId, tenantId: ctx.tenantId },
+      update: {},
+    });
 
-    return { saved: true, resourceId: input.resourceId };
-  }
-}
+    const repo = new ResourceRepository(ctx.db);
+    await repo.incrementMetric(input.resourceId, "bookmarks");
+
+    return {};
+  },
+};
+itory(ctx.db);
+    await repo.incrementMetric(input.resourceId, "bookmarks");
+
+    return {};
+  },
+};

@@ -14,6 +14,7 @@ if (!accessKeyId || !secretAccessKey) {
   );
 }
 
+export type { S3Client as S3ClientType } from "@aws-sdk/client-s3";
 export const s3Client = new S3Client({
   region,
   credentials: {

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { handleApiRoute } from "@/lib/errors/handle-error";
-import { requireOnboarded } from "@/modules/auth/require-auth";
-import { ResourceService } from "@/modules/resources/resource.service";
-import { toSafeResourceDTO } from "@/modules/resources/resource.dto";
+import { handleApiRoute } from "@/lib/errors";
+import { requireOnboarded } from "@/core/auth";
+import { ResourceService } from "@/domains/resources/resource.service";
+import { toSafeResourceDTO } from "@/domains/resources/resource.dto";
 
 interface RouteParams {
   params: {

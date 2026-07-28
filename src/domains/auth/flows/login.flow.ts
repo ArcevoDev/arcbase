@@ -1,25 +1,26 @@
-// src/domains/auth/flows/login.flow.ts
-import { z } from "zod";
-import { Flow } from "@/core/flows/flow";
-import { FlowContext } from "@/core/flows/flow-context";
-import { AuthService } from "../auth.service";
-import { loginSchema } from "../auth.dto";
-import { signToken } from "@/lib/auth/jwt";
+import { z }            from "zod";
+import type { Flow }    from "@/core/flows/flow";
+import { LoginDto }     from "../auth.dto";
+import { authService }  from "../auth.service";
 
-export class LoginFlow implements Flow {
-  name = "auth.login";
-  inputSchema = loginSchema;
+export const loginFlow: Flow<z.infer<typeof LoginDto>> = {
+  name:        "auth:login",
+  inputSchema: LoginDto,
 
-  private authService = new AuthService();
+  async execute(input) {
+    const result = await authService.login(input);
 
-  async execute(input: z.infer<typeof this.inputSchema>, ctx: FlowContext) {
-    // 1. Get the SafeUserDTO from the service
-    const user = await this.authService.login(ctx.tx, input);
+    if (result.requiresMfa) {
+      return { requiresMfa: true, sessionId: result.sessionId, mfaTypes: result.mfaTypes };
+    }
 
-    // 2. Generate token
-    const token = await signToken({ userId: user.id, email: user.email });
-
-    // 3. Return the combined payload
-    return { user, token };
-  }
-}
+    // Caller (route handler) sets cookies
+    return {
+      requiresMfa:  false,
+      accessToken:  result.accessToken,
+      refreshToken: result.refreshToken,
+      sessionId:    result.sessionId,
+      expiresIn:    result.expiresIn ?? 900,
+    };
+  },
+};

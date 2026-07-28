@@ -1,8 +1,9 @@
+// src/app/api/resources/bulk/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { handleApiRoute } from "@/lib/errors/handle-error";
-import { requireOnboarded } from "@/modules/auth/require-auth";
-import { ResourceService } from "@/modules/resources/resource.service";
-import { ApiError } from "@/lib/errors/api-error";
+import { handleApiRoute } from "@/lib/errors";
+import { requireOnboarded } from "@/core/auth";
+import { ResourceService } from "@/domains/resources/resource.service";
+import { ApiError } from "@/lib/errors";
 import { z } from "zod";
 
 const bulkOperationSchema = z
@@ -10,13 +11,17 @@ const bulkOperationSchema = z
     ids: z
       .array(z.string().uuid("Each resource ID must be a valid UUID"))
       .min(1, "Provide at least one resource ID"),
+    // FIX: aligned with the BulkActionInput enum in resource.dto.ts
     action: z.enum(["DELETE", "ARCHIVE"]),
   })
   .strict();
 
+// FIX: moved to module scope — was being re-instantiated on every request
+const resourceService = new ResourceService();
+
 export const POST = handleApiRoute(async (req: NextRequest) => {
   const session = await requireOnboarded(req);
-  const tenantId = null; // Ghost Tenant placeholder for MVP
+  const tenantId = req.headers.get("x-tenant-id") ?? null;
 
   const body = await req.json();
   const parsed = bulkOperationSchema.safeParse(body);
@@ -26,14 +31,13 @@ export const POST = handleApiRoute(async (req: NextRequest) => {
   }
 
   const { ids, action } = parsed.data;
-  const resourceService = new ResourceService();
 
   const results = {
     successful: [] as string[],
     failed: [] as { id: string; error: string }[],
   };
 
-  // Execute sequentially to respect ownership validation and lifecycle guards on each node
+  // Sequential execution to respect per-resource ownership and lifecycle guards
   for (const id of ids) {
     try {
       if (action === "DELETE") {
@@ -42,10 +46,10 @@ export const POST = handleApiRoute(async (req: NextRequest) => {
         await resourceService.archiveResource(id, session.userId, tenantId);
       }
       results.successful.push(id);
-    } catch (err: any) {
+    } catch (err: unknown) {
       results.failed.push({
         id,
-        error: err.message || "Operation failed",
+        error: err instanceof Error ? err.message : "Operation failed",
       });
     }
   }
@@ -56,9 +60,9 @@ export const POST = handleApiRoute(async (req: NextRequest) => {
   return NextResponse.json(
     {
       success: failCount === 0,
-      message: `Bulk processing complete. Successfully processed ${successCount} assets. Failed on ${failCount} assets.`,
+      message: `Bulk processing complete. ${successCount} succeeded, ${failCount} failed.`,
       data: results,
     },
-    { status: failCount > 0 ? 270 : 200 },
-  ); // 270 Multi-Status fallback for partial completions
+    { status: failCount > 0 ? 207 : 200 },
+  );
 });

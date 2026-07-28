@@ -1,33 +1,31 @@
+// src/app/api/resources/[resourceId]/publish/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { handleApiRoute } from "@/lib/errors/handle-error";
-import { requireOnboarded } from "@/modules/auth/require-auth";
-import { ResourceService } from "@/modules/resources/resource.service";
-import { toSafeResourceDTO } from "@/modules/resources/resource.dto";
+import { handleApiRoute } from "@/lib/errors";
+import { requireOnboarded } from "@/core/auth";
+import { FlowExecutor } from "@/core/flows/flow-executor";
+import { PublishResourceFlow } from "@/domains/resources/flows/publish-resource.flow";
 
 interface RouteParams {
-  params: {
-    resourceId: string;
-  };
+  params: { resourceId: string };
 }
 
+// POST /api/resources/[resourceId]/publish
+// Separate from PATCH to make publish an explicit, intentional action — not
+// just another field update. Enforces the full publish contract via the flow.
 export const POST = handleApiRoute(
   async (req: NextRequest, { params }: RouteParams) => {
     const session = await requireOnboarded(req);
-    const tenantId = null; // Ghost Tenant placeholder for MVP
-    const { resourceId } = params;
-
-    const resourceService = new ResourceService();
-    const publishedResource = await resourceService.publishResource(
-      resourceId,
-      session.userId,
-      tenantId,
+    const tenantId = req.headers.get("x-tenant-id") ?? null;
+    const result = await flowExecutor.run(
+      publishResourceFlow,
+      { id: params.resourceId },
+      { userId: session.userId, identityId: session.identityId, tenantId },
     );
-
-    return NextResponse.json({
-      success: true,
-      message:
-        "Resource state machine transitioned to PUBLISHED. Working draft cloned to live runtime.",
-      data: toSafeResourceDTO(publishedResource),
-    });
+    return NextResponse.json({ success: true, data: result.resource });
   },
+);
+);
+ data: result.resource });
+  },
+);
 );

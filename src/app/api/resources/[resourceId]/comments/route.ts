@@ -1,59 +1,39 @@
+// src/app/api/resources/[resourceId]/comments/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { handleApiRoute } from "@/lib/errors/handle-error";
-import { requireOnboarded } from "@/modules/auth/require-auth";
-import { CommentService } from "@/modules/comments/comment.service";
-import {
-  createCommentSchema,
-  toSafeCommentDTO,
-} from "@/modules/comments/comment.dto";
-import { ApiError } from "@/lib/errors/api-error";
+import { handleApiRoute } from "@/lib/errors";
+import { requireOnboarded } from "@/core/auth";
+import { flowExecutor } from "@/core/flows/flow-executor";
+import { addCommentFlow } from "@/domains/resources/flows/add-comment.flow";
+import { CommentService } from "@/domains/comments/comment.service";
 
 interface RouteParams {
   params: { resourceId: string };
 }
 
-// GET: Pull down top-level discussions related directly to the base asset
+const commentService = new CommentService();
+
+// GET — root-level comments only
 export const GET = handleApiRoute(
   async (req: NextRequest, { params }: RouteParams) => {
     await requireOnboarded(req);
-    const { resourceId } = params;
-
-    const commentService = new CommentService();
-    const rootComments = await commentService.getRootComments(resourceId);
-
-    return NextResponse.json({
-      success: true,
-      count: rootComments.length,
-      data: rootComments.map((comment) => toSafeCommentDTO(comment)),
-    });
+    const comments = await commentService.getRootComments(params.resourceId);
+    return NextResponse.json({ success: true, data: comments });
   },
 );
 
-// POST: Initialize a fresh discussion stream thread directly targeting this asset
+// POST — create a comment or reply
 export const POST = handleApiRoute(
   async (req: NextRequest, { params }: RouteParams) => {
     const session = await requireOnboarded(req);
-    const { resourceId } = params;
-
+    const tenantId = req.headers.get("x-tenant-id") ?? null;
     const body = await req.json();
-    const parsed = createCommentSchema.safeParse(body);
-    if (!parsed.success) {
-      throw ApiError.badRequest(parsed.error.issues[0].message);
-    }
-
-    const commentService = new CommentService();
-    const createdComment = await commentService.createTopLevelComment(
-      session.userId,
-      resourceId,
-      parsed.data,
+    const result = await flowExecutor.run(
+      addCommentFlow,
+      { resourceId: params.resourceId, data: body },
+      { userId: session.userId, identityId: session.identityId, tenantId },
     );
-
     return NextResponse.json(
-      {
-        success: true,
-        message: "Top level discussion line logged successfully.",
-        data: toSafeCommentDTO(createdComment),
-      },
+      { success: true, data: result.comment },
       { status: 201 },
     );
   },
