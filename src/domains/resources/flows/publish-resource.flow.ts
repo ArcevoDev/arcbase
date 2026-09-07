@@ -7,7 +7,7 @@ import { ApiError } from "@/lib/errors/api-error";
 
 const Input = z.object({
   resourceId:           z.string(),
-  publishedContentJson: z.record(z.unknown()).optional(),
+  publishedContentJson: z.record(z.string(), z.any()).optional(),
 });
 
 export const publishResourceFlow: Flow<z.infer<typeof Input>> = {
@@ -16,7 +16,7 @@ export const publishResourceFlow: Flow<z.infer<typeof Input>> = {
 
   async execute(input, ctx: FlowContext) {
     const service = new ResourceService(ctx.db);
-    const resource = await service.assertOwnership(input.resourceId, ctx.userId, ctx.tenantId);
+    const resource = await service.assertOwnership(input.resourceId, ctx.userId!, ctx.tenantId);
 
     if (resource.status === "DELETED") throw ApiError.badRequest("Cannot publish a deleted resource");
 

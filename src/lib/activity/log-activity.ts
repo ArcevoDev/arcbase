@@ -23,7 +23,7 @@ export interface ActivityPayload {
   userId?: string | null;
   type: ActivityTypeValue;
   entityId: string;
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, any>;
 }
 
 export function logActivity(payload: ActivityPayload): void {

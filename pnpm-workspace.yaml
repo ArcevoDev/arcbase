@@ -12,6 +12,11 @@ allowBuilds:
 ignoredBuiltDependencies:
   - unrs-resolver
 
+minimumReleaseAgeExclude:
+  - '@arcevo/facet-auth@1.2.3'
+  - '@arcevo/facet-components@1.11.0'
+  - '@arcevo/facet-sdk@1.2.0'
+
 onlyBuiltDependencies:
   - "@prisma/engines"
   - "@scarf/scarf"

@@ -11,8 +11,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { InputGroup, InputGroupAddon } from "@/components/ui/input-group";
-import { SearchIcon, CheckIcon } from "lucide-react";
+import { InputGroup, InputGroupAddon } from "@arcevo/facet-components";
+import { SearchIcon, CheckIcon } from "@arcevo/facet-components/icons";
 
 function Command({
   className,

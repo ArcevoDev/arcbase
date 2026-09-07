@@ -12,7 +12,7 @@ export const deleteResourceFlow: Flow<z.infer<typeof Input>> = {
 
   async execute(input, ctx: FlowContext) {
     const service = new ResourceService(ctx.db);
-    await service.assertOwnership(input.resourceId, ctx.userId, ctx.tenantId);
+    await service.assertOwnership(input.resourceId, ctx.userId!, ctx.tenantId);
 
     const repo = new ResourceRepository(ctx.db);
     await repo.softDelete(input.resourceId);

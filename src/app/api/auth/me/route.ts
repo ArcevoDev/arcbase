@@ -10,10 +10,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { handleApiRoute } from "@/lib/errors";
 import { requireAuth } from "@/core/auth";
-import { AuthService } from "@/domains/auth/auth.service";
+import { authService } from "@/domains/auth";
 import { prisma } from "@/core/db";
-
-const authService = new AuthService();
 
 export const GET = handleApiRoute(async (req: NextRequest) => {
   const session = await requireAuth(req);

@@ -9,7 +9,16 @@ export interface AuthSession {
   tenantId:   string | null;
   scope:      string[];
   user:       User | null;
-  userId:     string | undefined; // convenience: session.user?.id
+userId:     string | undefined; // convenience: session.user?.id
+}
+
+/**
+ * AuthSession for routes that have passed onboarding. The arcbase User
+ * record is guaranteed to exist, so user and userId are always concrete.
+ */
+export interface OnboardedSession extends AuthSession {
+  user:   User;
+  userId: string;
 }
 
 /**

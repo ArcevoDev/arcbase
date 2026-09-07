@@ -140,6 +140,17 @@ exports.Prisma.UserScalarFieldEnum = {
   deletedAt: 'deletedAt'
 };
 
+exports.Prisma.MembershipScalarFieldEnum = {
+  id: 'id',
+  role: 'role',
+  status: 'status',
+  metadata: 'metadata',
+  joinedAt: 'joinedAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  tenantId: 'tenantId'
+};
+
 exports.Prisma.ResourceScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -264,9 +275,11 @@ exports.Prisma.ReactionScalarFieldEnum = {
 
 exports.Prisma.FollowScalarFieldEnum = {
   id: 'id',
+  tenantId: 'tenantId',
   followerId: 'followerId',
   followingId: 'followingId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.ResourceUsageScalarFieldEnum = {
@@ -362,6 +375,14 @@ exports.UserArchetype = exports.$Enums.UserArchetype = {
   GENERAL: 'GENERAL'
 };
 
+exports.MemberRole = exports.$Enums.MemberRole = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  EDITOR: 'EDITOR',
+  VIEWER: 'VIEWER',
+  GUEST: 'GUEST'
+};
+
 exports.ResourceTypeRenderer = exports.$Enums.ResourceTypeRenderer = {
   ARTICLE: 'ARTICLE',
   NOTE: 'NOTE',
@@ -441,6 +462,7 @@ exports.NotificationType = exports.$Enums.NotificationType = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Membership: 'Membership',
   Resource: 'Resource',
   Relation: 'Relation',
   ResourceVersion: 'ResourceVersion',

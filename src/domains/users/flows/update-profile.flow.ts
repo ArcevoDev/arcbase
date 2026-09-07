@@ -8,7 +8,7 @@ export const updateProfileFlow: Flow<z.infer<typeof UpdateProfileDto>> = {
   name: "user:update-profile", inputSchema: UpdateProfileDto,
   async execute(input, ctx) {
     const repo = new UserRepository(ctx.db);
-    const user = await repo.update(ctx.userId, {
+    const user = await repo.update(ctx.userId!, {
       ...(input.displayName !== undefined ? { displayName: input.displayName } : {}),
       ...(input.bio         !== undefined ? { bio: input.bio }                 : {}),
       ...(input.avatarUrl   !== undefined ? { avatarUrl: input.avatarUrl }     : {}),

@@ -1,6 +1,6 @@
 // src/components/home/Hero.tsx
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@arcevo/facet-components";
 import { cn } from "@/lib/utils";
 
 export function Hero() {

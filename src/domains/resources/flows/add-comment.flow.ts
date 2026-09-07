@@ -21,7 +21,7 @@ export const addCommentFlow: Flow<z.infer<typeof Input>> = {
     const comment = await ctx.db.comment.create({
       data: {
         content:    input.content,
-        authorId:   ctx.userId,
+        authorId:   ctx.userId!,
         resourceId: input.resourceId,
         parentId:   input.parentId,
         tenantId:   ctx.tenantId,

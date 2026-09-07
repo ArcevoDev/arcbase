@@ -15,7 +15,7 @@ export const createVersionFlow: Flow<z.infer<typeof Input>> = {
 
   async execute(input, ctx: FlowContext) {
     const service  = new ResourceService(ctx.db);
-    const resource = await service.assertOwnership(input.resourceId, ctx.userId, ctx.tenantId);
+    const resource = await service.assertOwnership(input.resourceId, ctx.userId!, ctx.tenantId);
 
     const latest = await ctx.db.resourceVersion.findFirst({
       where:   { resourceId: input.resourceId },
@@ -27,7 +27,7 @@ export const createVersionFlow: Flow<z.infer<typeof Input>> = {
     const version = await ctx.db.resourceVersion.create({
       data: {
         resourceId:      input.resourceId,
-        authorId:        ctx.userId,
+        authorId:        ctx.userId!,
         versionNumber,
         titleSnapshot:   resource.title ?? "Untitled",
         contentSnapshot: (resource.publishedContentJson ?? resource.draftContentJson) as any,

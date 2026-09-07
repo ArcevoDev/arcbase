@@ -15,6 +15,17 @@ export class CollectionRepository {
     return this.db.collection.findFirst({ where: { slug, authorId, tenantId, deletedAt: null } });
   }
 
+  async findByAuthor(authorId: string, tenantId?: string | null) {
+    return this.db.collection.findMany({
+      where: { authorId, ...(tenantId ? { tenantId } : {}), deletedAt: null },
+      include: {
+        author: { select: { id: true, username: true, displayName: true, avatarUrl: true, bio: true, archetype: true, createdAt: true } },
+        _count: { select: { resources: true } },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+  }
+
   async create(data: Prisma.CollectionCreateInput) {
     return this.db.collection.create({ data });
   }

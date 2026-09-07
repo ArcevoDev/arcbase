@@ -58,8 +58,8 @@ import {
   Clock,
   MapPin,
   Link,
-  Github,
-  Twitter,
+  GitBranch,
+  Bird,
   Mail,
   Shield,
   Home,
@@ -76,7 +76,7 @@ import {
   HelpCircle,
   Users,
   Send,
-} from "lucide-react";
+} from "@arcevo/facet-components/icons";
 
 /**
  * Icon registry mapping semantic names to lucide icons
@@ -166,8 +166,8 @@ export const ICON_REGISTRY = {
   home: Home,
 
   // Social
-  github: Github,
-  twitter: Twitter,
+  github: GitBranch,
+  twitter: Bird,
   email: Mail,
 } as const;
 

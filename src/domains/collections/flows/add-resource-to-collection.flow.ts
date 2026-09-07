@@ -11,7 +11,7 @@ export const addResourceToCollectionFlow: Flow<z.infer<typeof Input>> = {
   name: "collection:add-resource", inputSchema: Input,
   async execute(input, ctx) {
     const service = new CollectionService(ctx.db);
-    await service.assertOwnership(input.collectionId, ctx.userId, ctx.tenantId);
+    await service.assertOwnership(input.collectionId, ctx.userId!, ctx.tenantId);
 
     const resource = await ctx.db.resource.findFirst({ where: { id: input.resourceId, deletedAt: null } });
     if (!resource) throw ApiError.notFound("Resource not found");

@@ -5,12 +5,12 @@ export const UpdateProfileDto = z.object({
   bio:         z.string().max(500).optional(),
   avatarUrl:   z.string().url().optional(),
   archetype:   z.enum(["STUDENT","RESEARCHER","DEVELOPER","POET","EDUCATOR","CREATOR","THINKER","BUILDER","GENERAL"]).optional(),
-  preferences: z.record(z.unknown()).optional(),
+  preferences: z.record(z.string(), z.any()).optional(),
 });
 
 export const OnboardingStepDto = z.object({
   step:        z.number().int().min(0),
-  data:        z.record(z.unknown()).optional(),
+  data:        z.record(z.string(), z.any()).optional(),
 });
 
 export const AdminActionDto = z.object({

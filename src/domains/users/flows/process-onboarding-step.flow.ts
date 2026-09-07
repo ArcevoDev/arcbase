@@ -10,7 +10,7 @@ export const processOnboardingStepFlow: Flow<z.infer<typeof OnboardingStepDto>> 
   name: "user:onboarding-step", inputSchema: OnboardingStepDto,
   async execute(input, ctx) {
     const repo = new UserRepository(ctx.db);
-    const user = await repo.update(ctx.userId, {
+    const user = await repo.update(ctx.userId!, {
       onboardingStep: Math.min(input.step + 1, TOTAL_STEPS),
       onboardingJson: { ...(input.data ?? {}) } as any,
     });

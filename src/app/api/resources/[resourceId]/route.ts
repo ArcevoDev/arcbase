@@ -1,11 +1,11 @@
-// src/app/api/resources/[resourceId]/route.ts
+﻿// src/app/api/resources/[resourceId]/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { handleApiRoute } from "@/lib/errors";
-import { requireOnboarded } from "@/core/auth";
-import { flowExecutor } from "@/core/flows/flow-executor";
-import { updateResourceFlow } from "@/domains/resources/flows/update-resource.flow";
-import { deleteResourceFlow } from "@/domains/resources/flows/delete-resource.flow";
-import { ResourceService } from "@/domains/resources/resource.service";
+import { handleApiRoute }     from "@/lib/errors";
+import { requireOnboarded }    from "@/core/auth";
+import { flowExecutor }        from "@/core/flows";
+import { updateResourceFlow }  from "@/domains/resources/flows/update-resource.flow";
+import { deleteResourceFlow }  from "@/domains/resources/flows/delete-resource.flow";
+import { ResourceService }     from "@/domains/resources/resource.service";
 
 interface RouteParams {
   params: { resourceId: string };
@@ -15,12 +15,9 @@ const resourceService = new ResourceService();
 
 export const GET = handleApiRoute(
   async (req: NextRequest, { params }: RouteParams) => {
-    await requireOnboarded(req);
+    const session = await requireOnboarded(req);
     const tenantId = req.headers.get("x-tenant-id") ?? null;
-    const resource = await resourceService.getResource(
-      params.resourceId,
-      tenantId,
-    );
+    const resource = await resourceService.getResource(params.resourceId, tenantId);
     return NextResponse.json({ success: true, data: resource });
   },
 );
@@ -30,10 +27,10 @@ export const PATCH = handleApiRoute(
     const session = await requireOnboarded(req);
     const tenantId = req.headers.get("x-tenant-id") ?? null;
     const body = await req.json();
-    const result = await executor.run(
-      new UpdateResourceFlow(),
-      { id: params.resourceId, data: body },
-      { userId: session.userId, tenantId },
+    const result = await flowExecutor.run(
+      updateResourceFlow,
+      { resourceId: params.resourceId, ...body },
+      { userId: session.userId, identityId: session.identityId, tenantId },
     );
     return NextResponse.json({ success: true, data: result.resource });
   },
@@ -49,8 +46,5 @@ export const DELETE = handleApiRoute(
       { userId: session.userId, identityId: session.identityId, tenantId },
     );
     return NextResponse.json({ success: true, data: result });
-  },
-);
-({ success: true, data: result });
   },
 );

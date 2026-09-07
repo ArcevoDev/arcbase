@@ -5,9 +5,10 @@ import { requireOnboarded } from "@/core/auth";
 import { flowExecutor } from "@/core/flows/flow-executor";
 import { createResourceFlow } from "@/domains/resources/flows/create-resource.flow";
 import { ResourceService } from "@/domains/resources/resource.service";
-import { listResourcesSchema } from "@/domains/resources/resource.dto";
+import { listResourcesSchema } from "@/domains/resources";
+import { prisma } from "@/core/db";
 
-const resourceService = new ResourceService();
+const resourceService = new ResourceService(prisma);
 
 export const GET = handleApiRoute(async (req: NextRequest) => {
   const session = await requireOnboarded(req);

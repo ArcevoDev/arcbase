@@ -10,7 +10,7 @@ export const unsaveResourceFlow: Flow<z.infer<typeof Input>> = {
 
   async execute(input, ctx: FlowContext) {
     await ctx.db.savedResource.deleteMany({
-      where: { userId: ctx.userId, resourceId: input.resourceId },
+      where: { userId: ctx.userId!, resourceId: input.resourceId },
     });
     return {};
   },

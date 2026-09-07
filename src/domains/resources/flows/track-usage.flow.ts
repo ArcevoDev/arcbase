@@ -7,7 +7,7 @@ const Input = z.object({
   resourceId: z.string(),
   event:      z.enum(["VIEW","OPEN","DOWNLOAD","SHARE","LIKE","BOOKMARK"]),
   sessionId:  z.string().optional(),
-  metadata:   z.record(z.unknown()).optional(),
+  metadata:   z.record(z.string(), z.any()).optional(),
 });
 
 const EVENT_METRIC_MAP = {
@@ -27,7 +27,7 @@ export const trackUsageFlow: Flow<z.infer<typeof Input>> = {
     await ctx.db.resourceUsage.create({
       data: {
         resourceId: input.resourceId,
-        actorId:    ctx.userId,
+        actorId:    ctx.userId!,
         event:      input.event,
         sessionId:  input.sessionId,
         metadata:   input.metadata,

@@ -1,47 +1,25 @@
-/**
- * Example: arcbase register flow updated to use arc-id
- * src/app/api/auth/register/route.ts
- *
- * Before: created LocalAccount, hashed password, stored in arcbase DB
- * After:  delegates to arc-id, gets identityId back, creates arcbase User
- */
+// src/app/api/auth/register/route.ts
+//
+// Auth is delegated to arc-id. arcbase provisions the User record after identity creation.
 
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import { handleApiRoute } from "@/lib/errors";
-import { prisma } from "@/core/db";
-import { arcid } from "@/lib/arcid/client";
-
-const RegisterSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(12),
-  username: z.string().min(3).max(30).regex(/^[a-z0-9_]+$/),
-  displayName: z.string().optional(),
-});
+import { flowExecutor } from "@/core/flows";
+import { registerFlow } from "@/domains/auth/flows/register.flow";
 
 export const POST = handleApiRoute(async (req: NextRequest) => {
   const body = await req.json();
-  const input = RegisterSchema.parse(body);
 
-  const { identity } = await arcid.register(input.email, input.password, input.displayName);
+  const result = await flowExecutor.run(registerFlow, body, {
+    userId: null,
+    identityId: null,
+    tenantId: null,
+    ip: req.headers.get("x-forwarded-for") ?? undefined,
+    userAgent: req.headers.get("user-agent") ?? undefined,
+  }, { transaction: false });
 
-  const usernameTaken = await prisma.user.findUnique({
-    where: { username: input.username },
-  });
-  if (usernameTaken) {
-    return NextResponse.json(
-      { success: false, error: "CONFLICT", message: "Username is already taken" },
-      { status: 409 }
-    );
-  }
-
-  const user = await prisma.user.create({
-    data: {
-      identityId: identity.id,
-      username: input.username,
-      displayName: input.displayName,
-    },
-  });
-
-  return NextResponse.json({ success: true, data: { userId: user.id } }, { status: 201 });
+  return NextResponse.json(
+    { success: true, data: { userId: result.userId } },
+    { status: 201 },
+  );
 });

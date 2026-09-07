@@ -17,7 +17,7 @@ export const updateCommentStatusFlow: Flow<z.infer<typeof Input>> = {
     if (!comment) throw ApiError.notFound("Comment not found");
 
     // Only author or admin can update
-    if (comment.authorId !== ctx.userId) throw ApiError.forbidden("Cannot modify this comment");
+    if (comment.authorId !== ctx.userId!) throw ApiError.forbidden("Cannot modify this comment");
 
     const updated = await ctx.db.comment.update({
       where: { id: input.commentId },

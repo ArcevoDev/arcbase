@@ -5,9 +5,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { apiClient } from "@/lib/useful/api-client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@arcevo/facet-components";
+import { Input } from "@arcevo/facet-components";
+import { Label } from "@arcevo/facet-components";
 import { toast } from "sonner";
 
 export default function RegisterPage() {

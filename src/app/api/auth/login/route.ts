@@ -1,24 +1,25 @@
-/**
- * Example: arcbase login flow updated to use arc-id
- * src/app/api/auth/login/route.ts
- *
- * arc-id issues the tokens. arcbase just passes them through to the client.
- * The client stores the access token and sends it with every request.
- */
+// src/app/api/auth/login/route.ts
+//
+// arc-id issues the tokens. arcbase just passes them through to the client.
+// Auth is delegated to arc-id via flows (matching arc-id's module pattern).
 
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import { handleApiRoute } from "@/lib/errors";
-import { arcid } from "@/lib/arcid/client";
-
-const LoginSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
+import { flowExecutor } from "@/core/flows";
+import { loginFlow } from "@/domains/auth/flows/login.flow";
+import { LoginDto } from "@/domains/auth/auth.dto";
 
 export const POST = handleApiRoute(async (req: NextRequest) => {
-  const { email, password } = LoginSchema.parse(await req.json());
-  const result = await arcid.login(email, password);
+  const body = await req.json();
+
+  // Auth flows make external HTTP calls to arc-id — no DB transaction needed
+  const result = await flowExecutor.run(loginFlow, body, {
+    userId: null,
+    identityId: null,
+    tenantId: null,
+    ip: req.headers.get("x-forwarded-for") ?? undefined,
+    userAgent: req.headers.get("user-agent") ?? undefined,
+  }, { transaction: false });
 
   if (result.requiresMfa) {
     return NextResponse.json({
@@ -37,6 +38,7 @@ export const POST = handleApiRoute(async (req: NextRequest) => {
       accessToken: result.accessToken,
       refreshToken: result.refreshToken,
       sessionId: result.sessionId,
+      expiresIn: result.expiresIn,
     },
   });
 });

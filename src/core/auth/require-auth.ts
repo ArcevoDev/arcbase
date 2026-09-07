@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { getSession, type AuthSession } from "./get-session";
+import { getSession, type AuthSession, type OnboardedSession } from "./get-session";
 import { prisma } from "@/core/db/prisma";
 import { ApiError } from "@/lib/errors";
 
@@ -22,16 +22,17 @@ export async function requireAuth(req: NextRequest): Promise<AuthSession> {
  *
  * Usage: const session = await requireOnboarded(req);
  */
-export async function requireOnboarded(req: NextRequest): Promise<AuthSession> {
+export async function requireOnboarded(req: NextRequest): Promise<OnboardedSession> {
   const session = await requireAuth(req);
-  if (!session.user) {
-    session.user = await prisma.user.create({
+  const user =
+    session.user ??
+    (await prisma.user.create({
       data: {
         identityId: session.identityId,
         username: `user_${session.identityId.slice(0, 8)}`,
         tenantId: session.tenantId,
       },
-    });
-  }
-  return session;
+    }));
+  session.userId = user.id;
+  return { ...session, user, userId: user.id };
 }

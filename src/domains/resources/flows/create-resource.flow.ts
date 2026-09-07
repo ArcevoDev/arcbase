@@ -14,7 +14,7 @@ export const createResourceFlow: Flow<z.infer<typeof CreateResourceDto>> = {
 
     // Check slug uniqueness if provided
     if (input.slug) {
-      const existing = await repo.findBySlug(input.slug, ctx.userId, ctx.tenantId);
+      const existing = await repo.findBySlug(input.slug, ctx.userId!, ctx.tenantId);
       if (existing) throw ApiError.conflict("A resource with this slug already exists");
     }
 
@@ -33,7 +33,7 @@ export const createResourceFlow: Flow<z.infer<typeof CreateResourceDto>> = {
       coverImageUrl:    input.coverImageUrl,
       fileUrl:          input.fileUrl,
       tenantId:         ctx.tenantId,
-      author:           { connect: { id: ctx.userId } },
+      author:           { connect: { id: ctx.userId! } },
       ...(input.parentId ? { parent: { connect: { id: input.parentId } } } : {}),
       ...(input.tags?.length ? {
         resourceTags: {

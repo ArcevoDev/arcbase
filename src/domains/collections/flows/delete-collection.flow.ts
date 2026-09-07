@@ -10,7 +10,7 @@ export const deleteCollectionFlow: Flow<z.infer<typeof Input>> = {
   name: "collection:delete", inputSchema: Input,
   async execute(input, ctx) {
     const service = new CollectionService(ctx.db);
-    await service.assertOwnership(input.collectionId, ctx.userId, ctx.tenantId);
+    await service.assertOwnership(input.collectionId, ctx.userId!, ctx.tenantId);
     const repo = new CollectionRepository(ctx.db);
     await repo.softDelete(input.collectionId);
     return {};

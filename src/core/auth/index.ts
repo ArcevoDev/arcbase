@@ -11,4 +11,4 @@ export {
   getRefreshTokenFromCookie,
   getSessionIdFromCookie,
 }                                               from "./auth-cookie";
-export type { AuthSession }                     from "./get-session";
+export type { AuthSession, OnboardedSession }   from "./get-session";

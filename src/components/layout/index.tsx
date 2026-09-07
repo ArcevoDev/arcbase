@@ -1,8 +1,12 @@
 // src/components/layout/index.tsx
 import React from "react";
+import Link from "next/link";
 import { Navbar } from "../shared/Navbar";
 import { Footer } from "../shared/Footer";
 import { Sidebar } from "../shared/Sidebar";
+
+// Re-export facet-layout wrappers
+export { FacetDashboardLayout, FacetMarketingLayout } from "./FacetLayout";
 
 export function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -47,5 +51,3 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
-
-import Link from "next/link";

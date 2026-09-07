@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@arcevo/facet-components";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {

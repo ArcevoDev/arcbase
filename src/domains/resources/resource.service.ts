@@ -1,11 +1,17 @@
+import { prisma } from "@/core/db";
 import type { DbClient } from "@/core/flows/flow-context";
 import { ResourceRepository } from "./resource.repository";
+import type { ListResourcesInput } from "./resource.dto";
 import { ApiError } from "@/lib/errors/api-error";
 
 export class ResourceService {
   private repo: ResourceRepository;
-  constructor(private db: DbClient) {
+  constructor(private db: DbClient = prisma) {
     this.repo = new ResourceRepository(db);
+  }
+
+  async listResources(tenantId: string | null, filters: ListResourcesInput) {
+    return this.repo.findMany({ ...filters, tenantId: tenantId ?? undefined });
   }
 
   async assertOwnership(resourceId: string, userId: string, tenantId?: string | null) {

@@ -149,10 +149,45 @@ model User {
   notifications  Notification[]
   following      Follow[]          @relation("Follower")
   followers      Follow[]          @relation("Following")
+  memberships    Membership[]
 
   @@index([tenantId])
   @@index([identityId])
   @@index([deletedAt])
+}
+
+// ==========================================
+// TENANT MEMBERSHIP
+// Links arcbase Users to arc-id Tenants.
+// The tenantId references arc-id's Tenant.id directly.
+// Membership roles are arcbase-specific, separate from arc-id RBAC.
+// ==========================================
+
+enum MemberRole {
+  OWNER      // Full control, can delete tenant
+  ADMIN      // Manage members, settings
+  EDITOR     // Create/edit resources
+  VIEWER     // Read-only access
+  GUEST      // Limited access
+}
+
+model Membership {
+  id        String     @id @default(uuid(7))
+  role      MemberRole @default(VIEWER)
+  status    String     @default("ACTIVE") // ACTIVE, SUSPENDED, INVITED, PENDING
+  metadata  Json?
+  joinedAt  DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  userId   String
+  tenantId String      // References arc-id Tenant.id
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tenantId])
+  @@index([tenantId])
+  @@index([status])
+  @@index([role])
 }
 
 // ==========================================
@@ -389,16 +424,20 @@ model Reaction {
 }
 
 model Follow {
-  id          String   @id @default(uuid(7))
+  id          String     @id @default(uuid(7))
+  tenantId    String?
   followerId  String
   followingId String
-  createdAt   DateTime @default(now())
+  createdAt   DateTime   @default(now())
+  deletedAt   DateTime?
 
   follower  User @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
   following User @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
 
   @@unique([followerId, followingId])
   @@index([followingId])
+  @@index([tenantId])
+  @@index([deletedAt])
 }
 
 // ==========================================

@@ -13,7 +13,7 @@ export const connectResourcesFlow: Flow<z.infer<typeof Input>> = {
 
   async execute(input, ctx: FlowContext) {
     const service = new ResourceService(ctx.db);
-    await service.assertOwnership(input.resourceId, ctx.userId, ctx.tenantId);
+    await service.assertOwnership(input.resourceId, ctx.userId!, ctx.tenantId);
     await service.assertExists(input.targetId, ctx.tenantId);
 
     if (input.resourceId === input.targetId) {

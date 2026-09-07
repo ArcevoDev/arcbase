@@ -9,12 +9,12 @@ import {
 } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@arcevo/facet-components";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ChevronDownIcon,
-} from "lucide-react";
+} from "@arcevo/facet-components/icons";
 
 function Calendar({
   className,

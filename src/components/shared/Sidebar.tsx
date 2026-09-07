@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import * as Icons from "lucide-react";
+import * as Icons from "@arcevo/facet-components/icons";
 
 export function Sidebar() {
   const pathname = usePathname();

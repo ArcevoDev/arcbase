@@ -1,9 +1,9 @@
-// src/app/api/resources/[resourceId]/publish/route.ts
+﻿// src/app/api/resources/[resourceId]/publish/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { handleApiRoute } from "@/lib/errors";
-import { requireOnboarded } from "@/core/auth";
-import { FlowExecutor } from "@/core/flows/flow-executor";
-import { PublishResourceFlow } from "@/domains/resources/flows/publish-resource.flow";
+import { handleApiRoute }    from "@/lib/errors";
+import { requireOnboarded }   from "@/core/auth";
+import { flowExecutor }       from "@/core/flows";
+import { publishResourceFlow } from "@/domains/resources/flows/publish-resource.flow";
 
 interface RouteParams {
   params: { resourceId: string };
@@ -18,14 +18,9 @@ export const POST = handleApiRoute(
     const tenantId = req.headers.get("x-tenant-id") ?? null;
     const result = await flowExecutor.run(
       publishResourceFlow,
-      { id: params.resourceId },
+      { resourceId: params.resourceId },
       { userId: session.userId, identityId: session.identityId, tenantId },
     );
     return NextResponse.json({ success: true, data: result.resource });
   },
-);
-);
- data: result.resource });
-  },
-);
 );

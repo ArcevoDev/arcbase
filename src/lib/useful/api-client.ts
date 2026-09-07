@@ -6,7 +6,7 @@ export interface FetchOptions extends Omit<RequestInit, 'credentials'> {
  * Custom fetch client that automatically configures JSON headers
  * and ensures credential tokens pass along cleanly.
  */
-export async function apiClient(endpoint: string, options: FetchOptions = {}) {
+export async function apiClient<T = unknown>(endpoint: string, options: FetchOptions = {}): Promise<T> {
   const { bodyData, ...customConfig } = options;
 
   const headers: Record<string, string> = {
@@ -34,5 +34,5 @@ export async function apiClient(endpoint: string, options: FetchOptions = {}) {
     );
   }
 
-  return data;
+  return data as T;
 }

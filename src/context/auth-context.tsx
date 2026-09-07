@@ -18,6 +18,8 @@ interface User {
   displayName: string | null;
   avatarUrl:   string | null;
   role:        string;
+  email?:                 string | null;
+  hasCompletedOnboarding?: boolean;
 }
 
 interface AuthState {
@@ -43,8 +45,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const refresh = useCallback(async () => {
     try {
       const [me, identity] = await Promise.all([
-        apiClient.get<User>("/api/users/me/profile"),
-        apiClient.get<Identity>("/api/auth/me"),
+        apiClient<User>("/api/users/me/profile"),
+        apiClient<Identity>("/api/auth/me"),
       ]);
       setState({ user: me, identity, loading: false, isLoggedIn: true });
     } catch {
@@ -55,17 +57,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => { refresh(); }, [refresh]);
 
   const login = async (email: string, password: string) => {
-    const res = await apiClient.post<{
+    const res = await apiClient<{
       requiresMfa: boolean; sessionId?: string;
-      accessToken?: string; refreshToken?: string;
-    }>("/api/auth/login", { email, password });
+    }>("/api/auth/login", { method: "POST", bodyData: { email, password } });
 
     if (!res.requiresMfa) await refresh();
     return { requiresMfa: res.requiresMfa, sessionId: res.sessionId };
   };
 
   const logout = async () => {
-    await apiClient.post("/api/auth/logout", {});
+    await apiClient("/api/auth/logout", { method: "POST" });
     setState({ user: null, identity: null, loading: false, isLoggedIn: false });
   };
 
