@@ -1,0 +1,67 @@
+import type { DbClient }   from "@/core/flows/flow-context";
+import type { Prisma }     from "@prisma-client";
+import type { ListResourcesInput } from "./resource.dto";
+
+export class ResourceRepository {
+  constructor(private db: DbClient) {}
+
+  async findById(id: string, tenantId?: string | null) {
+    return this.db.resource.findFirst({
+      where: { id, ...(tenantId !== undefined ? { tenantId } : {}), deletedAt: null },
+      include: { author: true, metrics: true, resourceTags: { include: { tag: true } } },
+    });
+  }
+
+  async findBySlug(slug: string, authorId: string, tenantId?: string | null) {
+    return this.db.resource.findFirst({
+      where: { slug, authorId, tenantId, deletedAt: null },
+    });
+  }
+
+  async findMany(params: ListResourcesInput) {
+    const where: Prisma.ResourceWhereInput = {
+      deletedAt: null,
+      ...(params.type       ? { type: params.type }           : {}),
+      ...(params.status     ? { status: params.status }       : {}),
+      ...(params.visibility ? { visibility: params.visibility } : {}),
+      ...(params.authorId   ? { authorId: params.authorId }   : {}),
+      ...(params.tenantId   ? { tenantId: params.tenantId }   : {}),
+    };
+
+    const [items, total] = await Promise.all([
+      this.db.resource.findMany({
+        where,
+        include: { author: true, metrics: true, resourceTags: { include: { tag: true } } },
+        orderBy: { createdAt: "desc" },
+        skip:    (params.page  - 1) * params.limit,
+        take:    params.limit,
+      }),
+      this.db.resource.count({ where }),
+    ]);
+
+    return { items, total, page: params.page, limit: params.limit };
+  }
+
+  async create(data: Prisma.ResourceCreateInput) {
+    return this.db.resource.create({ data, include: { author: true } });
+  }
+
+  async update(id: string, data: Prisma.ResourceUpdateInput) {
+    return this.db.resource.update({ where: { id }, data });
+  }
+
+  async softDelete(id: string) {
+    return this.db.resource.update({
+      where: { id },
+      data:  { deletedAt: new Date(), status: "DELETED" },
+    });
+  }
+
+  async incrementMetric(resourceId: string, field: "views" | "opens" | "downloads" | "shares" | "likes" | "bookmarks" | "comments") {
+    await this.db.resourceMetrics.upsert({
+      where:  { resourceId },
+      create: { resourceId, [field]: 1 },
+      update: { [field]: { increment: 1 } },
+    });
+  }
+}

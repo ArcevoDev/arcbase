@@ -1,0 +1,134 @@
+npm warn Unknown project config "auto-install-peers". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown project config "shamefully-hoist". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+src/app/(auth)/login/page.tsx(32,11): error TS18048: 'data.user.onboardingStep' is possibly 'undefined'.
+src/app/api/auth/me/route.ts(18,53): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/app/api/collections/[collectionId]/reorder/route.ts(25,29): error TS2339: Property 'reorderCollectionItems' does not exist on type 'CollectionService'.
+src/app/api/collections/[collectionId]/resources/route.ts(27,7): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/app/api/collections/[collectionId]/resources/route.ts(57,29): error TS2339: Property 'removeResource' does not exist on type 'CollectionService'.
+src/app/api/collections/[collectionId]/route.ts(20,48): error TS2339: Property 'getCollectionDetails' does not exist on type 'CollectionService'.
+src/app/api/collections/[collectionId]/route.ts(36,9): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/app/api/collections/[collectionId]/route.ts(38,53): error TS18046: 'result' is of type 'unknown'.
+src/app/api/collections/[collectionId]/route.ts(49,9): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/app/api/collections/route.ts(15,5): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/app/api/collections/route.ts(38,5): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/app/api/collections/route.ts(46,13): error TS2304: Cannot find name 'toSafeCollectionDTO'.
+src/app/api/comments/[commentId]/route.ts(19,66): error TS2339: Property 'resourceId' does not exist on type '{ commentId: string; }'.
+src/app/api/comments/[commentId]/route.ts(33,28): error TS2339: Property 'resourceId' does not exist on type '{ commentId: string; }'.
+src/app/api/comments/[commentId]/route.ts(34,9): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/app/api/comments/[commentId]/route.ts(37,30): error TS18046: 'result' is of type 'unknown'.
+src/app/api/resources/[resourceId]/archive/route.ts(20,52): error TS2339: Property 'archiveResource' does not exist on type 'ResourceService'.
+src/app/api/resources/[resourceId]/children/route.ts(22,7): error TS2345: Argument of type '{ tenantId: string | null; }' is not assignable to parameter of type 'InboundCtx'.
+  Type '{ tenantId: string | null; }' is missing the following properties from type 'InboundCtx': identityId, userId
+src/app/api/resources/[resourceId]/comments/route.ts(33,9): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/app/api/resources/[resourceId]/comments/route.ts(36,30): error TS18046: 'result' is of type 'unknown'.
+src/app/api/resources/[resourceId]/publish/route.ts(22,9): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/app/api/resources/[resourceId]/publish/route.ts(24,53): error TS18046: 'result' is of type 'unknown'.
+src/app/api/resources/[resourceId]/relations/route.ts(22,9): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/app/api/resources/[resourceId]/relations/route.ts(25,30): error TS18046: 'result' is of type 'unknown'.
+src/app/api/resources/[resourceId]/relations/route.ts(40,9): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/app/api/resources/[resourceId]/route.ts(20,44): error TS2339: Property 'getResource' does not exist on type 'ResourceService'.
+src/app/api/resources/[resourceId]/route.ts(33,9): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/app/api/resources/[resourceId]/route.ts(35,53): error TS18046: 'result' is of type 'unknown'.
+src/app/api/resources/[resourceId]/route.ts(46,9): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/app/api/resources/[resourceId]/save/route.ts(21,9): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/app/api/resources/[resourceId]/save/route.ts(35,9): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/app/api/resources/[resourceId]/tags/route.ts(24,40): error TS2339: Property 'getResourceTags' does not exist on type 'ResourceService'.
+src/app/api/resources/[resourceId]/tags/route.ts(40,27): error TS2339: Property 'attachTags' does not exist on type 'ResourceService'.
+src/app/api/resources/[resourceId]/tags/route.ts(60,27): error TS2339: Property 'detachTags' does not exist on type 'ResourceService'.
+src/app/api/resources/[resourceId]/usage/route.ts(21,11): error TS2304: Cannot find name 'executor'.
+src/app/api/resources/[resourceId]/usage/route.ts(22,11): error TS2304: Cannot find name 'TrackResourceUsageFlow'.
+src/app/api/resources/[resourceId]/versions/route.ts(6,10): error TS2724: '"@/domains/resources/flows/create-version.flow"' has no exported member named 'CreateVersionFlow'. Did you mean 'createVersionFlow'?
+src/app/api/resources/[resourceId]/versions/route.ts(21,44): error TS2339: Property 'listVersions' does not exist on type 'ResourceService'.
+src/app/api/resources/[resourceId]/versions/route.ts(35,26): error TS2552: Cannot find name 'flowExecutor'. Did you mean 'FlowExecutor'?
+src/app/api/resources/[resourceId]/versions/route.ts(36,7): error TS2552: Cannot find name 'createVersionFlow'. Did you mean 'CreateVersionFlow'?
+src/app/api/resources/bulk/route.ts(44,31): error TS2339: Property 'deleteResource' does not exist on type 'ResourceService'.
+src/app/api/resources/bulk/route.ts(46,31): error TS2339: Property 'archiveResource' does not exist on type 'ResourceService'.
+src/app/api/resources/route.ts(29,5): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/app/api/resources/route.ts(34,28): error TS18046: 'result' is of type 'unknown'.
+src/app/api/resources/saved/route.ts(14,39): error TS2551: Property 'listSavedResources' does not exist on type 'ResourceService'. Did you mean 'listResources'?
+src/app/api/search/collections/route.ts(15,14): error TS2554: Expected 1 arguments, but got 0.
+src/app/api/search/collections/route.ts(27,11): error TS2339: Property 'total' does not exist on type '({ author: { id: string; tenantId: string | null; identityId: string; username: string; displayName: string | null; avatarUrl: string | null; bio: string | null; role: UserRole; ... 8 more ...; deletedAt: Date | null; }; } & { ...; })[]'.
+src/app/api/search/collections/route.ts(27,18): error TS2339: Property 'items' does not exist on type '({ author: { id: string; tenantId: string | null; identityId: string; username: string; displayName: string | null; avatarUrl: string | null; bio: string | null; role: UserRole; ... 8 more ...; deletedAt: Date | null; }; } & { ...; })[]'.
+src/app/api/search/collections/route.ts(27,39): error TS2554: Expected 2 arguments, but got 1.
+src/app/api/search/resources/route.ts(9,23): error TS2554: Expected 1 arguments, but got 0.
+src/app/api/search/resources/route.ts(16,38): error TS2339: Property 'executeResourceQuery' does not exist on type 'SearchService'.
+src/app/api/search/route.ts(18,23): error TS2554: Expected 1 arguments, but got 0.
+src/app/api/search/route.ts(30,38): error TS2339: Property 'executeUnifiedQuery' does not exist on type 'SearchService'.
+src/app/api/search/users/route.ts(15,14): error TS2554: Expected 1 arguments, but got 0.
+src/app/api/search/users/route.ts(27,11): error TS2339: Property 'total' does not exist on type '{ id: string; tenantId: string | null; identityId: string; username: string; displayName: string | null; avatarUrl: string | null; bio: string | null; role: UserRole; archetype: UserArchetype; ... 7 more ...; deletedAt: Date | null; }[]'.
+src/app/api/search/users/route.ts(27,18): error TS2339: Property 'items' does not exist on type '{ id: string; tenantId: string | null; identityId: string; username: string; displayName: string | null; avatarUrl: string | null; bio: string | null; role: UserRole; archetype: UserArchetype; ... 7 more ...; deletedAt: Date | null; }[]'.
+src/app/api/search/users/route.ts(27,39): error TS2554: Expected 2 arguments, but got 1.
+src/app/api/uploads/presign/route.ts(24,5): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/app/api/users/[username]/analytics/route.ts(11,21): error TS2554: Expected 1 arguments, but got 0.
+src/app/api/users/[username]/analytics/route.ts(14,39): error TS2339: Property 'getUserAnalytics' does not exist on type 'UserService'.
+src/app/api/users/[username]/collections/route.ts(11,21): error TS2554: Expected 1 arguments, but got 0.
+src/app/api/users/[username]/collections/route.ts(15,41): error TS2339: Property 'getUserNestedCollections' does not exist on type 'UserService'.
+src/app/api/users/[username]/graph/route.ts(11,21): error TS2554: Expected 1 arguments, but got 0.
+src/app/api/users/[username]/graph/route.ts(14,35): error TS2339: Property 'getUserKnowledgeGraph' does not exist on type 'UserService'.
+src/app/api/users/[username]/resources/route.ts(12,21): error TS2554: Expected 1 arguments, but got 0.
+src/app/api/users/[username]/resources/route.ts(16,39): error TS2339: Property 'getUserNestedResources' does not exist on type 'UserService'.
+src/app/api/users/[username]/route.ts(9,21): error TS2554: Expected 1 arguments, but got 0.
+src/app/api/users/[username]/route.ts(12,37): error TS2339: Property 'getPublicProfile' does not exist on type 'UserService'.
+src/app/api/users/[username]/saved/route.ts(12,21): error TS2554: Expected 1 arguments, but got 0.
+src/app/api/users/[username]/saved/route.ts(16,35): error TS2339: Property 'getUserNestedSaved' does not exist on type 'UserService'.
+src/app/api/users/me/onboarding/route.ts(14,7): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/app/api/users/me/profile/route.ts(14,7): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/app/api/users/me/profile/route.ts(16,51): error TS18046: 'result' is of type 'unknown'.
+src/app/api/users/route.ts(10,21): error TS2554: Expected 1 arguments, but got 0.
+src/app/api/users/route.ts(14,34): error TS2339: Property 'getUserDirectoryListing' does not exist on type 'UserService'.
+src/app/api/users/route.ts(38,7): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+src/domains/collections/collection.service.ts(17,7): error TS2561: Object literal may only specify known properties, but 'authorId' does not exist in type 'CollectionCreateInput'. Did you mean to write 'author'?
+src/domains/collections/collections.presenter.ts(81,31): error TS2345: Argument of type '{ id: string; username: string; displayName: string | null; avatarUrl: string | null; bio: string | null; archetype: string; createdAt: Date; }' is not assignable to parameter of type '{ id: string; tenantId: string | null; identityId: string; username: string; displayName: string | null; avatarUrl: string | null; bio: string | null; role: UserRole; archetype: UserArchetype; ... 7 more ...; deletedAt: Date | null; }'.
+  Type '{ id: string; username: string; displayName: string | null; avatarUrl: string | null; bio: string | null; archetype: string; createdAt: Date; }' is missing the following properties from type '{ id: string; tenantId: string | null; identityId: string; username: string; displayName: string | null; avatarUrl: string | null; bio: string | null; role: UserRole; archetype: UserArchetype; ... 7 more ...; deletedAt: Date | null; }': tenantId, identityId, role, onboardingStep, and 6 more.
+src/domains/index.ts(9,1): error TS2308: Module "./resources" has already exported a member named 'saveResourceFlow'. Consider explicitly re-exporting to resolve the ambiguity.
+src/domains/index.ts(9,1): error TS2308: Module "./resources" has already exported a member named 'unsaveResourceFlow'. Consider explicitly re-exporting to resolve the ambiguity.
+src/domains/resources/flows/create-resource.flow.ts(21,40): error TS2345: Argument of type '{ resourceTags?: { create: { tag: { connectOrCreate: { where: { tenantId_slug: { tenantId: string | null; slug: string; }; }; create: { tenantId: string | null; name: string; slug: string; }; }; }; }[]; } | undefined; ... 15 more ...; author: { ...; }; }' is not assignable to parameter of type 'ResourceCreateInput'.
+  Types of property 'resourceTags' are incompatible.
+    Type '{ create: { tag: { connectOrCreate: { where: { tenantId_slug: { tenantId: string | null; slug: string; }; }; create: { tenantId: string | null; name: string; slug: string; }; }; }; }[]; } | undefined' is not assignable to type 'ResourceTagCreateNestedManyWithoutResourceInput | undefined'.
+      Type '{ create: { tag: { connectOrCreate: { where: { tenantId_slug: { tenantId: string | null; slug: string; }; }; create: { tenantId: string | null; name: string; slug: string; }; }; }; }[]; }' is not assignable to type 'ResourceTagCreateNestedManyWithoutResourceInput'.
+        Types of property 'create' are incompatible.
+          Type '{ tag: { connectOrCreate: { where: { tenantId_slug: { tenantId: string | null; slug: string; }; }; create: { tenantId: string | null; name: string; slug: string; }; }; }; }[]' is not assignable to type '(Without<ResourceTagCreateWithoutResourceInput, ResourceTagUncheckedCreateWithoutResourceInput> & ResourceTagUncheckedCreateWithoutResourceInput) | (Without<...> & ResourceTagCreateWithoutResourceInput) | ResourceTagCreateWithoutResourceInput[] | ResourceTagUncheckedCreateWithoutResourceInput[] | undefined'.
+            Type '{ tag: { connectOrCreate: { where: { tenantId_slug: { tenantId: string | null; slug: string; }; }; create: { tenantId: string | null; name: string; slug: string; }; }; }; }[]' is not assignable to type 'ResourceTagCreateWithoutResourceInput[]'.
+              Type '{ tag: { connectOrCreate: { where: { tenantId_slug: { tenantId: string | null; slug: string; }; }; create: { tenantId: string | null; name: string; slug: string; }; }; }; }' is not assignable to type 'ResourceTagCreateWithoutResourceInput'.
+                The types of 'tag.connectOrCreate.where' are incompatible between these types.
+                  Type '{ tenantId_slug: { tenantId: string | null; slug: string; }; }' is not assignable to type 'TagWhereUniqueInput'.
+                    Type '{ tenantId_slug: { tenantId: string | null; slug: string; }; }' is not assignable to type '{ id: string; tenantId_slug: TagTenantIdSlugCompoundUniqueInput; tenantId_name: TagTenantIdNameCompoundUniqueInput; } & { ...; }'.
+                      Type '{ tenantId_slug: { tenantId: string | null; slug: string; }; }' is missing the following properties from type '{ id: string; tenantId_slug: TagTenantIdSlugCompoundUniqueInput; tenantId_name: TagTenantIdNameCompoundUniqueInput; }': id, tenantId_name
+src/domains/resources/flows/publish-resource.flow.ts(27,7): error TS2322: Type 'string | number | boolean | Record<string, any> | JsonArray | null' is not assignable to type 'NullableJsonNullValueInput | InputJsonValue | undefined'.
+  Type 'null' is not assignable to type 'NullableJsonNullValueInput | InputJsonValue | undefined'.
+src/domains/resources/resources.presenter.ts(99,31): error TS2345: Argument of type '{ id: string; username: string; displayName: string | null; avatarUrl: string | null; bio: string | null; archetype: string; createdAt: Date; }' is not assignable to parameter of type '{ id: string; tenantId: string | null; identityId: string; username: string; displayName: string | null; avatarUrl: string | null; bio: string | null; role: UserRole; archetype: UserArchetype; ... 7 more ...; deletedAt: Date | null; }'.
+  Type '{ id: string; username: string; displayName: string | null; avatarUrl: string | null; bio: string | null; archetype: string; createdAt: Date; }' is missing the following properties from type '{ id: string; tenantId: string | null; identityId: string; username: string; displayName: string | null; avatarUrl: string | null; bio: string | null; role: UserRole; archetype: UserArchetype; ... 7 more ...; deletedAt: Date | null; }': tenantId, identityId, role, onboardingStep, and 6 more.
+src/domains/tags/tag.dto.ts(2,15): error TS2305: Module '"@prisma/client"' has no exported member 'Tag'.
+src/domains/tags/tag.service.ts(4,15): error TS2305: Module '"./tag.dto"' has no exported member 'CreateTagInput'.
+src/domains/users/membership.repository.ts(62,7): error TS2322: Type '{ id?: string | undefined; role?: $Enums.MemberRole | undefined; status?: string | undefined; metadata?: (Prisma.NullableJsonNullValueInput | Prisma.InputJsonValue) | undefined; ... 4 more ...; userId: string; }' is not assignable to type '(Without<MembershipCreateInput, MembershipUncheckedCreateInput> & MembershipUncheckedCreateInput) | (Without<...> & MembershipCreateInput)'.
+  Type '{ id?: string | undefined; role?: $Enums.MemberRole | undefined; status?: string | undefined; metadata?: (Prisma.NullableJsonNullValueInput | Prisma.InputJsonValue) | undefined; ... 4 more ...; userId: string; }' is not assignable to type 'Without<MembershipCreateInput, MembershipUncheckedCreateInput> & MembershipUncheckedCreateInput'.
+    Type '{ id?: string | undefined; role?: $Enums.MemberRole | undefined; status?: string | undefined; metadata?: (Prisma.NullableJsonNullValueInput | Prisma.InputJsonValue) | undefined; ... 4 more ...; userId: string; }' is not assignable to type 'Without<MembershipCreateInput, MembershipUncheckedCreateInput>'.
+      Types of property 'user' are incompatible.
+        Type 'UserCreateNestedOneWithoutMembershipsInput | undefined' is not assignable to type 'undefined'.
+          Type 'UserCreateNestedOneWithoutMembershipsInput' is not assignable to type 'undefined'.
+src/lib/activity/log-activity.ts(34,9): error TS2322: Type 'ActivityTypeValue' is not assignable to type 'ActivityType'.
+  Type '"resource.created"' is not assignable to type 'ActivityType'. Did you mean '"RESOURCE_CREATED"'?
+src/lib/activity/log-activity.ts(36,9): error TS2322: Type 'Record<string, unknown> | undefined' is not assignable to type 'NullableJsonNullValueInput | InputJsonValue | undefined'.
+  Type 'Record<string, unknown>' is not assignable to type 'NullableJsonNullValueInput | InputJsonValue | undefined'.
+    Type 'Record<string, unknown>' is missing the following properties from type 'readonly (InputJsonValue | null)[]': length, concat, join, slice, and 26 more.
+src/stores/auth.store.ts(59,50): error TS2554: Expected 1 arguments, but got 2.

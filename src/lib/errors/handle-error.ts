@@ -1,39 +1,31 @@
-import { NextRequest, NextResponse } from "next/server";
-import { ApiError } from "./api-error";
-import { errorResponse } from "../api-response";
+import { NextResponse }    from "next/server";
+import { ZodError }        from "zod";
+import { ApiError }        from "./api-error";
+import { ArcIDError }      from "@/lib/arcid/client";
 
-type ApiRouteHandler = (
-  req: NextRequest,
-  context: any,
-) => Promise<NextResponse>;
-
-/**
- * Universal Higher-Order Route Decorator.
- * Catches all exceptions and normalizes them through the application error response matrix.
- */
-export function handleApiRoute(handler: ApiRouteHandler) {
-  return async (req: NextRequest, context: any): Promise<NextResponse> => {
-    try {
-      return await handler(req, context);
-    } catch (error: any) {
-      // Handle known operational exceptions
-      if (error instanceof ApiError) {
-        return errorResponse(error.message, error.statusCode);
-      }
-
-      // Log untracked engineering errors for diagnostic visibility
-      console.error(
-        `[CRITICAL API ROUTING CRASH] [${req.method}] ${req.nextUrl.pathname}:`,
-        error,
-      );
-
-      // Return a safe, generalized payload to avoid leaking system internals
-      return errorResponse(
-        process.env.NODE_ENV === "production"
-          ? "A critical database or network system exception occurred."
-          : error.message || "Internal Server Error",
-        500,
-      );
-    }
-  };
+export function handleError(err: unknown): NextResponse {
+  if (err instanceof ApiError) {
+    return NextResponse.json(
+      { success: false, error: err.code, message: err.message },
+      { status: err.statusCode }
+    );
+  }
+  if (err instanceof ArcIDError) {
+    return NextResponse.json(
+      { success: false, error: err.code, message: err.message },
+      { status: err.status }
+    );
+  }
+  if (err instanceof ZodError) {
+    return NextResponse.json(
+      { success: false, error: "VALIDATION_ERROR", issues: err.flatten().fieldErrors },
+      { status: 422 }
+    );
+  }
+  const msg = err instanceof Error ? err.message : "Internal Server Error";
+  return NextResponse.json(
+    { success: false, error: "INTERNAL_SERVER_ERROR",
+      message: process.env.NODE_ENV === "production" ? "An unexpected error occurred" : msg },
+    { status: 500 }
+  );
 }

@@ -1,0 +1,520 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "./generated"
+  binaryTargets = ["native"]
+}
+
+// ==========================================
+// ENUMS
+// ==========================================
+
+enum UserRole {
+  ADMIN
+  MODERATOR
+  USER
+}
+
+enum UserArchetype {
+  STUDENT
+  RESEARCHER
+  DEVELOPER
+  POET
+  EDUCATOR
+  CREATOR
+  THINKER
+  BUILDER
+  GENERAL
+}
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
+  UNLISTED
+}
+
+enum ResourceStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+  DELETED
+}
+
+enum CommentStatus {
+  ACTIVE
+  HIDDEN
+  DELETED
+  ARCHIVED
+  SPAM
+}
+
+enum RelationType {
+  RELATED
+  REFERENCES
+  DEPENDS_ON
+  PREREQUISITE
+  NEXT
+  PREVIOUS
+}
+
+enum UsageEvent {
+  VIEW
+  OPEN
+  DOWNLOAD
+  SHARE
+  LIKE
+  BOOKMARK
+}
+
+enum ResourceTypeRenderer {
+  ARTICLE
+  NOTE
+  MODULE
+  VIDEO
+  IMAGE
+  FILE
+  LINK
+  AI_OUTPUT
+}
+
+enum ActivityType {
+  RESOURCE_CREATED
+  RESOURCE_PUBLISHED
+  RESOURCE_ARCHIVED
+  RESOURCE_DELETED
+  COMMENT_POSTED
+  COMMENT_DELETED
+  COLLECTION_CREATED
+  RESOURCE_SAVED
+  RESOURCE_UNSAVED
+  REACTION_ADDED
+  REACTION_REMOVED
+  FOLLOW_ADDED
+  FOLLOW_REMOVED
+  NOTIFICATION_READ
+}
+
+enum NotificationType {
+  NEW_COMMENT
+  NEW_REPLY
+  NEW_FOLLOWER
+  RESOURCE_PUBLISHED
+  RESOURCE_FEATURED
+  MENTION
+  SYSTEM
+}
+
+// ==========================================
+// CORE USER — profile only, no auth fields
+// Auth lives entirely in arc-id.
+// identityId is the permanent immutable bridge.
+// ==========================================
+
+model User {
+  id       String  @id @default(uuid(7))
+  tenantId String?
+
+  // Bridge to arc-id Identity — set on first login, never changed
+  // arc-id Identity.id → arcbase User.identityId
+  identityId String @unique
+
+  username    String        @unique
+  displayName String?
+  avatarUrl   String?
+  bio         String?
+  role        UserRole      @default(USER)
+  archetype   UserArchetype @default(GENERAL)
+
+  onboardingStep Int   @default(0)
+  onboardingJson Json?
+  preferences    Json?
+  metadata       Json?
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  archivedAt DateTime?
+  deletedAt  DateTime?
+
+  resources      Resource[]
+  collections    Collection[]
+  comments       Comment[]
+  savedResources SavedResource[]
+  usageEvents    ResourceUsage[]
+  versions       ResourceVersion[]
+  activities     Activity[]
+  reactions      Reaction[]
+  notifications  Notification[]
+  following      Follow[]          @relation("Follower")
+  followers      Follow[]          @relation("Following")
+  memberships    Membership[]
+
+  @@index([tenantId])
+  @@index([identityId])
+  @@index([deletedAt])
+}
+
+// ==========================================
+// TENANT MEMBERSHIP
+// Links arcbase Users to arc-id Tenants.
+// The tenantId references arc-id's Tenant.id directly.
+// Membership roles are arcbase-specific, separate from arc-id RBAC.
+// ==========================================
+
+enum MemberRole {
+  OWNER      // Full control, can delete tenant
+  ADMIN      // Manage members, settings
+  EDITOR     // Create/edit resources
+  VIEWER     // Read-only access
+  GUEST      // Limited access
+}
+
+model Membership {
+  id        String     @id @default(uuid(7))
+  role      MemberRole @default(VIEWER)
+  status    String     @default("ACTIVE") // ACTIVE, SUSPENDED, INVITED, PENDING
+  metadata  Json?
+  joinedAt  DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  userId   String
+  tenantId String      // References arc-id Tenant.id
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tenantId])
+  @@index([tenantId])
+  @@index([status])
+  @@index([role])
+}
+
+// ==========================================
+// KNOWLEDGE GRAPH NODE
+// ==========================================
+
+model Resource {
+  id                   String               @id @default(uuid(7))
+  tenantId             String?
+  slug                 String?
+  title                String?
+  description          String?
+  excerpt              String?
+  // Canonical content fields — pick one and stick with it
+  // publishedContentJson = live, draftContentJson = work in progress
+  publishedContentJson Json?
+  draftContentJson     Json?
+  type                 ResourceTypeRenderer
+  status               ResourceStatus       @default(DRAFT)
+  visibility           Visibility           @default(PUBLIC)
+  category             String?
+  language             String               @default("en")
+  thumbnailUrl         String?
+  coverImageUrl        String?
+  fileUrl              String?
+  metadata             Json?
+  aiMetadata           Json?
+  wordCount            Int?
+  estimatedTime        Int?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime?
+  archivedAt  DateTime?
+  deletedAt   DateTime?
+
+  authorId String
+  author   User       @relation(fields: [authorId], references: [id])
+  parentId String?
+  parent   Resource?  @relation("Hierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children Resource[] @relation("Hierarchy")
+
+  outgoingRelations Relation[] @relation("From")
+  incomingRelations Relation[] @relation("To")
+
+  collections  CollectionResource[]
+  comments     Comment[]
+  metrics      ResourceMetrics?
+  versions     ResourceVersion[]
+  usageEvents  ResourceUsage[]
+  savedBy      SavedResource[]
+  resourceTags ResourceTag[]
+  reactions    Reaction[]
+
+  @@unique([tenantId, authorId, slug])
+  @@index([type, status])
+  @@index([tenantId])
+  @@index([deletedAt])
+  @@index([publishedAt])
+  @@index([authorId])
+}
+
+// ==========================================
+// GRAPH EDGES
+// ==========================================
+
+model Relation {
+  id        String       @id @default(uuid(7))
+  tenantId  String?
+  type      RelationType
+  fromId    String
+  toId      String
+  metadata  Json?
+  createdAt DateTime     @default(now())
+
+  from Resource @relation("From", fields: [fromId], references: [id], onDelete: Cascade)
+  to   Resource @relation("To", fields: [toId], references: [id], onDelete: Cascade)
+
+  @@unique([fromId, toId, type])
+  @@index([tenantId, fromId])
+  @@index([toId])
+}
+
+model ResourceVersion {
+  id               String   @id @default(uuid(7))
+  tenantId         String?
+  resourceId       String
+  authorId         String
+  versionNumber    Int
+  titleSnapshot    String
+  contentSnapshot  Json?
+  metadataSnapshot Json?
+  changeSummary    String?
+  createdAt        DateTime @default(now())
+
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  author   User     @relation(fields: [authorId], references: [id])
+
+  @@unique([resourceId, versionNumber])
+  @@index([tenantId])
+  @@index([resourceId])
+}
+
+// ==========================================
+// CONTAINERS & TAXONOMY
+// ==========================================
+
+model Collection {
+  id          String     @id @default(uuid(7))
+  tenantId    String?
+  slug        String
+  title       String
+  description String?
+  visibility  Visibility @default(PUBLIC)
+  metadata    Json?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  // Nested collections (series, modules within a course)
+  parentId String?
+  parent   Collection?  @relation("CollectionHierarchy", fields: [parentId], references: [id])
+  children Collection[] @relation("CollectionHierarchy")
+
+  resources CollectionResource[]
+
+  @@unique([tenantId, authorId, slug])
+  @@index([tenantId])
+  @@index([deletedAt])
+  @@index([authorId])
+}
+
+model CollectionResource {
+  id           String   @id @default(uuid(7))
+  tenantId     String?
+  collectionId String
+  resourceId   String
+  orderIndex   Int
+  addedAt      DateTime @default(now())
+
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  resource   Resource   @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@unique([collectionId, resourceId])
+  @@index([collectionId, orderIndex])
+  @@index([tenantId])
+}
+
+model Tag {
+  id        String   @id @default(uuid(7))
+  tenantId  String?
+  name      String
+  slug      String
+  createdAt DateTime @default(now())
+
+  resources ResourceTag[]
+
+  @@unique([tenantId, slug])
+  @@unique([tenantId, name])
+  @@index([tenantId])
+}
+
+model ResourceTag {
+  resourceId String
+  tagId      String
+  assignedAt DateTime @default(now())
+
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  tag      Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([resourceId, tagId])
+  @@index([tagId])
+}
+
+// ==========================================
+// ENGAGEMENT
+// ==========================================
+
+model Comment {
+  id        String        @id @default(uuid(7))
+  tenantId  String?
+  content   String
+  status    CommentStatus @default(ACTIVE)
+  metadata  Json?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  deletedAt DateTime?
+
+  authorId   String
+  resourceId String
+  parentId   String?
+
+  author   User      @relation(fields: [authorId], references: [id])
+  resource Resource  @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  parent   Comment?  @relation("Thread", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  replies  Comment[] @relation("Thread")
+
+  @@index([tenantId])
+  @@index([resourceId, createdAt])
+  @@index([authorId])
+}
+
+model SavedResource {
+  id         String   @id @default(uuid(7))
+  tenantId   String?
+  userId     String
+  resourceId String
+  createdAt  DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, resourceId])
+  @@index([tenantId])
+}
+
+model Reaction {
+  id         String   @id @default(uuid(7))
+  tenantId   String?
+  userId     String
+  resourceId String
+  type       String   @default("like")
+  createdAt  DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, resourceId, type])
+  @@index([resourceId])
+  @@index([tenantId])
+}
+
+model Follow {
+  id          String     @id @default(uuid(7))
+  tenantId    String?
+  followerId  String
+  followingId String
+  createdAt   DateTime   @default(now())
+  deletedAt   DateTime?
+
+  follower  User @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@index([followingId])
+  @@index([tenantId])
+  @@index([deletedAt])
+}
+
+// ==========================================
+// TELEMETRY
+// ==========================================
+
+model ResourceUsage {
+  id         String     @id @default(uuid(7))
+  tenantId   String?
+  resourceId String
+  actorId    String?
+  event      UsageEvent
+  sessionId  String?
+  metadata   Json?
+  createdAt  DateTime   @default(now())
+
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  user     User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([resourceId, event])
+  @@index([actorId])
+  @@index([tenantId])
+  @@index([createdAt])
+}
+
+model ResourceMetrics {
+  id              String   @id @default(uuid(7))
+  tenantId        String?
+  resourceId      String   @unique
+  views           Int      @default(0)
+  opens           Int      @default(0)
+  downloads       Int      @default(0)
+  shares          Int      @default(0)
+  likes           Int      @default(0)
+  bookmarks       Int      @default(0)
+  comments        Int      @default(0)
+  engagementScore Float    @default(0)
+  updatedAt       DateTime @updatedAt
+
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+}
+
+model Activity {
+  id        String       @id @default(uuid(7))
+  tenantId  String?
+  userId    String?
+  type      ActivityType
+  entityId  String
+  metadata  Json?
+  createdAt DateTime     @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([entityId])
+  @@index([type])
+  @@index([tenantId, createdAt])
+}
+
+model Notification {
+  id         String           @id @default(uuid(7))
+  tenantId   String?
+  userId     String
+  type       NotificationType
+  title      String
+  body       String?
+  entityId   String?
+  entityType String?
+  read       Boolean          @default(false)
+  readAt     DateTime?
+  createdAt  DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@index([tenantId])
+  @@index([createdAt])
+}

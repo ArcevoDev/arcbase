@@ -1,23 +1,25 @@
-import { NextRequest, NextResponse } from "next/server";
-import { handleApiRoute } from "@/lib/errors/handle-error";
-import { AuthService } from "@/modules/auth/auth.service";
-import { registerSchema } from "@/modules/auth/auth.dto";
-import { setAuthCookie } from "@/modules/auth/auth-cookie";
-import { ApiError } from "@/lib/errors/api-error";
+// src/app/api/auth/register/route.ts
+//
+// Auth is delegated to arc-id. arcbase provisions the User record after identity creation.
 
-const authService = new AuthService();
+import { NextRequest, NextResponse } from "next/server";
+import { handleApiRoute } from "@/lib/errors";
+import { flowExecutor } from "@/core/flows";
+import { registerFlow } from "@/domains/auth/flows/register.flow";
 
 export const POST = handleApiRoute(async (req: NextRequest) => {
   const body = await req.json();
-  
-  const parsed = registerSchema.safeParse(body);
-  if (!parsed.success) {
-    throw ApiError.badRequest(parsed.error.issues[0].message);
-  }
 
-  const { user, token } = await authService.register(parsed.data);
-  
-  const response = NextResponse.json({ success: true, data: user }, { status: 201 });
-  setAuthCookie(response, token);
-  return response;
+  const result = await flowExecutor.run(registerFlow, body, {
+    userId: null,
+    identityId: null,
+    tenantId: null,
+    ip: req.headers.get("x-forwarded-for") ?? undefined,
+    userAgent: req.headers.get("user-agent") ?? undefined,
+  }, { transaction: false });
+
+  return NextResponse.json(
+    { success: true, data: { userId: result.userId } },
+    { status: 201 },
+  );
 });

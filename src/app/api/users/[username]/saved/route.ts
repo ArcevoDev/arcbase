@@ -1,17 +1,22 @@
+// src/app/api/users/[username]/saved/route.ts
+// Auth required — saved resources are private to their owner.
+// The service enforces the ownership check and throws 403 for mismatches.
 import { NextRequest, NextResponse } from "next/server";
-import { handleApiRoute } from "@/lib/errors/handle-error";
-import { requireOnboarded } from "@/modules/auth/require-auth";
-import { UserService } from "@/modules/users/user.service";
+import { handleApiRoute } from "@/lib/errors";
+import { requireAuth } from "@/core/auth";
+import { UserService } from "@/domains/users/user.service";
+import { prisma } from "@/core/db";
+
+interface RouteParams { params: { username: string } }
 
 const userService = new UserService();
 
-export const GET = handleApiRoute(
-  async (req: NextRequest, { params }: { params: { username: string } }) => {
-    const session = await requireOnboarded(req);
-    const data = await userService.getUserNestedSaved(
-      params.username,
-      session.userId,
-    );
-    return NextResponse.json({ success: true, data });
-  },
-);
+export const GET = handleApiRoute(async (req: NextRequest, { params }: RouteParams) => {
+  const session = await requireAuth(req);
+  const saved = await userService.getUserNestedSaved(
+    prisma,
+    params.username,
+    session.userId,
+  );
+  return NextResponse.json({ success: true, data: saved });
+});

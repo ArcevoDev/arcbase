@@ -1,55 +1,41 @@
+// src/app/api/comments/[commentId]/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { handleApiRoute } from "@/lib/errors/handle-error";
-import { requireOnboarded } from "@/modules/auth/require-auth";
-import { CommentService } from "@/modules/comments/comment.service";
-import {
-  updateCommentSchema,
-  toSafeCommentDTO,
-} from "@/modules/comments/comment.dto";
-import { ApiError } from "@/lib/errors/api-error";
+import { handleApiRoute } from "@/lib/errors";
+import { requireOnboarded } from "@/core/auth";
+import { flowExecutor } from "@/core/flows/flow-executor";
+import { addCommentFlow } from "@/domains/resources/flows/add-comment.flow";
+import { CommentService } from "@/domains/comments/comment.service";
 
 interface RouteParams {
   params: { commentId: string };
 }
 
-// PATCH: Partially alter comment textual data bodies
-export const PATCH = handleApiRoute(
+const commentService = new CommentService();
+
+// GET — root-level comments only (replies are via /comments/[commentId]/replies)
+export const GET = handleApiRoute(
   async (req: NextRequest, { params }: RouteParams) => {
-    const session = await requireOnboarded(req);
-    const { commentId } = params;
-
-    const body = await req.json();
-    const parsed = updateCommentSchema.safeParse(body);
-    if (!parsed.success) {
-      throw ApiError.badRequest(parsed.error.issues[0].message);
-    }
-
-    const commentService = new CommentService();
-    const updatedComment = await commentService.updateComment(
-      commentId,
-      session.userId,
-      parsed.data,
-    );
-
-    return NextResponse.json({
-      success: true,
-      data: toSafeCommentDTO(updatedComment),
-    });
+    await requireOnboarded(req);
+    const comments = await commentService.getRootComments(params.resourceId);
+    return NextResponse.json({ success: true, data: comments });
   },
 );
 
-// DELETE: Transition comment flag state structures to DELETED safely
-export const DELETE = handleApiRoute(
+// POST — create a comment or reply.
+// parentId in body creates a reply; omit for a root comment.
+export const POST = handleApiRoute(
   async (req: NextRequest, { params }: RouteParams) => {
     const session = await requireOnboarded(req);
-    const { commentId } = params;
-
-    const commentService = new CommentService();
-    await commentService.deleteComment(commentId, session.userId);
-
-    return NextResponse.json({
-      success: true,
-      message: "Comment successfully removed from active thread visibility.",
-    });
+    const tenantId = req.headers.get("x-tenant-id") ?? null;
+    const body = await req.json();
+    const result = await flowExecutor.run(
+      addCommentFlow,
+      { resourceId: params.resourceId, data: body },
+      { userId: session.userId, identityId: session.identityId, tenantId },
+    );
+    return NextResponse.json(
+      { success: true, data: result.comment },
+      { status: 201 },
+    );
   },
 );

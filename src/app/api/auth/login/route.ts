@@ -1,23 +1,44 @@
-import { NextRequest, NextResponse } from "next/server";
-import { handleApiRoute } from "@/lib/errors/handle-error";
-import { AuthService } from "@/modules/auth/auth.service";
-import { loginSchema } from "@/modules/auth/auth.dto";
-import { setAuthCookie } from "@/modules/auth/auth-cookie";
-import { ApiError } from "@/lib/errors/api-error";
+// src/app/api/auth/login/route.ts
+//
+// arc-id issues the tokens. arcbase just passes them through to the client.
+// Auth is delegated to arc-id via flows (matching arc-id's module pattern).
 
-const authService = new AuthService();
+import { NextRequest, NextResponse } from "next/server";
+import { handleApiRoute } from "@/lib/errors";
+import { flowExecutor } from "@/core/flows";
+import { loginFlow } from "@/domains/auth/flows/login.flow";
+import { LoginDto } from "@/domains/auth/auth.dto";
 
 export const POST = handleApiRoute(async (req: NextRequest) => {
   const body = await req.json();
 
-  const parsed = loginSchema.safeParse(body);
-  if (!parsed.success) {
-    throw ApiError.badRequest(parsed.error.issues[0].message);
+  // Auth flows make external HTTP calls to arc-id — no DB transaction needed
+  const result = await flowExecutor.run(loginFlow, body, {
+    userId: null,
+    identityId: null,
+    tenantId: null,
+    ip: req.headers.get("x-forwarded-for") ?? undefined,
+    userAgent: req.headers.get("user-agent") ?? undefined,
+  }, { transaction: false });
+
+  if (result.requiresMfa) {
+    return NextResponse.json({
+      success: true,
+      data: {
+        requiresMfa: true,
+        sessionId: result.sessionId,
+        mfaTypes: result.mfaTypes,
+      },
+    });
   }
 
-  const { user, token } = await authService.login(parsed.data);
-
-  const response = NextResponse.json({ success: true, data: user });
-  setAuthCookie(response, token);
-  return response;
+  return NextResponse.json({
+    success: true,
+    data: {
+      accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
+      sessionId: result.sessionId,
+      expiresIn: result.expiresIn,
+    },
+  });
 });
