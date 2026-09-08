@@ -35,9 +35,9 @@ export default function RegisterPage() {
         "Identity container initialized. Advancing to Hard-Locked Onboarding...",
       );
       router.push("/onboarding");
-    } catch (err: any) {
+    } catch (err: unknown) {
       toast.error(
-        err?.message ?? "Error mapping registry records to engine database.",
+        (err as Error)?.message ?? "Error mapping registry records to engine database.",
       );
     } finally {
       setLoading(false);

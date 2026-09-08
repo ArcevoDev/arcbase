@@ -19,7 +19,7 @@ export const GET = handleApiRoute(async (req: NextRequest) => {
   return NextResponse.json({
     success: true,
     count: collections.length,
-    data: collections.map((c) => presentCollectionListItem(c as any)),
+    data: collections.map((c) => presentCollectionListItem(c)),
   });
 });
 

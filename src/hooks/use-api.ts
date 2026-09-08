@@ -17,7 +17,7 @@ export function useApiQuery<T>(
 // Dynamic Write/Mutate Hook
 export function useApiMutation<
   TResponse,
-  TVariables extends Record<string, any> = Record<string, any>,
+  TVariables extends Record<string, unknown> = Record<string, unknown>,
 >(
   url: string,
   method: "POST" | "PUT" | "DELETE" | "PATCH",
@@ -30,7 +30,7 @@ export function useApiMutation<
       apiClient(url, {
         method,
         bodyData:
-          method !== "DELETE" ? (bodyData as Record<string, any>) : undefined,
+          method !== "DELETE" ? (bodyData as Record<string, unknown>) : undefined,
       }) as Promise<TResponse>,
     onSuccess: () => {
       if (invalidateKeys) {
