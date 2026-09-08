@@ -1,7 +1,7 @@
 // src/lib/api-response.ts
 import { NextResponse } from "next/server";
 
-export function successResponse(data: any, status = 200) {
+export function successResponse(data: unknown, status = 200) {
   return NextResponse.json({ success: true, data }, { status });
 }
 

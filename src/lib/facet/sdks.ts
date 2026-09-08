@@ -16,7 +16,7 @@ import {
   WebhooksSdk,
   AuditSdk,
 } from "@arcevo/facet-sdk";
-import { createServerSideClient } from "./client";
+import { createServerSideClient, getClientSideClient } from "./client";
 
 /**
  * Creates all SDK instances with server-side client.
@@ -53,7 +53,6 @@ let clientSdks: Sdks | null = null;
  */
 export function getClientSdks() {
   if (!clientSdks) {
-    const { getClientSideClient } = require("./client");
     const client = getClientSideClient();
 
     clientSdks = {

@@ -16,6 +16,7 @@
 // Intentionally NOT awaited — call and move on.
 
 import { prisma } from "@/core/db";
+import type { Prisma } from "@prisma-client";
 import { ActivityTypeValue } from "@/domains/activity/activity.types";
 import { logger } from "../useful/utils";
 
@@ -23,7 +24,7 @@ export interface ActivityPayload {
   userId?: string | null;
   type: ActivityTypeValue;
   entityId: string;
-  metadata?: Record<string, any>;
+  metadata?: Prisma.InputJsonValue;
 }
 
 export function logActivity(payload: ActivityPayload): void {

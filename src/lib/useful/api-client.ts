@@ -1,5 +1,5 @@
 export interface FetchOptions extends Omit<RequestInit, 'credentials'> {
-  bodyData?: Record<string, any>;
+  bodyData?: Record<string, unknown>;
 }
 
 /**

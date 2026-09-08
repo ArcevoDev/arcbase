@@ -84,7 +84,7 @@ export function presentCollection(
       .map((cr) => ({
         id: cr.resource.id,
         orderIndex: cr.orderIndex,
-        resource: presentResourceListItem(cr.resource as any),
+        resource: presentResourceListItem(cr.resource as Parameters<typeof presentResourceListItem>[0]),
       })),
     createdAt: collection.createdAt.toISOString(),
     updatedAt: collection.updatedAt.toISOString(),

@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { prisma }     from "@/core/db/prisma";
 import type { Flow }        from "./flow";
-import type { FlowContext } from "./flow-context";
+import type { DbClient, FlowContext } from "./flow-context";
 import { FlowError }  from "./flow-error";
 import { logger }     from "@/lib/useful/utils/logger";
 import type { Prisma } from "@prisma-client";
@@ -24,7 +24,7 @@ export class FlowExecutor {
     const traceId       = randomUUID();
     const useTransaction = opts?.transaction ?? true;
 
-    const exec = async (db: any): Promise<O> => {
+    const exec = async (db: DbClient): Promise<O> => {
       const parsed = flow.inputSchema.parse(input);
       const enriched: FlowContext = { ...ctx, requestId: traceId, db };
       const result = await flow.execute(parsed, enriched);
@@ -39,10 +39,11 @@ export class FlowExecutor {
         : await exec(prisma);
       logger.info(`[FLOW] ${flow.name} ok`, { traceId });
       return result;
-    } catch (err: any) {
-      logger.error(`[FLOW] ${flow.name} fail`, { traceId, message: err.message });
+    } catch (err: unknown) {
+      const message = (err as Error)?.message ?? "Unexpected error";
+      logger.error(`[FLOW] ${flow.name} fail`, { traceId, message });
       if (err instanceof FlowError) throw err;
-      throw new FlowError("FLOW_ERROR", err.message ?? "Unexpected error", 500);
+      throw new FlowError("FLOW_ERROR", message, 500);
     }
   }
 }

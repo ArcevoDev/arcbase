@@ -27,9 +27,9 @@ export function FacetSignInPage() {
           </Link>
           <div className="max-w-md z-10 space-y-4">
             <blockquote className="text-xl font-medium tracking-tight text-neutral-300">
-              "The direct connection between structural node records and spatial
+              &ldquo;The direct connection between structural node records and spatial
               knowledge graph telemetry changed our global partition efficiency
-              metrics entirely."
+              metrics entirely.&rdquo;
             </blockquote>
             <div>
               <p className="text-sm font-bold">Dr. Evelyn Vance</p>

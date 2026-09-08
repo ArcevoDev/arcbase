@@ -3,6 +3,7 @@ import type { Flow }     from "@/core/flows/flow";
 import type { FlowContext } from "@/core/flows/flow-context";
 import { ResourceService } from "../resource.service";
 import { ApiError }        from "@/lib/errors/api-error";
+import type { Prisma }      from "@prisma-client";
 
 const Input = z.object({
   resourceId:    z.string(),
@@ -30,8 +31,8 @@ export const createVersionFlow: Flow<z.infer<typeof Input>> = {
         authorId:        ctx.userId!,
         versionNumber,
         titleSnapshot:   resource.title ?? "Untitled",
-        contentSnapshot: (resource.publishedContentJson ?? resource.draftContentJson) as any,
-        metadataSnapshot: resource.metadata as any,
+        contentSnapshot: (resource.publishedContentJson ?? resource.draftContentJson) as Prisma.InputJsonValue,
+        metadataSnapshot: resource.metadata as Prisma.InputJsonValue,
         changeSummary:   input.changeSummary,
         tenantId:        ctx.tenantId,
       },
